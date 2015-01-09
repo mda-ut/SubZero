@@ -8,8 +8,42 @@
 #include "Timer.h"
 
 Timer::Timer() {
-	// TODO Auto-generated constructor stub
+	startTime = time(NULL);
+	endTime = time(NULL);
+	currTime = time(NULL);
 
+}
+
+time_t Timer::start() {
+	if (time(&startTime) != -1) {
+		return startTime;
+	} else {
+		return -1;
+	}
+}
+
+time_t Timer::stop() {
+	if (time(&endTime) != -1) {
+		return endTime;
+	} else {
+		return -1;
+	}
+}
+
+double Timer::getTimeElapsed() {
+	return difftime(startTime,time(NULL));
+}
+
+double Timer::getTimeDiff() {
+	return difftime(startTime,endTime);
+}
+
+struct tm* Timer::getCurrentTime() {
+	if (time(&currTime) != -1) {
+		return localtime(&currTime);
+	} else {
+		return NULL;
+	}
 }
 
 Timer::~Timer() {

@@ -1,11 +1,18 @@
 /*
  * SubZero.cpp
  *
- *  Created on: Jan 7, 2015
+ *  Created on: Jan 8, 2015
  *      Author: mda
  */
 
-int main(int argc, char** argv) {
+#include "SubZero.h"
 
+SubZero::SubZero() {
+	// TODO Auto-generated constructor stub
+
+}
+
+SubZero::~SubZero() {
+	// TODO Auto-generated destructor stub
 }
 
