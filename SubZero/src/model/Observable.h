@@ -5,17 +5,27 @@
  *      Author: ahsueh1996
  */
 
-#ifndef SUBZERO_SRC_MODEL_OBSERVABLE_H_
-#define SUBZERO_SRC_MODEL_OBSERVABLE_H_
+#ifndef OBSERVABLE_H_
+#define OBSERVABLE_H_
 
 namespace std {
-
+/**
+ * Observable is a abstract class that is made known to a observer. It has a state
+ * (see state) and contains functions to notify an observer whenever a state change
+ * takes place.
+ */
 class Observable {
 public:
 	Observable();
+	/**
+	 * Constructor
+	 */
 	virtual ~Observable();
+	/**
+	 * Deconstructor
+	 */
 };
 
 } /* namespace std */
 
-#endif /* SUBZERO_SRC_MODEL_OBSERVABLE_H_ */
+#endif /* OBSERVABLE_H_ */

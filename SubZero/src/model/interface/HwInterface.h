@@ -5,17 +5,25 @@
  *      Author: ahsueh1996
  */
 
-#ifndef SUBZERO_SRC_MODEL_INTERFACE_HWINTERFACE_H_
-#define SUBZERO_SRC_MODEL_INTERFACE_HWINTERFACE_H_
+#ifndef HWINTERFACE_H_
+#define HWINTERFACE_H_
 
 namespace std {
-
+/**
+ * This abstract class is responsible for all the io interfacing with hardware.
+ */
 class HwInterface {
 public:
 	HwInterface();
+	/**
+	 * Constructor
+	 */
 	virtual ~HwInterface();
+	/**
+	 * Deconstructor
+	 */
 };
 
 } /* namespace std */
 
-#endif /* SUBZERO_SRC_MODEL_INTERFACE_HWINTERFACE_H_ */
+#endif /* HWINTERFACE_H_ */

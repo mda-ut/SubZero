@@ -5,19 +5,28 @@
  *      Author: ahsueh1996
  */
 
-#ifndef SUBZERO_SRC_MODEL_FPGAMODEL_H_
-#define SUBZERO_SRC_MODEL_FPGAMODEL_H_
+#ifndef FPGAMODEL_H_
+#define FPGAMODEL_H_
 
 #include "Model.h"
 
 namespace std {
-
+/**
+ * This is a concrete child of the Model class. It implements functions
+ * specific to communicating with the FGPA.
+ */
 class FPGAModel: public Model {
 public:
 	FPGAModel();
+	/**
+	 * Constructor
+	 */
 	virtual ~FPGAModel();
+	/**
+	 * Deconstructor
+	 */
 };
 
 } /* namespace std */
 
-#endif /* SUBZERO_SRC_MODEL_FPGAMODEL_H_ */
+#endif /* FPGAMODEL_H_ */
