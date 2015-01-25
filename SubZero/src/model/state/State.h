@@ -14,7 +14,13 @@
 class State {
 public:
 	State();
+	/**
+	 * Constructor
+	 */
 	virtual ~State();
+	/**
+	 * Deconstructor
+	 */
 };
 
 #endif /* STATE_H_ */
