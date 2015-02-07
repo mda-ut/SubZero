@@ -10,7 +10,6 @@
 
 #include "Model.h"
 
-namespace std {
 /**
  * This is a concrete child of the Model class. It implements functions
  * specific to communicating with the camera.
@@ -28,6 +27,5 @@ public:
 	 */
 };
 
-} /* namespace std */
 
 #endif /* CAMERAMODEL_H_ */

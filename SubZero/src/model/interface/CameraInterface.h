@@ -12,7 +12,6 @@
 /**
  * A child of HwInterface that deals specifically with the camera. Concrete class.
  */
-namespace std {
 
 class CameraInterface: public HwInterface {
 public:
@@ -26,6 +25,5 @@ public:
 	 */
 };
 
-} /* namespace std */
 
 #endif /* CAMERAINTERFACE_H_ */

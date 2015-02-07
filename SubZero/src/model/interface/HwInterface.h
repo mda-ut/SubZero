@@ -8,7 +8,6 @@
 #ifndef HWINTERFACE_H_
 #define HWINTERFACE_H_
 
-namespace std {
 /**
  * This abstract class is responsible for all the io interfacing with hardware.
  */
@@ -24,6 +23,5 @@ public:
 	 */
 };
 
-} /* namespace std */
 
 #endif /* HWINTERFACE_H_ */
