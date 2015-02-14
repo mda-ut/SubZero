@@ -13,9 +13,8 @@
 
 
 /**
- * Observable is a abstract class that is made known to a observer. It has a state
- * (see state) and contains functions to notify an observer whenever a state change
- * takes place.
+ * Observable is a abstract class that is made known to an observer. It contains functions to notify an observer
+ * whenever changes take place.
  */
 class Observable {
 private:
