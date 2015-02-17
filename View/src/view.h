@@ -17,10 +17,10 @@
  * controller to be implemented
  */
 
-class view : public observer
+class View : public observer
 {
 public:
-		view();
+		View();
 
 		void moveForward();
 		void moveBackward();
@@ -35,7 +35,7 @@ public:
 		void displayWin();
 		void toMenu();
 
-		virtual ~view();
+		virtual ~View();
 };
 
 
