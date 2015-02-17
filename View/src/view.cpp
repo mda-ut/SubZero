@@ -6,62 +6,62 @@
  */
 
 
-#include "view.h"
+#include "View.h"
 
-view::view() {
-
-}
-
-void view::moveForward(){
+View::View() {
 
 }
 
-void view::moveBackward(){
+void View::moveForward(){
 
 }
 
-void view::moveLeft(){
+void View::moveBackward(){
 
 }
 
-void view::moveRight(){
+void View::moveLeft(){
 
 }
 
-void view::moveUp(){
+void View::moveRight(){
 
 }
 
-void view::moveDown(){
+void View::moveUp(){
 
 }
 
-void view::surface(){
+void View::moveDown(){
 
 }
 
-void view::launchTor(){
+void View::surface(){
 
 }
 
-void view::launchGra(){
+void View::launchTor(){
 
 }
 
-void view::changeWinDim(){
+void View::launchGra(){
 
 }
 
-void view::displayWin(){
+void View::changeWinDim(){
 
 }
 
-void view::toMenu(){
+void View::displayWin(){
+
+}
+
+void View::toMenu(){
 
 }
 
 
 
-view::~view(){
+view::~View(){
 
 }
