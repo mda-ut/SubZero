@@ -7,12 +7,16 @@ February 7 2015 */
 #include <QApplication>
 #include "mainwindow.h"
 
-Class menu {
+Class Menu {
+
+public:
+  Menu();
+  ~Menu();
 
 Protected:
-  menu.chooseView();
-  menu.displayMainMenu();
-  menu.terminate();
+  Menu.chooseView();
+  Menu.displayMainMenu();
+  Menu.terminate();
 
 };
 
