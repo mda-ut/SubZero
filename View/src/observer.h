@@ -15,10 +15,10 @@
  * to read.
  */
 
-class observer
+class Observer
 {
 public:
-		observer();
+		Observer();
 
 		bool freeToRead();
 		void readState();
@@ -28,7 +28,7 @@ public:
 	int[][] imgData;
 	int sonarStre; */
 
-		virtual ~observer();
+		virtual ~Observer();
 
 };
 
