@@ -10,7 +10,7 @@
 
 /*
  * This abstract class is informed by the
- * observable class when its state is changed.
+ * observable class when observable changes state.
  * It then retrieves the data once it is available
  * to read.
  */
