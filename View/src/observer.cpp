@@ -7,12 +7,12 @@
 
 #include "observer.h"
 
-observer:: observer(){
+Observer:: Observer(){
 
 
 }
 
-bool observer::freeToRead(){
+bool Observer::freeToRead(){
 	bool canread = true;
 
 	// stuff
@@ -21,12 +21,12 @@ bool observer::freeToRead(){
 }
 
 
-void observer::readState(){
+void Observer::readState(){
 
 
 }
 
-observer::~observer(){
+Observer::~Observer(){
 
 
 }
