@@ -1,5 +1,5 @@
 /*
- * Observable.h
+ * Observer.h
  *
  *  Created on: Feb 28, 2015
  *      Author: zack.tzeng
@@ -9,8 +9,7 @@
 #define OBSERVER_H_
 
 /**
- * Observable is a abstract class that is made known to an observer. It contains functions to notify an observer
- * whenever changes take place.
+ * This Observer class is for building the project and will be modified in the future.
  */
 class Observer {
 public:
