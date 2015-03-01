@@ -58,24 +58,24 @@ private:
 
 public:
 
-	/* 
-	 * enocde data to be sent to hardware
-	 * encode the msg at pointer sData
-	 * output results to location at pointer hData
-	 */
-	virtual int encode(SwData *sData, HwData *hData); 
-	virtual int send(HwData *hData); // send data to hardware
-	virtual int pull(HwData *hData); // pull raw data from hardware at pullFrequency
-	virtual int decode(HwData *hData, SwData *sData); // decode the hdata and store at sData
-	virtual int storeToBuffer(SwData *sData); // store decoded data to buffer
-	virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-	virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
-	virtual int getPullFrequency();
-	virtual int setPUllFrequency(int frequency);
-	virtual int getBufferSize();
-	virtual int setBufferSize(int BufferSize);
+    /* 
+     * enocde data to be sent to hardware
+     * encode the msg at pointer sData
+     * output results to location at pointer hData
+     */
+    virtual int encode(SwData *sData, HwData *hData); 
+    virtual int send(HwData *hData); // send data to hardware
+    virtual int pull(HwData *hData); // pull raw data from hardware at pullFrequency
+    virtual int decode(HwData *hData, SwData *sData); // decode the hdata and store at sData
+    virtual int storeToBuffer(SwData *sData); // store decoded data to buffer
+    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
+    virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
+    virtual int getPullFrequency();
+    virtual int setPUllFrequency(int frequency);
+    virtual int getBufferSize();
+    virtual int setBufferSize(int BufferSize);
     virtual HwInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
-	virtual ~HwInterface();
+    virtual ~HwInterface();
 
 };
 
