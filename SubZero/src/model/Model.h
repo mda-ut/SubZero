@@ -17,10 +17,15 @@
  */
 
 class Model {
+private:
+	FilterManager* filterManager;
+	FilterFactory* filterFactory;
 public:
-	Model();
+	Model(FilterManager* fM);
+	Model(FilterManager* fM, FilterFactory* fF);
 	/**
-	 * Constructor for Model.
+	 * Constructors for Model. There are two constructor overload in case FilterFactory
+	 * instance is not be created.
 	 */
 	virtual ~Model();
 	/**

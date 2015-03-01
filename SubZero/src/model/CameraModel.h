@@ -9,6 +9,7 @@
 #define CAMERAMODEL_H_
 
 #include "Model.h"
+#include "CameraState.h"
 
 /**
  * This is a concrete child of the Model class. It implements functions
@@ -16,6 +17,8 @@
  */
 
 class CameraModel: public Model {
+private:
+	CameraState* cameraState;
 public:
 	CameraModel();
 	/**
