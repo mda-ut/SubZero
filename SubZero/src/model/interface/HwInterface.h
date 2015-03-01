@@ -8,17 +8,15 @@
 #ifndef HWINTERFACE_H_
 #define HWINTERFACE_H_
 
-int *[] buffer;
-
-typedef struct HardData {
+#include "Data.h"
+// suppose the following are defined in a separate Data.h
+// typedef struct HwData {
 	// blah blah 0s and 1s????
-} HardData;
+// } HwData;
 
-typedef struct SoftData {
+// typedef struct SwData {
 	// stuff 
-} SoftData;
-
-class HwInterface {
+// } SwData;
 
 /**
  * HwInterface is an abstract class responsible for all the io interfacing with hardware.
@@ -31,7 +29,7 @@ private:
      * pointer to memory allocated for storing raw (but 
      * decoded) data from hardware
      */
-    SoftData *decodedBuffer[]; 
+    SwData *decodedBuffer[]; 
 
     /* allocate only enough memory to keep a max of 
      * this number of hardware inputs; discard all after that
@@ -65,28 +63,19 @@ public:
 	 * encode the msg at pointer sData
 	 * output results to location at pointer hData
 	 */
-	int encode(SoftData *sData, HardData *hData); 
-	int send(HardData *hData); // send data to hardware
-	int pull(HardData *hData); // pull raw data from hardware at pullFrequency
-	int decode(HardData *hData, SoftData *sData); // decode the hdata and store at sData
-	int storeToBuffer(SoftData *sData); // store decoded data to buffer
-	int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-	int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
-	int getPullFrequency();
-	int setPUllFrequency(int frequency);
-	int getBufferSize();
-	int setBufferSize(int BufferSize);
-    HwInterface:HwInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
-    ~HwInterface();
-	HwInterface();
-	/**
-	 * Constructor
-	 */
+	virtual int encode(SwData *sData, HwData *hData); 
+	virtual int send(HwData *hData); // send data to hardware
+	virtual int pull(HwData *hData); // pull raw data from hardware at pullFrequency
+	virtual int decode(HwData *hData, SwData *sData); // decode the hdata and store at sData
+	virtual int storeToBuffer(SwData *sData); // store decoded data to buffer
+	virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
+	virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
+	virtual int getPullFrequency();
+	virtual int setPUllFrequency(int frequency);
+	virtual int getBufferSize();
+	virtual int setBufferSize(int BufferSize);
+    virtual HwInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
 	virtual ~HwInterface();
-	/**
-	 * Deconstructor
-	 */
-
 
 };
 
