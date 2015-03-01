@@ -9,6 +9,9 @@
 #define CAMERAINTERFACE_H_
 
 #include "HwInterface.h"
+// include other camera + image specific classes
+// #include blahhhhhh~
+
 /**
  * A child of HwInterface that deals specifically with the camera. Concrete class.
  */
@@ -26,4 +29,7 @@ public:
 };
 
 
-#endif /* CAMERAINTERFACE_H_ */
+#endif 
+
+
+/* CAMERAINTERFACE_H_ */

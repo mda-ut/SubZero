@@ -9,6 +9,9 @@
 #define FPGAINTERFACE_H_
 
 #include "HwInterface.h"
+ // include some other fpga specific classes
+#include "FromFPGA.h"
+#include "ToFPGA.h"
 
 /**
  * A child of HwInterface that deals specifically with the FPGA. Concrete class.
@@ -26,4 +29,7 @@ public:
 };
 
 
-#endif /* FPGAINTERFACE_H_ */
+#endif 
+
+
+/* FPGAINTERFACE_H_ */
