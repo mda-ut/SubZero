@@ -24,8 +24,8 @@ public:
 	Model(FilterManager* fM);
 	Model(FilterManager* fM, FilterFactory* fF);
 	/**
-	 * Constructors for Model. There are two constructor overload in case FilterFactory
-	 * instance is not be created.
+	 * Constructors for Model. There are overload for Model constructor in case FilterFactory
+	 * instance is not to be created.
 	 */
 	virtual ~Model();
 	/**
