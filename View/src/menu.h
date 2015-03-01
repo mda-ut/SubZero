@@ -7,7 +7,7 @@ February 7 2015 */
 #include <QApplication>
 #include "mainwindow.h"
 
-Class Menu {
+class Menu {
 
 public:
   Menu();
