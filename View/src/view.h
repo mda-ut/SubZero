@@ -17,7 +17,7 @@
  * controller to be implemented
  */
 
-class View : public observer
+class View : public Observer
 {
 public:
 		View();
