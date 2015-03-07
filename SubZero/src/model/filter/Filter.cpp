@@ -15,7 +15,3 @@ Filter::Filter() {
 Filter::~Filter() {
 	// TODO Auto-generated destructor stub
 }
-
-char getCreator(){
-	return this.creator;
-}
