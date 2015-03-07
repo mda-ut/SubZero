@@ -46,19 +46,20 @@ public:
 	// Deletes the first occurrence of a filter from filterChain by index.
 	void deleteFilterByIndex(int index);
 
-	// Deletes filters by index in same overloading patterns as previous func.
-	void deleteFilterByIndex(int index, int type);
+	// Deletes filters by the indices in the input.
+	void deleteFilterByIndex(std::vector<int> indices);
 
 	// Reports the size of filterChian vector.
 	int getSizeOfFilter();
 
 	// Reports a copy of the vector string of filter IDs in filterChain.
-	std::vector getFilterChain();
+	std::vector getFilterChainID();
 
 	// Reports the index of the first occurrence of a particular filter ID.
 	int getFilterIndexByID(std::string ID);
 
-	// Reports the index of all occurrences of a particular filter ID.
+	// Reports the index of all occurrences of a particular filter ID. Use
+	// overload 1.
 	std::vector getFilterIndexByID(std::string ID, int type);
 
 private:
@@ -71,6 +72,12 @@ private:
 	// In direct correspondence to filterChain, filterChainID holds
 	// string identifiers for each of the filters created.
 	std::vector<std::string> filterChainID;
+
+	// Re-sync the filterChain and filterChainID on event of a insert or
+	// deletion.
+	void syncChainID(){
+
+	}
 
 };
 

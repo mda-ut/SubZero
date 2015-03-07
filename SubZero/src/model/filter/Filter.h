@@ -7,9 +7,7 @@
 
 #ifndef FILTER_H_
 #define FILTER_H_
-#include "dataDefinition.h"
-
-// Include all different children of Filter class.
+#include "DataDefinition.h"
 #include "RGBFilter.h"
 //#include "HSVFilter.h"
 
@@ -37,6 +35,14 @@ public:
 	virtual int filter(FPGAData * inputAttitude) {
 		return 1;
 	}
+
+	// Get the ID of the specific filter instance
+	std::string getID() {
+		return ID;
+	}
+private:
+	std::string ID;
+
 };
 
 #endif /* FILTER_H_ */
