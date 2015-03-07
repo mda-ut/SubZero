@@ -26,6 +26,7 @@ using namespace std;
 class Model {
 
 private:
+	State* state;
 	FilterManager* filterManager;
 	FilterFactory* filterFactory;
 

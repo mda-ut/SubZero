@@ -16,10 +16,8 @@
  * specific to communicating with the FGPA.
  */
 class FPGAModel: public Model {
-private:
-	FPGAState* fpgaState;
 public:
-	FPGAModel();
+	FPGAModel(FPGAState* inputFPGAState);
 	/**
 	 * Constructor
 	 */
