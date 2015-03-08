@@ -7,7 +7,7 @@
 
 #include "Model.h"
 
-Model::Model() {
+Model::Model(FilterManager* inputFM, State* inputState) {
 	// TODO Auto-generated constructor stub
 
 }

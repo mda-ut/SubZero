@@ -8,6 +8,10 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
+#include "state/State.h"
+#include "FilterManager.h"
+#include "FilterFactory.h"
+
 #include <string>
 
 using namespace std;
@@ -28,21 +32,13 @@ class Model {
 private:
 	State* state;
 	FilterManager* filterManager;
-	FilterFactory* filterFactory;
 
 public:
 	/**
 	 * This is the main constructor of a Model object.
 	 * @param	fM	This is the only parameter, a reference to FilterManager, to this Model constructor.
 	 */
-	Model(FilterManager* fM);
-
-	/**
-	 * This is the overload of the constructor of a Model object with one additional FilterFactory parameter.
-	 * @param	fM	This is the first parameter to the overload constructor.
-	 * @param	fF	This is the second parameter to the overload constructor if a FilterFactory object is created.
-	 */
-	Model(FilterManager* fM, FilterFactory* fF);
+	Model(FilterManager* inputFM, State* inputState);
 
 	/**
 	 * This is the destructor of Model.
