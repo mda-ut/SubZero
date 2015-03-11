@@ -9,7 +9,7 @@
 #define CAMERAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "Data.h"
+#include "DataDefinition.h"
 // include other camera + image specific classes
 // #include "ImageInputProcessor.h"
 // #include "ImageFormatter.h"
@@ -75,9 +75,9 @@ public:
     virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
     virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
     virtual int getPullFrequency();
-    virtual int setPUllFrequency(int frequency);
+    virtual int setPullFrequency(int frequency);
     virtual int getBufferSize();
-    virtual int setBufferSize(int BufferSize);
+    virtual int setBufferSize(int bufferSize);
     virtual CameraInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
     virtual ~CameraInterface();
 

@@ -9,7 +9,7 @@
 #define FPGAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "Data.h"
+#include "DataDefinition.h"
  // include some other fpga specific classes
 
 enum MoveCommands {
@@ -89,9 +89,9 @@ public:
     virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
     virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
     virtual int getPullFrequency();
-    virtual int setPUllFrequency(int frequency);
+    virtual int setPullFrequency(int frequency);
     virtual int getBufferSize();
-    virtual int setBufferSize(int BufferSize);
+    virtual int setBufferSize(int bufferSize);
     FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
     virtual ~FPGAInterface();
 

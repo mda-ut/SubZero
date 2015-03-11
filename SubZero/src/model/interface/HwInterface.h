@@ -8,8 +8,8 @@
 #ifndef HWINTERFACE_H_
 #define HWINTERFACE_H_
 
-#include "Data.h"
-// suppose the following are defined in a separate Data.h
+#include "DataDefinition.h"
+// suppose the following are defined in a separate DataDefinition.h
 // typedef struct HwData {
 	// blah blah 0s and 1s????
 // } HwData;
@@ -71,9 +71,9 @@ public:
     virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
     virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
     virtual int getPullFrequency();
-    virtual int setPUllFrequency(int frequency);
+    virtual int setPullFrequency(int frequency);
     virtual int getBufferSize();
-    virtual int setBufferSize(int BufferSize);
+    virtual int setBufferSize(int bufferSize);
     virtual HwInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
     virtual ~HwInterface();
 
