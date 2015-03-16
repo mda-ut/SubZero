@@ -37,8 +37,7 @@ private:
     int bufferSize; 
 
     /* 
-     * look at only every this number of inputs
-     * i.e. pull data from hardware at this frequency
+     * pull data from hardware at this frequency
      */
     int pullFrequency;
 
