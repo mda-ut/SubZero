@@ -5,18 +5,33 @@ February 7 2015 */
 #define MENU_H_
 
 #include <QApplication>
-#include "mainwindow.h"
+#include <QComboBox>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QWidget>
+/**
+ * This class manages all views. It is capable of
+ * instantiating and terminating views, as well as
+ * switching between active views  using the signals
+ * and slots inherit to the Qt Classes within itself
+ */
+
 
 class Menu {
+
+	Q_OBJECT
 
 public:
   Menu();
   ~Menu();
 
-Protected:
-  Menu.chooseView();
-  Menu.displayMainMenu();
-  Menu.terminate();
+  QWidget menuWIndow;
+  QComboBox viewSelecter;
+  QPushButton affirmSele;
+  QComboBox viewTerminator;
+  QPushButton affirmTerm;
+  QGridLayout menuLayout;
+  QLabel currentView;
 
 };
 

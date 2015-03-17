@@ -9,31 +9,44 @@
 #define VIEW_H_
 
 #include "observer.h"
+#include <QWidget>
+#include <QGridLayout>
+#include <QPixMap>
+#include <QGraphicsScene>
+#include <QEvent>
+#include <QPaintEvent>
+#include <QPen>
+#include <QBrush>
+#include <QColor>
 
-/* This abstract class inherits observer's
+/** This abstract class inherits observer's
  * functionality and displays the data via use of
- * the qt framework. In addition it receives
- * commands from the user and sends them to the
- * controller to be implemented
+ * the Qt framework: The cv::Mat type holding image
+ * data is used to develop the QPixMap which is then
+ * turned into an image and displayed on the graphics
+ * scene
  */
 
 class View : public Observer
 {
+	Q_OBJECT
+
 public:
 		View();
 
-		void moveForward();
-		void moveBackward();
-		void moveLeft();
-		void moveRight();
-		void moveUp();
-		void moveDown();
-		void surface();
-		void launchTor();
-		void launchGra();
-		void changeWinDim();
-		void displayWin();
-		void toMenu();
+		/**
+		 * @param type Hold the string that is sent to
+		 * controller to identify a view
+		 */
+		char[5] type;
+		QWidget viewWindow;
+		QPixMap pixMat;
+		QGridLayout viewLayout;
+		QPaintEvent painter;
+		QPen stencil;
+		QBrush brush;
+		QColour currentColour;
+
 
 		virtual ~View();
 };

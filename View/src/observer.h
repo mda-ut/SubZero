@@ -8,7 +8,10 @@
 #ifndef OBSERVER_H_
 #define OBSERVER_H_
 
-/*
+#include <cv.h>
+#include <highgui>
+
+/**
  * This abstract class is informed by the
  * observable class when observable changes state.
  * It then retrieves the data once it is available
@@ -20,15 +23,8 @@ class Observer
 public:
 		Observer();
 
-		bool freeToRead();
-		void readState();
-
-	/* method of response to observable remains
-	undetermined, as does size of imgData
-	int[][] imgData;
-	int sonarStre; */
-
 		virtual ~Observer();
+		void virtual update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc);
 
 };
 
