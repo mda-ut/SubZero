@@ -42,6 +42,11 @@ public:
 		QWidget viewWindow;
 		QPixMap pixMat;
 		QGridLayout viewLayout;
+
+		/**
+		 * The QPaintEvent is used to continuously draw the
+		 * images received in lieu of a separate display function
+		 */
 		QPaintEvent painter;
 		QPen stencil;
 		QBrush brush;
