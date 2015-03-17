@@ -10,7 +10,7 @@
 namespace std {
 
 FPGAModel::FPGAModel() {
-	// TODO Auto-generated constructor stub
+	fpgaState = (FPGAState*) &observable;
 
 }
 

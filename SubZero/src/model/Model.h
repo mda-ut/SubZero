@@ -8,9 +8,9 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
-#include "state/State.h"
 #include "FilterManager.h"
 #include "FilterFactory.h"
+#include "Observable.h"
 
 #include <string>
 
@@ -30,8 +30,10 @@ using namespace std;
 class Model {
 
 private:
-	State* state;
 	FilterManager* filterManager;
+
+protected:
+	Observable* observable;
 
 public:
 	/**

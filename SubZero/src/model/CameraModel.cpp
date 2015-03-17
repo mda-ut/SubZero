@@ -10,8 +10,7 @@
 namespace std {
 
 CameraModel::CameraModel() {
-
-	// TODO Auto-generated constructor stub
+	cameraState = (CameraState*) &observable;
 
 }
 
