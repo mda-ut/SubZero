@@ -15,7 +15,8 @@ RGBFilter::~RGBFilter() {
 	// TODO Auto-generated destructor stub
 }
 
-int RGBFilter::filter (CamData * inputImg) {
+int RGBFilter::filter (CamData* camData) {
+	camData->procImg.push(threshold(blahbe, camData->rawImg));
 	return 0;
 }
 

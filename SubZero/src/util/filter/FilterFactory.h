@@ -19,7 +19,7 @@ class FilterFactory {
 public:
 
 	// RGB filter is created.
-	static RGBFilter * createRGBFilter(std::string ID, int r, int g, int b);
+	static RGBFilter* createRGBFilter(std::string ID, int r, int g, int b);
 };
 
 #endif /* FILTERFACTORY_H_ */

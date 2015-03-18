@@ -28,11 +28,15 @@ public:
 	// specific filter to the content of the pointer. The content of the
 	// pointer is altered and 0 is returned for successful filter, 1 for no
 	// action performed due to incorrect type, 2 for other errors.
-	virtual int filter(CamData * inputImg) {
+	virtual int filter(CamData* camData) {
+		cv::Mat temp = camData->img;
+		//do filtration on temp
+		free(camData);
+		camData = &(new CamData(ID, temp)); // operator overload?
 		return 1;
 	}
 	// Overload for FPGA filtering
-	virtual int filter(FPGAData * inputAttitude) {
+	virtual int filter(FPGAData* fpgaData) {
 		return 1;
 	}
 

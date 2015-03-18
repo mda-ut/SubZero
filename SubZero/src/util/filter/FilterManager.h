@@ -9,19 +9,24 @@
 #define FILTERMANAGER_H_
 
 #include "Filter.h"
+#include "IDHasher.h"
 #include <vector>
+
+struct Data {
+	Filter* filter;
+};
 
 class FilterManager {
 public:
 	FilterManager();
-	virtual ~FilterManager();
+	virtual ~FilterManager(std::string ID);
 
 	// The filter() function accepts a raw data input. Depending on
 	// what kind of model it belongs to it takes in a image or FPGA
 	// data and returns the corresponding type.
 	// Raw data is passed as a pointer and the function will make
 	// changes to the data (not the copy of the data).
-	void filter(CamData * raw);
+	void filter(CamData* raw);
 	// This is the overloaded filter function for filtering FPGA input.
 	void filter(FPGAData * raw);
 
@@ -67,16 +72,7 @@ private:
 	// The main item FilterManager will manage is the filterChain,
 	// a data structure that contains all the filters to be applied
 	// to some image or data.
-	std::vector<Filter> filterChain;
-
-	// In direct correspondence to filterChain, filterChainID holds
-	// string identifiers for each of the filters created.
-	std::vector<std::string> filterChainID;
-
-	// Re-sync the filterChain and filterChainID on event of a insert or
-	// deletion.
-	void syncChainID(){
-
+	IDHasher filterChain;
 	}
 
 };
