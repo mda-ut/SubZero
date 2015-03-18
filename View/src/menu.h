@@ -23,7 +23,7 @@ class Menu {
 
 public:
   Menu();
-  ~Menu();
+  virtual ~Menu();
 
   QWidget menuWIndow;
   QComboBox viewSelecter;
