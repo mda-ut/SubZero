@@ -7,10 +7,9 @@
 
 #include "Observable.h"
 
-namespace std {
 
 Observable::Observable() {
-	// TODO Auto-generated constructor stub
+	observers = NULL;
 
 }
 
@@ -18,4 +17,17 @@ Observable::~Observable() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace std */
+
+void Observable::addObserver(Observer *obs) {
+	observers.insert(obs);
+}
+
+void Observable::removeObserver(Observer *obs) {
+	observers.erase(obs);
+}
+
+void Observable::notifyObservers() {
+	for (auto& obs : observers) {
+		obs->update();
+	}
+}

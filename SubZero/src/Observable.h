@@ -8,7 +8,8 @@
 #ifndef OBSERVABLE_H_
 #define OBSERVABLE_H_
 
-#include <vector>
+#include <stddef.h>
+#include <set>
 #include "Observer.h"
 
 
@@ -18,10 +19,9 @@
  */
 class Observable {
 private:
-	std::vector <class Observer *> observers;
+	std::set<class Observer*> observers;
 
 public:
-
 	/**
 	 * Constructor
 	 */
