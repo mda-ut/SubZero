@@ -9,14 +9,8 @@
 #define HWINTERFACE_H_
 
 #include "DataDefinition.h"
-// suppose the following are defined in a separate DataDefinition.h
-// typedef struct HwData {
-	// blah blah 0s and 1s????
-// } HwData;
+// Data is the generic datatype defined in DataDefinition.h
 
-// typedef struct SwData {
-	// stuff 
-// } SwData;
 
 /**
  * HwInterface is an abstract class responsible for all the io interfacing with hardware.
@@ -29,7 +23,7 @@ private:
      * pointer to memory allocated for storing raw (but 
      * decoded) data from hardware
      */
-    SwData *decodedBuffer[]; 
+    Data** decodedBuffer[]; 
 
     /* allocate only enough memory to keep a max of 
      * this number of hardware inputs; discard all after that
@@ -55,24 +49,43 @@ private:
      */
     int hardwareID;
 
+    /* 
+     * private helper function for send
+     * enocde data to be sent to hardware
+     * encode the msg at pointer Data src (source)
+     * output results to location at pointer Data des(tination) 
+     */
+    virtual int encode(Data* src, Data* des); 
+    
+    /*
+     * this class will be automatically pulling and managing
+     * the pulling process privately within the interface
+     * using the following functions
+     */
+    virtual int pullTo(Data* des); // pull raw data from hardware at pullFrequency to Data destination specified
+    virtual int decode(Mat* src, Data* des); // decode the Data at src and store at Data des(tination)
+
+protected:
+
+    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
+    virtual int storeToBuffer(Data* src); // store decoded data at src to buffer
+
 public:
 
-    /* 
-     * enocde data to be sent to hardware
-     * encode the msg at pointer sData
-     * output results to location at pointer hData
+    virtual int copyFromBuffer(int startIdx, int endIdx, Data** src); // copy from [startIdx, endIdx]
+    virtual int send(Data* src); // send data at src to hardware indicated by hardwareID   
+
+    /*
+     * getters and setters for the private fields
      */
-    virtual int encode(SwData *sData, HwData *hData); 
-    virtual int send(HwData *hData); // send data to hardware
-    virtual int pull(HwData *hData); // pull raw data from hardware at pullFrequency
-    virtual int decode(HwData *hData, SwData *sData); // decode the hdata and store at sData
-    virtual int storeToBuffer(SwData *sData); // store decoded data to buffer
-    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-    virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
     virtual int getPullFrequency();
     virtual int setPullFrequency(int frequency);
     virtual int getBufferSize();
     virtual int setBufferSize(int bufferSize);
+    
+    /*
+     * constructors and destructors
+     */
     virtual HwInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
     virtual ~HwInterface();
 

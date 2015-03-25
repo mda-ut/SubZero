@@ -29,56 +29,45 @@ class CameraInterface: public HwInterface {
 
 private:
 
-	/*
-     * pointer to memory allocated for storing raw (but 
-     * decoded) data from hardware
-     */
-    SwData *decodedBuffer[]; 
-
-    /* allocate only enough memory to keep a max of 
-     * this number of hardware inputs; discard all after that
-     */
-    int bufferSize; 
-
     /* 
-     * pull data from hardware at this frequency
+     * private helper function for send
+     * enocde data to be sent to hardware
+     * encode the msg at pointer Mat src (source)
+     * output results to location at pointer ImgData des(tination) 
      */
-    int pullFrequency;
+    virtual int encode(Mat* src, ImgData* des); 
+    
+    /*
+     * this class will be automatically pulling and managing
+     * the pulling process privately within the interface
+     * using the following functions
+     */
+    virtual int pullTo(Mat* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
+    virtual int decode(Mat* src, ImgData* des); // decode the Mat at src and store at ImgData des(tination)
 
-    /* 
-     * this value specifies the encoding, decoding policy to use
-     * alternatively, we can just implement encode(), decode() ... etc
-     * differently for each hardwares when we branch out 
-     * from our abstract class
-     */
-    int policy;
+protected:
 
-    /* 
-     * id of hardware this interface interacts with
-     * hardware can be accessed (somehow) via this ID
-     */
-    int hardwareID;
+    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
+    virtual int storeToBuffer(ImgData* src); // store decoded data at src to buffer
 
 public:
 
-    /* 
-     * enocde data to be sent to hardware
-     * encode the msg at pointer sData
-     * output results to location at pointer hData
+    virtual int copyFromBuffer(int startIdx, int endIdx, ImgData** src); // copy from [startIdx, endIdx]
+    virtual int send(ImgData* src); // send data at src to hardware indicated by hardwareID   
+
+    /*
+     * getters and setters for the private fields
      */
-    virtual int encode(SwData *sData, HwData *hData); 
-    virtual int send(HwData *hData); // send data to hardware
-    virtual int pull(HwData *hData); // pull raw data from hardware at pullFrequency
-    virtual int decode(HwData *hData, SwData *sData); // decode the hdata and store at sData
-    virtual int storeToBuffer(SwData *sData); // store decoded data to buffer
-    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-    virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
     virtual int getPullFrequency();
     virtual int setPullFrequency(int frequency);
     virtual int getBufferSize();
     virtual int setBufferSize(int bufferSize);
-    virtual CameraInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
-    virtual ~CameraInterface();
+    
+    /*
+     * constructors and destructors
+     */
+    FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+    virtual ~FPGAInterface();
 
 };
 

@@ -42,55 +42,45 @@ enum SpecialCommands{
  */
 class FPGAInterface : public HwInterface {
 
-private:
+  private:
+
+    /* 
+     * private helper function for send
+     * enocde data to be sent to hardware
+     * encode the msg at pointer String src (source)
+     * output results to location at pointer FpgaData des(tination) 
+     */
+    virtual int encode(String* src, FpgaData* des); 
+    
     /*
-     * pointer to memory allocated for storing raw (but 
-     * decoded) data from hardware
+     * this class will be automatically pulling and managing
+     * the pulling process privately within the interface
+     * using the following functions
      */
-    SwData *decodedBuffer[]; 
+    virtual int pullTo(String* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
+    virtual int decode(String* src, FpgaData* des); // decode the String at src and store at FpgaData des(tination)
 
-    /* allocate only enough memory to keep a max of 
-     * this number of hardware inputs; discard all after that
-     */
-    int bufferSize; 
+protected:
 
-    /* 
-     * pull data from hardware at this frequency
-     */
-    int pullFrequency;
-
-    /* 
-     * this value specifies the encoding, decoding policy to use
-     * alternatively, we can just implement encode(), decode() ... etc
-     * differently for each hardwares when we branch out 
-     * from our abstract class
-     */
-    int policy;
-
-    /* 
-     * id of hardware this interface interacts with
-     * hardware can be accessed (somehow) via this ID
-     */
-    int hardwareID;
+    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
+    virtual int storeToBuffer(FpgaData* src); // store decoded data at src to buffer
 
 public:
 
-    /* 
-     * enocde data to be sent to hardware
-     * encode the msg at pointer sData
-     * output results to location at pointer hData
+    virtual int copyFromBuffer(int startIdx, int endIdx, FpgaData** src); // copy from [startIdx, endIdx]
+    virtual int send(FpgaData* src); // send data at src to hardware indicated by hardwareID   
+
+    /*
+     * getters and setters for the private fields
      */
-    virtual int encode(SwData *sData, HwData *hData); 
-    virtual int send(HwData *hData); // send data to hardware
-    virtual int pull(HwData *hData); // pull raw data from hardware at pullFrequency
-    virtual int decode(HwData *hData, SwData *sData); // decode the hdata and store at sData
-    virtual int storeToBuffer(SwData *sData); // store decoded data to buffer
-    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-    virtual int copyFromBufferToState(int startIdx, int endIdx, State *state); // copy from [startIdx, endIdx]
     virtual int getPullFrequency();
     virtual int setPullFrequency(int frequency);
     virtual int getBufferSize();
     virtual int setBufferSize(int bufferSize);
+    
+    /*
+     * constructors and destructors
+     */
     FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
     virtual ~FPGAInterface();
 
