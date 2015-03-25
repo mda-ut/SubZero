@@ -13,7 +13,11 @@
 
 // to be included by filter>> model >> controller also by view and HI.
 
-class CamData {
+class Data {
+
+};
+
+class ImgData : public Data {
 	/* Wrapper class containing a image of the standard image type
 	 * and functions to get image parameters such as dimensions,
 	 * and pixel depth. Each CamData has a string ID and msg to identify
@@ -23,7 +27,7 @@ class CamData {
 	 */
 public:
 	// Constructor takes in the string ID of the image being created.
-	CamData(std::string ID, cv::Mat img) {
+	ImgData(std::string ID, cv::Mat img) {
 		this->ID = ID;
 		this->img = img;
 	}
@@ -35,6 +39,7 @@ public:
 
 	// Getter for img data, invoker must expect the standard image type
 	cv::Mat getImg() {
+
 		return this->img;
 	}
 

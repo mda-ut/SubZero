@@ -16,16 +16,16 @@ class DataFactory {
 	 */
 public:
 	// New CamData object created
-	CamData createCamData(cv::Mat img, std::string ID);
+	ImgData* createImgData(cv::Mat img, std::string ID);
 
 	// Sister CamData object created: deep copy
-	CamData createCamData(const CamData& ref);
+	ImgData* createImgData(ImgData* ref);
 
 	// New FPGAData object created
-	FPGAData createFPGAData();
+	FPGAData* createFPGAData();
 
 	// Sister FPGAData object created: deep copy
-	FPGAData createFPGAData(const FPGAData& ref);
+	FPGAData* createFPGAData(FPGAData* ref);
 };
 
 #endif /* DATAFACTORY_H_ */

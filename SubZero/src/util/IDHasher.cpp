@@ -12,7 +12,7 @@ IDHasher::IDHasher () {
 }
 
 struct Data* IDHasher::get(std::string ID) {
-	if (this->dictionary.size > 0)
+	if (this->dictionary.size > 0 && this->dictionary.count(ID) > 0)
 		return this->dictionary[ID];
 	else
 		return nullptr;
@@ -28,17 +28,23 @@ int IDHasher::ins(std::string ID, struct Data data, int index) {
 	newNode = (struct Node*)malloc(sizeof(struct Node));
 	newNode->data = data;
 
-	if (index == 0) {
+	if (index == 0)
+	{
 		newNode->nxt = this->linkedListFront;
 		newNode->prv = nullptr;
 		this->linkedListFront = newNode;
-	} else if (index == -1) {
+	}
+	else if (index == -1)
+	{
 		newNode->nxt = nullptr;
 		newNode->prv = this->linkedListRear;
 		this->linkedListRear = newNode;
-	} else {
+	}
+	else
+	{
 		currNode = this->linkedListFront;
-		for (i=0;i<index;i++) {
+		for (i=0;i<index;i++)
+		{
 			if (currNode == nullptr)
 				return 1;
 			prevNode = currNode;

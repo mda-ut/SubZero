@@ -20,7 +20,7 @@ public:
 	virtual ~RGBFilter();
 
 	// Filter function for filter
-	int filter (CamData * inputImg);
+	int filter (ImgData * inputImg);
 
 	// Set values function.
 	void setValues(int r, int b, int g);
