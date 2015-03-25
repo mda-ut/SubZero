@@ -13,7 +13,7 @@
 struct Node {
 	struct Node* nxt;
 	struct Node* prv;
-	struct Data* data;
+	struct NodeData* nodeData;
 };
 
 class IDHasher {
@@ -27,7 +27,7 @@ class IDHasher {
 	 */
 public:
 	/*
-	 * Hash constructor
+	 * Constructor
 	 */
 	IDHasher ();
 
@@ -40,7 +40,7 @@ public:
 	 * @param ID is the string key associated to a stored data.
 	 * @return Data*, which is a wrapper class for the "real data."
 	 */
-	struct Data* get(std::string ID);
+	struct NodeData* get(std::string ID);
 
 	/*
 	 * Insertion by index. Takes a Data struct, adds it to the
@@ -52,7 +52,7 @@ public:
 	 * @param index is the index where the new data will be inserted.
 	 * @return 0 for success, 1 for failed insertion.
 	 */
-	int ins(std::string ID, struct Data data, int index);
+	int ins(std::string ID, struct NodeData nodeData, int index);
 
 	/*
 	 * Insertion by ID inserts the Data struct before the
@@ -63,7 +63,7 @@ public:
 	 * @param insID is the key of a stored data where the new data will be inserted.
 	 * @return 0 for success, 1 for failed insertion.
 	 */
-	int ins(std::string ID, struct Data data, std::string insID);
+	int ins(std::string ID, struct NodeData nodeData, std::string insID);
 
 	/*
 	 * Delete a mapping by index.

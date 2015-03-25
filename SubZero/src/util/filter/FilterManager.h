@@ -13,7 +13,7 @@
 #include "DataFactory.h"
 #include <vector>
 
-struct Data {
+struct NodeData {
 	Filter* filter;
 };
 
@@ -118,6 +118,15 @@ public:
 	 * @return number of filters.
 	 */
 	int getSizeOfFilter();
+
+	/*
+	 * For a given ID, the filterChain is searched and the index of the
+	 * filter object with the specific ID is identified and returned
+	 *
+	 * @param ID represents the filter object to look for
+	 * @return int of the index value from 0 ~ chain size-1, -1 for no match.
+	 */
+	int getIndexByID(std::string ID);
 
 	/*
 	 * Reports a copy of the vector string of filter IDs in filterChain.

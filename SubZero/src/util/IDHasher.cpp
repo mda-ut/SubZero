@@ -11,14 +11,14 @@ IDHasher::IDHasher () {
 
 }
 
-struct Data* IDHasher::get(std::string ID) {
+struct NodeData* IDHasher::get(std::string ID) {
 	if (this->dictionary.size > 0 && this->dictionary.count(ID) > 0)
 		return this->dictionary[ID];
 	else
 		return nullptr;
 }
 
-int IDHasher::ins(std::string ID, struct Data data, int index) {
+int IDHasher::ins(std::string ID, struct NodeData data, int index) {
 	struct Node *newNode, *currNode, *prevNode;
 	int i;
 
@@ -26,7 +26,7 @@ int IDHasher::ins(std::string ID, struct Data data, int index) {
 		return 1;
 
 	newNode = (struct Node*)malloc(sizeof(struct Node));
-	newNode->data = data;
+	newNode->nodeData = data;
 
 	if (index == 0)
 	{
@@ -64,7 +64,7 @@ int IDHasher::ins(std::string ID, struct Data data, int index) {
  *
  * @return 0 for success, 1 for failed insertion.
  */
-int ins(std::string ID, struct Data data, std::string insID);
+int ins(std::string ID, struct NodeData data, std::string insID);
 
 /*
  * Delete a mapping by index.

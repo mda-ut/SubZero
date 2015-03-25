@@ -22,7 +22,7 @@ int FilterManager::filter(ImgData* in, ImgData** out) {
 	ImgData* working = DataFactory::createCamData(in);
 	while (nxt!=nullptr)
 	{
-		event = nxt->data->filter->filter(working);
+		event = nxt->nodeData->filter->filter(working);
 		count++;
 		if (event>0)
 			return 1;
@@ -38,7 +38,7 @@ int FilterManager::filter(FPGAData* in, FPGAData** out) {
 	FPGAData* working = DataFactory::createFPGAData(in);
 	while (nxt!=nullptr)
 	{
-		event = nxt->data->filter->filter(working);
+		event = nxt->nodeData->filter->filter(working);
 		count++;
 		if (event>0)
 			return 1;
@@ -49,7 +49,7 @@ int FilterManager::filter(FPGAData* in, FPGAData** out) {
 }
 
 int FilterManager::insertFilter(std::string ID, Filter* filter) {
-	struct Data data;
+	struct NodeData data;
 	int event;
 	data.filter = filter;
 	event = this->filterChain.ins(ID,data,-1);
@@ -60,7 +60,7 @@ int FilterManager::insertFilter(std::string ID, Filter* filter) {
 }
 
 int FilterManager::insertFilter(std::string ID, Filter* filter, int index) {
-	struct Data data;
+	struct NodeData data;
 	int event;
 	data.filter = filter;
 	event = this->filterChain.ins(ID,data,index);
