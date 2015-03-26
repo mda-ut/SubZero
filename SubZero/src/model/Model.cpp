@@ -9,19 +9,11 @@
 
 Model::Model(Observable* inputObservable, HwInterface* inputHwInterface)
 {
-	this->observable = inputObservable;
-	this->hwInterface = inputHwInterface;
+	this->state = inputObservable;
+	this->interface = inputHwInterface;
 }
 
 Model::~Model()
 {
 	// TODO Auto-generated destructor stub
-}
-
-Observable* Model::getObservable(){
-	return this->observable;
-}
-
-HwInterface* Model::getHwInterface(){
-	return this->hwInterface;
 }

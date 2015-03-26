@@ -12,24 +12,26 @@
 #include "CameraState.h"
 
 /**
- * This is a concrete child of the Model class. It implements functions
- * specific to communicating with the camera.
+ * This is a concrete model child that inherits from Model. It implements functions
+ * specific to communicating with the camera. CameraModel will use the protected
+ * fields of Model for functions inside CameraModel.
  */
 class CameraModel: public Model {
 
-private:
-	CameraState* cameraState;
-	CameraInterface* cameraInterface;
-
 public:
-	CameraModel(Observable* state, HwInterface* interface);
+
 	/**
-	 * Constructor
+	 * CameraModel construct takes in two parameters and call Model constructor to assign Model protected fields.
+	 * @param inputState is an Observable pointer and inputInterface is a HwInterface pointer.
 	 */
+	CameraModel(Observable* inputState, HwInterface* inputInterface);
+
 	virtual ~CameraModel();
-	/**
-	 * Deconstructor
-	 */
+
+/* **************** HwInterface related **************** */
+
+	int getDataFromBuffer(Data* dataDestination);
+
 };
 
 

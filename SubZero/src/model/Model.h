@@ -16,11 +16,11 @@
 #include "FilterFactory.h"
 
 /**
- * This is an abstract class that represents the physical attributes of the sub.
- * It accepts input from cameras and FPGA and outputs to FPGA and
- * cameras (strictly speaking). Model contains references to the tools required
+ * This can have the potential to be an pure virtual (abstract) class, but it's not for now. Modle
+ * represents the physical attributes of the sub. It accepts input from cameras and FPGA
+ * and outputs to FPGA and cameras (strictly speaking). Model contains references to the tools required
  * for the assets to run. Each Model inherits from observable and has a state.
- * Each Model has a filter.
+ * Each Model has a FilterManager.
  *
  * @author	Zack Tzeng
  * @version	0.0
@@ -28,10 +28,9 @@
  */
 class Model {
 
-private:
-	Observable* observable;
-	HwInterface* hwInterface;
 protected:
+	Observable* state;
+	HwInterface* interface;
 	std::vector<FilterManager*> filterManagerList;
 public:
 
@@ -45,20 +44,14 @@ public:
 	 */
 	virtual ~Model();
 
-	Observable* getObservable();
-
-	HwInterface* getHwInterface();
-
-
-
 /* **************** HwInterface related **************** */
 
 	/**
-	 * getDataFromBuffer gets a Data pointer from HwInterface buffer
+	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
 //	 * @param DataDestination is an empty Data pointer that is filled up after running the function
 //   * @return int determines if the function is run successfully
 	 */
-	int getDataFromBuffer(Data* dataDestination);
+	virtual int getDataFromBuffer(Data* dataDestination)=0;
 
 //	/**
 //	 * getImageFromBuffer gets an ImageData* from image buffer of HwInterface
