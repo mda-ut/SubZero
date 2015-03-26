@@ -7,12 +7,21 @@
 
 #include "Model.h"
 
-Model::Model(FilterManager* inputFM, State* inputState) {
-	// TODO Auto-generated constructor stub
-
+Model::Model(Observable* inputObservable, HwInterface* inputHwInterface)
+{
+	this->observable = inputObservable;
+	this->hwInterface = inputHwInterface;
 }
 
-Model::~Model() {
+Model::~Model()
+{
 	// TODO Auto-generated destructor stub
 }
 
+Observable* Model::getObservable(){
+	return this->observable;
+}
+
+HwInterface* Model::getHwInterface(){
+	return this->hwInterface;
+}

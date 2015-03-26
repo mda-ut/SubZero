@@ -15,12 +15,14 @@
  * This is a concrete child of the Model class. It implements functions
  * specific to communicating with the camera.
  */
-
 class CameraModel: public Model {
+
 private:
 	CameraState* cameraState;
+	CameraInterface* cameraInterface;
+
 public:
-	CameraModel();
+	CameraModel(Observable* state, HwInterface* interface);
 	/**
 	 * Constructor
 	 */
