@@ -17,9 +17,20 @@ class FilterFactory {
 	 * a pointer to the filter it created. In this class, NEW is used.
 	 */
 public:
+	/* ==========================================================================
+	 * STATIC CREATORS OF FILTER OBJECTS
+	 * All creators return Filter* type cast for generality
+	 */
 
-	// RGB filter is created.
-	static RGBFilter* createRGBFilter(int r, int g, int b);
+	/*
+	 * RGB filter is created.
+	 *
+	 * @param r for red [0,255]
+	 * @param g for green [0,255]
+	 * @param g for blue [0,255]
+	 * @return filter object pointer
+	 */
+	static Filter* createRGBFilter(int r, int g, int b);
 };
 
 #endif /* FILTERFACTORY_H_ */

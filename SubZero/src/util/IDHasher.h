@@ -26,10 +26,15 @@ class IDHasher {
 	 * ordering (which is otherwise lost in a regular map object).
 	 */
 public:
-	/*
-	 * Constructor
+	/* ==========================================================================
+	 * CONSTRUCTOR AND DESTRUCTOR
 	 */
 	IDHasher ();
+	virtual ~IDHasher ();
+
+	/* ==========================================================================
+	 * BASIC ADT METHODS
+	 */
 
 	/*
 	 * Search and returns a ptr to the data. It should be noted
@@ -88,6 +93,10 @@ public:
 	 */
 	int delAll();
 
+	/* ==========================================================================
+	 * SUPPLAMENTS
+	 */
+
 	/*
 	 * Get the list of ID
 	 *
@@ -111,14 +120,24 @@ public:
 	int getCount();
 
 private:
-	// Dictionary to map ID to nodes in the linked list
+	/* ==========================================================================
+	 * CLASS VARIABLES
+	 */
+
+	/*
+	 * Dictionary to map ID to nodes in the linked list
+	 */
 	std::map<std::string, struct Node*> dictionary;
 
-	// Linked List pointers
+	/*
+	 * Linked List pointers
+	 */
 	struct Node* linkedListFront = nullptr;
 	struct Node* linkedListRear = nullptr;
 
-	// Count of nodes/data
+	/*
+	 * Count of nodes/data stored by ADT
+	 */
 	int count;
 };
 

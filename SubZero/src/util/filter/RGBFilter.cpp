@@ -9,6 +9,7 @@
 
 RGBFilter::RGBFilter(int r, int g, int b) {
 	setValues(r,g,b);
+	setID("rgb");
 }
 
 RGBFilter::~RGBFilter() {
