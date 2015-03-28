@@ -28,21 +28,9 @@ public:
 	Observable();
 
 	/**
-	 * Copy constructor
-	 */
-	Observable( const Observable& copy );
-
-	/**
-	 * Copy assignment operator
-	 *
-	 * @return copy of the Observable
-	 */
-	Observable& Observable::operator=( const Observable& copy );
-
-	/**
 	 * Destructor
 	 */
-	virtual ~Observable();
+	~Observable();
 
 	/**
 	 * Attach a new observer
