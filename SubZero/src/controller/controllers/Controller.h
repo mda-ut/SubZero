@@ -17,28 +17,28 @@ using namespace std;
 //we have to find out what the command is
 //controller only does event handling -> list of if statements determining what to execute
 //command structure & task class
+#include <list>
 
 class Controller{
 public:
-    //constructor for the controller class
-    Controller(Model *_modelpointer, string _command);
+	/**
+	 *  Constructor
+	 *  @param modelPointer a pointer to the list of models
+	 */
+
+    Controller(list <Model> *modelPointer);
 
 
-    //Destructor to free pointers
+    /**
+     * Destructor
+     */
+
     ~Controller();
-
-    //need a handle event function
-
-    
 
 private:
     //Model Pointer
     Model *sub_model;
     string command;
-    
-    //Variables for thrust an[d angles
-    float x_thrust, y_thrust, z_thrust;
-    float pitch, yaw, roll;
     
 };
 

@@ -10,11 +10,21 @@
 
 #include "BaseTask.h"
 
+//This is a dummy task class
 class TaskA : public BaseTask {
 public:
+	/**
+	 * Dummy Contructor
+	 */
 	TaskA();
+	/**
+	 * Virtual Destructor
+	 */
 	virtual ~TaskA();
 
+	/**
+	 * virtual execute function
+	 */
     virtual void execute();
 };
 

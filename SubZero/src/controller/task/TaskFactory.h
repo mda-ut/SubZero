@@ -10,14 +10,25 @@
 
 #include "BaseTask.h"
 
-class BaseTaskFactory {
+class TaskFactory {
 public:
-	BaseTaskFactory();
+	/**
+	 * Contructor
+	 */
+	TaskFactory();
 
-	//given a string, dynamically create new Tasts
+	/**
+	 * given a string, dynamically create new Tasts
+	 * @param input the name of the new task
+	 */
+
 	static BaseTask* newTask(const std::string input);
 
-	virtual ~BaseTaskFactory();
+
+	/**
+	 * Destructor
+	 */
+	virtual ~TaskFactory();
 
 };
 

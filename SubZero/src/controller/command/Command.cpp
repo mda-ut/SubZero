@@ -8,8 +8,7 @@
 #include "Command.h"
 
 Command Command::(BaseTask *inputTask) {
-	// TODO Auto-generated constructor stub
-
+	currentTask = inputTask;
 }
 
 Command::~Command() {
