@@ -21,8 +21,9 @@ class CameraModel: public Model {
 public:
 
 	/**
-	 * CameraModel construct takes in two parameters and call Model constructor to assign Model protected fields.
-	 * @param inputState is an Observable pointer and inputInterface is a HwInterface pointer.
+	 * This is a constructor of CameraModel. It will pass the two parameters to parent Model's constructor.
+	 * @param	inputState		an observable pointer that is expected to be a CameraState pointer
+	 * @param	inputInterface	a HwInterface pointer that is expected to be a CameraInterface pointer
 	 */
 	CameraModel(Observable* inputState, HwInterface* inputInterface);
 
@@ -30,6 +31,11 @@ public:
 
 /* **************** HwInterface related **************** */
 
+	/**
+	 * This gets the Data pointer from the buffer and store the Data pointer at the destination.
+	 * @param	dataDestination		an empty Data pointer that is filled up after running the function
+	 * @return 						error message of the result of this function
+	 */
 	int getDataFromBuffer(Data* dataDestination);
 
 };
