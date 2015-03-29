@@ -12,6 +12,8 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
+	Logger::trace("Began to work on project.");
+
 	Logger::close();
 	return 0;
 }
