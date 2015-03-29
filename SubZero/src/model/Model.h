@@ -100,7 +100,7 @@ public:
 	 * 								- It can be BEGIN or END then new filter is inserted at the beginning or the end of the chain.
 	 * @return					error message of the result of this function
 	 */
-	int insertFilter(std::string fmID, Filter* newFilter, std::string newFilterID, std::string targetID);// targetID can be filterID and BEGIN and END
+	int insertFilter(std::string fmID, Filter* newFilter, std::string newFilterID, std::string targetID);
 
 	/**
 	 * This replace an existing filter by a new filter.
