@@ -7,7 +7,7 @@
 
 #include "Command.h"
 
-Command::Command() {
+Command Command::(BaseTask *inputTask) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -15,4 +15,6 @@ Command::Command() {
 Command::~Command() {
 	// TODO Auto-generated destructor stub
 }
+
+void Command:: execute(){}
 

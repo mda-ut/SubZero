@@ -10,17 +10,18 @@
 
 class Command {
 public:
-	Command(Task *inputTask){
+	Command(BaseTask *inputTask);
 		//*currentTask=inputTask;
-	}
+
 	virtual ~Command();
+	void execute();
 
 private:
-	Task *currentTask;
+	BaseTask *currentTask;
 
-	void execute{
+
 		//currentTask.execute();
-	}
+
 	//some execute function
 };
 
