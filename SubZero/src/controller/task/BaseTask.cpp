@@ -8,7 +8,10 @@
 #include "BaseTask.h"
 
 
+BaseTask::BaseTask() {}
+
 BaseTask::~BaseTask() {
 	// TODO Auto-generated destructor stub
 }
+
 

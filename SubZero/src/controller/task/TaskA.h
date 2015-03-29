@@ -5,8 +5,10 @@
  *      Author: ed
  */
 
-#ifndef SUBZERO_SRC_CONTROLLER_TASK_TASKA_H_
-#define SUBZERO_SRC_CONTROLLER_TASK_TASKA_H_
+#ifndef TASKA_H_
+#define TASKA_H_
+
+#include "BaseTask.h"
 
 class TaskA : public BaseTask {
 public:

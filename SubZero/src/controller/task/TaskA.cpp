@@ -16,4 +16,4 @@ TaskA::~TaskA() {
 	// TODO Auto-generated destructor stub
 }
 
-virtual void TaskA:: execute(){}
+void TaskA::execute(){}

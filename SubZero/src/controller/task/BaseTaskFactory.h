@@ -1,23 +1,23 @@
 /*
- * TaskFactory.h
+ * BaseTaskFactory.h
  *
  *  Created on: Mar 28, 2015
  *      Author: ed
  */
 
-#ifndef TASKFACTORY
-#define TASKFACTORY
+#ifndef BASETASKFACTORY_H_
+#define BASETASKFACTORY_H_
 
 #include "BaseTask.h"
 
-class TaskFactory {
+class BaseTaskFactory {
 public:
-	TaskFactory();
+	BaseTaskFactory();
 
 	//given a string, dynamically create new Tasts
-	static BaseTask *newTask(const std::string input);
+	static BaseTask* newTask(const std::string input);
 
-	virtual ~TaskFactory();
+	virtual ~BaseTaskFactory();
 
 };
 

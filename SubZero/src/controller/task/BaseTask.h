@@ -5,22 +5,19 @@
  *      Author: mda
  */
 
-#ifndef TASK_H_
-#define TASK_H_
-
-#include "TaskA.h"
+#ifndef BASETASK_H_
+#define BASETASK_H_
 
 class BaseTask {
 public:
 
-	//The BaseTask class is purely virtual
+	//The BaseTask class is purely virtual (abstract)
 	BaseTask();
 	virtual ~BaseTask();
 
 	virtual void execute()= 0;
 
- private:
 
 };
 
-#endif /* TASK_H_ */
+#endif /* BASETASK_H_ */

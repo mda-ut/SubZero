@@ -5,8 +5,8 @@
  *      Author: ed
  */
 
-#ifndef SRC_CONTROLLER_H_
-#define SRC_CONTROLLER_H_
+#ifndef CONTROLLER_H_
+#define CONTROLLER_H_
 
 #include <iostream>
 #include <stdlib.h>
@@ -15,22 +15,17 @@ using namespace std;
 
 //Mode not needed
 //we have to find out what the command is
-//controller only does event handling -> list of if statements determining what to excute
+//controller only does event handling -> list of if statements determining what to execute
 //command structure & task class
 
 class Controller{
 public:
     //constructor for the controller class
-    Controller(Model *_modelpointer, Mode *_modepointer, string _command){
-        sub_model=_modelpointer;
-        current_mode=_modepointer;
-        command=_command;
-    }
+    Controller(Model *_modelpointer, string _command);
+
+
     //Destructor to free pointers
-    ~Controller(){
-        //free(sub_model);
-        //free(current_mode);
-    }
+    ~Controller();
 
     //need a handle event function
 
@@ -39,7 +34,6 @@ public:
 private:
     //Model Pointer
     Model *sub_model;
-    Mode *current_mode;
     string command;
     
     //Variables for thrust an[d angles
