@@ -48,9 +48,9 @@ class FPGAInterface : public HwInterface {
      * private helper function for send
      * enocde data to be sent to hardware
      * encode the msg at pointer String src (source)
-     * output results to location at pointer FpgaData des(tination) 
+     * output results to location at pointer FPGAData des(tination) 
      */
-    virtual int encode(String* src, FpgaData* des); 
+    virtual int encode(String* src, FPGAData* des); 
     
     /*
      * this class will be automatically pulling and managing
@@ -58,17 +58,18 @@ class FPGAInterface : public HwInterface {
      * using the following functions
      */
     virtual int pullTo(String* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
-    virtual int decode(String* src, FpgaData* des); // decode the String at src and store at FpgaData des(tination)
+    virtual int decode(String* src, FPGAData* des); // decode the String at src and store at FPGAData des(tination)
 
 protected:
 
     virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-    virtual int storeToBuffer(FpgaData* src); // store decoded data at src to buffer
+    virtual int storeToBuffer(FPGAData* src); // store decoded data at src to buffer
 
 public:
 
-    virtual int copyFromBuffer(int startIdx, int endIdx, FpgaData** src); // copy from [startIdx, endIdx]
-    virtual int send(FpgaData* src); // send data at src to hardware indicated by hardwareID   
+    virtual int copyFromBuffer(FPGAData* des); // copy most recent one to des
+    virtual int copyFromBuffer(int startIdx, int endIdx, FPGAData** des); // copy from [startIdx, endIdx]
+    virtual int send(FPGAData* src); // send data at src to hardware indicated by hardwareID   
 
     /*
      * getters and setters for the private fields

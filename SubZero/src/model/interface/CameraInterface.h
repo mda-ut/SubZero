@@ -52,7 +52,8 @@ protected:
 
 public:
 
-    virtual int copyFromBuffer(int startIdx, int endIdx, ImgData** src); // copy from [startIdx, endIdx]
+    virtual int copyFromBuffer(ImgData* des); // copy most recent one to des
+    virtual int copyFromBuffer(int startIdx, int endIdx, ImgData** des); // copy from [startIdx, endIdx]
     virtual int send(ImgData* src); // send data at src to hardware indicated by hardwareID   
 
     /*
