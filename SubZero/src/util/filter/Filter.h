@@ -35,22 +35,10 @@ public:
 	 * specific filter to the content of the pointer. The content of the
 	 * pointer is altered.
 	 *
-	 * @param ImgData to be processed
+	 * @param Data to be processed
 	 * @return 0 for success 1 for incorrect type.
 	 */
-	virtual int filter(ImgData* &imgData,) {
-		return 1;
-	}
-
-	/*
-	 * Overload for FPGA filtering
-	 *
-	 * @param FPGAData to be processed
-	 * @return 0 for success 1 for incorrect type.
-	 */
-	virtual int filter(FPGAData* &fpgaData) {
-		return 1;
-	}
+	virtual int filter(Data* data);
 
 	/*
 	 * Get the ID of the specific filter instance

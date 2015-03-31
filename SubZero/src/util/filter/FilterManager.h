@@ -45,7 +45,7 @@ public:
 	 *
 	 * @param Identifier of the FilterManager, data processed by this FM will have this ID. (ID is recommended to reflect FM's function and is unique! Uniqueness is a feature only for when the FMs are processing data to store in state, thus FM won't enforce ID uniqueness.)
 	 */
-	FilterManager(std::string FMID);
+	FilterManager(std::string fmID);
 
 	/*
 	 * FilterManager constructor overload allows user to initiate a FM that
@@ -55,7 +55,7 @@ public:
 	 * @param Identifier of the FilterManager, data processed by this FM will have this ID. (ID is recommended to reflect FM's function and is unique! Uniqueness is a feature only for when the FMs are processing data to store in state, thus FM won't enforce ID uniqueness.)
 	 * @param int 1 for automatic IDing. 0 for default.
 	 */
-	FilterManager(std::string FMID, int type);
+	FilterManager(std::string fmID, int type);
 
 	virtual ~FilterManager();
 
@@ -101,7 +101,7 @@ public:
 	 * @param filter, a pointer to a filter object.
 	 * @return 0 for success, 1 for ID is not unique.
 	 */
-	int insertFilter(std::string ID, Filter* filter);
+	int insertFilter(std::string filterID, Filter* filter);
 
 	/*
 	 * Inserts a Filter class object in front of a specific target
@@ -109,10 +109,10 @@ public:
 	 *
 	 * @param ID of the new filter.
 	 * @param filter, a pointer to a filter object to be inserted.
-	 * @param targetID, the location to perform insertion. FRONT and BACK keywords are also recognized.
+	 * @param targetID, the location to perform insertion. BEGIN and END keywords are also recognized.
 	 * @return 0 for success, 1 for ID is not unique, 2 for target not found.
 	 */
-	int insertFilter(std::string ID, Filter* filter, std::string targetID);
+	int insertFilter(std::string filterID, Filter* filter, std::string targetID);
 
 	/*
 	 * Replaces a particular filter, identified by ID, in the chain with
@@ -124,12 +124,12 @@ public:
 	 * @param targetID, the old filter to replace.
 	 * @return 0 for success, 1 for ID not unique, 2 for targetID not found.
 	 */
-	int replaceFilter(std::string ID, Filter* filter, std::string targetID);
+	int replaceFilter(std::string filterID, Filter* filter, std::string targetID);
 
 	/*
 	 * Deletes the first occurrence of a filter from filterChain by ID.
 	 *
-	 * @param targetID of the filter to delete. FRONT and BACK keywords accepted.
+	 * @param targetID of the filter to delete. BEGIN and END keywords accepted.
 	 * @return 0 for success, 2 for targetID not found.
 	 */
 	int deleteFilter(std::string targetID);
@@ -202,7 +202,14 @@ public:
 	 *
 	 * @return vector of strings
 	 */
-	std::vector<std::string> getFilterChainID();
+	std::vector<std::string> getFilterChainIDs();
+
+	/*
+	 * Report the ID of the FM.
+	 *
+	 * @return string fmID
+	 */
+	std::string getFMID();
 
 private:
 	/* ==========================================================================
@@ -230,7 +237,7 @@ private:
 	/*
 	 * Identifier for the FM
 	 */
-	std::string FMID;
+	std::string fmID;
 };
 
 #endif /* FILTERMANAGER_H_ */
