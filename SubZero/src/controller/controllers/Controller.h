@@ -26,7 +26,7 @@ public:
 	 *  @param modelPointer a pointer to the list of models
 	 */
 
-    Controller(list <Model> *modelPointer);
+    Controller(list <Model> *model);
 
 
     /**
@@ -37,8 +37,7 @@ public:
 
 private:
     //Model Pointer
-    Model *sub_model;
-    string command;
+    list<Model> *sub_model;
     
 };
 

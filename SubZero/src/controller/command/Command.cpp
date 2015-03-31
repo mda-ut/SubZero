@@ -15,5 +15,5 @@ Command::~Command() {
 	// TODO Auto-generated destructor stub
 }
 
-void Command:: execute(){}
+virtual void Command::execute(){}
 

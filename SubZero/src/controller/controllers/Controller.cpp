@@ -7,8 +7,7 @@
 
 #include "Controller.h"
 
-Controller::Controller(list <Model> *modelPointer){}
-
+Controller::Controller(list <Model> *model){}
 
     //Destructor to free pointers
 Controller::~Controller(){}
