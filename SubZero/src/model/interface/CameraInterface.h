@@ -9,7 +9,7 @@
 #define CAMERAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "DataDefinition.h"
+#include "Data.h"
 // include other camera + image specific classes
 // #include "ImageInputProcessor.h"
 // #include "ImageFormatter.h"
@@ -35,15 +35,15 @@ private:
      * encode the msg at pointer Mat src (source)
      * output results to location at pointer ImgData des(tination) 
      */
-    virtual int encode(Mat* src, ImgData* des); 
+    virtual int encode(cv::Mat* src, ImgData* des);
     
     /*
      * this class will be automatically pulling and managing
      * the pulling process privately within the interface
      * using the following functions
      */
-    virtual int pullTo(Mat* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
-    virtual int decode(Mat* src, ImgData* des); // decode the Mat at src and store at ImgData des(tination)
+    virtual int pullTo(cv::Mat* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
+    virtual int decode(cv::Mat* src, ImgData* des); // decode the Mat at src and store at ImgData des(tination)
 
 protected:
 
@@ -67,8 +67,8 @@ public:
     /*
      * constructors and destructors
      */
-    FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
-    virtual ~FPGAInterface();
+    CameraInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+    virtual ~CameraInterface();
 
 };
 

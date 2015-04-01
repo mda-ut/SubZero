@@ -8,8 +8,11 @@
 #ifndef FPGAINTERFACE_H_
 #define FPGAINTERFACE_H_
 
+
 #include "HwInterface.h"
-#include "DataDefinition.h"
+#include "Data.h"
+#include <string>
+using namespace std;
  // include some other fpga specific classes
 
 enum MoveCommands {
@@ -47,18 +50,18 @@ class FPGAInterface : public HwInterface {
     /* 
      * private helper function for send
      * enocde data to be sent to hardware
-     * encode the msg at pointer String src (source)
+     * encode the msg at pointer string src (source)
      * output results to location at pointer FPGAData des(tination) 
      */
-    virtual int encode(String* src, FPGAData* des); 
+    virtual int encode(string* src, FPGAData* des);
     
     /*
      * this class will be automatically pulling and managing
      * the pulling process privately within the interface
      * using the following functions
      */
-    virtual int pullTo(String* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
-    virtual int decode(String* src, FPGAData* des); // decode the String at src and store at FPGAData des(tination)
+    virtual int pullTo(string* des); // pull raw data from hardware at pullFrequency to des(tination) as specified
+    virtual int decode(string* src, FPGAData* des); // decode the string at src and store at FPGAData des(tination)
 
 protected:
 

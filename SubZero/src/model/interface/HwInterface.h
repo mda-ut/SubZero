@@ -8,8 +8,8 @@
 #ifndef HWINTERFACE_H_
 #define HWINTERFACE_H_
 
-#include "DataDefinition.h"
-// Data is the generic datatype defined in DataDefinition.h
+#include "Data.h"
+// Data is the generic datatype defined in Data.h
 
 
 /**
@@ -63,7 +63,7 @@ private:
      * using the following functions
      */
     virtual int pullTo(Data* des); // pull raw data from hardware at pullFrequency to Data destination specified
-    virtual int decode(Mat* src, Data* des); // decode the Data at src and store at Data des(tination)
+    virtual int decode(); // decode the data at src and store at Data des(tination)
 
 protected:
 
