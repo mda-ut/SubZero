@@ -9,7 +9,8 @@
 #define IMGDATA_H_
 #include "Data.h"
 
-/* Wrapper class containing a image of the standard image type
+/**
+ * Wrapper class containing a image of the standard image type
  * and functions to get image parameters such as dimensions,
  * and pixel depth. ImgData should only be created by certain
  * classes thus, much like ImgData, the setters are reserved
@@ -20,9 +21,10 @@ class ImgData: public Data {
 public:
 	/* ==========================================================================
 	 * IMG MANIPULATION FUNCS
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Getter for img data, invoker must expect the standard image type,
 	 * in this case Mat, and will be returned a pointer to a deep copy
 	 * of Mat.
@@ -31,25 +33,26 @@ public:
 	 */
 	cv::Mat* getImg();
 
-	/*
+	/**
 	 * Getter for image height.
 	 *
 	 * @return int representing the image height.
 	 */
 	int getHeight();
 
-	/*
+	/**
 	 * Getter for image width.
 	 *
 	 * @return int representing the image width.
 	 */
 	int getWidth();
 
-	/*===========================================================================
+	/* ==========================================================================
 	 * OPERATOR OVERLOAD
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * The = operator overload that will complete a deep copy of the
 	 * right hand side operator and return it.
 	 */
@@ -60,7 +63,7 @@ private:
 	 * FRIEND FUNCS
 	 */
 
-	/*
+	/**
 	 * Constructor takes in the string ID of the image being created.
 	 *
 	 * @param ID of the new image
@@ -68,7 +71,7 @@ private:
 	 */
 	ImgData(std::string ID, cv::Mat* img);
 
-	/*
+	/**
 	 * Destructor stub.
 	 */
 	virtual ~ImgData();
@@ -80,7 +83,7 @@ private:
 	 */
 	void setImgID(std::string newImgID);
 
-	/*
+	/**
 	 * Setter for replacing the actual image object that a ImgData object
 	 * wraps.
 	 *
@@ -88,7 +91,7 @@ private:
 	 */
 	void setImg(cv::Mat* newImg);
 
-	/*
+	/**
 	 * Pointer to the actual image object. Mat is the designated standard
 	 * image type.
 	 */

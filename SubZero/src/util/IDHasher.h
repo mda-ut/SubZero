@@ -16,27 +16,38 @@ struct Node {
 	struct NodeData* nodeData;
 };
 
+/*
+ * The IDHasher is an ADT using a combination of map and linked
+ * list to allow user to store and access data via mapping from
+ * a string key (custom user set ID) to the data. Data struct is
+ * left to the user of the ADT to define and is contained in
+ * nodes. Nodes are linked to each other to retain a sequential
+ * ordering (which is otherwise lost in a regular map object).
+ */
 class IDHasher {
-	/*
-	 * The IDHasher is an ADT using a combination of map and linked
-	 * list to allow user to store and access data via mapping from
-	 * a string key (custom user set ID) to the data. Data struct is
-	 * left to the user of the ADT to define and is contained in
-	 * nodes. Nodes are linked to each other to retain a sequential
-	 * ordering (which is otherwise lost in a regular map object).
-	 */
+
 public:
 	/* ==========================================================================
 	 * CONSTRUCTOR AND DESTRUCTOR
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Constructor stub.
 	 */
 	IDHasher ();
+
+	/**
+	 * Destructor stub.
+	 */
 	virtual ~IDHasher ();
 
 	/* ==========================================================================
 	 * BASIC ADT METHODS
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Search and returns a ptr to the data. It should be noted
 	 * that the Data struct is a wrapper for the real data being
 	 * requested. User of IDHasher could use their definition of
@@ -47,7 +58,7 @@ public:
 	 */
 	struct NodeData* get(std::string ID);
 
-	/*
+	/**
 	 * Insertion by index. Takes a Data struct, adds it to the
 	 * linked list and maps its address to a key.
 	 * Use indices 0 for front and -1 for end.
@@ -59,7 +70,7 @@ public:
 	 */
 	int ins(std::string ID, struct NodeData nodeData, int index);
 
-	/*
+	/**
 	 * Insertion by ID inserts the Data struct before the
 	 * object mapped by the insID.
 	 *
@@ -70,7 +81,7 @@ public:
 	 */
 	int ins(std::string ID, struct NodeData nodeData, std::string insID);
 
-	/*
+	/**
 	 * Delete a mapping by index.
 	 *
 	 * @param index to be deleted.
@@ -78,7 +89,7 @@ public:
 	 */
 	int del(int index);
 
-	/*
+	/**
 	 * Delete a mapping by key. Note: key to data mapping is unique.
 	 *
 	 * @param ID, the key of the data to be deleted.
@@ -86,7 +97,7 @@ public:
 	 */
 	int del(std::string ID);
 
-	/*
+	/**
 	 * Delete all mappings.
 	 *
 	 * @return 0 for success, 1 for failure (at least 1 filter was not deleted.)
@@ -95,16 +106,17 @@ public:
 
 	/* ==========================================================================
 	 * SUPPLAMENTS
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Get the list of ID
 	 *
 	 * @return the vector of IDs representing the sequence of data stored in the linked list.
 	 */
 	std::vector<std::string> getList();
 
-	/*
+	/**
 	 * Looks for existing key IDs
 	 *
 	 * @param ID, key to find.
@@ -112,7 +124,7 @@ public:
 	 */
 	int find(std::string ID);
 
-	/*
+	/**
 	 * Update the number of nodes stored in the list and return the value.
 	 *
 	 * @return number of nodes stored.
@@ -122,6 +134,7 @@ public:
 private:
 	/* ==========================================================================
 	 * CLASS VARIABLES
+	 * ==========================================================================
 	 */
 
 	/*

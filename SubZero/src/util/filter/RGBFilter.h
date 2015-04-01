@@ -9,12 +9,13 @@
 #define RGBFILTER_H_
 #include "Filter.h"
 
+/**
+ * The RGBFilter will use opencv's threshold function. It has
+ * private members holding the parameter values used for this
+ * opencv implementation.
+ */
 class RGBFilter: public Filter {
-	/*
-	 * The RGBFilter will use opencv's threshold function. It has
-	 * private members holding the parameter values used for this
-	 * opencv implementation.
-	 */
+
 public:
 	RGBFilter(int r, int g, int b);
 	virtual ~RGBFilter();

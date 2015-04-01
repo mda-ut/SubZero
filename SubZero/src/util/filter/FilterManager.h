@@ -10,6 +10,7 @@
 
 #include "Filter.h"
 #include "IDHasher.h"
+#include "Data.h"
 #include "DataFactory.h"
 #include <vector>
 
@@ -17,29 +18,30 @@ struct NodeData {
 	Filter* filter;
 };
 
+/**
+ * The main job of a FilterManager, identified by its FMID, is to use
+ * a ordered set of user defined filters to filter data. Reference
+ * data is passed to the FM and a filtered deep copy of that data is
+ * then referenced back out to the user. FM tags each filtered data
+ * with its FMID to signify its responsibility for the data point. FM
+ * also manages the ordered set of filters and provide basic functions:
+ * insert, replace and delete for the user to easily alter the set of
+ * filters hereby referred to as the filterChain. To manage the
+ * filterChain, users are given to opportunity to give each filter a
+ * customized ID and be able to access the filters in a personalized
+ * manner. Should the user feel not want the need of custom IDing, the
+ * automatic IDing mode will complete the process with stock IDs that
+ * the user can then use to refer to the filters.
+ */
 class FilterManager {
-	/*
-	 * The main job of a FilterManager, identified by its FMID, is to use
-	 * a ordered set of user defined filters to filter data. Reference
-	 * data is passed to the FM and a filtered deep copy of that data is
-	 * then referenced back out to the user. FM tags each filtered data
-	 * with its FMID to signify its responsibility for the data point. FM
-	 * also manages the ordered set of filters and provide basic functions:
-	 * insert, replace and delete for the user to easily alter the set of
-	 * filters hereby referred to as the filterChain. To manage the
-	 * filterChain, users are given to opportunity to give each filter a
-	 * customized ID and be able to access the filters in a personalized
-	 * manner. Should the user feel not want the need of custom IDing, the
-	 * automatic IDing mode will complete the process with stock IDs that
-	 * the user can then use to refer to the filters.
-	 */
 
 public:
 	/* ==========================================================================
-	 *	CONSTRUCTOR AND DESCONSTRUCTOR
+	 * CONSTRUCTOR AND DESCONSTRUCTOR
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * FilterManager constructor initializes a new FilterManager object for
 	 * use. The data processed by this FM will be tagged with the FM's ID.
 	 *
@@ -47,7 +49,7 @@ public:
 	 */
 	FilterManager(std::string fmID);
 
-	/*
+	/**
 	 * FilterManager constructor overload allows user to initiate a FM that
 	 * will do automatic IDing of the filters it manages. In comparison, the
 	 * default class allows customized IDing.
@@ -61,9 +63,10 @@ public:
 
 	/* ==========================================================================
 	 * MAIN FUNCTIONALITY: FILTRATION
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * The filter() function accepts a raw data input. Depending on
 	 * what kind of model it belongs to, it takes in a image or FPGA
 	 * data and filters it according to the current filter chain.
@@ -72,26 +75,15 @@ public:
 	 * @param out refers to the pointer that will receive the filtered data.
 	 * @return int 0 for success, 1 for there is some error in filtering.
 	 */
-	int filter(ImgData* in, ImgData* &out);
+	int filter(Data* in, Data** out);
 
-	/*
-	 * This is the overloaded filter function for filtering FPGA input.
-	 *
-	 * @see filter overloaded with CamData types.
-	 */
-	int filter(FPGAData* in, FPGAData* &out);
-
-				/* IDEA FOR A GENERALIZED DATA CLASS
-				int filter(genData* in, genData* out) {
-					ImgData* temp = (ImgData*) in;
-					out = (genData*) temp;
-				}*/
 
 	/* ==========================================================================
 	 * FILTER MANAGMENT FUNCTIONS: CUSTOM ID MODE
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Inserts a Filter class object to the back of the chain. Note: ID
 	 * initialization is required here rather than at the filter object
 	 * level because 1. filters don't need an ID to function and 2. If
@@ -103,7 +95,7 @@ public:
 	 */
 	int insertFilter(std::string filterID, Filter* filter);
 
-	/*
+	/**
 	 * Inserts a Filter class object in front of a specific target
 	 * filter (by ID).
 	 *
@@ -114,7 +106,7 @@ public:
 	 */
 	int insertFilter(std::string filterID, Filter* filter, std::string targetID);
 
-	/*
+	/**
 	 * Replaces a particular filter, identified by ID, in the chain with
 	 * another. If ID not found, function will NOT perform insertion and
 	 * will instead return the appropriate error code.
@@ -126,7 +118,7 @@ public:
 	 */
 	int replaceFilter(std::string filterID, Filter* filter, std::string targetID);
 
-	/*
+	/**
 	 * Deletes the first occurrence of a filter from filterChain by ID.
 	 *
 	 * @param targetID of the filter to delete. BEGIN and END keywords accepted.
@@ -134,7 +126,7 @@ public:
 	 */
 	int deleteFilter(std::string targetID);
 
-	/*
+	/**
 	 * Deletes all filters in chain.
 	 *
 	 * @return 0 for success.
@@ -145,9 +137,10 @@ public:
 	 * FILTER MANAGEMENT: AUTOMATIC ID MODE
 	 * Auto mode is not recommended since the elements in the filter
 	 * chain can get to be very ambiguous.
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Insertion to back under automatic IDing mode.
 	 *
 	 * @param filter, a pointer to a filter object.
@@ -155,7 +148,7 @@ public:
 	 */
 	int insertFilter(Filter* filter);
 
-	/*
+	/**
 	 * Inserts a Filter class object in front of a specific target
 	 * filter (by ID). This is the overload function under automatic ID
 	 * mode.
@@ -166,7 +159,7 @@ public:
 	 */
 	int insertFilter(Filter* filter, std::string targetID);
 
-	/*
+	/**
 	 * Replacement under automatic IDing mode.
 	 * If targetID not found, function will NOT perform insertion and
 	 * will instead return the appropriate error code.
@@ -179,16 +172,17 @@ public:
 
 	/* ==========================================================================
 	 * SUPPLAMENTS
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Reports the number of filters in filterChain.
 	 *
 	 * @return number of filters.
 	 */
 	int getSizeOfFilter();
 
-	/*
+	/**
 	 * For a given ID, the filterChain is searched and the index of the
 	 * filter object with the specific ID is identified and returned
 	 *
@@ -197,14 +191,14 @@ public:
 	 */
 	int getIndexByID(std::string ID);
 
-	/*
+	/**
 	 * Reports a copy of the vector string of filter IDs in filterChain.
 	 *
 	 * @return vector of strings
 	 */
 	std::vector<std::string> getFilterChainIDs();
 
-	/*
+	/**
 	 * Report the ID of the FM.
 	 *
 	 * @return string fmID
@@ -214,6 +208,7 @@ public:
 private:
 	/* ==========================================================================
 	 * CLASS VARIABLES
+	 * ==========================================================================
 	 */
 
 	/*

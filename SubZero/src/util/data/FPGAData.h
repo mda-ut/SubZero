@@ -8,7 +8,8 @@
 #ifndef FPGADATA_H_
 #define FPGADATA_H_
 #include "Data.h"
-/*
+
+/**
  * Wrapper class for data from the FPGA. This class will store
  * FPGA data in 3 main doubles: depth, roll, and heading. This
  * class will allow observers to get the doubles and perform
@@ -22,16 +23,17 @@ public:
 
 	/* ==========================================================================
 	 * FPGA MANIPULATION FUNCS
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Getter for the depth.
 	 *
 	 * @return double value of depth.
 	 */
 	double getDepth();
 
-	/*
+	/**
 	 * Getter for the roll.
 	 *
 	 * @return double value of roll.
@@ -45,11 +47,12 @@ public:
 	 */
 	double getHeading();
 
-	/*===========================================================================
+	/* ==========================================================================
 	 * OPERATOR OVERLOAD
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * The = operator overload that will complete a deep copy of the
 	 * right hand side operator and return it.
 	 */
@@ -59,9 +62,10 @@ private:
 
 	/* ==========================================================================
 	 * FRIEND FUNCS
+	 * ==========================================================================
 	 */
 
-	/*
+	/**
 	 * Constructor for FPGAData.
 	 *
 	 * @param depth
@@ -70,12 +74,12 @@ private:
 	 */
 	void FPGAData(double depth, double roll, double heading);
 
-	/*
+	/**
 	 * Destructor stub.
 	 */
 	virtual ~FPGAData();
 
-	/*
+	/**
 	 * Setter for the depth. If a previous value exists, it will
 	 * be replaced.
 	 *
@@ -83,7 +87,7 @@ private:
 	 */
 	void setDepth(double newDepth);
 
-	/*
+	/**
 	 * Setter for the roll. If a previous value exists, it will
 	 * be replaced.
 	 *
@@ -91,7 +95,7 @@ private:
 	 */
 	void setRoll(double newRoll);
 
-	/*
+	/**
 	 * Setter for heading. If a previous value exists, it will
 	 * be replaced.
 	 *
@@ -99,7 +103,7 @@ private:
 	 */
 	void setHeading(double newHeading);
 
-	/*
+	/**
 	 * Depth, roll, heading vars.
 	 */
 	double depth, roll, heading;
