@@ -8,28 +8,20 @@
 #ifndef FPGASTATE_H_
 #define FPGASTATE_H_
 #include "Observable.h"
+#include "State.h"
 #include "FPGAData.h"
 
 #include <list>
 #include <vector>
+#include <String>
 
 /**
  * FPGAState is an Observable used by FPGAModel to hold data sent from the FPGA.
  */
 
-class FPGAState : public Observable {
-private:
+class FPGAState : public State, public Observable {
 
-	//boolean to signal if a new frame has started
-	bool frameStarted;
-
-	//the length of the linked list
-	//The amount of frames that the state will hold
-	int maxLength;
-
-	//Same structure as the camData,
-	//LinkedList <Vector<ImgData>>
-	std::list<std::vector<FPGAData>> stateData;
+	//all of this class' variables are inherited from its parent (State.h)
 
 public:
 	/**
@@ -41,22 +33,6 @@ public:
 	 * destructor
 	 */
 	virtual ~FPGAState();
-
-
-	/**
-	 * Starts a new Frame
-	 * Have to be called before you can call setState()
-	 * Only Model should be calling this function (might implement a check for that)
-	 */
-	void startFrame();
-
-	/**
-	 * Ends the frame
-	 * Have to be called after startFrame() is called
-	 * If called before startFrame, then it does nothing
-	 * Be careful when calling this, since you cannot change the frame after it has ended
-	 */
-	void endFrame();
 
 	/**
 	 * Gets the most recent fpga state
@@ -78,13 +54,12 @@ public:
 	/**
 	 * Gets the most recent raw FPGA data
 	 */
-	rawFPGA getRaw();
+	FPGAData getRaw();
 
 	/**
 	 * Gets the raw FPGA data 'i' frames before this one
 	 */
-	rawFPGA getRaw(int t);
-
+	FPGAData getRaw(int t);
 };
 
 #endif /* FPGASTATE_H_ */
