@@ -11,9 +11,6 @@
 #include "State.h"
 #include "ImgData.h"	//rename it to whatever its called
 
-#include <list>
-#include <vector>
-
 
 /**
  * CameraState is an Observable used by CameraModel to hold data sent from cameras.
@@ -35,40 +32,64 @@ public:
 	virtual ~CameraState();
 
 	/**
+	 * Returns a deep copy of the image state specified with the _ID_ at _i_ frames before this call
+	 * @param ID = id of the image that is needed
+	 * @param i = how many frames ago was the image stored
+	 * @param data = the pointer to the deep copied image data
+	 * @return returns an integer to indicate if the operation was successful
+	 * 		- 0 = successful
+	 * 		- 1 = no image with such ID found
+	 * 		- 2 = index out of range
+	 */
+	int getState (std::string ID, int i, ImgData* data);
+
+	/**
+	 * Returns a deep copy of the latest image specified with the _ID_
+	 * (same as calling getState(ID, 0))
+	 * @param ID = id of the image that is needed
+	 * @param data = the pointer to the deep copied image data
+	 * @return returns an integer to indicate if the operation was successful
+	 * 		- 0 = successful
+	 * 		- 1 = no image with such ID found
+	 */
+	int getState (std::string ID, ImgData* data);
+
+	/**
 	 * Sets the state
 	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-	 * OR ELSE IT WOULD THROW FrameNotStartedException
-	 * @param image data to be set for this frame
-	 * @throws FrameNotStartedException
+	 * @param d = image data to be set for this frame
+	 * @return an int indicating whether the operation was successful
+	 *  	- 0 = successful
+	 *  	- 1 = called this function before startFrame is called
 	 */
-	void setState(ImgData data);
-
-
-	void setStates(std::vector<ImgData> v);
+	int setState(ImgData* d);
 
 	/**
-	 * Returns a reference to a deep copy of an image specified with the _id_ at _t_ frames before this call
-	 * @param id = id of the image that is needed
-	 			t = how many frames ago was the image stored
+	 * Same thing as setState, except it takes an entire vector of data instead of 1 data
+	 * Sets the state
+	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+	 * @param d = vector of image data to be set for this frame
+	 * @return an int indicating whether the operation was successful
+	 *  	- 0 = successful
+	 *  	- 1 = called this function before startFrame is called
 	 */
-	ImgData getState (std::String id, int t);
+	int setState(std::vector<ImgData*> d);
 
 	/**
-	 * Returns a reference to a deep copy of the latest image specified with the _id_
-	 * (same as calling getImage(id, 0))
-	 * @param id = id of the image that is needed
+	 * Gets a pointer to a deep copy of the newest raw image data
+	 * @param data = pointer to the deep copy of the raw image data
 	 */
-	ImgData getState (std::String id);
+	void getRaw(ImgData* data);
 
 	/**
-	 * Gets the newest raw image
+	 * Gets a pointer to the deep copy of the raw image data _i_ frames before
+	 * @param i = how many frames ago the raw image was recorded
+	 * @param data = pointer to the deep copy of the raw State data _i_ frames before this function call
+	 * @return returns an int to indicate if the operation was successful
+	 * 		- 0 = success
+	 * 		- 1 = index out of range
 	 */
-	ImgData getRaw();
-
-	/**
-	 * Gets the raw image _t_ frames before
-	 */
-	ImgData getRaw(int t);
+	int getRaw(int i, ImgData* data);
 
 };
 

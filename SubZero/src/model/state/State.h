@@ -3,8 +3,9 @@
 #include "Observable.h"
 #include "Data.h"
 
-#include <String>
+#include <string>
 #include <list>
+#include <vector>
 
 
 class State: public Observable{
@@ -17,13 +18,73 @@ protected:
 	//The amount of frames that the state will hold
 	int maxLength;
 
-	//Same structure as the camData,
-	//LinkedList <Vector<ImgData>>
-	std::list<vector<Data>> stateData;
-public:
-	State();
+	//LinkedList <Vector<Data>>
+	std::list<std::vector<Data>> stateData;
 
-	virtual ~State();
+	/**
+	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
+	 * @param ID = id of the State that is needed
+	 * @param i = how many frames ago was the State stored
+	 * @param data = the pointer to the deep copied State
+	 * @return returns an integer to indicate if the operation was successful
+	 * 		- 0 = successful
+	 * 		- 1 = no State with such ID found
+	 * 		- 2 = index out of range
+	 */
+	int getState (std::string ID, int i, Data* data);
+
+	/**
+	 * Returns a deep copy of the latest State specified with the _ID_
+	 * (same as calling getState(ID, 0))
+	 * @param ID = id of the State that is needed
+	 * @param data = the pointer to the deep copied State
+	 * @return returns an integer to indicate if the operation was successful
+	 * 		- 0 = successful
+	 * 		- 1 = no State with such ID found
+	 */
+	int getState (std::string ID, Data* data);
+
+	/**
+	 * Sets the state
+	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+	 * @param d = State data to be set for this frame
+	 * @return an int indicating whether the operation was successful
+	 *  	- 0 = successful
+	 *  	- 1 = called this function before startFrame is called
+	 */
+	int setState(Data d);
+
+	/**
+	 * Same thing as setState, except it takes an entire vector of data instead of 1 data
+	 * Sets the state
+	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+	 * @param d = vector of State data to be set for this frame
+	 * @return an int indicating whether the operation was successful
+	 *  	- 0 = successful
+	 *  	- 1 = called this function before startFrame is called
+	 */
+	int setState(std::vector<Data*> d);
+
+	/**
+	 * Gets a pointer to a deep copy of the newest raw State
+	 * @param data = pointer to the deep copy of the raw State
+	 */
+	void getRaw(Data* data);
+
+	/**
+	 * Gets a pointer to the deep copy of the raw State _i_ frames before
+	 * @param i = how many frames ago the raw State was recorded
+	 * @param data = pointer to the deep copy of the raw State data _i_ frames before this function call
+	 * @return returns an int to indicate if the operation was successful
+	 * 		- 0 = success
+	 * 		- 1 = index out of range
+	 */
+	int getRaw(int i, Data* data);
+
+public:
+	State();	//constructor
+
+	virtual ~State();	//deconstructor
 
 	/**
 	 * Starts a new Frame
@@ -39,48 +100,6 @@ public:
 	 * Be careful when calling this, since you cannot change the frame after it has ended
 	 */
 	void endFrame();
-	/**
-	 * Sets the state
-	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-	 * OR ELSE IT WOULD THROW FrameNotStartedException
-	 * @param image data to be set for this frame
-	 * @throws FrameNotStartedException
-	 */
-	void setState(Data d);
-
-	/**
-	 * Same thing as setState, except it takes an entire vector of data instead of 1 data
-	 * Sets the state
-	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-	 * OR ELSE IT WOULD THROW FrameNotStartedException
-	 * @param vector of image data to be set for this frame
-	 * @throws FrameNotStartedException
-	 */
-	void setStates(std::vector<Data> d);
-
-	/**
-	 * Returns a deep copy of an image specified with the _id_ at _t_ frames before this call
-	 * @param id = id of the image that is needed
-	 			t = how many frames ago was the image stored
-	 */
-	Data getState (std::String id, int t);
-
-	/**
-	 * Returns a deep copy of the latest image specified with the _id_
-	 * (same as calling getImage(id, 0))
-	 * @param id = id of the image that is needed
-	 */
-	Data getState (std::String id);
-
-	/**
-	 * Gets the newest raw image
-	 */
-	Data getRaw();
-
-	/**
-	 * Gets the raw image _t_ frames before
-	 */
-	Data getRaw(int t);
 
 };
 

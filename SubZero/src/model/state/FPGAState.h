@@ -11,10 +11,6 @@
 #include "State.h"
 #include "FPGAData.h"
 
-#include <list>
-#include <vector>
-#include <String>
-
 /**
  * FPGAState is an Observable used by FPGAModel to hold data sent from the FPGA.
  */
@@ -35,31 +31,65 @@ public:
 	virtual ~FPGAState();
 
 	/**
-	 * Gets the most recent fpga state
-	 * (Need discussion on whether FPGA data will need an ID)
+	 * Returns a deep copy of the FPGA data specified with the _ID_ at _i_ frames before this call
+	 * @param ID = id of the FPGA data that is needed
+	 * @param i = how many frames ago was the FPGA data was stored
+	 * @param data = the pointer to the deep copied FPGA data
+	 * @return returns an integer to indicate if the operation was successful
+	 * 		- 0 = successful
+	 * 		- 1 = no FPGA data with such ID found
+	 * 		- 2 = index out of range
 	 */
-	FPGAData getState();
+	int getState (std::string ID, int i, FPGAData* data);
 
 	/**
-	 * Gets the fpga state _t_ frames before
+	 * Returns a deep copy of the newest FPGA data specified with the _ID_
+	 * @param ID = id of the FPGA data that is needed
+	 * @param data = the pointer to the deep copied FPGA data
+	 * @return returns an integer to indicate if the operation was successful
+	 * 		- 0 = successful
+	 * 		- 1 = no FPGA data with such ID found
+	 * 		- 2 = index out of range
 	 */
-	FPGAData getState(int t);
+	int getState (std::string ID, FPGAData* data);
 
 	/**
-	 * Sets the fpga state
-	 * Should be called once every frame
+	 * Sets the FPGA state
+	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+	 * @param d = FPGA data to be set for this frame
+	 * @return an int indicating whether the operation was successful
+	 *  	- 0 = successful
+	 *  	- 1 = called this function before startFrame is called
 	 */
-	void setState(FPGAData state);
+	int setState(FPGAData* d);
 
 	/**
-	 * Gets the most recent raw FPGA data
+	 * Same thing as setState, except it takes an entire vector of FPGA data instead of 1 data
+	 * Sets the FPGA state
+	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+	 * @param d = vector of FPGA data to be set for this frame
+	 * @return an int indicating whether the operation was successful
+	 *  	- 0 = successful
+	 *  	- 1 = called this function before startFrame is called
 	 */
-	FPGAData getRaw();
+	int setState(std::vector<FPGAData*> d);
 
 	/**
-	 * Gets the raw FPGA data 'i' frames before this one
+	 * Gets a pointer to a deep copy of the newest raw FPGA data
+	 * @param data = pointer to the deep copy of the raw FPGA data
 	 */
-	FPGAData getRaw(int t);
+	void getRaw(FPGAData* data);
+
+	/**
+	 * Gets a pointer to the deep copy of the raw FPGA data _i_ frames before
+	 * @param i = how many frames ago the raw FPGA data was recorded
+	 * @param data = pointer to the deep copy of the raw FPGA data _i_ frames before this function call
+	 * @return returns an int to indicate if the operation was successful
+	 * 		- 0 = success
+	 * 		- 1 = index out of range
+	 */
+	int getRaw(int i, FPGAData* data);
+
 };
 
 #endif /* FPGASTATE_H_ */
