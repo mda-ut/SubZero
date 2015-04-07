@@ -81,7 +81,7 @@ public:
 	 * @param	data2Store	the Data pointer that needs to be stored
 	 * @return				error message of the result of this function
 	 */
-	int storeToState(Data* newData);
+	int storeToState(std::vector<Data*> newData);
 
 
 /* **************** FilterManager related **************** */
