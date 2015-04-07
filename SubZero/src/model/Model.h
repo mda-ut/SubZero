@@ -15,6 +15,11 @@
 #include "FilterManager.h"
 #include "FilterFactory.h"
 
+enum ModelType{
+	CameraModel = 1,
+	FPGAModel = 2
+};
+
 /**
  * This can have the potential to be an pure virtual (abstract) class, but it's not for now. Modle
  * represents the physical attributes of the sub. It accepts input from cameras and FPGA
@@ -32,6 +37,7 @@ protected:
 	Observable* state;
 	HwInterface* interface;
 	std::vector<FilterManager*> filterManagerList;
+	ModelType modelType;
 public:
 
 	/**
@@ -51,10 +57,9 @@ public:
 
 	/**
 	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
-//	 * @param	DataDestination		an empty Data pointer that is filled up after running the function
-//   * @return						error message of the result of this function
+     * @return	shallow copy of the first Data* in HwInterface buffer
 	 */
-	virtual int getDataFromBuffer(Data* dataDestination)=0;
+	Data* getDataFromBuffer();
 
 	/**
 	 * sendCommand send a command to the FPGA
