@@ -28,16 +28,6 @@ public:
 
 	virtual ~FPGAModel();
 
-/* **************** HwInterface related **************** */
-
-	/**
-	 * This gets the Data pointer from the buffer and store the Data pointer at the destination.
-	 * @param	dataDestination		an empty Data pointer that is filled up after running the function
-	 * @return 						error message of the result of this function
-	 */
-	int getDataFromBuffer(Data* dataDestination);
-
-
 };
 
 
