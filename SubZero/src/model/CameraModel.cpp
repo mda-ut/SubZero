@@ -7,15 +7,8 @@
 
 #include "CameraModel.h"
 
-namespace std {
-
-CameraModel::CameraModel() {
-	// TODO Auto-generated constructor stub
-
-}
+CameraModel::CameraModel(Observable* inputState, HwInterface* inputInterface):Model(inputState,inputInterface){}
 
 CameraModel::~CameraModel() {
 	// TODO Auto-generated destructor stub
 }
-
-} /* namespace std */
