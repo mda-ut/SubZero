@@ -1,13 +1,12 @@
-/*
+/**
  * FPGAInterface.h
  *
- *  Created on: Jan 17, 2015
- *      Author: ahsueh1996
+ * Created on: Jan 17, 2015
+ * Author: ahsueh1996
  */
 
 #ifndef FPGAINTERFACE_H_
 #define FPGAINTERFACE_H_
-
 
 #include "HwInterface.h"
 #include "Data.h"
@@ -16,17 +15,17 @@ using namespace std;
  // include some other fpga specific classes
 
 enum MoveCommands {
-  FORWARD,
-  REVERSE,
-  LEFT,
-  RIGHT,
-  SINK,
-  RISE
+	FORWARD,
+	REVERSE,
+	LEFT,
+	RIGHT,
+	SINK,
+	RISE
 };
 
 enum SpecialCommands{
-  POWERON,
-  POWEROFF,
+	POWERON,
+	POWEROFF,
   // from previous year, AquaTux also had:
   // SUB_STARTUP_SEQUENCE,
   // SUB_MISSION_STARTUP_SEQUENCE,
@@ -45,103 +44,103 @@ enum SpecialCommands{
  */
 class FPGAInterface : public HwInterface {
 
-  private:
+private:
 
-    /**
-     * Private helper function for send().
-     * Encode FPGAData into the string format instructions understandable by FPGA
+	/**
+	 * Private helper function for send().
+	 * Encode FPGAData into the string format instructions understandable by FPGA
 	 * @param src
 	 */
-    virtual string* encode(FPGAData* src);
-    
-    /*
-     * this class will be automatically pulling and managing
-     * the pulling process privately within the interface
-     * using the following functions
-     */
+	virtual string* encode(FPGAData* src);
+
+	/*
+	 * this class will be automatically pulling and managing
+	 * the pulling process privately within the interface
+	 * using the following functions
+	 */
 
 	/**
 	 * Pull raw data from hardware
 	 */
-    virtual string* pull();
+	virtual string* pull();
 
-    /**
-     * Decode the data at src from string to FPGAData.
+	/**
+	 * Decode the data at src from string to FPGAData.
    	 */
-    virtual FPGAData* decode(string* src);
+	virtual FPGAData* decode(string* src);
 
-  protected:
+protected:
 
-    /**
-     * Delete buffer from startIdx to endIdx
-     * @param startIdx, endIdx
-     */
-    virtual void deleteFromBuffer(int startIdx, int endIdx);
-
-
-    /**
-      * Store decoded data at src to buffer
-      * @param src
-      */
-    virtual void storeToBuffer(Data* src);
+	/**
+	 * Delete buffer from startIdx to endIdx
+	 * @param startIdx, endIdx
+	 */
+	virtual void deleteFromBuffer(int startIdx, int endIdx);
 
 
-  public:
+	/**
+	  * Store decoded data at src to buffer
+	  * @param src
+	  */
+	virtual void storeToBuffer(Data* src);
 
-    /**
-     * Return the most recent buffer data
-     *
-     */
-    virtual FPGAData* getDataFromBuffer();
 
-    /**
-     * Return the data in buffer from startIdx to endIdx
-     * @param startIdx, endIdx
-     */
-    @Overload
-    virtual FPGAData** getDataFromBuffer(int startIdx, int endIdx);
+public:
 
-    /**
-     * Send data at src to hardware indicated by hardwareID
-     * @param src
-     */
-    virtual void send(Data* src);
+	/**
+	 * Return the most recent buffer data
+	 *
+	 */
+	virtual FPGAData* getDataFromBuffer();
 
-    /**
-     * Getters and setters for the private fields
-     */
+	/**
+	 * Return the data in buffer from startIdx to endIdx
+	 * @param startIdx, endIdx
+	 */
+	@Overload
+	virtual FPGAData** getDataFromBuffer(int startIdx, int endIdx);
 
-    /**
-     * Get the frequency of data pulling/polling.
-     */
-    virtual double getPullFrequency();
+	/**
+	 * Send data at src to hardware indicated by hardwareID
+	 * @param src
+	 */
+	virtual void send(Data* src);
 
-    /**
-     * Set the frequency of data pulling/polling.
-     * @param frequency
-     */
-    virtual void setPullFrequency(int frequency);
+	/**
+	 * Getters and setters for the private fields
+	 */
 
-    /**
-     * Get size of buffer.
-     */
-    virtual int getBufferSize();
+	/**
+	 * Get the frequency of data pulling/polling.
+	 */
+	virtual double getPullFrequency();
 
-    /**
-     * Set size of buffer.
-     */
-    virtual void setBufferSize(int bufferSize);
+	/**
+	 * Set the frequency of data pulling/polling.
+	 * @param frequency
+	 */
+	virtual void setPullFrequency(int frequency);
 
-    /**
-     * Constructor for FPGA Interface
-     * @param bufferSize, pullFrequency, policy, hardwareID
-     */
-    FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+	/**
+	 * Get size of buffer.
+	 */
+	virtual int getBufferSize();
 
-    /**
-     * Destructor
-     */
-    virtual ~FPGAInterface();
+	/**
+	 * Set size of buffer.
+	 */
+	virtual void setBufferSize(int bufferSize);
+
+	/**
+	 * Constructor for FPGA Interface
+	 * @param bufferSize, pullFrequency, policy, hardwareID
+	 */
+	FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+
+	/**
+	 * Destructor
+	 */
+	virtual ~FPGAInterface();
 
 };
 

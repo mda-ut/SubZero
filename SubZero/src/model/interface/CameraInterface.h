@@ -1,8 +1,8 @@
-/*
+/**
  * CameraInterface.h
  *
- *  Created on: Jan 17, 2015
- *      Author: ahsueh1996
+ * Created on: Jan 17, 2015
+ * Author: ahsueh1996
  */
 
 #ifndef CAMERAINTERFACE_H_
@@ -16,8 +16,8 @@
 // #inlcude "CamIntrinsic.h" //stores camera intrinsic parameters
 
 enum CameraPosition {
-  FRONT,
-  DOWN
+	FRONT,
+	DOWN
 };
 
 
@@ -26,95 +26,95 @@ enum CameraPosition {
  */
 class CameraInterface : public HwInterface {
 
-  private:
-    
-    /*
-     * this class will be automatically pulling and managing
-     * the pulling process privately within the interface
-     * using the following functions
-     */
+private:
+
+	/*
+	 * this class will be automatically pulling and managing
+	 * the pulling process privately within the interface
+	 * using the following functions
+	 */
 
 	/**
 	 * Pull raw data from hardware
 	 */
-    virtual cv::Mat* pull();
+	virtual cv::Mat* pull();
 
-    /**
-     * Decode the data at src from cv::Mat to ImgData.
+	/**
+	 * Decode the data at src from cv::Mat to ImgData.
    	 */
-    virtual ImgData* decode(cv::Mat* src);
+	virtual ImgData* decode(cv::Mat* src);
 
-  protected:
+protected:
 
-    /**
-     * Delete buffer from startIdx to endIdx
-     * @param startIdx, endIdx
-     */
-    virtual void deleteFromBuffer(int startIdx, int endIdx);
-
-
-    /**
-      * Store decoded data at src to buffer
-      * @param src
-      */
-    virtual void storeToBuffer(Data* src);
+	/**
+	 * Delete buffer from startIdx to endIdx
+	 * @param startIdx, endIdx
+	 */
+	virtual void deleteFromBuffer(int startIdx, int endIdx);
 
 
-  public:
+	/**
+	  * Store decoded data at src to buffer
+	  * @param src
+	  */
+	virtual void storeToBuffer(Data* src);
 
-    /**
-     * Return the most recent buffer data
-     *
-     */
-    virtual ImgData* getDataFromBuffer();
 
-    /**
-     * Return the data in buffer from startIdx to endIdx
-     * @param startIdx, endIdx
-     */
-    @Overload
-    virtual ImgData** getDataFromBuffer(int startIdx, int endIdx);
+public:
 
-    /**
-     * Send data at src to hardware indicated by hardwareID
-     * @param src
-     */
-    virtual void send(Data* src);
+	/**
+	 * Return the most recent buffer data
+	 *
+	 */
+	virtual ImgData* getDataFromBuffer();
 
-    /**
-     * Getters and setters for the private fields
-     */
+	/**
+	 * Return the data in buffer from startIdx to endIdx
+	 * @param startIdx, endIdx
+	 */
+	@Overload
+	virtual ImgData** getDataFromBuffer(int startIdx, int endIdx);
 
-    /**
-     * Get the frequency of data pulling/polling.
-     */
-    virtual double getPullFrequency();
+	/**
+	 * Send data at src to hardware indicated by hardwareID
+	 * @param src
+	 */
+	virtual void send(Data* src);
 
-    /**
-     * Set the frequency of data pulling/polling.
-     * @param frequency
-     */
-    virtual void setPullFrequency(int frequency);
+	/**
+	 * Getters and setters for the private fields
+	 */
 
-    /**
-     * Get size of buffer.
-     */
-    virtual int getBufferSize();
+	/**
+	 * Get the frequency of data pulling/polling.
+	 */
+	virtual double getPullFrequency();
 
-    /**
-     * Set size of buffer.
-     */
-    virtual void setBufferSize(int bufferSize);
+	/**
+	 * Set the frequency of data pulling/polling.
+	 * @param frequency
+	 */
+	virtual void setPullFrequency(int frequency);
 
-    /**
-     * Constructor for Camera Interface
-     * @param bufferSize, pullFrequency, policy, hardwareID
-     */
-    CameraInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+	/**
+	 * Get size of buffer.
+	 */
+	virtual int getBufferSize();
 
-    /**
-     * Destructor
-     */
-    virtual ~CameraInterface();
+	/**
+	 * Set size of buffer.
+	 */
+	virtual void setBufferSize(int bufferSize);
+
+	/**
+	 * Constructor for Camera Interface
+	 * @param bufferSize, pullFrequency, policy, hardwareID
+	 */
+	CameraInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+
+	/**
+	 * Destructor
+	 */
+	virtual ~CameraInterface();
 
 };
