@@ -7,12 +7,13 @@
 
 #include "Model.h"
 
-Model::Model() {
-	// TODO Auto-generated constructor stub
-
+Model::Model(Observable* inputObservable, HwInterface* inputHwInterface)
+{
+	this->state = inputObservable;
+	this->interface = inputHwInterface;
 }
 
-Model::~Model() {
+Model::~Model()
+{
 	// TODO Auto-generated destructor stub
 }
-
