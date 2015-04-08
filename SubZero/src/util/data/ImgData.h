@@ -18,45 +18,12 @@
  */
 class ImgData: public Data {
 
-public:
-	/* ==========================================================================
-	 * IMG MANIPULATION FUNCS
-	 * ==========================================================================
+	/* =========================================================================
+	 * FRIEND CLASSES
+	 * =========================================================================
 	 */
-
-	/**
-	 * Getter for img data, invoker must expect the standard image type,
-	 * in this case Mat, and will be returned a pointer to a deep copy
-	 * of Mat.
-	 *
-	 * @return standard image pointer.
-	 */
-	cv::Mat* getImg();
-
-	/**
-	 * Getter for image height.
-	 *
-	 * @return int representing the image height.
-	 */
-	int getHeight();
-
-	/**
-	 * Getter for image width.
-	 *
-	 * @return int representing the image width.
-	 */
-	int getWidth();
-
-	/* ==========================================================================
-	 * OPERATOR OVERLOAD
-	 * ==========================================================================
-	 */
-
-	/**
-	 * The = operator overload that will complete a deep copy of the
-	 * right hand side operator and return it.
-	 */
-	ImgData* operator =(ImgData* arg);
+	friend class Filter;
+	friend class HwInterface;
 
 private:
 	/* ==========================================================================
@@ -98,6 +65,56 @@ private:
 	 */
 	cv::Mat* img;
 
+
+public:
+	/* ==========================================================================
+	 * IMG MANIPULATION FUNCS
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Getter for img data, invoker must expect the standard image type,
+	 * in this case Mat, and will be returned a pointer to a deep copy
+	 * of Mat.
+	 *
+	 * @return standard image pointer.
+	 */
+	cv::Mat* getImg();
+
+	/**
+	 * Getter for image height.
+	 *
+	 * @return int representing the image height.
+	 */
+	int getHeight();
+
+	/**
+	 * Getter for image width.
+	 *
+	 * @return int representing the image width.
+	 */
+	int getWidth();
+
+	/* ==========================================================================
+	 * OPERATOR OVERLOAD
+	 * ==========================================================================
+	 */
+
+	/**
+	 * The = operator overload that will complete a deep copy of the
+	 * right hand side operator and return it.
+	 *
+	 * @param rhs	the right hand side of the equal operator, the parent copy
+	 * @return		address to a new ImgData
+	 */
+	ImgData& operator=(ImgData& rhs);
+
+	/**
+	 * Copy constructor
+	 *
+	 * @param obj	the object referenced in the construction
+	 */
+	ImgData(const FPGAData& obj);
 };
 
 #endif /* IMGDATA_H_ */

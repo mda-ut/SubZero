@@ -21,13 +21,35 @@
  * each carry a ID tag that is set by the creator of it,
  * a msg that propagate details about the data. There are
  * 2 major children of data: ImgData and FPGAData which
- * hold data from the camara and the FPGA respectively.
+ * hold data from the camera and the FPGA respectively.
  */
 class Data {
-	friend class FilterManager;
-	friend class Filter;
-	friend class HwInterface;
+
+protected:
+
+	/* ==========================================================================
+	 * VARS ACCESSIBLE BY CHILDREN
+	 * ==========================================================================
+	 */
+
+	/**
+	 * The ID associated to what the data is representing. This value is
+	 * set by the creator of the data object.
+	 */
+	std::string ID;
+
+	/**
+	 * The associated message for the particular data can be recorded
+	 * here.
+	 */
+	std::string msg;
+
 public:
+	/* ==========================================================================
+	 * CONSTRUCTOR & DESTRUCTOR
+	 * ==========================================================================
+	 */
+
 	/**
 	 * Constructor stub.
 	 */
@@ -38,8 +60,13 @@ public:
 	 */
 	virtual ~Data();
 
+	/* ==========================================================================
+	 * PUBLIC FUNCS COMMON TO ALL CHILDREN
+	 * ==========================================================================
+	 */
+
 	/**
-	 * Getter for img ID
+	 * Getter for the data object's ID
 	 *
 	 * @return return the string ID of the data
 	 */
@@ -55,24 +82,10 @@ public:
 	/**
 	 * Set the message carried by the data.
 	 *
-	 * @param string message
-	 * @return 0 for success, 1 for warning that a old message was overwritten.
+	 * @param newMsg 	to be set
+	 * @return 			0 for success, 1 for warning that a old message was overwritten.
 	 */
-	int setMsg();
-
-protected:
-
-	/**
-	 * The ID associated to what the data is representing. This value is
-	 * set by the creator of the data object.
-	 */
-	std::string ID;
-
-	/**
-	 * The associated message for the particular data can be recorded
-	 * here.
-	 */
-	std::string msg;
+	int setMsg(std::string newMsg);
 };
 
 #endif /* DATA_H_ */

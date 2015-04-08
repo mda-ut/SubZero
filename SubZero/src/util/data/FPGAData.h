@@ -19,44 +19,12 @@
  */
 class FPGAData: public Data {
 
-public:
-
-	/* ==========================================================================
-	 * FPGA MANIPULATION FUNCS
-	 * ==========================================================================
+	/*	=========================================================================
+	 *	FRIEND CLASSES
+	 *	=========================================================================
 	 */
-
-	/**
-	 * Getter for the depth.
-	 *
-	 * @return double value of depth.
-	 */
-	double getDepth();
-
-	/**
-	 * Getter for the roll.
-	 *
-	 * @return double value of roll.
-	 */
-	double getRoll();
-
-	/*
-	 * Getter for heading. Heading refers to? Ask Electronics
-	 *
-	 * @return double value of heading.
-	 */
-	double getHeading();
-
-	/* ==========================================================================
-	 * OPERATOR OVERLOAD
-	 * ==========================================================================
-	 */
-
-	/**
-	 * The = operator overload that will complete a deep copy of the
-	 * right hand side operator and return it.
-	 */
-	FPGAData* operator =(FPGAData* arg);
+	friend class Filter;
+	friend class HwInterface;
 
 private:
 
@@ -72,7 +40,7 @@ private:
 	 * @param roll
 	 * @param heading
 	 */
-	void FPGAData(double depth, double roll, double heading);
+	FPGAData(double depth, double roll, double heading);
 
 	/**
 	 * Destructor stub.
@@ -83,7 +51,7 @@ private:
 	 * Setter for the depth. If a previous value exists, it will
 	 * be replaced.
 	 *
-	 * @param double value of depth.
+	 * @param newDepth	double value of depth.
 	 */
 	void setDepth(double newDepth);
 
@@ -91,7 +59,7 @@ private:
 	 * Setter for the roll. If a previous value exists, it will
 	 * be replaced.
 	 *
-	 * @param double value of roll.
+	 * @param newRoll	double value of roll.
 	 */
 	void setRoll(double newRoll);
 
@@ -99,14 +67,63 @@ private:
 	 * Setter for heading. If a previous value exists, it will
 	 * be replaced.
 	 *
-	 * @param double value of heading.
+	 * @param newHeading	double value of heading.
 	 */
 	void setHeading(double newHeading);
 
-	/**
+	/*
 	 * Depth, roll, heading vars.
 	 */
 	double depth, roll, heading;
+
+public:
+
+	/* ==========================================================================
+	 * FPGA MANIPULATION FUNCS
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Getter for the depth.
+	 *
+	 * @return 	double value of depth.
+	 */
+	double getDepth();
+
+	/**
+	 * Getter for the roll.
+	 *
+	 * @return 	double value of roll.
+	 */
+	double getRoll();
+
+	/*
+	 * Getter for heading. Heading refers to? Ask Electronics
+	 *
+	 * @return 	double value of heading.
+	 */
+	double getHeading();
+
+	/* ==========================================================================
+	 * OPERATOR OVERLOAD
+	 * ==========================================================================
+	 */
+
+	/**
+	 * The = operator overload that will complete a deep copy of the
+	 * right hand side operator and return it.
+	 *
+	 * @param rhs	the right hand side of the equal operator, the parent copy
+	 * @return		address to a new ImgData
+	 */
+	FPGAData& operator=(FPGAData& rhs);
+
+	/**
+	 * Copy constructor
+	 *
+	 * @param obj	the object referenced by constructor
+	 */
+	FPGAData(const FPGAData& obj);
 };
 
 #endif /* FPGADATA_H_ */
