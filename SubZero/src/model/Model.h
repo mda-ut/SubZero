@@ -59,14 +59,14 @@ public:
 	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
      * @return	shallow copy of the first Data* in HwInterface buffer
 	 */
-	Data* getDataFromBuffer();
+	virtual Data* getDataFromBuffer();
 
 	/**
 	 * sendCommand send a command to the FPGA
-	 * @param	command2Send	contains the command and will be parsed before sending
-	 * @return					error message of the result of this function
+	 * @param	newCommand	contains the command and will be parsed before sending
+	 * @return				error message of the result of this function
 	 */
-	int sendCommand(std::string newCommand);
+	virtual int sendCommand(std::string newCommand);
 
 
 /* **************** Observable/State related **************** */
@@ -78,10 +78,10 @@ public:
 
 	/**
 	 * store2State stores one Data pointer to state vector
-	 * @param	data2Store	the Data pointer that needs to be stored
+	 * @param	dataSet		the Data pointer that needs to be stored
 	 * @return				error message of the result of this function
 	 */
-	int storeToState(std::vector<Data*> newData);
+	int storeToState(std::vector<Data*> dataSet);
 
 
 /* **************** FilterManager related **************** */
@@ -172,16 +172,6 @@ public:
 	 * @return			the pointer to the desired filter manager
 	 */
 	FilterManager* getFM(std::string fmID);
-
-
-/* **************** FilterFactory related **************** */
-
-	/**
-	 * This is the generic create function for the filters.
-	 * @param	parameters	the parameter needed to create any specific filters, and can be not only int types
-	 * @return				the pointer to the "newed" filter
-	 */
-	Filter* CreateFilters(int parameters);
 
 };
 
