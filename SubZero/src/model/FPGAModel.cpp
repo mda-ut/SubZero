@@ -7,8 +7,6 @@
 
 #include "FPGAModel.h"
 
-namespace std {
-
 FPGAModel::FPGAModel(Observable* inputState, HwInterface* inputInterface):Model(inputState,inputInterface){
 	modelType = FPGAMODEL;
 }
@@ -16,5 +14,3 @@ FPGAModel::FPGAModel(Observable* inputState, HwInterface* inputInterface):Model(
 FPGAModel::~FPGAModel() {
 	// TODO Auto-generated destructor stub
 }
-
-} /* namespace std */
