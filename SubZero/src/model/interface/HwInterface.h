@@ -17,77 +17,134 @@
  */
 class HwInterface {
 
-private:
+  private:
     
-    /*
-     * pointer to memory allocated for storing raw (but 
-     * decoded) data from hardware
+    /**
+     * Pointer to memory allocated for storing raw (but
+     * decoded) data from hardware.
      */
     Data** decodedBuffer[]; 
 
-    /* allocate only enough memory to keep a max of 
-     * this number of hardware inputs; discard all after that
+    /**
+     * Allocate only enough memory to keep a max of
+     * this number of hardware inputs; discard all after that.
      */
     int bufferSize; 
 
-    /* 
-     * pull data from hardware at this frequency
+    /**
+     * Pull data from hardware at this frequency.
      */
     int pullFrequency;
 
-    /* 
-     * this value specifies the encoding, decoding policy to use
-     * alternatively, we can just implement encode(), decode() ... etc
-     * differently for each hardwares when we branch out 
-     * from our abstract class
+    /**
+     * Specifies the encoding, decoding policy to use.
      */
     int policy;
+    /*
+     * alternatively, we can just implement encode(), decode() ... etc
+     * differently for each hardwares when we branch out
+     * from our abstract class
+     */
 
     /* 
-     * id of hardware this interface interacts with
+     * ID of hardware this interface interacts with
      * hardware can be accessed (somehow) via this ID
      */
     int hardwareID;
 
-    /* 
-     * private helper function for send
-     * enocde data to be sent to hardware
-     * encode the msg at pointer Data src (source)
-     * output results to location at pointer Data des(tination) 
-     */
-    virtual int encode(Data* src, Data* des); 
+    /**
+     * Private helper function for send().
+     * Encode the message at pointer Data src (source)
+	 * @param src, des
+	 */
+    virtual void encode(Data* src);
     
-    /*
+    /**
      * this class will be automatically pulling and managing
-     * the pulling process privately within the interface
+     * the pulling process privately within the interface at pullFrequency
      * using the following functions
      */
-    virtual int pullTo(Data* des); // pull raw data from hardware at pullFrequency to Data destination specified
-    virtual int decode(); // decode the data at src and store at Data des(tination)
 
-protected:
+	/**
+	 * Pull raw data from hardware
+	 */
+    virtual void pull();
 
-    virtual int deleteFromBuffer(int startIdx, int endIdx); // delete from startIdx to endIdx inclusively
-    virtual int storeToBuffer(Data* src); // store decoded data at src to buffer
+    /**
+     * Decode the data at src.
+   	 */
+    virtual Data* decode();
 
-public:
+  protected:
 
-    virtual int copyFromBuffer(Data* des); // copy most recent one to des
-    virtual int copyFromBuffer(int startIdx, int endIdx, Data** des); // copy from [startIdx, endIdx]
-    virtual int send(Data* src); // send data at src to hardware indicated by hardwareID   
-
-    /*
-     * getters and setters for the private fields
+    /**
+     * Delete buffer from startIdx to endIdx
+     * @param startIdx, endIdx
      */
-    virtual int getPullFrequency();
-    virtual int setPullFrequency(int frequency);
+    virtual void deleteFromBuffer(int startIdx, int endIdx);
+
+
+    /**
+      * Store decoded data at src to buffer
+      * @param src
+      */
+    virtual void storeToBuffer(Data* src);
+
+  public:
+
+    /**
+     * Return the most recent buffer data
+     *
+     */
+    virtual void getDataFromBuffer();
+
+    /**
+     * Return the data in buffer from startIdx to endIdx
+     * @param startIdx, endIdx
+     */
+    @Overload
+    virtual void getDataFromBuffer(int startIdx, int endIdx);
+
+    /**
+     * Send data at src to hardware indicated by hardwareID
+     * @param src
+     */
+    virtual void send(Data* src);
+
+    /**
+     * Getters and setters for the private fields
+     */
+
+    /**
+     * Get the frequency of data pulling/polling.
+     */
+    virtual double getPullFrequency();
+
+    /**
+     * Set the frequency of data pulling/polling.
+     * @param frequency
+     */
+    virtual void setPullFrequency(int frequency);
+
+    /**
+     * Get size of buffer.
+     */
     virtual int getBufferSize();
-    virtual int setBufferSize(int bufferSize);
     
-    /*
-     * constructors and destructors
+    /**
+     * Set size of buffer.
+     */
+    virtual void setBufferSize(int bufferSize);
+
+    /**
+     * Constructor for Hardware Interface
+     * @param bufferSize, pullFrequency, policy, hardwareID
      */
     virtual HwInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+
+    /**
+     * Destructor
+     */
     virtual ~HwInterface();
 
 };
