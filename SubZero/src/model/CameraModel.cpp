@@ -7,7 +7,9 @@
 
 #include "CameraModel.h"
 
-CameraModel::CameraModel(Observable* inputState, HwInterface* inputInterface):Model(inputState,inputInterface){}
+CameraModel::CameraModel(Observable* inputState, HwInterface* inputInterface):Model(inputState,inputInterface){
+	modelType = CAMERAMODEL;
+}
 
 CameraModel::~CameraModel() {
 	// TODO Auto-generated destructor stub

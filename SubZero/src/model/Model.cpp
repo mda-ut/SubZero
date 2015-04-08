@@ -11,6 +11,7 @@ Model::Model(Observable* inputObservable, HwInterface* inputHwInterface)
 {
 	this->state = inputObservable;
 	this->interface = inputHwInterface;
+	this->modelType = CAMERAMODEL; // Initialize modelType to CAMERAMODEL;
 }
 
 Model::~Model()

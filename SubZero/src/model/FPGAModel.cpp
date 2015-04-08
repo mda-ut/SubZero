@@ -9,9 +9,8 @@
 
 namespace std {
 
-FPGAModel::FPGAModel() {
-	fpgaState = (FPGAState*) &observable;
-
+FPGAModel::FPGAModel(Observable* inputState, HwInterface* inputInterface):Model(inputState,inputInterface){
+	modelType = FPGAMODEL;
 }
 
 FPGAModel::~FPGAModel() {

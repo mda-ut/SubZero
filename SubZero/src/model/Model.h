@@ -16,8 +16,8 @@
 #include "FilterFactory.h"
 
 enum ModelType{
-	CameraModel = 1,
-	FPGAModel = 2
+	CAMERAMODEL = 1,
+	FPGAMODEL = 2
 };
 
 /**
