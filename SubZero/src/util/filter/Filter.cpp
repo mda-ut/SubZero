@@ -15,4 +15,3 @@ Filter::Filter() {
 Filter::~Filter() {
 	// TODO Auto-generated destructor stub
 }
-
