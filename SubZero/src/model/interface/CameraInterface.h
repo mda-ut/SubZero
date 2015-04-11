@@ -20,95 +20,124 @@ enum CameraPosition {
 	DOWN
 };
 
-
 /**
- * A child of HwInterface that deals specifically with the camera. Concrete class.
+ * A concrete child of HwInterface that deals specifically with the camera.
+ *
+ * CameraInterface is responsible for:
+ * 		1. Dealing with the data coming from Camera: poll->decode
+ * 		2. Managing its private buffer: store the new, delete the old
+ *
+ * @version	0.0
+ * @since	Jan 17 2015
  */
 class CameraInterface : public HwInterface {
 
 private:
 
-	/*
-	 * this class will be automatically pulling and managing
-	 * the pulling process privately within the interface
-	 * using the following functions
+	/* ==========================================================================
+	 * 				INTERACTING WITH DATA COMING IN (FROM Camera)
+	 * ==========================================================================
+	 * This interface class will be automatically polling and managing
+	 * the polling process privately within the interface at pollFrequency
+	 * using the functions below.
 	 */
 
 	/**
-	 * Pull raw data from hardware
+	 * Poll raw data from the camera.
+	 * @return	data polled
 	 */
-	virtual cv::Mat* pull();
+	virtual cv::Mat* poll();
 
 	/**
-	 * Decode the data at src from cv::Mat to ImgData.
+	 * Decode the data.
+	 * @param	data	data to be decoded
+	 * @return	decoded data in a ImgData format
    	 */
-	virtual ImgData* decode(cv::Mat* src);
+	virtual ImgData* decode(cv::Mat* data);
 
 protected:
 
+	/* ==========================================================================
+	 * 							MANAGING DATA BUFFER
+	 * ==========================================================================
+	 * The data buffer will be managed automatically and privately by this class.
+	 * These functions are defined and implemented in the root parent class i.e.
+	 * in HwInterface.
+	 */
+
 	/**
 	 * Delete buffer from startIdx to endIdx
-	 * @param startIdx, endIdx
+	 * @param	stardIdx	start deleting from this index
+	 * @param	endIdx	the index of the last data to delete
 	 */
 	virtual void deleteFromBuffer(int startIdx, int endIdx);
 
-
 	/**
-	  * Store decoded data at src to buffer
-	  * @param src
+	  * Store decoded data to buffer.
+	  * @param	data	data to be stored to buffer.
 	  */
-	virtual void storeToBuffer(Data* src);
-
+	virtual void storeToBuffer(Data* data);
 
 public:
 
+	/* ==========================================================================
+	 * 								GETTERS AND SETTERS
+	 * ==========================================================================
+	 */
+
 	/**
-	 * Return the most recent buffer data
+	 * Return the most recent buffer data.
+	 * This function is defined and implemented by the parent class (HwInterface).
+	 * @return	Data*	the most recent data in buffer
 	 *
 	 */
-	virtual ImgData* getDataFromBuffer();
+	virtual Data* getDataFromBuffer();
 
 	/**
-	 * Return the data in buffer from startIdx to endIdx
-	 * @param startIdx, endIdx
+	 * Return the data in buffer from startIdx to endIdx. Overloading the function
+	 * above. (Also implemented in HwInterface.)
+	 * @param	startIdx	get data starting at this index
+	 * @param	endIdx	index of the last data to get
+	 * @return	an array of data
 	 */
 	@Overload
-	virtual ImgData** getDataFromBuffer(int startIdx, int endIdx);
+	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
 
 	/**
-	 * Send data at src to hardware indicated by hardwareID
-	 * @param src
+	 * Get the frequency of data polling
+	 * @return	polling frequency i.e. sampling rate
 	 */
-	virtual void send(Data* src);
+	virtual double getPollFrequency();
 
 	/**
-	 * Getters and setters for the private fields
+	 * Set the frequency of data polling/polling.
+	 * @param	frequency	set polling to this frequency
 	 */
-
-	/**
-	 * Get the frequency of data pulling/polling.
-	 */
-	virtual double getPullFrequency();
-
-	/**
-	 * Set the frequency of data pulling/polling.
-	 * @param frequency
-	 */
-	virtual void setPullFrequency(int frequency);
+	virtual void setPollFrequency(int frequency);
 
 	/**
 	 * Get size of buffer.
+	 * @return	size of the buffer
 	 */
 	virtual int getBufferSize();
 
 	/**
 	 * Set size of buffer.
+	 * @param	bufferSize	reset buffer size to this
 	 */
 	virtual void setBufferSize(int bufferSize);
 
+
+	/* ==========================================================================
+	 * 							CONSTRUCTOR AND DESTRUCTOR
+	 * ==========================================================================
+	 */
+
 	/**
-	 * Constructor for Camera Interface
-	 * @param bufferSize, pullFrequency, policy, hardwareID
+	 * Constructor for Hardware Interface
+	 * @param	bufferSize	buffer size for the interface
+	 * @param	policy	specifies the encoding and decoding policy to be used
+	 * @param	hardwareID	identifies the hardware this interface interacts with
 	 */
 	CameraInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
 
