@@ -68,6 +68,11 @@ private:
 	 */
 	std::string fmID;
 
+	/*
+	 * FilterManager mode, 0 for default, 1 for auto.
+	 */
+	int fmMode;
+
 public:
 	/* ==========================================================================
 	 * CONSTRUCTOR AND DESCONSTRUCTOR
@@ -104,11 +109,11 @@ public:
 	 * what kind of model it belongs to, it takes in a image or FPGA
 	 * data and filters it according to the current filter chain.
 	 *
-	 * @param in 	refers to a pointer to the image being filtered.
-	 * @param out 	refers to the pointer that will receive the filtered data.
-	 * @return 		0 for success, 1 for there is some error in filtering.
+	 * @param input 	refers to a pointer to the image being filtered.
+	 * @param output 	refers to the pointer that will receive the filtered data.
+	 * @return 			0 for success, 1 for there is some error in filtering, 2 for error in deep copy.
 	 */
-	int applyFilterChain(Data* in, Data** out);
+	int applyFilterChain(Data* input, Data** output);
 
 
 	/* ==========================================================================
@@ -155,16 +160,14 @@ public:
 	 * Deletes the first occurrence of a filter from filterChain by ID.
 	 *
 	 * @param targetID 	of the filter to delete. BEGIN and END keywords accepted.
-	 * @return 			0 for success, 2 for targetID not found.
+	 * @return 			0 for success, 1 for targetID not found.
 	 */
 	int deleteFilter(std::string targetID);
 
 	/**
-	 * Deletes all filters in chain.
-	 *
-	 * @return 0 for success.
+	 * Deletes all filters in filterChain.
 	 */
-	int deleteFilterChain();
+	void deleteFilterChain();
 
 	/* ==========================================================================
 	 * FILTER MANAGEMENT: AUTOMATIC ID MODE
@@ -177,7 +180,7 @@ public:
 	 * Insertion to back under automatic IDing mode.
 	 *
 	 * @param filter 	is a pointer to a filter object.
-	 * @return 			0 for success, 1 for ID is not unique.
+	 * @return 			0 for success, 1 for not in auto mode.
 	 */
 	int insertFilter(Filter* filter);
 
@@ -188,7 +191,7 @@ public:
 	 *
 	 * @param filter 	is a pointer to a filter object to be inserted.
 	 * @param targetID	is the location to perform insertion. FRONT and BACK keywords are also recognized.
-	 * @return 			0 for success, 1 for ID is not unique, 2 for target not found.
+	 * @return 			0 for success, 1 for not in auto mode, 2 for target not found.
 	 */
 	int insertFilter(Filter* filter, std::string targetID);
 
@@ -211,18 +214,9 @@ public:
 	/**
 	 * Reports the number of filters in filterChain.
 	 *
-	 * @return number of filters.
+	 * @return number of filters in filterChain.
 	 */
-	int getSizeOfFilter();
-
-	/**
-	 * For a given ID, the filterChain is searched and the index of the
-	 * filter object with the specific ID is identified and returned
-	 *
-	 * @param ID 	represents the filter object to look for
-	 * @return 		int of the index value from 0 ~ chain size-1, -1 for no match.
-	 */
-	int getIndexByID(std::string ID);
+	int getSizeOfFilterChain();
 
 	/**
 	 * Reports a copy of the vector string of filter IDs in filterChain.

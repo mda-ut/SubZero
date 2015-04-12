@@ -107,7 +107,7 @@ public:
 	 * Delete a mapping by index.
 	 *
 	 * @param index 	to be deleted.
-	 * @return 			0 for success, 1 for failure.
+	 * @return 			0 for success, 1 for insertion failure, 2 for deletion failure.
 	 */
 	int del(int index);
 

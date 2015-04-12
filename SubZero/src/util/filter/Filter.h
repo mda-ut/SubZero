@@ -30,7 +30,7 @@ class Filter {
 	/*
 	 * Identifier for the filter.
 	 */
-	std::string ID;
+	std::string filterID;
 
 	/*
 	 * Message propagated by the filter.

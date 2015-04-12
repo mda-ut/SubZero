@@ -86,6 +86,28 @@ public:
 	 * @return 			0 for success, 1 for warning that a old message was overwritten.
 	 */
 	int setMsg(std::string newMsg);
+
+	/* ==========================================================================
+	 * OPERATOR OVERLOAD
+	 * ==========================================================================
+	 */
+
+	/**
+	 * The = operator overload that will complete a deep copy of the
+	 * right hand side operator and return it. This generic operator
+	 * overload casts into the correct Data operator overload
+	 *
+	 * @param rhs	the right hand side of the equal operator, the parent copy
+	 * @return		address to a new Data
+	 */
+	Data& operator=(Data& rhs);
+
+	/**
+	 * Copy constructor
+	 *
+	 * @param obj	the object referenced in the construction
+	 */
+	Data(const Data& obj);
 };
 
 #endif /* DATA_H_ */

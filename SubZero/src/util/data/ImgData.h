@@ -114,7 +114,7 @@ public:
 	 *
 	 * @param obj	the object referenced in the construction
 	 */
-	ImgData(const FPGAData& obj);
+	ImgData(const Data& obj);
 };
 
 #endif /* IMGDATA_H_ */
