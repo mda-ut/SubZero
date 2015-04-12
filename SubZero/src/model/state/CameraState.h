@@ -16,7 +16,7 @@
  * CameraState is an Observable used by CameraModel to hold data sent from cameras.
  */
 
-class CameraState : public State, public Observable {
+class CameraState : public State {
 
 	//all of this class' variables are inherited from its parent (State.h)
 
@@ -35,32 +35,23 @@ public:
 	 * Returns a deep copy of the image state specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the image that is needed
 	 * @param i = how many frames ago was the image stored
-	 * @param data = the pointer to the deep copied image data
-	 * @return returns an integer to indicate if the operation was successful
-	 * 		- 0 = successful
-	 * 		- 1 = no image with such ID found
-	 * 		- 2 = index out of range
+	 * @return returns the pointer to the deep copied image data
 	 */
-	int getState (std::string ID, int i, ImgData* data);
+	ImgData* getState (std::string ID, int i);
 
 	/**
 	 * Returns a deep copy of the latest image specified with the _ID_
 	 * (same as calling getState(ID, 0))
 	 * @param ID = id of the image that is needed
-	 * @param data = the pointer to the deep copied image data
-	 * @return returns an integer to indicate if the operation was successful
-	 * 		- 0 = successful
-	 * 		- 1 = no image with such ID found
+	 * @return returns the pointer to a deep copied image data
 	 */
-	int getState (std::string ID, ImgData* data);
+	ImgData* getState (std::string ID);
 
 	/**
 	 * Sets the state
 	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-	 * @param d = image data to be set for this frame
-	 * @return an int indicating whether the operation was successful
-	 *  	- 0 = successful
-	 *  	- 1 = called this function before startFrame is called
+	 * @param d = Pointer to image data to be set for this frame
+	 * @return an int indicating whether a operation was successful
 	 */
 	int setState(ImgData* d);
 
