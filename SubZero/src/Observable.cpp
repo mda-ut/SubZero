@@ -9,8 +9,6 @@
 
 
 Observable::Observable() {
-	observers = NULL;
-
 }
 
 Observable::~Observable() {
@@ -18,11 +16,11 @@ Observable::~Observable() {
 }
 
 
-void Observable::addObserver(Observer *obs) {
+void Observable::addObserver(Observer* obs) {
 	observers.insert(obs);
 }
 
-void Observable::removeObserver(Observer *obs) {
+void Observable::removeObserver(Observer* obs) {
 	observers.erase(obs);
 }
 

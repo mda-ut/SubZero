@@ -15,7 +15,7 @@
  * FPGAState is an Observable used by FPGAModel to hold data sent from the FPGA.
  */
 
-class FPGAState : public State, public Observable {
+class FPGAState : public State {
 
 	//all of this class' variables are inherited from its parent (State.h)
 
@@ -34,29 +34,21 @@ public:
 	 * Returns a deep copy of the FPGA data specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the FPGA data that is needed
 	 * @param i = how many frames ago was the FPGA data was stored
-	 * @param data = the pointer to the deep copied FPGA data
-	 * @return returns an integer to indicate if the operation was successful
-	 * 		- 0 = successful
-	 * 		- 1 = no FPGA data with such ID found
-	 * 		- 2 = index out of range
+	 * @return returns the pointer to a deep copied FPGA data
 	 */
-	int getState (std::string ID, int i, FPGAData* data);
+	FPGAData* getState (std::string ID, int i);
 
 	/**
 	 * Returns a deep copy of the newest FPGA data specified with the _ID_
 	 * @param ID = id of the FPGA data that is needed
-	 * @param data = the pointer to the deep copied FPGA data
-	 * @return returns an integer to indicate if the operation was successful
-	 * 		- 0 = successful
-	 * 		- 1 = no FPGA data with such ID found
-	 * 		- 2 = index out of range
+	 * @return returns the pointer to a deep copied FPGA data
 	 */
-	int getState (std::string ID, FPGAData* data);
+	FPGAData* getState (std::string ID);
 
 	/**
 	 * Sets the FPGA state
 	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-	 * @param d = FPGA data to be set for this frame
+	 * @param d = Pointer to FPGA data to be set for this frame
 	 * @return an int indicating whether the operation was successful
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
