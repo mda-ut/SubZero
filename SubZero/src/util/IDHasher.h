@@ -10,10 +10,16 @@
 #include <unordered_map>
 #include <vector>
 
+
+/*
+ * Nodes of the linked list
+ */
+
 struct Node {
 	struct Node* nxt;
 	struct Node* prv;
 	struct NodeData* nodeData;
+	std::string nodeID;
 };
 
 /*
@@ -88,9 +94,9 @@ public:
 	 * @param ID 		take in the key user wants to associate with the data being inserted.
 	 * @param nodeData 	is the initialized Data struct containing data to be inserted.
 	 * @param index 	is the index where the new data will be inserted.
-	 * @return 			0 for success, 1 for failed insertion.
+	 * @return 			0 for success, 1 for nodeID not unique, 2 index out of range.
 	 */
-	int ins(std::string ID, struct NodeData nodeData, int index);
+	int ins(std::string nodeID, struct NodeData nodeData, int index);
 
 	/**
 	 * Insertion by ID inserts the Data struct before the
@@ -98,8 +104,8 @@ public:
 	 *
 	 * @param ID 		takes in the key user wants to associate with the data being inserted.
 	 * @param nodeData 	the initialized Data struct containing data to be inserted.
-	 * @param insID 	the key of a stored data where the new data will be inserted.
-	 * @return 			0 for success, 1 for failed insertion.
+	 * @param targetID 	the key of a stored data where the new data will be inserted.
+	 * @return 			0 for success, 1 for nodeID not unique, 2 targetID out of range.
 	 */
 	int ins(std::string ID, struct NodeData nodeData, std::string insID);
 
