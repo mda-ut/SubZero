@@ -16,12 +16,12 @@
 #include "FilterFactory.h"
 
 enum ModelType{
-	CameraModel = 1,
-	FPGAModel = 2
+	CAMERAMODEL = 1,
+	FPGAMODEL = 2
 };
 
 /**
- * This can have the potential to be an pure virtual (abstract) class, but it's not for now. Modle
+ * This can have the potential to be an pure virtual (abstract) class, but it's not for now. Model
  * represents the physical attributes of the sub. It accepts input from cameras and FPGA
  * and outputs to FPGA and cameras (strictly speaking). Model contains references to the tools required
  * for the assets to run. Each Model inherits from observable and has a state.
@@ -38,6 +38,25 @@ protected:
 	HwInterface* interface;
 	std::vector<FilterManager*> filterManagerList;
 	ModelType modelType;
+
+	/**
+	 * This creates a filter manager and store it in the provided destination. This is a protected
+	 * function in Model because the new FM pointer should be stored in Model.
+	 * @param	fmID			the ID of the filter manager
+	 * @param	fmType			type of the created filter manager, 0 is default type, 1 is automating ID type.
+	 * @return					pointer to the newly created filter manager
+	 */
+	FilterManager* createFM(std::string fmID, int fmType);
+
+	/**
+	 * This stores a newly created filter manager to the filter manager list. This is a protected
+	 * function in Model because other class shouldn't have access to any FM pointer if they plan
+	 * on storing the new filter manager pointer in Model.
+	 * @param	newFM	the pointer to the filter manager that will be stored
+	 * @return			error message of the result of this function
+	 */
+	void storeToFMList(FilterManager* newFM);
+
 public:
 
 	/**
@@ -56,10 +75,10 @@ public:
 /* **************** HwInterface related **************** */
 
 	/**
-	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
+	 * getDataFromBuffer gets a Data pointer from HwInterface buffer.
      * @return	shallow copy of the first Data* in HwInterface buffer
 	 */
-	virtual Data* getDataFromBuffer();
+	virtual Data* getDataFromBuffer() = 0;
 
 	/**
 	 * sendCommand send a command to the FPGA
@@ -77,11 +96,11 @@ public:
 	void notifyObserver();
 
 	/**
-	 * store2State stores one Data pointer to state vector
+	 * store2State stores one Data pointer to state vector. This function is a pure virtual function because each children model will call the corresponding specific state.
 	 * @param	dataSet		the Data pointer that needs to be stored
 	 * @return				error message of the result of this function
 	 */
-	int storeToState(std::vector<Data*> dataSet);
+	virtual int storeToState(std::vector<Data*> dataSet) = 0;
 
 
 /* **************** FilterManager related **************** */
@@ -122,7 +141,13 @@ public:
 	 * @param	targetID	the ID of the one filter to be deleted or ALL if all filters should be deleted
 	 * @return 				error message of the result of this function
 	 */
-	int deleteFilter(std::string targetID);
+	int deleteFilter(std::string fmID, std::string targetID);
+
+	/**
+	 * This deletes all the filters in a filter chain.
+	 * @return	error message of the result of this function
+	 */
+	int deleteFilterChain(std::string fmID);
 
 	/**
 	 * This return the length of the filter chain.
@@ -132,7 +157,7 @@ public:
 	int getFilterChainSize(std::string fmID);
 
 	/**
-	 * This returns the vector of all the filter IDs in the chain.
+	 * This returns a vector containing all the filter IDs in the chain.
 	 * @param	fmID	the ID of the filter manager
 	 * @return			the vector of all the string filter IDs
 	 */
@@ -145,19 +170,14 @@ public:
 	std::vector<std::string> getFMListIDs();
 
 	/**
-	 * This creates a filter manager and store it in the provided destination.
-	 * @param	fmID			the ID of the filter manager
-	 * @param	fmDestination	the filter manager pointer that store the "newed" filter manager
-	 * @return					error message of the result of this function
+	 * This is the function to create a new filter manager and add it to the filter manager list.
+	 * The point of merging two functions into one is to let only Model have access to the pointer
+	 * to the new filter manager pointer.
+	 * @param	fmID	the ID that the caller of this functions wants to give to the filter manager
+	 * @param	fmType	the type of the new filter manager, 0 being default and 1 being automating ID FM
+	 * @return			error message whether the function is executed properly
 	 */
-	int createFM(std::string fmID, FilterManager* fmDestination);
-
-	/**
-	 * This stores a newly created filter manager to the filter manager list.
-	 * @param	newFM	the pointer to the filter manager that will be stored
-	 * @return			error message of the result of this function
-	 */
-	int storeToFMList(FilterManager* newFM);
+	void createAndAddToFMList(std::string fmID, int fmType);
 
 	/**
 	 * This deletes one or all the filter managers in the list.
