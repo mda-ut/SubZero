@@ -29,6 +29,19 @@ public:
 
 	virtual ~CameraModel();
 
+	/**
+	 * This return the most recent Data* from the buffer.
+	 * @return 	pointer to the most recent data
+	 */
+	Data* getDataFromBuffer();
+
+	/**
+	 * store2State stores a vector of Data* to state. The vector contains Data at the same time.
+	 * @param	dataSet		the Data pointer that needs to be stored
+	 * @return				error message of the result of this function
+	 */
+	int storeToState(std::vector<Data*> dataSet);
+
 };
 
 
