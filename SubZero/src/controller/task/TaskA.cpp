@@ -16,4 +16,6 @@ TaskA::~TaskA() {
 	// TODO Auto-generated destructor stub
 }
 
-void TaskA::execute(){}
+void TaskA::execute(){
+	std::cout<<"Hello World"<<std::endl;
+}

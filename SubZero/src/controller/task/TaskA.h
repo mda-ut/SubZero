@@ -9,6 +9,7 @@
 #define TASKA_H_
 
 #include "BaseTask.h"
+#include <iostream>
 
 //This is a dummy task class
 class TaskA : public BaseTask {
@@ -25,7 +26,7 @@ public:
 	/**
 	 * virtual execute function
 	 */
-    virtual void execute();
+    void execute();
 };
 
 #endif /* SUBZERO_SRC_CONTROLLER_TASK_TASKA_H_ */

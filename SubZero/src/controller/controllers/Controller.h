@@ -1,46 +1,52 @@
-/*
- * Controller.h
- *
- *  Created on: Mar 12, 2015
- *      Author: ed
+/*  Created on: Jan 7, 2015
+ *      Author: mda
  */
 
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
-#include <iostream>
-#include <stdlib.h>
+#include "../command/Command.h"
+#include <QQueue>
 
-using namespace std;
+class Controller {
+	public:
+		/**
+		* Constructor
+		*/
+		Controller();
 
-//Mode not needed
-//we have to find out what the command is
-//controller only does event handling -> list of if statements determining what to execute
-//command structure & task class
-#include <list>
+		/**
+		* Destructor
+		*/
+		virtual ~Controller();
 
-class Controller{
-public:
-	/**
-	 *  Constructor
-	 *  @param modelPointer a pointer to the list of models
-	 */
+		/**
+		 * Adds a new Command to our queue
+		 *
+		 * @param newCommand - the Command pointer to be added to queue
+		 */
+		void addCommandToQueue(Command *newCommand);
 
-    Controller(list <Model> *model);
+		/**
+		 * Clears all Commands from our queue
+		 */
+		void clearQueue(void);
 
+		/**
+		 * Displays the Current commandList
+		 */
+		void displayCommandList(void);
 
-    /**
-     * Destructor
-     */
+		/**
+		 * Cleans the queue; forces the last task to finish, then kills the sub
+		 */
+		void killAll(void);
 
-    ~Controller();
-
-private:
-    //Model Pointer
-    list<Model> *sub_model;
-    
+	private:
+		/**
+		* A List of commands that the view tells us to complete
+		*/
+		QQueue <class Command* > commandList;
 };
 
-
-
-#endif /* SRC_CONTROLLER_H_ */
+#endif /* CONTROLLER_H_ */
