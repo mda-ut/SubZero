@@ -29,7 +29,7 @@ class FPGAData: public Data {
 private:
 
 	/* ==========================================================================
-	 * FRIEND FUNCS
+	 * CONSTRUCTOR & DESTRUCTOR
 	 * ==========================================================================
 	 */
 
@@ -40,12 +40,17 @@ private:
 	 * @param roll
 	 * @param heading
 	 */
-	FPGAData(double depth, double roll, double heading);
+	FPGAData(std::string dataID, double depth, double roll, double heading);
 
 	/**
 	 * Destructor stub.
 	 */
 	virtual ~FPGAData();
+
+	/* ==========================================================================
+	 * FRIEND FUNCS
+	 * ==========================================================================
+	 */
 
 	/**
 	 * Setter for the depth. If a previous value exists, it will
@@ -70,6 +75,11 @@ private:
 	 * @param newHeading	double value of heading.
 	 */
 	void setHeading(double newHeading);
+
+	/* ==========================================================================
+	 * CLASS VARS
+	 * ==========================================================================
+	 */
 
 	/*
 	 * Depth, roll, heading vars.

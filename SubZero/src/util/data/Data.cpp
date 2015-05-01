@@ -7,15 +7,60 @@
 
 #include "Data.h"
 
-Data::Data() {
-	// TODO Auto-generated constructor stub
+/* ==========================================================================
+ * CONSTRUCTOR & DESTRUCTOR
+ * ==========================================================================
+ */
 
+Data::Data(std::string dataID) {
+	this->dataID = dataID;
+	this->msg = "";
 }
 
 Data::~Data() {
-	// TODO Auto-generated destructor stub
 }
 
-std::string Data::getID() {
-	return this->ID;
+/* ==========================================================================
+ * PUBLIC FUNCS COMMON TO ALL CHILDREN
+ * ==========================================================================
+ */
+
+std::string Data::getID(){
+	return this->dataID;
+}
+
+std::string Data::getMsg(){
+	return this->msg;
+}
+
+int Data::setMsg(std::string newMsg){
+	if (this->msg != "")
+	{
+		this->msg = newMsg;
+		return 1;
+	}
+	this->msg = newMsg;
+	return 0;
+}
+
+/* ==========================================================================
+ * OPERATOR OVERLOAD
+ * ==========================================================================
+ */
+
+Data& Data::operator=(Data& rhs) {
+
+	ImgData& ImgCast = (ImgData&) rhs;
+	if (ImgCast != nullptr)
+		return new ImgData::ImgData(ImgCast);
+
+	FPGAData& FPGACast = (FPGAData&) rhs;
+	if (FPGACast != nullptr)
+		return new FPGAData::FPGAData(FPGACast);
+	return new Data(rhs);
+}
+
+Data::Data(const Data& obj) {
+	this->dataID = obj.dataID;
+	this->msg = obj.msg;
 }

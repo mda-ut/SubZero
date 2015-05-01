@@ -27,7 +27,7 @@ class ImgData: public Data {
 
 private:
 	/* ==========================================================================
-	 * FRIEND FUNCS
+	 * CONSTRUCTOR & DESTRUCTOR
 	 * ==========================================================================
 	 */
 
@@ -44,22 +44,42 @@ private:
 	 */
 	virtual ~ImgData();
 
+	/* ==========================================================================
+	 * FRIEND FUNCS
+	 * ==========================================================================
+	 */
+
 	/*
 	 * Set function for changing the imgID
 	 *
 	 * @param new imgID string
 	 */
-	void setImgID(std::string newImgID);
+	void setID(std::string newID);
 
 	/**
 	 * Setter for replacing the actual image object that a ImgData object
-	 * wraps.
+	 * wraps. By default the old img object is destroyed.
 	 *
 	 * @param pointer to the image object (Mat*)
 	 */
 	void setImg(cv::Mat* newImg);
 
 	/**
+	 * Setter for replacing the actual image object that a ImgData object
+	 * wraps. Type allows for selection on whether or not to destroy the
+	 * old image.
+	 *
+	 * @param newImg	pointer to the image object (Mat*)
+	 * @param type		0 for destroy old img, 1 for keep old img.
+	 */
+	void setImg(cv::Mat* newImg,int type);
+
+	/* ==========================================================================
+	 * CLASS VARS
+	 * ==========================================================================
+	 */
+
+	/**this->img = newImg;
 	 * Pointer to the actual image object. Mat is the designated standard
 	 * image type.
 	 */
@@ -114,7 +134,7 @@ public:
 	 *
 	 * @param obj	the object referenced in the construction
 	 */
-	ImgData(const Data& obj);
+	ImgData(const ImgData& obj);
 };
 
 #endif /* IMGDATA_H_ */

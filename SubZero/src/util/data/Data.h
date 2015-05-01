@@ -11,8 +11,8 @@
 #include <highgui.h>
 #include <string.h>
 
-#include <ImgData.h>
-#include <FPGAData.h>
+#include "ImgData.h"
+#include "FPGAData.h"
 
 
 /**
@@ -36,7 +36,7 @@ protected:
 	 * The ID associated to what the data is representing. This value is
 	 * set by the creator of the data object.
 	 */
-	std::string ID;
+	std::string dataID;
 
 	/**
 	 * The associated message for the particular data can be recorded
@@ -52,8 +52,10 @@ public:
 
 	/**
 	 * Constructor stub.
+	 *
+	 * @param dataID	identifies what the data represents
 	 */
-	Data();
+	Data(std::string dataID);
 
 	/**
 	 * Destructor stub.
