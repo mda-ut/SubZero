@@ -40,3 +40,4 @@ void GuiView::update(cv::Mat *imgLocFront, cv::Mat *imgLocDown, int *sonarLoc)
 {
     displayUpdate(imgLocFront,viewFront);
     displayUpdate(imgLocDown, viewDown);
+}
