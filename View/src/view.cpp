@@ -6,14 +6,14 @@
  */
 
 
+
 #include "view.h"
 
-View::View() {
-
-}
-
-
-
-view::~View(){
+View::View(){
+    viewFront = new QGraphicsView;
+    viewDown = new QGraphicsView;
+    scene = new QGraphicsScene;
+    pixmap = new QPixmap;
+    mainLayout = new QGridLayout;
 
 }
