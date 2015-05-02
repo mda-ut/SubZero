@@ -1,30 +1,33 @@
-/*
- * observer.h
- *
- *  Created on: Feb 14, 2015
- *      Author: edem
- */
-
 #ifndef OBSERVER_H_
 #define OBSERVER_H_
 
 #include <cv.h>
-#include <highgui>
+#include <highgui.h>
 
 /**
  * This abstract class is informed by the
  * observable class when observable changes state.
  * It then retrieves the data once it is available
- * to read.
+ * to read. It's only purpose is to handle the
+ * observer pattern in the naem of modularity.
  */
 
 class Observer
 {
 public:
-		Observer();
+        Observer();
 
-		virtual ~Observer();
-		void virtual update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc);
+        /** The update function updates each view uniquely
+         * Called by observable to notify observer of a change in
+         * state. Receives pointers to the latests data
+         * @param 	imgLocFront	 Pointer to the matrix holding
+         * 			image pixel data for the front camera.
+         * @param 	imgLocDown 	Pointer to the matrix holding
+         * 			image pixel data for the downward camera
+         * @param	sonarLoc 	Pointer to latest sonar strength data
+         */
+
+        virtual void update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc) = 0;
 
 };
 
