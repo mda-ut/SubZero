@@ -21,6 +21,8 @@ protected:
 	//LinkedList <Vector<Data>>
 	std::list<std::vector<Data>> stateData;
 
+	void init();
+
 	/**
 	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the State that is needed
@@ -60,22 +62,20 @@ protected:
 
 	/**
 	 * Gets a pointer to a deep copy of the newest raw State
-	 * @param data = pointer to the deep copy of the raw State
+	 * @return data = pointer to the deep copy of the raw State
 	 */
-	void getRaw(Data* data);
+	Data* getRaw();
 
 	/**
 	 * Gets a pointer to the deep copy of the raw State _i_ frames before
 	 * @param i = how many frames ago the raw State was recorded
-	 * @param data = pointer to the deep copy of the raw State data _i_ frames before this function call
-	 * @return returns an int to indicate if the operation was successful
-	 * 		- 0 = success
-	 * 		- 1 = index out of range
+	 * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
 	 */
-	int getRaw(int i, Data* data);
+	Data* getRaw(int i);
 
 public:
 	State();	//constructor
+	State(int framesStored);
 
 	virtual ~State();	//deconstructor
 
@@ -95,5 +95,4 @@ public:
 	void endFrame();
 
 };
-
 #endif /* SRC_MODEL_STATE_STATE_H_ */
