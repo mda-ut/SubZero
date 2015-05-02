@@ -1,49 +1,42 @@
 
-/*
- * view.cpp
- *
- *  Created on: Feb 17, 2015
- *      Author: edem
- */
+#include "guiview.h"
+#include <QImage>
 
-#ifndef GUIVIEW_H
-#define GUIVIEW_H
-
-#include "view.h"
-#include "observer.h"
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QPixmap>
-#include <QPaintEvent>
-#include <QGridLayout>
-#include <QWidget>
-#include <cv.h>
-#include <highgui.h>
-
-
-
-/** The GuiView class creates a GUI
- * to allow interaction with the
- * controller.
- */
-
-
-class GuiView : public View, public Observer
+GuiView::GuiView()
 {
-public:
-    GuiView();
+    viewFront = new QGraphicsView;
+    viewDown = new QGraphicsView;
+    scene = new QGraphicsScene;
+    pixmap = new QPixmap;
+    mainLayout = new QGridLayout;
 
-    QGraphicsView *viewFront;
-    QGraphicsView *viewDown;
-    QGraphicsScene *scene;
-    QPixmap *pixmap;
-    QGridLayout *mainLayout;
-    QPaintEvent *paintEvent;
+}
 
+QPixmap *GuiView::makeQPixmap(cv::Mat *imgData)
+{
+    QPixmap *p=0;
 
-    QPixmap *makeQPixmap(cv::Mat* imgData);
-    void displayUpdate (cv::Mat* img, QGraphicsView *view);
-    void update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc);
-};
+    // http://asmaloney.com/2013/11/code/converting-between-cvmat-and-qimage-orqpixmap
 
-#endif // GUIVIEW_H
+    //Assuming rgba, need to add a check for other formats and null.
+
+    QImage image(imgData->data, imgData->cols, imgData->rows,
+                 imgData->step, QImage::Format_RGB32);
+
+   p->fromImage(image);
+   return p;
+}
+
+void GuiView::displayUpdate(cv::Mat *img, QGraphicsView *view)
+{
+    scene->clear();
+    pixmap = makeQPixmap(img);
+    scene->addPixmap(*pixmap);
+    view->setScene(scene);
+    view->show();
+}
+
+void GuiView::update(cv::Mat *imgLocFront, cv::Mat *imgLocDown, int *sonarLoc)
+{
+    displayUpdate(imgLocFront,viewFront);
+    displayUpdate(imgLocDown, viewDown);
