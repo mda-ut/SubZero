@@ -1,60 +1,44 @@
-/*
- * view.h
- *
- *  Created on: Feb 15, 2015
- *      Author: edem
- */
+#ifndef VIEW_H
+#define VIEW_H
 
-#ifndef VIEW_H_
-#define VIEW_H_
-
-#include "observer.h"
-#include <QWidget>
-#include <QGridLayout>
-#include <QPixMap>
+#include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QEvent>
+#include <QGraphicsPixmapItem>
+#include <QPixmap>
 #include <QPaintEvent>
-#include <QPen>
-#include <QBrush>
-#include <QColor>
+#include <QGridLayout>
+#include <QWidget>
+#include <cv.h>
+#include <highgui.h>
 
-/** This abstract class inherits observer's
- * functionality and displays the data via use of
- * the Qt framework: The cv::Mat type holding image
- * data is used to develop the QPixMap which is then
- * turned into an image and displayed on the graphics
- * scene
+/** This abstract class holds the basic
+ * properties expected of all views -a
+ * display via QGraphics, QPixmap, QPainters
+ * andlayouts; and Signals and slots
+ *
  */
 
-class View : public Observer
+class View :public QWidget
 {
-	Q_OBJECT
-
+    Q_OBJECT
 public:
-		View();
+    View();
 
-		/**
-		 * @param type Hold the string that is sent to
-		 * controller to identify a view
-		 */
-		char[5] type;
-		QWidget viewWindow;
-		QPixMap pixMat;
-		QGridLayout viewLayout;
+    QGraphicsView *viewFront;
+    QGraphicsView *viewDown;
+    QGraphicsScene *scene;
+    QPixmap *pixmap;
+    QGridLayout *mainLayout;
+    QPaintEvent *paintEvent;
 
-		/**
-		 * The QPaintEvent is used to continuously draw the
-		 * images received in lieu of a separate display function
-		 */
-		QPaintEvent painter;
-		QPen stencil;
-		QBrush brush;
-		QColour currentColour;
+    /** makeQPixmap converts the opencv Mat
+     * object into a QPixmap.
+     * displayImage updates the scene with a
+     * pixmap to be displayed
+     */
 
-
-		virtual ~View();
+    virtual QPixmap* makeQPixmap(cv::Mat* img)=0;
+    virtual void displayUpdate (cv::Mat* img, QGraphicsScene *view)= 0;
 };
 
-
-#endif /* VIEW_H_ */
+#endif // VIEW_H
