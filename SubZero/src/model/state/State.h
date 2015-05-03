@@ -26,7 +26,7 @@ protected:
 	/**
 	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the State that is needed
-	 * @param i = how many frames ago was the State stored
+	 * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
 	 * @return returns the pointer to a deep copied State
 	 */
 	Data* getState (std::string ID, int i);
@@ -47,7 +47,7 @@ protected:
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	int setState(Data* d);
+	//int setState(Data* d);
 
 	/**
 	 * Same thing as setState, except it takes an entire vector of data instead of 1 data
@@ -68,7 +68,7 @@ protected:
 
 	/**
 	 * Gets a pointer to the deep copy of the raw State _i_ frames before
-	 * @param i = how many frames ago the raw State was recorded
+	 * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
 	 * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
 	 */
 	Data* getRaw(int i);
@@ -84,7 +84,7 @@ public:
 	 * Have to be called before you can call setState()
 	 * Only Model should be calling this function (might implement a check for that)
 	 */
-	void startFrame();
+	//void startFrame();
 
 	/**
 	 * Ends the frame
@@ -92,7 +92,7 @@ public:
 	 * If called before startFrame, then it does nothing
 	 * Be careful when calling this, since you cannot change the frame after it has ended
 	 */
-	void endFrame();
+	//void endFrame();
 
 };
 #endif /* SRC_MODEL_STATE_STATE_H_ */

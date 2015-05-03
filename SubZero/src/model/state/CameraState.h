@@ -25,6 +25,7 @@ public:
 	 * constructor
 	 */
 	CameraState();
+	CameraState(int framesStored);
 
 	/**
 	 * destructor
@@ -34,7 +35,7 @@ public:
 	/**
 	 * Returns a deep copy of the image state specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the image that is needed
-	 * @param i = how many frames ago was the image stored
+	 * @param i = how many frames ago was the image stored (zero indexed; newest frame = 0)
 	 * @return returns the pointer to the deep copied image data
 	 */
 	ImgData* getState (std::string ID, int i);
@@ -53,7 +54,7 @@ public:
 	 * @param d = Pointer to image data to be set for this frame
 	 * @return an int indicating whether a operation was successful
 	 */
-	int setState(ImgData* d);
+	//int setState(ImgData* d);
 
 	/**
 	 * Same thing as setState, except it takes an entire vector of data instead of 1 data
@@ -74,7 +75,7 @@ public:
 
 	/**
 	 * Gets a pointer to the deep copy of the raw image data _i_ frames before
-	 * @param i = how many frames ago the raw image was recorded
+	 * @param i = how many frames ago the raw image was recorded (zero indexed; newest frame = 0)
 	 * @param data = pointer to the deep copy of the raw State data _i_ frames before this function call
 	 * @return returns an int to indicate if the operation was successful
 	 * 		- 0 = success

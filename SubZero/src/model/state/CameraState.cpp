@@ -7,12 +7,23 @@
 
 #include "CameraState.h"
 
-CameraState::CameraState() {
-	// TODO Auto-generated constructor stub
-
+CameraState::CameraState() : State(){
+}
+CameraState::CameraState(int framesStored) : State(framesStored){
 }
 
-CameraState::~CameraState() {
-	// TODO Auto-generated destructor stub
+CameraState::~CameraState() : ~State(){
 }
 
+ImgData* CameraState::getState(std::string ID){
+	return (ImgData*)getState(ID);
+}
+
+ImgData* CameraState::getState(std::string ID, int i){
+	return (ImgData*)getState(ID, i);
+}
+
+int CameraState::setState(std::vector<ImgData*> d){
+	State::setState(d);
+	return setState(d);
+}
