@@ -10,8 +10,7 @@
 
 #include <QThread>
 
-class ControllerThread : public QThread
-{
+class ControllerThread : public QThread {
 	public:
     	Q_OBJECT
 

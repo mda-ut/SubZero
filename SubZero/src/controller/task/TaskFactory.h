@@ -9,6 +9,7 @@
 #define BASETASKFACTORY_H_
 
 #include "BaseTask.h"
+#include <string>
 
 class TaskFactory {
 public:

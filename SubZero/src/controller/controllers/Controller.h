@@ -6,18 +6,19 @@
 #define CONTROLLER_H_
 
 #include "../command/Command.h"
+#include <QObject>
 #include <QQueue>
 
-class Controller {
+class Controller : public QObject {
 	public:
 		/**
-		* Constructor
-		*/
+		 * Constructor
+		 */
 		Controller();
 
 		/**
-		* Destructor
-		*/
+		 * Destructor
+		 */
 		virtual ~Controller();
 
 		/**
