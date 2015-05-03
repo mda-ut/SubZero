@@ -1,18 +1,14 @@
 /*
  * Controller.cpp
  *
- *  Created on: Jan 7, 2015
- *      Author: mda
+ *  Created on: Mar 12, 2015
+ *      Author: ed
  */
 
 #include "Controller.h"
 
-Controller::Controller() {
-	// TODO Auto-generated constructor stub
-
+Controller::Controller(){
 }
 
-Controller::~Controller() {
-	// TODO Auto-generated destructor stub
-}
-
+    //Destructor to free pointers
+Controller::~Controller(){}
