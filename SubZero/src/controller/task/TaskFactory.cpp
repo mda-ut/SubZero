@@ -11,7 +11,7 @@ TaskFactory::TaskFactory() {
 	// TODO Auto-generated constructor stub
 
 }
-
+/*
 BaseTask* TaskFactory::newTask(const std::string input){
 	BaseTask* newTask;
 
@@ -20,9 +20,8 @@ BaseTask* TaskFactory::newTask(const std::string input){
 	default:
 
 	return newTask;
-
 }
-
+*/
 TaskFactory::~TaskFactory() {
 	// TODO Auto-generated destructor stub
 }

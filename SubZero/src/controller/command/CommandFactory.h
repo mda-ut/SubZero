@@ -20,7 +20,7 @@ class CommandFactory {
 		* @param postString for the string to be posted
 		* @return Command object pointer
 		*/
-		static Command* createPostToScreen(Task postToScreen, string PostString);
+		static Command* createPostToScreen(TaskA postToScreen, std::string PostString);
 
 };
 
