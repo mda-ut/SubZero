@@ -16,19 +16,51 @@
  */
 class RGBFilter: public Filter {
 
-public:
-	RGBFilter(int r, int g, int b);
-	virtual ~RGBFilter();
-
-	// Filter function for filter
-	int filter (ImgData * inputImg);
-
-	// Set values function.
-	void setValues(int r, int b, int g);
-
 private:
 	// Int variables for the rgb values used in the RGBFilter.
 	int r, g, b;
+
+public:
+	/* ==========================================================================
+	 * CONSTRUCTOR AND DESTRUCTOR
+	 * ==========================================================================
+	 */
+
+	/**
+	 * RGBFilter constructor takes in the 3 values, r, g, and b (range: 0:255),
+	 * and uses them when calling the opencv's threshold function.
+	 *
+	 * @param r		:0-255 int values for red intensity.
+	 * @param g		:0-255 int values for green intensity.
+	 * @param b		:0-255 int values for blue intensity.
+	 */
+	RGBFilter(int r, int g, int b);
+
+	/**
+	 * Destructor
+	 */
+	virtual ~RGBFilter();
+
+	/* ==========================================================================
+	 * FILTER ACTION
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Filtering function for filter obj. Takes the inputImg and filters it.
+	 *
+	 * @param inputImg
+	 */
+	int filter (ImgData* inputImg);
+
+	/**
+	 * Set values function.
+	 *
+	 * @param r		:0-255 int values for red intensity.
+	 * @param g		:0-255 int values for green intensity.
+	 * @param b		:0-255 int values for blue intensity.
+	 */
+	void setValues(int r, int b, int g);
 };
 
 #endif /* RGBFILTER_H_ */

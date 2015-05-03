@@ -11,8 +11,8 @@
 #include <highgui.h>
 #include <string.h>
 
-#include <ImgData.h>
-#include <FPGAData.h>
+#include "ImgData.h"
+#include "FPGAData.h"
 
 
 /**
@@ -21,25 +21,54 @@
  * each carry a ID tag that is set by the creator of it,
  * a msg that propagate details about the data. There are
  * 2 major children of data: ImgData and FPGAData which
- * hold data from the camara and the FPGA respectively.
+ * hold data from the camera and the FPGA respectively.
  */
 class Data {
-	friend class FilterManager;
-	friend class Filter;
-	friend class HwInterface;
+
+protected:
+
+	/* ==========================================================================
+	 * VARS ACCESSIBLE BY CHILDREN
+	 * ==========================================================================
+	 */
+
+	/**
+	 * The ID associated to what the data is representing. This value is
+	 * set by the creator of the data object.
+	 */
+	std::string dataID;
+
+	/**
+	 * The associated message for the particular data can be recorded
+	 * here.
+	 */
+	std::string msg;
+
 public:
+	/* ==========================================================================
+	 * CONSTRUCTOR & DESTRUCTOR
+	 * ==========================================================================
+	 */
+
 	/**
 	 * Constructor stub.
+	 *
+	 * @param dataID	identifies what the data represents
 	 */
-	Data();
+	Data(std::string dataID);
 
 	/**
 	 * Destructor stub.
 	 */
 	virtual ~Data();
 
+	/* ==========================================================================
+	 * PUBLIC FUNCS COMMON TO ALL CHILDREN
+	 * ==========================================================================
+	 */
+
 	/**
-	 * Getter for img ID
+	 * Getter for the data object's ID
 	 *
 	 * @return return the string ID of the data
 	 */
@@ -55,24 +84,32 @@ public:
 	/**
 	 * Set the message carried by the data.
 	 *
-	 * @param string message
-	 * @return 0 for success, 1 for warning that a old message was overwritten.
+	 * @param newMsg 	to be set
+	 * @return 			0 for success, 1 for warning that a old message was overwritten.
 	 */
-	int setMsg();
+	int setMsg(std::string newMsg);
 
-protected:
-
-	/**
-	 * The ID associated to what the data is representing. This value is
-	 * set by the creator of the data object.
+	/* ==========================================================================
+	 * OPERATOR OVERLOAD
+	 * ==========================================================================
 	 */
-	std::string ID;
 
 	/**
-	 * The associated message for the particular data can be recorded
-	 * here.
+	 * The = operator overload that will complete a deep copy of the
+	 * right hand side operator and return it. This generic operator
+	 * overload casts into the correct Data operator overload
+	 *
+	 * @param rhs	the right hand side of the equal operator, the parent copy
+	 * @return		address to a new Data
 	 */
-	std::string msg;
+	Data& operator=(Data& rhs);
+
+	/**
+	 * Copy constructor
+	 *
+	 * @param obj	the object referenced in the construction
+	 */
+	Data(const Data& obj);
 };
 
 #endif /* DATA_H_ */

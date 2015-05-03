@@ -26,9 +26,9 @@ public:
 	/**
 	 * RGB filter is created.
 	 *
-	 * @param r for red [0,255]
-	 * @param g for green [0,255]
-	 * @param g for blue [0,255]
+	 * @param r		:0-255 int values for red intensity.
+	 * @param g		:0-255 int values for green intensity.
+	 * @param b		:0-255 int values for blue intensity.
 	 * @return filter object pointer
 	 */
 	static Filter* createRGBFilter(int r, int g, int b);
