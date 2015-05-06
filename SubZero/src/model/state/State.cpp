@@ -14,7 +14,6 @@ State::State() {
 State::State(int framesStored) {
 	init();
 	maxLength = framesStored;
-
 }
 
 State::~State() {
@@ -23,8 +22,6 @@ State::~State() {
 
 void State::init(){
 	this->frameStarted = false;
-	this->stateData = new std::list<std::vector<Data*>>;
-
 }
 
 Data* State::getState (std::string ID, int i){
@@ -54,13 +51,8 @@ Data* State::getState (std::string ID){
 	return 0;
 }
 
-int State::setState(std::vector<Data*> d){
-	//this->stateData.insert(d);	//insert vector into list
-	return 0;
-}
-
 Data* State::getRaw(int i){
-
+	return this->getState("RAW", i);
 }
 
 Data* State::getRaw(){

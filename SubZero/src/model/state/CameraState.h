@@ -19,6 +19,8 @@
 class CameraState : public State {
 
 	//all of this class' variables are inherited from its parent (State.h)
+protected:
+	std::list<std::vector<ImgData*> > stateData;
 
 public:
 	/**
@@ -69,19 +71,16 @@ public:
 
 	/**
 	 * Gets a pointer to a deep copy of the newest raw image data
-	 * @param data = pointer to the deep copy of the raw image data
+	 * @return a pointer to the deep copy of the raw image data
 	 */
-	void getRaw(ImgData* data);
+	ImgData* getRaw();
 
 	/**
 	 * Gets a pointer to the deep copy of the raw image data _i_ frames before
 	 * @param i = how many frames ago the raw image was recorded (zero indexed; newest frame = 0)
-	 * @param data = pointer to the deep copy of the raw State data _i_ frames before this function call
-	 * @return returns an int to indicate if the operation was successful
-	 * 		- 0 = success
-	 * 		- 1 = index out of range
+	 * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
 	 */
-	int getRaw(int i, ImgData* data);
+	ImgData* getRaw(int i);
 
 };
 

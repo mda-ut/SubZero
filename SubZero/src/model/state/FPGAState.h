@@ -18,12 +18,15 @@
 class FPGAState : public State {
 
 	//all of this class' variables are inherited from its parent (State.h)
+protected:
+	std::list<std::vector<FPGAData*> > stateData;
 
 public:
 	/**
 	 * constructor
 	 */
 	FPGAState();
+	FPGAState(int framesStored);
 
 	/**
 	 * destructor
@@ -53,7 +56,7 @@ public:
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	int setState(FPGAData* d);
+	//int setState(FPGAData* d);
 
 	/**
 	 * Same thing as setState, except it takes an entire vector of FPGA data instead of 1 data
@@ -70,7 +73,7 @@ public:
 	 * Gets a pointer to a deep copy of the newest raw FPGA data
 	 * @param data = pointer to the deep copy of the raw FPGA data
 	 */
-	void getRaw(FPGAData* data);
+	FPGAData* getRaw();
 
 	/**
 	 * Gets a pointer to the deep copy of the raw FPGA data _i_ frames before
@@ -80,7 +83,7 @@ public:
 	 * 		- 0 = success
 	 * 		- 1 = index out of range
 	 */
-	int getRaw(int i, FPGAData* data);
+	FPGAData* getRaw(int i);
 
 };
 

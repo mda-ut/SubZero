@@ -19,8 +19,9 @@ protected:
 	int maxLength;
 
 	//LinkedList <Vector<Data>>
-	std::list<std::vector<Data>> stateData;
+	std::list<std::vector<Data*>> stateData;
 
+	//Initialize the class
 	void init();
 
 	/**
@@ -58,7 +59,7 @@ protected:
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	int setState(std::vector<Data*> d);
+	virtual int setState(std::vector<Data*> d) = 0;
 
 	/**
 	 * Gets a pointer to a deep copy of the newest raw State
