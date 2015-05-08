@@ -8,6 +8,8 @@
 #ifndef DATAFACTORY_H_
 #define DATAFACTORY_H_
 #include "Data.h"
+#include "FPGAData.h"
+#include "ImgData.h"
 
 /**
  * This factory holds public functions for members of Model to

@@ -11,9 +11,10 @@
 #include <vector>
 #include <string>
 
-#include "HwInterface.h"
-#include "FilterManager.h"
-#include "FilterFactory.h"
+#include "interface/HwInterface.h"
+#include "../util/filter/FilterManager.h"
+#include "../util/filter/FilterFactory.h"
+#include "../Observable.h"
 
 enum ModelType{
 	CameraModel = 1,

@@ -7,9 +7,9 @@
 
 #ifndef FILTER_H_
 #define FILTER_H_
-#include "Data.h"
-#include "RGBFilter.h"
-//#include "HSVFilter.h"
+#include "../data/Data.h"
+#include "../data/ImgData.h"
+#include "../data/FPGAData.h"
 
 /**
  * Filter is a virtual class that is further specified into specific

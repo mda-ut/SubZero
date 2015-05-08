@@ -37,14 +37,14 @@ public:
 	 *
 	 * @param obs the observer to be added to update list
 	 */
-	void addObserver(Observer *obs);
+	void addObserver(Observer* obs);
 
 	/**
 	 * Detach a certain observer
 	 *
 	 * @param obs the observer to be removed from update list
 	 */
-	void removeObserver(Observer *obs);
+	void removeObserver(Observer* obs);
 
 	/**
 	 * Notifies observers that a new update to state is available

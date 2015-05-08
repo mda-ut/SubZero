@@ -7,12 +7,12 @@
 
 #include "CameraState.h"
 
-CameraState::CameraState() {
-	// TODO Auto-generated constructor stub
-
-}
-
-CameraState::~CameraState() {
-	// TODO Auto-generated destructor stub
-}
+//CameraState::CameraState() {
+//	// TODO Auto-generated constructor stub
+//
+//}
+//
+//CameraState::~CameraState() {
+//	// TODO Auto-generated destructor stub
+//}
 

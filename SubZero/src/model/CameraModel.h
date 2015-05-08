@@ -9,7 +9,7 @@
 #define CAMERAMODEL_H_
 
 #include "Model.h"
-#include "CameraState.h"
+#include "state/CameraState.h"
 
 /**
  * This is a concrete model child that inherits from Model. It implements functions

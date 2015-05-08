@@ -6,13 +6,13 @@
  */
 
 #include "FPGAState.h"
-
-FPGAState::FPGAState() {
-	// TODO Auto-generated constructor stub
-
-}
-
-FPGAState::~FPGAState() {
-	// TODO Auto-generated destructor stub
-}
+//
+//FPGAState::FPGAState() {
+//	// TODO Auto-generated constructor stub
+//
+//}
+//
+//FPGAState::~FPGAState() {
+//	// TODO Auto-generated destructor stub
+//}
 

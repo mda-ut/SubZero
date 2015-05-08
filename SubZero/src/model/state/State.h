@@ -1,14 +1,14 @@
 #ifndef STATE_H_
 #define STATE_H_
-#include "Observable.h"
-#include "Data.h"
+#include "../../Observable.h"
+#include "../../util/data/Data.h"
 
 #include <string>
 #include <list>
 #include <vector>
 
 
-class State: public Observable{
+class State: public Observable {
 
 protected:
 	//boolean to signal if a new frame has started
@@ -19,40 +19,33 @@ protected:
 	int maxLength;
 
 	//LinkedList <Vector<Data>>
-	std::list<std::vector<Data>> stateData;
+	std::list<std::vector<Data> > stateData;
 
 	/**
 	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the State that is needed
 	 * @param i = how many frames ago was the State stored
-	 * @param data = the pointer to the deep copied State
-	 * @return returns an integer to indicate if the operation was successful
-	 * 		- 0 = successful
-	 * 		- 1 = no State with such ID found
-	 * 		- 2 = index out of range
+	 * @return returns the pointer to a deep copied State
 	 */
-	int getState (std::string ID, int i, Data* data);
+	Data* getState (std::string ID, int i);
 
 	/**
 	 * Returns a deep copy of the latest State specified with the _ID_
 	 * (same as calling getState(ID, 0))
 	 * @param ID = id of the State that is needed
-	 * @param data = the pointer to the deep copied State
-	 * @return returns an integer to indicate if the operation was successful
-	 * 		- 0 = successful
-	 * 		- 1 = no State with such ID found
+	 * @return returns the pointer to a deep copied State
 	 */
-	int getState (std::string ID, Data* data);
+	Data* getState (std::string ID);
 
 	/**
 	 * Sets the state
 	 * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-	 * @param d = State data to be set for this frame
+	 * @param d = Pointer to state data to be set for this frame
 	 * @return an int indicating whether the operation was successful
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	int setState(Data d);
+	int setState(Data* d);
 
 	/**
 	 * Same thing as setState, except it takes an entire vector of data instead of 1 data

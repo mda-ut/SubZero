@@ -9,37 +9,38 @@
 #define FPGAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "Data.h"
+#include "../../util/data/Data.h"
+#include "../../util/data/FPGAData.h"
 
 using namespace std;
 
 enum Commands {
 };
 
-enum MoveCommands : Commands {
-	FORWARD,
-	REVERSE,
-	LEFT,
-	RIGHT,
-	SINK,
-	RISE
-};
-
-enum SpecialCommands : Commands {
-	POWERON,
-	POWEROFF,
-  // from previous year, AquaTux also had:
-  // SUB_STARTUP_SEQUENCE,
-  // SUB_MISSION_STARTUP_SEQUENCE,
-  // SUB_POWER_OFF,
-  // SIM_MOVE_FWD,
-  // SIM_MOVE_REV,
-  // SIM_MOVE_LEFT,
-  // SIM_MOVE_RIGHT,
-  // SIM_MOVE_RISE,
-  // SIM_MOVE_SINK,
-  // SIM_ACCEL_ZERO
-};
+//enum MoveCommands : Commands {
+//	FORWARD,
+//	REVERSE,
+//	LEFT,
+//	RIGHT,
+//	SINK,
+//	RISE
+//};
+//
+//enum SpecialCommands : Commands {
+//	POWERON,
+//	POWEROFF,
+//  // from previous year, AquaTux also had:
+//  // SUB_STARTUP_SEQUENCE,
+//  // SUB_MISSION_STARTUP_SEQUENCE,
+//  // SUB_POWER_OFF,
+//  // SIM_MOVE_FWD,
+//  // SIM_MOVE_REV,
+//  // SIM_MOVE_LEFT,
+//  // SIM_MOVE_RIGHT,
+//  // SIM_MOVE_RISE,
+//  // SIM_MOVE_SINK,
+//  // SIM_ACCEL_ZERO
+//};
 
 /**
  * A concrete child of HwInterface that deals specifically with the FPGA.
@@ -73,7 +74,9 @@ private:
 	 * Poll raw data from FPGA.
 	 * @return	data polled
 	 */
-	virtual string* poll();
+
+	// same problem here... suggest using Data
+	virtual Data* poll();
 
 	/**
 	 * Decode the data.
@@ -119,21 +122,21 @@ public:
 	 * @param	data	data to be encoded
 	 * @return	encoded data in FPGA-understandable format
 	 */
-	virtual string* encode(FPGAData data); //might not be needed
+//	virtual string* encode(FPGAData data); //might not be needed
 
 	/**
 	 * Encodes the command to be sent to FPGA.
 	 * @param	data	data to be encoded
 	 * @return	encoded data in FPGA-understandable format
 	 */
-	@Overload
-	virtual string* encode(Commands command);
+	//@Overload
+//	virtual string* encode(Commands command);
 
 	/**
 	 * Send the data.
 	 * @param	data	data to be sent
    	 */
-	virtual void send(String* data);
+	virtual void send(string* data);
 
 
 	/* ==========================================================================
@@ -156,7 +159,7 @@ public:
 	 * @param	endIdx	index of the last data to get
 	 * @return	an array of data
 	 */
-	@Overload
+	//@Overload
 	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
 
 	/**

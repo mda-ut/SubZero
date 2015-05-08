@@ -9,7 +9,7 @@
 #define CAMERAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "Data.h"
+#include "../../util/data/ImgData.h"
 // include other camera + image specific classes
 // #include "ImageInputProcessor.h"
 // #include "ImageFormatter.h"
@@ -46,7 +46,9 @@ private:
 	 * Poll raw data from the camera.
 	 * @return	data polled
 	 */
-	virtual cv::Mat* poll();
+
+	// bug fix... seems like the virtual has to have the same return type.. suggest use of Data
+	Data* poll();
 
 	/**
 	 * Decode the data.
@@ -100,7 +102,7 @@ public:
 	 * @param	endIdx	index of the last data to get
 	 * @return	an array of data
 	 */
-	@Overload
+	//@Overload
 	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
 
 	/**
@@ -136,6 +138,7 @@ public:
 	/**
 	 * Constructor for Hardware Interface
 	 * @param	bufferSize	buffer size for the interface
+	 * @param 	pullFrequencey specifies how frequent video stream is pulled
 	 * @param	policy	specifies the encoding and decoding policy to be used
 	 * @param	hardwareID	identifies the hardware this interface interacts with
 	 */
@@ -147,3 +150,5 @@ public:
 	virtual ~CameraInterface();
 
 };
+
+#endif

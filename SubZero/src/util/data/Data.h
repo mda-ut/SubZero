@@ -11,9 +11,6 @@
 #include <highgui.h>
 #include <string.h>
 
-#include "ImgData.h"
-#include "FPGAData.h"
-
 
 /**
  * Data is the generic class representing all data used by

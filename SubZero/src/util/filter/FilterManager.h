@@ -9,9 +9,9 @@
 #define FILTERMANAGER_H_
 
 #include "Filter.h"
-#include "IDHasher.h"
-#include "Data.h"
-#include "DataFactory.h"
+#include "../IDHasher.h"
+#include "../data/Data.h"
+#include "../data/DataFactory.h"
 #include <vector>
 
 /*

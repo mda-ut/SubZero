@@ -7,6 +7,6 @@
 
 #include "DataFactory.h"
 
-ImgData* DataFactory::createImgData(ImgData* in){
-	return in;
-}
+//ImgData* DataFactory::createImgData(ImgData* in){
+//	return in;
+//}

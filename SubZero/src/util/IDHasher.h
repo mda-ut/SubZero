@@ -7,8 +7,9 @@
 
 #ifndef IDHASHER_H_
 #define IDHASHER_H_
-#include <unordered_map>
+#include <map>
 #include <vector>
+#include <string>
 
 
 /*
@@ -43,18 +44,26 @@ private:
 	 */
 	std::map<std::string, struct Node*> dictionary;
 
+
+public:
+
+	/* ==========================================================================
+	 * PUBLIC CLASS VARIABLES
+	 * ==========================================================================
+	 */
+
 	/*
 	 * Linked List pointers
 	 */
-	struct Node* linkedListFront = nullptr;
-	struct Node* linkedListRear = nullptr;
+	struct Node* linkedListFront;
+	struct Node* linkedListRear;
+
 
 	/*
 	 * Count of nodes/data stored by ADT
 	 */
 	int count;
 
-public:
 	/* ==========================================================================
 	 * CONSTRUCTOR AND DESTRUCTOR
 	 * ==========================================================================
@@ -96,7 +105,7 @@ public:
 	 * @param index 	is the index where the new data will be inserted.
 	 * @return 			0 for success, 1 for nodeID not unique, 2 index out of range.
 	 */
-	int ins(std::string nodeID, struct NodeData nodeData, int index);
+	int insByIndex(std::string nodeID, struct NodeData nodeData, int index);
 
 	/**
 	 * Insertion by ID inserts the Data struct before the
@@ -107,7 +116,7 @@ public:
 	 * @param targetID 	the key of a stored data where the new data will be inserted.
 	 * @return 			0 for success, 1 for nodeID not unique, 2 targetID out of range.
 	 */
-	int ins(std::string ID, struct NodeData nodeData, std::string insID);
+	int insByID(std::string nodeID, struct NodeData nodeData, std::string targetID);
 
 	/**
 	 * Delete a mapping by index.
@@ -115,7 +124,7 @@ public:
 	 * @param index 	to be deleted.
 	 * @return 			0 for success, 1 for insertion failure, 2 for deletion failure.
 	 */
-	int del(int index);
+	int delByIndex(int index);
 
 	/**
 	 * Delete a mapping by key. Note: key to data mapping is unique.
@@ -123,7 +132,7 @@ public:
 	 * @param ID	the key of the data to be deleted.
 	 * @return 		0 for success, 1 for failure.
 	 */
-	int del(std::string ID);
+	int delByID(std::string ID);
 
 	/**
 	 * Delete all mappings.

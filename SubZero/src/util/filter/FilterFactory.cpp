@@ -6,7 +6,3 @@
  */
 
 #include "FilterFactory.h"
-
-Filter* FilterFactory::createRGBFilter(int r, int g, int b) {
-	return (Filter*) new RGBFilter(r, g, b);
-}
