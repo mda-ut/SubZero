@@ -7,9 +7,9 @@
 
 #ifndef FPGASTATE_H_
 #define FPGASTATE_H_
-#include "Observable.h"
+#include "../../Observable.h"
 #include "State.h"
-#include "FPGAData.h"
+#include "../../util/data/FPGAData.h"
 
 /**
  * FPGAState is an Observable used by FPGAModel to hold data sent from the FPGA.

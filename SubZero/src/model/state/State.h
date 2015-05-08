@@ -1,7 +1,7 @@
 #ifndef STATE_H_
 #define STATE_H_
-#include "Observable.h"
-#include "Data.h"
+#include "../../Observable.h"
+#include "../../util/data/Data.h"
 
 #include <string>
 #include <list>
@@ -19,7 +19,7 @@ protected:
 	int maxLength;
 
 	//LinkedList <Vector<Data>>
-	std::list<std::vector<Data>> stateData;
+	std::list<std::vector<Data> > stateData;
 
 	/**
 	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call

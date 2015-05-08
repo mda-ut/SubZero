@@ -8,14 +8,14 @@
 #include "FPGAModel.h"
 
 namespace std {
-
-FPGAModel::FPGAModel() {
-	fpgaState = (FPGAState*) &observable;
-
-}
-
-FPGAModel::~FPGAModel() {
-	// TODO Auto-generated destructor stub
-}
+//
+//FPGAModel::FPGAModel() {
+//	fpgaState = (FPGAState*) &observable;
+//
+//}
+//
+//FPGAModel::~FPGAModel() {
+//	// TODO Auto-generated destructor stub
+//}
 
 } /* namespace std */

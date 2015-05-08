@@ -8,14 +8,14 @@
 #include "CameraInterface.h"
 
 namespace std {
-
-CameraInterface::CameraInterface() {
-	// TODO Auto-generated constructor stub
-
-}
-
-CameraInterface::~CameraInterface() {
-	// TODO Auto-generated destructor stub
-}
-
+//
+//CameraInterface::CameraInterface() {
+//	// TODO Auto-generated constructor stub
+//
+//}
+//
+//CameraInterface::~CameraInterface() {
+//	// TODO Auto-generated destructor stub
+//}
+//
 } /* namespace std */

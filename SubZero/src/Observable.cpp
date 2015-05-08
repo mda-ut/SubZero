@@ -25,7 +25,7 @@ void Observable::removeObserver(Observer* obs) {
 }
 
 void Observable::notifyObservers() {
-	for (auto& obs : observers) {
-		obs->update();
-	}
+//	for (auto& obs : observers) {
+//		obs->update();
+//	}
 }

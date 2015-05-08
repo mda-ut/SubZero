@@ -13,6 +13,7 @@ int main(int argc, char** argv) {
 	Logger::trace("Logger initialized.");
 
 	Logger::close();
+
 	return 0;
 }
 

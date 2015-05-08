@@ -8,14 +8,14 @@
 #include "HwInterface.h"
 
 namespace std {
-
-HwInterface::HwInterface() {
-	// TODO Auto-generated constructor stub
-
-}
-
-HwInterface::~HwInterface() {
-	// TODO Auto-generated destructor stub
-}
+//
+//HwInterface::HwInterface() {
+//	// TODO Auto-generated constructor stub
+//
+//}
+//
+//HwInterface::~HwInterface() {
+//	// TODO Auto-generated destructor stub
+//}
 
 } /* namespace std */

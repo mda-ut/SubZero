@@ -11,9 +11,10 @@
 #include <vector>
 #include <string>
 
-#include "HwInterface.h"
-#include "FilterManager.h"
-#include "FilterFactory.h"
+#include "interface/HwInterface.h"
+#include "../util/filter/FilterManager.h"
+#include "../util/filter/FilterFactory.h"
+#include "../Observable.h"
 
 enum ModelType{
 	CameraModel = 1,
@@ -55,18 +56,18 @@ public:
 
 /* **************** HwInterface related **************** */
 
-	/**
-	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
-     * @return	shallow copy of the first Data* in HwInterface buffer
-	 */
-	virtual Data* getDataFromBuffer();
-
-	/**
-	 * sendCommand send a command to the FPGA
-	 * @param	newCommand	contains the command and will be parsed before sending
-	 * @return				error message of the result of this function
-	 */
-	virtual int sendCommand(std::string newCommand);
+//	/**
+//	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
+//     * @return	shallow copy of the first Data* in HwInterface buffer
+//	 */
+//	virtual Data* getDataFromBuffer();
+//
+//	/**
+//	 * sendCommand send a command to the FPGA
+//	 * @param	newCommand	contains the command and will be parsed before sending
+//	 * @return				error message of the result of this function
+//	 */
+//	virtual int sendCommand(std::string newCommand);
 
 
 /* **************** Observable/State related **************** */
