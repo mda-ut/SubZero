@@ -5,17 +5,17 @@
  *      Author: ed
  */
 
-#include "TaskA.h"
+#include "MoveForward.h"
 
-TaskA::TaskA() {
+MoveForward::MoveForward() {
 	// TODO Auto-generated constructor stub
 
 }
 
-TaskA::~TaskA() {
+MoveForward::~MoveForward() {
 	// TODO Auto-generated destructor stub
 }
 
-void TaskA::execute(){
-	std::cout<<"Hello World"<<std::endl;
+void MoveForward::execute(){
+	//call model to move forward
 }

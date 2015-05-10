@@ -7,13 +7,3 @@
 
 #include "Command.h"
 
-Command Command::(BaseTask *inputTask) {
-	currentTask = inputTask;
-}
-
-Command::~Command() {
-	// TODO Auto-generated destructor stub
-}
-
-virtual void Command::execute(){}
-
