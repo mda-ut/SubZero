@@ -1,10 +1,6 @@
-/* Menu Class 
-
-February 7th 2015
-
-*/
 #include "menu.h"
 #include <QDebug>
+#include <guiview.h>
 
 Menu::Menu(QWidget *parent) :
     QWidget(parent)
@@ -46,6 +42,12 @@ void Menu::makeView()
     if (selector->currentText() == "GUI")
     {
         qDebug()<< "Initiating GUI";
+
+       GuiView *GUI = new GuiView;
+       GUI->show();
+       this->close();
+
+
     }
     else if (selector->currentText() == "SIM")
     {
