@@ -3,18 +3,17 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
 #include <QPixmap>
-#include <QPaintEvent>
-#include <QGridLayout>
+#include <QSize>
 #include <QWidget>
+#include <QLabel>
 #include <cv.h>
 #include <highgui.h>
 
 /** This abstract class holds the basic
  * properties expected of all views -a
- * display via QGraphics, QPixmap, QPainters
- * andlayouts; and Signals and slots
+ * display via QGraphics, QPixmap;
+ * and Signals and slots
  *
  */
 
@@ -24,21 +23,33 @@ class View :public QWidget
 public:
     View();
 
+    /**
+    * @param viewFront 'Screen' of the Front facing camera
+    * @param viewDown 'Screen' of the Downwards facing camera
+    * @param sceneFront the image to be shown in viewFront
+    * @param sceneDown the image to be shown in viewDown
+    * @param displaySize the size of the view screens and their scenes
+    *
+    *
+    */
+
     QGraphicsView *viewFront;
     QGraphicsView *viewDown;
-    QGraphicsScene *scene;
+    QGraphicsScene *sceneFront;
+    QGraphicsScene *sceneDown;
     QPixmap *pixmap;
-    QGridLayout *mainLayout;
-    QPaintEvent *paintEvent;
+    QSize *displaySize;
+    QLabel *sonarStrength;
 
-    /** makeQPixmap converts the opencv Mat
+    /**
+     * makeQPixmap converts the opencv Mat
      * object into a QPixmap.
      * displayImage updates the scene with a
      * pixmap to be displayed
      */
 
-    virtual QPixmap* makeQPixmap(cv::Mat* img)=0;
-    virtual void displayUpdate (cv::Mat* img, QGraphicsScene *view)= 0;
+    virtual QPixmap makeQPixmap(cv::Mat* img)=0;
+    virtual void displayUpdate (cv::Mat* img, QGraphicsView *view)= 0;
 };
 
 #endif // VIEW_H
