@@ -9,7 +9,7 @@
  * observable class when observable changes state.
  * It then retrieves the data once it is available
  * to read. It's only purpose is to handle the
- * observer pattern in the naem of modularity.
+ * observer pattern in the name of modularity.
  */
 
 class Observer
