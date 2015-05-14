@@ -49,7 +49,7 @@ public:
      */
 
     virtual QPixmap makeQPixmap(cv::Mat* img)=0;
-    virtual void displayUpdate (cv::Mat* img, QGraphicsView *view)= 0;
+    virtual void displayUpdate (cv::Mat* img, QGraphicsScene *scene)= 0;
 };
 
 #endif // VIEW_H
