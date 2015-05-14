@@ -1,6 +1,3 @@
-#ifndef GUIVIEW_H_
-#define GUIVIEW_H_
-
 #ifndef GUIVIEW_H
 #define GUIVIEW_H
 
@@ -9,11 +6,13 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QPixmap>
-#include <QPaintEvent>
-#include <QGridLayout>
 #include <QWidget>
 #include <cv.h>
 #include <highgui.h>
+
+#include <QComboBox>
+#include <QPushButton>
+#include <QSize>
 
 
 
@@ -28,16 +27,17 @@ class GuiView : public View, public Observer
 public:
     GuiView();
 
-    QGraphicsView *viewFront;
-    QGraphicsView *viewDown;
-    QGraphicsScene *scene;
-    QPixmap *pixmap;
-    QGridLayout *mainLayout;
-    QPaintEvent *paintEvent;
+    /**
+     * @param actionSelector Holds all view actions
+     * @param affirmSelector Actuates current action in
+    */
 
 
-    QPixmap *makeQPixmap(cv::Mat* imgData);
-    void displayUpdate (cv::Mat* img, QGraphicsView *view);
+    QComboBox *actionSelector;
+    QPushButton *affirmButton;
+
+    QPixmap makeQPixmap(cv::Mat* imgData);
+    void displayUpdate (cv::Mat* img, QGraphicsScene *scene);
     void update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc);
 };
 
