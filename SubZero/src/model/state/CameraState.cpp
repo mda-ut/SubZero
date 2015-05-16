@@ -13,15 +13,36 @@ CameraState::CameraState() : State(){
 CameraState::CameraState(int framesStored) : State(framesStored){
 }
 
-CameraState::~CameraState() : ~State(){
+CameraState::~CameraState(){
+	delete stateData;
 }
 
 ImgData* CameraState::getState(std::string ID){
-	return (ImgData*)State::getState(ID);
+	std::vector<ImgData*> temp = this->stateData.back();
+
+	for (ImgData* data: temp){
+		if (data->getID().compare(ID) == 0){
+			return data;		//need to make a deep copy then return it
+		}
+	}
+
+	return 0;
 }
 
 ImgData* CameraState::getState(std::string ID, int i){
-	return (ImgData*)State::getState(ID, i);
+	if (i > stateData.size()){
+		return 0;				//index out of range
+	}
+
+	std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
+	std::advance(it, i);		//advance the list to the ith position
+
+	for (ImgData* data: *it){
+		if (data->getID().compare(ID) == 0){
+			return data;	//return deep copy
+		}
+	}
+	return 0;
 }
 
 int CameraState::setState(std::vector<ImgData*> d){
@@ -30,9 +51,9 @@ int CameraState::setState(std::vector<ImgData*> d){
 }
 
 ImgData* CameraState::getRaw(){
-	return (ImgData*) State::getRaw();
+	return this->getState("RAW");
 }
 
 ImgData* CameraState::getRaw(int i){
-	return (ImgData*) State::getRaw(i);
+	return this->getState("RAW", i);
 }

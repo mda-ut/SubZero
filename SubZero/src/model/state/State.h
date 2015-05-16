@@ -19,7 +19,7 @@ protected:
 	int maxLength;
 
 	//LinkedList <Vector<Data>>
-	std::list<std::vector<Data*>> stateData;
+	//std::list<std::vector<Data*>> stateData;
 
 	//Initialize the class
 	void init();
@@ -30,7 +30,7 @@ protected:
 	 * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
 	 * @return returns the pointer to a deep copied State
 	 */
-	Data* getState (std::string ID, int i);
+	virtual Data* getState (std::string ID, int i) = 0;
 
 	/**
 	 * Returns a deep copy of the latest State specified with the _ID_
@@ -38,7 +38,7 @@ protected:
 	 * @param ID = id of the State that is needed
 	 * @return returns the pointer to a deep copied State
 	 */
-	Data* getState (std::string ID);
+	virtual Data* getState (std::string ID) = 0;
 
 	/**
 	 * Sets the state
@@ -59,20 +59,20 @@ protected:
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	virtual int setState(std::vector<Data*> d) = 0;
+	//virtual int setState(std::vector<Data*> d) = 0;
 
 	/**
 	 * Gets a pointer to a deep copy of the newest raw State
 	 * @return data = pointer to the deep copy of the raw State
 	 */
-	Data* getRaw();
+	virtual Data* getRaw() = 0;
 
 	/**
 	 * Gets a pointer to the deep copy of the raw State _i_ frames before
 	 * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
 	 * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
 	 */
-	Data* getRaw(int i);
+	virtual Data* getRaw(int i) = 0;
 
 public:
 	State();	//constructor
