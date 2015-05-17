@@ -9,6 +9,7 @@
 #define CONTROLLERTHREAD_H_
 
 #include <QThread>
+#include <QQueue>
 
 class ControllerThread : public QThread
 {

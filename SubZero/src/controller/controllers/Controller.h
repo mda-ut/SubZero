@@ -7,13 +7,14 @@
 
 #include "../command/Command.h"
 #include <QQueue>
+#include <>
 
 class Controller {
 	public:
 		/**
 		* Constructor
 		*/
-		Controller();
+		Controller(std::vector <Model> *model);
 
 		/**
 		* Destructor
