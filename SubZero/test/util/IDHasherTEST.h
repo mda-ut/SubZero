@@ -8,8 +8,6 @@
 #ifndef TEST_UTIL_IDHASHERTEST_H_
 #define TEST_UTIL_IDHASHERTEST_H_
 
-#include <iostream>
-#include <string>
 #include "../../src/util/IDHasher.h"
 #include "../../src/util/Logger.h"
 #include "../../src/util/StringTools.h"
@@ -39,6 +37,11 @@ public:
 	static int T_delByIndex();
 	static int T_delByID();
 	static int T_delAll();
+
+	/* ===========================================================================
+	 * SUPPLAMENTS
+	 * ===========================================================================
+	 */
 	static int T_getNodeIDList();
 };
 

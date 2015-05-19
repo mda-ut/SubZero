@@ -44,7 +44,7 @@ IDHasher::IDHasher() {
 	this->count = 0;
 	this->linkedListFront = 0;
 	this->linkedListRear = 0;
-	this->dictionary = *new std::map<std::string, struct Node*>; // I don't need to new map?
+	this->dictionary = *new std::map<std::string, struct Node*>;
 	// Special keys
 	this->dictionary["FRONT"] = 0;
 	this->dictionary["REAR"] = 0;

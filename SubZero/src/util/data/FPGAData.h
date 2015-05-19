@@ -29,25 +29,6 @@ class FPGAData: public Data {
 private:
 
 	/* ==========================================================================
-	 * CONSTRUCTOR & DESTRUCTOR
-	 * ==========================================================================
-	 */
-
-	/**
-	 * Constructor for FPGAData.
-	 *
-	 * @param depth
-	 * @param roll
-	 * @param heading
-	 */
-	FPGAData(std::string dataID, double depth, double roll, double heading);
-
-	/**
-	 * Destructor stub.
-	 */
-	virtual ~FPGAData();
-
-	/* ==========================================================================
 	 * FRIEND FUNCS
 	 * ==========================================================================
 	 */
@@ -89,6 +70,25 @@ private:
 public:
 
 	/* ==========================================================================
+	 * CONSTRUCTOR & DESTRUCTOR
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Constructor for FPGAData.
+	 *
+	 * @param depth
+	 * @param roll
+	 * @param heading
+	 */
+	FPGAData(std::string dataID, double depth, double roll, double heading);
+
+	/**
+	 * Destructor stub.
+	 */
+	virtual ~FPGAData();
+
+	/* ==========================================================================
 	 * FPGA MANIPULATION FUNCS
 	 * ==========================================================================
 	 */
@@ -126,14 +126,14 @@ public:
 	 * @param rhs	the right hand side of the equal operator, the parent copy
 	 * @return		address to a new ImgData
 	 */
-	FPGAData& operator=(FPGAData& rhs);
+	FPGAData* operator=(FPGAData* rhs);
 
 	/**
 	 * Copy constructor
 	 *
 	 * @param obj	the object referenced by constructor
 	 */
-	FPGAData(const FPGAData& obj);
+	FPGAData(const FPGAData* obj);
 };
 
 #endif /* FPGADATA_H_ */

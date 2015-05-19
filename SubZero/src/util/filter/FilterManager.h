@@ -14,14 +14,6 @@
 #include "../data/DataFactory.h"
 #include <vector>
 
-/*
- * NodeData struct class for IDHasher. this defines the type of data
- * contained by each node in the IDHasher.
- */
-struct NodeData {
-	Filter* filter;
-};
-
 /**
  * The main job of a FilterManager, identified by its FMID, is to use
  * a ordered set of user defined filters to filter data. Reference

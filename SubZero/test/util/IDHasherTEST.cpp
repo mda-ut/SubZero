@@ -22,7 +22,7 @@
 
 int IDHasherTEST::runUnits() {
 	int res;
-	Logger::trace("Running all unit tests for IDHasher");
+	Logger::trace("Running all unit tests for: IDHasher");
 	Logger::trace("==============================");
 	res += T_Constructor();
 	res += T_get();
@@ -31,11 +31,11 @@ int IDHasherTEST::runUnits() {
 	res += T_delByIndex();
 	res += T_delByID();
 	res += T_delAll();
-	//res += T_getNodeIDList();
+	res += T_getNodeIDList();
 	Logger::trace("==============================");
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
-	Logger::trace("Unit testing complete");
+	Logger::trace("Unit testing complete: IDHasher");
 	return res;
 }
 
@@ -658,37 +658,46 @@ int IDHasherTEST::T_delAll() {
 }
 
 int IDHasherTEST::T_getNodeIDList() {
-//	int fail = 0;
-//	Timer* logTimer = new Timer();
-//	Logger::initialize(true, true, logTimer);
-//	Logger::trace("==============================");
-//
-//	IDHasher* hash = new IDHasher;
-//
-//	Logger::trace("Testing getNodeIDList():");
-//	Logger::trace(" Inserting...");
-//	Logger::trace("  Register key \"katana\"...");
-//	NodeData* nd0 = hash->createNodeData();
-//	hash->insByID("katana",nd0,"REAR");
-//	Logger::trace("  Register key \"monerean\"...");
-//	NodeData* nd1 = hash->createNodeData();
-//	hash->insByID("monerean",nd1,"REAR");
-//	Logger::trace("  Register key \"gintoki\"...");
-//	NodeData* nd2 = hash->createNodeData();
-//	hash->insByID("gintoki",nd2,"REAR");
-//	Logger::trace("  Register key \"sadaharu\"...");
-//	NodeData* nd3 = hash->createNodeData();
-//	hash->insByID("sadaharu",nd3,"REAR");
-//	Logger::trace(" Getting list...");
-//	std::vector<std::string> list = hash->getNodeIDList();
-//	std::iterator it = list.iterator;
-//
-//	Logger::trace(" Test Complete.");
-//	delete hash;
-//
-//	if (fail > 0)
-//		Logger::warn("  TEST FAILED: delAll()");
-//	Logger::trace("==============================");
-//	Logger::close();
-//	return fail;
+	int fail = 0;
+	Timer* logTimer = new Timer();
+	Logger::initialize(true, true, logTimer);
+	Logger::trace("==============================");
+
+	IDHasher* hash = new IDHasher;
+
+	Logger::trace("Testing getNodeIDList():");
+	Logger::trace(" Inserting...");
+	Logger::trace("  Register key \"katana\"...");
+	NodeData* nd0 = hash->createNodeData();
+	hash->insByID("katana",nd0,"REAR");
+	Logger::trace("  Register key \"monerean\"...");
+	NodeData* nd1 = hash->createNodeData();
+	hash->insByID("monerean",nd1,"REAR");
+	Logger::trace("  Register key \"gintoki\"...");
+	NodeData* nd2 = hash->createNodeData();
+	hash->insByID("gintoki",nd2,"REAR");
+	Logger::trace("  Register key \"sadaharu\"...");
+	NodeData* nd3 = hash->createNodeData();
+	hash->insByID("sadaharu",nd3,"REAR");
+	Logger::trace(" Getting list...");
+	std::vector<std::string> list = hash->getNodeIDList();
+	std::string res;
+	for (std::vector<std::string>::iterator it = list.begin(); it != list.end(); it++)
+		res += " "+*it;
+	Logger::trace("    "+res);
+	if (res == " katana monerean gintoki sadaharu")
+		Logger::trace("    ok");
+	else {
+		Logger::warn("    NOT ok, list unexpected");
+		fail += 1;
+	}
+
+	Logger::trace(" Test Complete.");
+	delete hash;
+
+	if (fail > 0)
+		Logger::warn("  TEST FAILED: getNodeIDList()");
+	Logger::trace("==============================");
+	Logger::close();
+	return fail;
 }

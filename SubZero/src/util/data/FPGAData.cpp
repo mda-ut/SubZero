@@ -12,15 +12,14 @@
 // * ==========================================================================
 // */
 //
-//FPGAData::FPGAData(std::string dataID, double depth, double roll, double heading) {
-//	this->dataID = dataID;
-//	this->depth = depth;
-//	this->roll = roll;
-//	this->heading = heading;
-//}
-//
-//FPGAData::~FPGAData() {
-//}
+FPGAData::FPGAData(std::string dataID, double depth, double roll, double heading) : Data(dataID) {
+	this->depth = depth;
+	this->roll = roll;
+	this->heading = heading;
+}
+
+FPGAData::~FPGAData() {
+}
 //
 ///* ==========================================================================
 // * FRIEND FUNCS
@@ -61,14 +60,12 @@
 // * ==========================================================================
 // */
 //
-//FPGAData& FPGAData::operator =(FPGAData& rhs) {
-//	return new FPGAData(rhs);
-//}
-//
-//FPGAData::FPGAData(const FPGAData & obj) {
-//	this->dataID = obj.dataID;
-//	this->msg = obj.msg;
-//	this->depth = obj.depth;
-//	this->roll = obj.roll;
-//	this->heading = obj.heading;
-//}
+FPGAData* FPGAData::operator =(FPGAData* rhs) {
+	return new FPGAData(rhs);
+}
+
+FPGAData::FPGAData(const FPGAData* obj) : Data(obj) {
+	this->depth = obj->depth;
+	this->roll = obj->roll;
+	this->heading = obj->heading;
+}

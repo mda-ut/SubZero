@@ -17,6 +17,7 @@ Data::Data(std::string dataID) {
 	this->msg = "";
 }
 
+
 Data::~Data() {
 }
 
