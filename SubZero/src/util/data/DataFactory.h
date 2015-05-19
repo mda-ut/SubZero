@@ -12,14 +12,22 @@
 #include "ImgData.h"
 
 /**
- * This factory holds public functions for members of Model to
- * create data classes as defined in Data.h.
+ * This factory holds static functions for others to
+ * create data class objs.
  */
 class DataFactory {
 
 public:
 	/**
-	 * New CamData object created. Takes the data required by
+	 * New Data object created.
+	 *
+	 * @param dataID 	of the new obj
+	 * @return 			data pointer
+	 */
+	static Data* createData(std::string dataID);
+
+	/**
+	 * New ImgData object created. Takes the data required by
 	 * ImgData and returns a ImgData*.
 	 *
 	 * @param imgID	of the image

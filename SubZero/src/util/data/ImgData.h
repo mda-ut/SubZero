@@ -8,6 +8,7 @@
 #ifndef IMGDATA_H_
 #define IMGDATA_H_
 #include "Data.h"
+#include <highgui.h>
 
 /**
  * Wrapper class containing a image of the standard image type
@@ -26,23 +27,6 @@ class ImgData: public Data {
 	friend class HwInterface;
 
 private:
-	/* ==========================================================================
-	 * CONSTRUCTOR & DESTRUCTOR
-	 * ==========================================================================
-	 */
-
-	/**
-	 * Constructor takes in the string ID of the image being created.
-	 *
-	 * @param ID of the new image
-	 * @param the actual image object pointer to be wrapped. Use openCVs Mat type.
-	 */
-	ImgData(std::string ID, cv::Mat* img);
-
-	/**
-	 * Destructor stub.
-	 */
-	virtual ~ImgData();
 
 	/* ==========================================================================
 	 * FRIEND FUNCS
@@ -87,6 +71,25 @@ private:
 
 
 public:
+
+	/* ==========================================================================
+	 * CONSTRUCTOR & DESTRUCTOR
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Constructor takes in the string ID of the image being created.
+	 *
+	 * @param ID of the new image
+	 * @param the actual image object pointer to be wrapped. Use openCVs Mat.
+	 */
+	ImgData(std::string dataID,cv::Mat* img);
+
+	/**
+	 * Destructor stub.
+	 */
+	virtual ~ImgData();
+
 	/* ==========================================================================
 	 * IMG MANIPULATION FUNCS
 	 * ==========================================================================
@@ -127,14 +130,14 @@ public:
 	 * @param rhs	the right hand side of the equal operator, the parent copy
 	 * @return		address to a new ImgData
 	 */
-	ImgData& operator=(ImgData& rhs);
+	ImgData* operator=(ImgData* rhs);
 
 	/**
 	 * Copy constructor
 	 *
 	 * @param obj	the object referenced in the construction
 	 */
-	ImgData(const ImgData& obj);
+	ImgData(const ImgData* obj);
 };
 
 #endif /* IMGDATA_H_ */

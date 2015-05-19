@@ -6,11 +6,17 @@
  */
 
 #include "util/Logger.h"
+#include "../test/util/data/ImgDataTEST.h"
+#include <string>
+
+using namespace std;
 
 int main(int argc, char** argv) {
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
+
+//	ImgDataTEST::runUnits();
 
 	Logger::close();
 
