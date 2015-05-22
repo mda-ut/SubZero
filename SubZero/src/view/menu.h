@@ -1,28 +1,42 @@
-/* menu Class header
-February 7 2015 */
 #ifndef MENU_H
 #define MENU_H
 
 #include <QWidget>
-#include <QComboBox>
+#include <QLabel>
 #include <QPushButton>
-#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QFont>
+#include <QMouseEvent>
+#include <QPoint>
 
 class Menu : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Menu(QWidget *parent = 0);
-    QComboBox *selector;
-    QPushButton *affirmButton;
-    QHBoxLayout *horizontal1;
+    Menu();
+    void paintEvent(QPaintEvent *event);
 
-//signals:
+
+private:
+    QSize buttonRectSize;
+    QFont menuItemFont;
+    QPoint temp;
+    QFont welcomeFont;
+
+    QLabel *welcomeMessage;
+    QPushButton *guiButton;
+    QPushButton *simButton;
+    QPushButton *autButton;
+
+    QGridLayout *mainLayout;
+
+
 
 public slots:
-    void makeView();
-
-
+  void makeGuiView();
+  void makeSimView();
+  void makeAutView();
 };
 
 #endif // MENU_H
+
