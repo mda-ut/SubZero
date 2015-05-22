@@ -21,6 +21,8 @@ State::~State() {
 
 void State::init(){
 	this->frameStarted = false;
+	this->maxLength = 15;
+	this->inUse = false;
 }
 /*
 Data* State::getState (std::string ID, int i){

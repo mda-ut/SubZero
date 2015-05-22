@@ -18,11 +18,18 @@ FPGAState::~FPGAState(){
 }
 
 FPGAData* FPGAState::getState(std::string ID){
+	if (inUse){
+		return 0;
+	}
+	inUse = true;
+
 	std::vector<FPGAData*> temp = this->stateData.back();
 
 	for (FPGAData* data: temp){
 		if (data->getID().compare(ID) == 0){
-			return data;		//need to make a deep copy then return it
+			FPGAData *t = new FPGAData(data);
+			inUse = false;
+			return t;
 		}
 	}
 
@@ -30,6 +37,11 @@ FPGAData* FPGAState::getState(std::string ID){
 }
 
 FPGAData* FPGAState::getState(std::string ID, int i){
+	if (inUse){
+		return 0;
+	}
+	inUse = true;
+
 	if (i > stateData.size()){
 		return 0;				//index out of range
 	}
@@ -39,14 +51,25 @@ FPGAData* FPGAState::getState(std::string ID, int i){
 
 	for (FPGAData* data: *it){
 		if (data->getID().compare(ID) == 0){
-			return data;	//return deep copy
+			FPGAData *t = new FPGAData(data);
+			inUse = false;
+			return t;
 		}
 	}
 	return 0;
 }
 
 int FPGAState::setState(std::vector<FPGAData*> d){
-	this->stateData.push_back(d);	//insert vector into list
+	if (inUse){
+		return 1;
+	}
+	inUse = true;
+
+	if (this->stateData.size() > this->maxLength){
+		this->stateData.pop_front();
+	}
+	this->stateData.push_back(d);
+	inUse = false;
 	return 0;
 }
 

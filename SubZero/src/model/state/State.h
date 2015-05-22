@@ -14,6 +14,9 @@ protected:
 	//boolean to signal if a new frame has started
 	bool frameStarted;
 
+	//boolean to signal if the state is currently in use
+	bool inUse;
+
 	//the length of the linked list
 	//The amount of frames that the state will hold
 	int maxLength;
