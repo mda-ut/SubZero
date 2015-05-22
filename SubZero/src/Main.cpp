@@ -8,8 +8,11 @@
 #include "util/Logger.h"
 
 int main(int argc, char** argv) {
-	Logger::initialize(true, false, new Timer());
+	Timer* logTimer = new Timer();
+	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
+
+	Logger::close();
 	return 0;
 }
 
