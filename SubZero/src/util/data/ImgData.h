@@ -8,7 +8,7 @@
 #ifndef IMGDATA_H_
 #define IMGDATA_H_
 #include "Data.h"
-#include <highgui.h>
+#include <opencv2/highgui/highgui.hpp>
 
 /**
  * Wrapper class containing a image of the standard image type

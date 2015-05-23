@@ -7,9 +7,10 @@
 
 #ifndef DATA_H_
 #define DATA_H_
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <string.h>
+#include "../StringTools.h"
 
 
 /**
@@ -21,6 +22,13 @@
  * hold data from the camera and the FPGA respectively.
  */
 class Data {
+
+	/* =========================================================================
+	 * FRIEND CLASSES
+	 * =========================================================================
+	 */
+	friend class Filter;
+	friend class HwInterface;
 
 protected:
 
@@ -40,6 +48,31 @@ protected:
 	 * here.
 	 */
 	std::string msg;
+
+	/*
+	 * Tracks the things that changed the data. Usually tracks which filters were applied to the image.
+	 */
+	std::string tracker;
+
+	/* ==========================================================================
+	 * FUNC ACCESSIBLE BY CHILDREN
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Adds a task to the tracker string according to a set standard (defined
+	 * in cpp).
+	 *
+	 * @param task	is the action done to the data which needs to be tracked.
+	 * @param error	is the result of the action if applicable.
+	 * @param type	is the switch to track error or not. 1 for yes, 0 for no.
+	 */
+	void track(std::string task, int error, int type);
+
+	/**
+	 * Resets the tracker string to empty.
+	 */
+	void resetTracker();
 
 public:
 	/* ==========================================================================
@@ -85,6 +118,20 @@ public:
 	 * @return 			0 for success, 1 for warning that a old message was overwritten.
 	 */
 	int setMsg(std::string newMsg);
+
+	/**
+	 * Appends a new message to the original message.
+	 *
+	 * @param newMsg 	to be appended
+	 */
+	void addMsg(std::string newMsg);
+
+	/**
+	 * Return the track record of the data.
+	 *
+	 * @return		String representing the history of the img's filtration.
+	 */
+	std::string getTrack();
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD
