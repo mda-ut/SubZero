@@ -8,6 +8,9 @@
 #ifndef FILTERFACTORY_H_
 #define FILTERFACTORY_H_
 #include "Filter.h"
+#include "NullImgFilter.h"
+#include "NullFPGAFilter.h"
+#include "RGBFilter.h"
 
 /**
  * This class holds static functions that can create all the filters
@@ -24,12 +27,27 @@ public:
 	 */
 
 	/**
+	 * General filter is created.
+	 */
+	static Filter* createFilter();
+
+	/**
+	 * Null filter that takes Img as filter() arg
+	 */
+	static Filter* createNullImgFilter();
+
+	/**
+	 * Null filter that takes FPGA as filter() arg
+	 */
+	static Filter* createNullFPGAFilter();
+
+	/**
 	 * RGB filter is created.
 	 *
 	 * @param r		:0-255 int values for red intensity.
 	 * @param g		:0-255 int values for green intensity.
 	 * @param b		:0-255 int values for blue intensity.
-	 * @return filter object pointer
+	 * @return 		filter object pointer
 	 */
 	static Filter* createRGBFilter(int r, int g, int b);
 };

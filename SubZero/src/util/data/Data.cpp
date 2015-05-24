@@ -8,6 +8,22 @@
 #include "Data.h"
 
 /* ==========================================================================
+ * FUNC ACCESSIBLE BY CHILDREN
+ * ==========================================================================
+ */
+
+void Data::track(std::string task, int error, int type) {
+	if (type == 0)
+		this->tracker += task + "; ";
+	else
+		this->tracker += task + "-" + StringTools::intToStr(error) + "; ";
+}
+
+void Data::resetTracker() {
+	this->tracker = "";
+}
+
+/* ==========================================================================
  * CONSTRUCTOR & DESTRUCTOR
  * ==========================================================================
  */
@@ -15,6 +31,7 @@
 Data::Data(std::string dataID) {
 	this->dataID = dataID;
 	this->msg = "";
+	this->tracker = "";
 }
 
 
@@ -42,6 +59,17 @@ int Data::setMsg(std::string newMsg){
 	}
 	this->msg = newMsg;
 	return 0;
+}
+
+void Data::addMsg(std::string newMsg){
+	if (this->msg == "")
+		this->setMsg(newMsg);
+	else
+		this->msg += "||"+newMsg;
+}
+
+std::string Data::getTrack() {
+	return this->tracker;
 }
 
 /* ==========================================================================

@@ -6,8 +6,9 @@
  */
 
 #include "ImgDataTEST.h"
-#include <videoio.hpp>
-#include <highgui.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
 /* TEMPLATE
 	int fail = 0;
 	Timer* logTimer = new Timer();
@@ -33,13 +34,19 @@ int ImgDataTEST::runUnits() {
 //	res += T_cpConstructor();
 //	res += T_opEqual();
 
-//	cv::VideoCapture capture;
-//	capture.open(0);
-//	capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-//	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+//	Logger::trace("opening cap...");
+//	cv::VideoCapture capture(0);
+//	if (capture.isOpened()) {
+////	capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+////	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
 //	cv::Mat camFeed;
-//	capture.read(camFeed);
+//	Logger::trace("grabbing read...");
+//	capture >> camFeed;
+//
+//	Logger::trace("cap read, showing cap...");
+//	cv::namedWindow("test",1);
 //	cv::imshow("test",camFeed);
+//	}
 
 	Logger::trace("==============================");
 	if (res != 0)

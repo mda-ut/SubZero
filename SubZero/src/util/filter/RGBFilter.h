@@ -7,6 +7,7 @@
 
 #ifndef RGBFILTER_H_
 #define RGBFILTER_H_
+
 #include "Filter.h"
 
 /**
@@ -51,7 +52,7 @@ public:
 	 *
 	 * @param inputImg
 	 */
-	int filter (ImgData* inputImg);
+	int filter (ImgData* data);
 
 	/**
 	 * Set values function.
@@ -61,6 +62,28 @@ public:
 	 * @param b		:0-255 int values for blue intensity.
 	 */
 	void setValues(int r, int b, int g);
+
+	/* ==========================================================================
+	 * OPERATOR OVERLOAD
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Operator = overload
+	 *
+	 * @param rhs	the filter obj on the right hand side of the = operator
+	 * @return 		pointer to the new deep copy of rhs
+	 */
+	RGBFilter* operator=(RGBFilter* rhs);
+
+
+	/**
+	 * Copy constructor.
+	 *
+	 * @param obj	the reference of the new copy
+	 */
+	RGBFilter(RGBFilter* obj);
+
 };
 
 #endif /* RGBFILTER_H_ */
