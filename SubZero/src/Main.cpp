@@ -18,6 +18,8 @@ int main(int argc, char** argv) {
 
 	FilterManagerTEST::runUnits();
 
+	Logger::trace("Began to work on project.");
+
 	Logger::close();
 
 	return 0;
