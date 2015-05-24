@@ -15,9 +15,15 @@ TaskFactory::TaskFactory() {
 BaseTask* TaskFactory::newTask(const std::string input){
 	BaseTask* newTask;
 
-	switch (input)
-
+	switch (input){
+	case "Move Forward":
+		return new MoveForward();
+		break;
+	case "Touch Buoy":
+		return new TouchBuoy();
+		break;
 	default:
+	}
 
 	return newTask;
 }

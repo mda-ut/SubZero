@@ -7,6 +7,7 @@
 
 #include "Command.h"
 
+
 Command::Command(BaseTask *inputTask) {
 	currentTask = inputTask;
 }
