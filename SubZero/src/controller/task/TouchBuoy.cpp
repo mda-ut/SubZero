@@ -7,8 +7,6 @@
 
 #include "TouchBuoy.h"
 
-namespace std {
-
 TouchBuoy::TouchBuoy() {
 	// TODO Auto-generated constructor stub
 
@@ -21,4 +19,3 @@ TouchBuoy::~TouchBuoy() {
 void TouchBuoy::execute(){
 
 }
- /* namespace std */

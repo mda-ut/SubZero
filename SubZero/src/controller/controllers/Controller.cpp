@@ -7,7 +7,7 @@
 
 #include "Controller.h"
 
-Controller::Controller(std::vector <Model> *model){
+Controller::Controller(std::vector <Model*> model){
 }
 
     //Destructor to free pointers
