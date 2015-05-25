@@ -129,12 +129,12 @@ public:
 	 * @param	targetID	ID of the filter to be deleted
 	 * @return 				0 for success, 1 for targetID not found.
 	 */
-	int deleteFilter(std::string targetID);
+	int deleteFilter(std::string fmID, std::string targetID);
 
 	/**
 	 * Deletes all filters in filterChain.
 	 */
-	void deleteFilterChain();
+	void deleteFilterChain(std::string fmID);
 
 	/**
 	 * This return the length of the filter chain.
@@ -169,9 +169,8 @@ public:
 	/**
 	 * This deletes one filter manager on the list.
 	 * @param	fmID	ID of the filter manager to be deleted
-	 * @return 			0 for success, 1 for targetID not found.
 	 */
-	int deleteFM(std::string fmID);
+	void deleteFM(std::string fmID);
 
 	/**
 	 * This deletes all the filter managers from the list.
