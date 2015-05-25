@@ -36,6 +36,8 @@ Model::Model(Observable* inputObservable, HwInterface* inputHwInterface){
 	this->modelType = CAMERAMODEL; // Default model type is set to camera model.
 }
 
+Model::~Model(){}
+
 
 /* -------------------------------------------------------------------------- *
 				Filter/Filter Chain Management
@@ -72,7 +74,7 @@ int Model::getFilterChainSize(std::string fmID){
 }
 
 std::vector<std::string> Model::getFilterChainIDs(std::string fmID){
-	FilterManager* desiredFM = this-getFM(fmID);
+	FilterManager* desiredFM = this->getFM(fmID);
 	return desiredFM->getFilterChainIDs();
 }
 
