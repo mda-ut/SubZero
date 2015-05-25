@@ -10,6 +10,8 @@
 
 #include "Model.h"
 #include "state/CameraState.h"
+#include "interface/HwInterface.h"
+#include "interface/CameraInterface.h"
 
 /**
  * This is a concrete model child that inherits from Model. It implements functions

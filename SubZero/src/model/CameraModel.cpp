@@ -8,23 +8,30 @@
 #include "CameraModel.h"
 
 void CameraModel::sendCommand(std::string cmd){
-
+// Emma go!!
 }
 
 Data* CameraModel::getDataFromBuffer(){
-	Data* abc;
-	return abc;
+	Data* rawImageData = (CameraInterface*)&(this->interface)->getDataFromBuffer();
+	return rawImageData;
 }
 
 std::vector<Data*> CameraModel::constructDataSet(){
-	std::vector<Data*> abb;
-	return abb;
+	std::vector<Data*> imageDataSet;
+	Data* rawImageData = this->getDataFromBuffer();
+	imageDataSet.push_back(rawImageData);
+	for(std::vector<FilterManager*>::iterator it = this->filterManagerList.begin();it!=filterManagerList.end();++it){
+		Data* deepCopyImage = rawImageData; // Check if the operator overload for = is right. Don't know don't know yet
+		(*it)->applyFilterChain(deepCopyImage);
+		imageDataSet.push_back(deepCopyImage);
+	}
+	return imageDataSet;
 }
 
 void CameraModel::storeToState(std::vector<Data*> dataSet){
-
+// James go!!
 }
 
 void CameraModel::dataTransfer(){
-
+	this->storeToState(constructDataSet());
 }
