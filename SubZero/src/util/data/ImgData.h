@@ -8,6 +8,7 @@
 #ifndef IMGDATA_H_
 #define IMGDATA_H_
 #include "Data.h"
+#include <opencv2/highgui/highgui.hpp>
 
 /**
  * Wrapper class containing a image of the standard image type
@@ -18,7 +19,77 @@
  */
 class ImgData: public Data {
 
+	/* =========================================================================
+	 * FRIEND CLASSES
+	 * =========================================================================
+	 */
+	friend class Filter;
+	friend class HwInterface;
+
+private:
+
+	/* ==========================================================================
+	 * FRIEND FUNCS
+	 * ==========================================================================
+	 */
+
+	/*
+	 * Set function for changing the imgID
+	 *
+	 * @param new imgID string
+	 */
+	void setID(std::string newID);
+
+	/**
+	 * Setter for replacing the actual image object that a ImgData object
+	 * wraps. By default the old img object is destroyed.
+	 *
+	 * @param pointer to the image object (Mat*)
+	 */
+	void setImg(cv::Mat* newImg);
+
+	/**
+	 * Setter for replacing the actual image object that a ImgData object
+	 * wraps. Type allows for selection on whether or not to destroy the
+	 * old image.
+	 *
+	 * @param newImg	pointer to the image object (Mat*)
+	 * @param type		0 for destroy old img, 1 for keep old img.
+	 */
+	void setImg(cv::Mat* newImg,int type);
+
+	/* ==========================================================================
+	 * CLASS VARS
+	 * ==========================================================================
+	 */
+
+	/**this->img = newImg;
+	 * Pointer to the actual image object. Mat is the designated standard
+	 * image type.
+	 */
+	cv::Mat* img;
+
+
 public:
+
+	/* ==========================================================================
+	 * CONSTRUCTOR & DESTRUCTOR
+	 * ==========================================================================
+	 */
+
+	/**
+	 * Constructor takes in the string ID of the image being created.
+	 *
+	 * @param ID of the new image
+	 * @param the actual image object pointer to be wrapped. Use openCVs Mat.
+	 */
+	ImgData(std::string dataID,cv::Mat* img);
+
+	/**
+	 * Destructor stub.
+	 */
+	virtual ~ImgData();
+
 	/* ==========================================================================
 	 * IMG MANIPULATION FUNCS
 	 * ==========================================================================
@@ -55,49 +126,18 @@ public:
 	/**
 	 * The = operator overload that will complete a deep copy of the
 	 * right hand side operator and return it.
-	 */
-	ImgData* operator =(ImgData* arg);
-
-private:
-	/* ==========================================================================
-	 * FRIEND FUNCS
-	 * ==========================================================================
-	 */
-
-	/**
-	 * Constructor takes in the string ID of the image being created.
 	 *
-	 * @param ID of the new image
-	 * @param the actual image object pointer to be wrapped. Use openCVs Mat type.
+	 * @param rhs	the right hand side of the equal operator, the parent copy
+	 * @return		address to a new ImgData
 	 */
-	ImgData(std::string ID, cv::Mat* img);
+	ImgData* operator=(ImgData* rhs);
 
 	/**
-	 * Destructor stub.
-	 */
-	virtual ~ImgData();
-
-	/*
-	 * Set function for changing the imgID
+	 * Copy constructor
 	 *
-	 * @param new imgID string
+	 * @param obj	the object referenced in the construction
 	 */
-	void setImgID(std::string newImgID);
-
-	/**
-	 * Setter for replacing the actual image object that a ImgData object
-	 * wraps.
-	 *
-	 * @param pointer to the image object (Mat*)
-	 */
-	void setImg(cv::Mat* newImg);
-
-	/**
-	 * Pointer to the actual image object. Mat is the designated standard
-	 * image type.
-	 */
-	cv::Mat* img;
-
+	ImgData(const ImgData* obj);
 };
 
 #endif /* IMGDATA_H_ */

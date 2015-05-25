@@ -7,7 +7,6 @@
 
 #include "FPGAState.h"
 
-
 FPGAState::FPGAState() : State(){
 }
 FPGAState::FPGAState(int framesStored) : State(framesStored){

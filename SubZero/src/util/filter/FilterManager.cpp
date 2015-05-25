@@ -7,117 +7,169 @@
 
 #include "FilterManager.h"
 
-FilterManager::FilterManager(std::string ID) {
-	this->ID = ID;
+
+
+/* ==========================================================================
+ * CONSTRUCTOR AND DESCONSTRUCTOR
+ * ==========================================================================
+ */
+
+FilterManager::FilterManager(std::string fmID) {
+	this->fmID = fmID;
 	this->filterCount = 0;
+	this->autoID = 0;
+	this->fmMode = 0;
+	this->filterChain = new IDHasher;
+}
+
+FilterManager::FilterManager(std::string fmID, int type) {
+	this->fmID = fmID;
+	this->filterCount = 0;
+	this->autoID = 1;
+	this->fmMode = 0;
+	this->filterChain = new IDHasher;
+	if (type == 1)
+		this->fmMode = 1;
 }
 
 FilterManager::~FilterManager() {
-	while (!this->deleteFilterChain());
+	this->deleteFilterChain();
+	delete(this->filterChain);
 }
 
-int FilterManager::filter(ImgData* in, ImgData** out) {
-	int count, event;
-	struct Node* nxt = this->filterChain.linkedListFront;
-	ImgData* working = DataFactory::createCamData(in);
-	while (nxt!=nullptr)
-	{
-		event = nxt->nodeData->filter->filter(working);
-		count++;
-		if (event>0)
-			return 1;
-		nxt = nxt->nxt;
-	}
-	*out = working;
-	return 0;
-}
+/* ==========================================================================
+ * MAIN FUNCTIONALITY: FILTRATION
+ * ==========================================================================
+ */
 
-int FilterManager::filter(FPGAData* in, FPGAData** out) {
-	int count, event;
-	struct Node* nxt = this->filterChain.linkedListFront;
-	FPGAData* working = DataFactory::createFPGAData(in);
-	while (nxt!=nullptr)
-	{
-		event = nxt->nodeData->filter->filter(working);
-		count++;
-		if (event>0)
-			return 1;
-		nxt = nxt->nxt;
-	}
-	*out = working;
-	return 0;
-}
-
-int FilterManager::insertFilter(std::string ID, Filter* filter) {
-	struct NodeData data;
-	int event;
-	data.filter = filter;
-	event = this->filterChain.ins(ID,data,-1);
-	this->getSizeOfFilter();
-	if (event == 1)
-		return 1;
-	return 0;
-}
-
-int FilterManager::insertFilter(std::string ID, Filter* filter, int index) {
-	struct NodeData data;
-	int event;
-	data.filter = filter;
-	event = this->filterChain.ins(ID,data,index);
-	this->getSizeOfFilter();
-	if (event == 1)
-		return 1;
-	return 0;
-}
-
-int FilterManager::replaceFilter(std::string ID, Filter* filter, int index) {
-	int event;
-	if (index >= this->filterCount or index <= this->filterCount*-1)
+int FilterManager::applyFilterChain(Data* data) {
+	int ret = 0, event;
+	Node* nxt = this->filterChain->getFront();
+	if (data == 0)
 		return 2;
-	event = this->insertFilter(ID,filter,index);
-	if (event == 1)
-		return 1;
-	event = this->deleteFilterByIndex(index+1);
-	if (event == 1)
+	while (nxt != 0)
 	{
-		this->deleteFilterByIndex(index);
-		return 1;
+		event = nxt->nodeData->filter->filter(data);
+		if (event != 0)
+		{
+			data->addMsg("err: " + StringTools::intToStr(event) + " while filtering: " + nxt->nodeData->filter->getID());
+			ret = 1;
+		}
+		nxt = nxt->nxt;
 	}
-	return 0;
+	return ret;
 }
 
-int FilterManager::deleteFilterByID(std::string ID) {
+/* ==========================================================================
+ * FILTER MANAGMENT FUNCTIONS: CUSTOM ID MODE
+ * ==========================================================================
+ */
+
+int FilterManager::insertFilter(std::string filterID, Filter* filter) {
 	int event;
-	event = this->filterChain.del(ID);
-	this->getSizeOfFilter();
-	if (event == 1)
-		return 1;
-	return 0;
+	std::string targetID = "REAR";
+	event = this->insertFilter(filterID,filter,targetID);
+	return event;
 }
 
-int FilterManager::deleteFilterByIndex(int index) {
+int FilterManager::insertFilter(std::string filterID, Filter* filter, std::string targetID) {
+	NodeData* nodeData = new NodeData;
 	int event;
-	event = this->filterChain.del(index);
-	this->getSizeOfFilter();
-	if (event == 1)
-		return 1;
-	return 0;
+	filter->setID(filterID);
+	nodeData->filter = filter;
+	event = this->filterChain->insByID(filterID,nodeData,targetID);
+	return event;
 }
 
-int FilterManager::deleteFilterChain() {
+int FilterManager::replaceFilter(std::string filterID, Filter* filter, std::string targetID) {
 	int event;
-	event = this->filterChain.delAll();
-	this->getSizeOfFilter();
+
+	if (targetID == "FRONT")
+		targetID = this->filterChain->getFront()->nodeID;
+	else if (targetID == "REAR")
+		targetID = this->filterChain->getRear()->nodeID;
+
+	event = this->insertFilter(filterID,filter,targetID);
 	if (event != 0)
-		return 1;
-	return 0;
+		return event;
+
+	event = this->deleteFilter(targetID);
+	return event;
 }
 
-int FilterManager::getSizeOfFilter() {
-	this->filterCount = this->filterChain.count;
-	return this->filterCount;
+int FilterManager::deleteFilter(std::string targetID) {
+	int event;
+
+	event = this->filterChain->delByID(targetID);
+	return event;
 }
 
-std::vector<std::string> FilterManager::getFilterChainID() {
-	return this->filterChain.getList();
+void FilterManager::deleteFilterChain() {
+	this->filterChain->delAll();
+}
+
+
+/* ==========================================================================
+ * FILTER MANAGEMENT: AUTOMATIC ID MODE
+ * Auto mode is not recommended since the elements in the filter
+ * chain can get to be very ambiguous.
+ * ==========================================================================
+ */
+
+int FilterManager::insertFilter(Filter* filter) {
+	if (this->fmMode != 1)
+		return 3;
+	else
+	{
+		std::string generatedID = StringTools::intToStr(this->autoID++) + " " + filter->getID();
+		int event = this->insertFilter(generatedID,filter);
+		return event;
+	}
+}
+
+int FilterManager::insertFilter(Filter* filter,std::string targetID) {
+	if (this->fmMode != 1)
+			return 3;
+	else
+	{
+		std::string generatedID = StringTools::intToStr(this->autoID++) + " " + filter->getID();
+		int event = this->insertFilter(generatedID,filter,targetID);
+		return event;
+	}
+}
+
+int FilterManager::replaceFilter(Filter* filter,std::string targetID) {
+	if (this->fmMode != 1)
+			return 3;
+	else
+	{
+		std::string generatedID = StringTools::intToStr(this->autoID++) + " " + filter->getID();
+		int event = this->replaceFilter(generatedID,filter,targetID);
+		return event;
+	}
+}
+
+/* ==========================================================================
+ * SUPPLEMENTS
+ * ==========================================================================
+ */
+
+int FilterManager::getSizeOfFilterChain() {
+	 return this->filterChain->getCount();
+}
+
+std::vector<std::string> FilterManager::getFilterChainIDs() {
+	return this->filterChain->getNodeIDList();
+}
+
+std::string FilterManager::getFMID() {
+	return this->fmID;
+}
+
+int FilterManager::getMode() {
+	return this->fmMode;
+}
+
+Filter* FilterManager::getFilterByID(std::string targetID) {
+	return this->filterChain->get(targetID)->filter;
 }

@@ -7,6 +7,15 @@
 
 #include "DataFactory.h"
 
-ImgData* DataFactory::createImgData(ImgData* in){
-	return in;
+Data* DataFactory::createData(std::string dataID) {
+	return new Data(dataID);
+}
+
+ImgData* DataFactory::createImgData(std::string imgID, cv::Mat* img) {
+	return new ImgData(imgID,img);
+}
+
+FPGAData* DataFactory::createFPGAData(std::string fpgaID, double depth,
+		double roll, double heading) {
+	return new FPGAData(fpgaID,depth,roll,heading);
 }

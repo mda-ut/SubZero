@@ -9,13 +9,13 @@
 
 namespace std {
 
-FPGAInterface::FPGAInterface() {
-	// TODO Auto-generated constructor stub
-
-}
-
-FPGAInterface::~FPGAInterface() {
-	// TODO Auto-generated destructor stub
-}
+//FPGAInterface::FPGAInterface() {
+//	// TODO Auto-generated constructor stub
+//
+//}
+//
+//FPGAInterface::~FPGAInterface() {
+//	// TODO Auto-generated destructor stub
+//}
 
 } /* namespace std */

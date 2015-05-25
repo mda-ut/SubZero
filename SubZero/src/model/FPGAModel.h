@@ -9,7 +9,7 @@
 #define FPGAMODEL_H_
 
 #include "Model.h"
-#include "FPGAState.h"
+#include "state/FPGAState.h"
 
 /**
  * This is a concrete child of the Model class. It implements functions

@@ -7,6 +7,20 @@
 
 #include "FilterFactory.h"
 
-Filter* FilterFactory::createRGBFilter(int r, int g, int b) {
-	return (Filter*) new RGBFilter(r, g, b);
+Filter* FilterFactory::createFilter() {
+	return new Filter();
 }
+
+Filter* FilterFactory::createNullImgFilter() {
+	return new NullImgFilter();
+}
+
+Filter* FilterFactory::createNullFPGAFilter() {
+	return new NullFPGAFilter();
+}
+
+Filter* FilterFactory::createRGBFilter(int r, int g, int b) {
+	return new RGBFilter(r,g,b);
+}
+
+

@@ -7,15 +7,81 @@
 
 #include "Data.h"
 
-Data::Data() {
-	// TODO Auto-generated constructor stub
+/* ==========================================================================
+ * FUNC ACCESSIBLE BY CHILDREN
+ * ==========================================================================
+ */
 
+void Data::track(std::string task, int error, int type) {
+	if (type == 0)
+		this->tracker += task + "; ";
+	else
+		this->tracker += task + "-" + StringTools::intToStr(error) + "; ";
 }
+
+void Data::resetTracker() {
+	this->tracker = "";
+}
+
+/* ==========================================================================
+ * CONSTRUCTOR & DESTRUCTOR
+ * ==========================================================================
+ */
+
+Data::Data(std::string dataID) {
+	this->dataID = dataID;
+	this->msg = "";
+	this->tracker = "";
+}
+
 
 Data::~Data() {
-	// TODO Auto-generated destructor stub
 }
 
-std::string Data::getID() {
-	return this->ID;
+/* ==========================================================================
+ * PUBLIC FUNCS COMMON TO ALL CHILDREN
+ * ==========================================================================
+ */
+
+std::string Data::getID(){
+	return this->dataID;
+}
+
+std::string Data::getMsg(){
+	return this->msg;
+}
+
+int Data::setMsg(std::string newMsg){
+	if (this->msg != "")
+	{
+		this->msg = newMsg;
+		return 1;
+	}
+	this->msg = newMsg;
+	return 0;
+}
+
+void Data::addMsg(std::string newMsg){
+	if (this->msg == "")
+		this->setMsg(newMsg);
+	else
+		this->msg += "||"+newMsg;
+}
+
+std::string Data::getTrack() {
+	return this->tracker;
+}
+
+/* ==========================================================================
+ * OPERATOR OVERLOAD
+ * ==========================================================================
+ */
+
+Data* Data::operator=(Data* rhs) {
+	return new Data(rhs);
+}
+
+Data::Data(const Data* obj) {
+	this->dataID = obj->dataID;
+	this->msg = obj->msg;
 }

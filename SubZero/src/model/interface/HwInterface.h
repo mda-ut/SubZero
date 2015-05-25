@@ -8,7 +8,8 @@
 #ifndef HWINTERFACE_H_
 #define HWINTERFACE_H_
 
-#include "Data.h"
+#include "../../util/data/Data.h"
+
 
 
 /**
@@ -91,7 +92,7 @@ private:
 	 * Poll raw data from the hardware.
 	 * @return	data polled from the hardware
 	 */
-	virtual void poll();
+	virtual Data* poll();
 
 	/**
 	 * Decode the data.
@@ -167,7 +168,7 @@ public:
 	 * @param	endIdx	index of the last data to get
 	 * @return	an array of data
 	 */
-	@Overload
+	//@Overload
 	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
 
 	/**
@@ -206,7 +207,7 @@ public:
 	 * @param	policy	specifies the encoding and decoding policy to be used
 	 * @param	hardwareID	identifies the hardware this interface interacts with
 	 */
-	virtual HwInterface(int bufferSize, int pollFrequency, int policy, int hardwareID);
+	HwInterface(int bufferSize, int pollFrequency, int policy, int hardwareID);
 
 	/**
 	 * Destructor
