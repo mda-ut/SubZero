@@ -7,8 +7,24 @@
 
 #include "CameraModel.h"
 
-//CameraModel::CameraModel(Observable* inputState, HwInterface* inputInterface):Model(inputState,inputInterface){}
-//
-//CameraModel::~CameraModel() {
-//	// TODO Auto-generated destructor stub
-//}
+void CameraModel::sendCommand(std::string cmd){
+
+}
+
+Data* CameraModel::getDataFromBuffer(){
+	Data* abc;
+	return abc;
+}
+
+std::vector<Data*> CameraModel::constructDataSet(){
+	std::vector<Data*> abb;
+	return abb;
+}
+
+void CameraModel::storeToState(std::vector<Data*> dataSet){
+
+}
+
+void CameraModel::dataTransfer(){
+
+}

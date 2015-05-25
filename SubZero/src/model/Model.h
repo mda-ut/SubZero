@@ -79,15 +79,15 @@ public:
 
 /* **************** Data Management **************** */
 
-	virtual void sendCommand(std::string cmd);
+	virtual void sendCommand(std::string cmd)=0;
 
-	virtual Data* getDataFromBuffer();
+	virtual Data* getDataFromBuffer()=0;
 
-	virtual std::vector<Data*> constructDataSet();
+	virtual std::vector<Data*> constructDataSet()=0;
 
-	virtual void storeToState(std::vector<Data*> dataSet);
+	virtual void storeToState(std::vector<Data*> dataSet)=0;
 
-	virtual void dataTransfer();
+	virtual void dataTransfer()=0;
 
 
 /* **************** Filter/Filter Chain Management **************** */

@@ -7,15 +7,24 @@
 
 #include "FPGAModel.h"
 
-namespace std {
-//
-//FPGAModel::FPGAModel() {
-//	fpgaState = (FPGAState*) &observable;
-//
-//}
-//
-//FPGAModel::~FPGAModel() {
-//	// TODO Auto-generated destructor stub
-//}
+void FPGAModel::sendCommand(std::string cmd){
 
-} /* namespace std */
+}
+
+Data* FPGAModel::getDataFromBuffer(){
+	Data* abc;
+	return abc;
+}
+
+std::vector<Data*> FPGAModel::constructDataSet(){
+	std::vector<Data*> abb;
+	return abb;
+}
+
+void FPGAModel::storeToState(std::vector<Data*> dataSet){
+
+}
+
+void FPGAModel::dataTransfer(){
+
+}
