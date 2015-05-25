@@ -83,7 +83,7 @@ public:
 
 	virtual Data* getDataFromBuffer()=0;
 
-	virtual std::vector<Data*> getDataSet()=0;
+	virtual std::vector<Data*> constructDataSet()=0;
 
 	virtual void storeToState(std::vector<Data*> dataSet)=0;
 
