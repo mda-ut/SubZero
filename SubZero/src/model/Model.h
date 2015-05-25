@@ -36,9 +36,32 @@ class Model {
 
 protected:
 	Observable* state;
+
 	HwInterface* interface;
+
 	std::vector<FilterManager*> filterManagerList;
+
 	ModelType modelType;
+
+	/**
+	 * This creates a filter manager and store it in the provided destination.
+	 * @param	fmID		desired ID for the new filter manager
+	 * @param	fmType		type of the new filter manager object, 1 for automatic IDing and 0 for default.
+	 * @return				pointer to the new FilterManager object
+	 */
+	FilterManager* createFM(std::string fmID, int fmType);
+
+	/**
+	 * This stores a new filter manager to the filter manager list.
+	 * @param	newFM	the pointer to the new filter manager
+	 */
+	void storeToFMList(FilterManager* newFM);
+
+	/**
+	 * notifyObserver notifies all observers of the observable when an update arrives
+	 */
+	void notifyObserver(); // This might be an unnecessary function. ASK!!!
+
 public:
 
 	/**
@@ -54,126 +77,113 @@ public:
 	virtual ~Model();
 
 
-/* **************** HwInterface related **************** */
+/* **************** Data Management **************** */
 
-//	/**
-//	 * getDataFromBuffer gets a Data pointer from HwInterface buffer. CreateData is called inside getDataFromBuffer.
-//     * @return	shallow copy of the first Data* in HwInterface buffer
-//	 */
-//	virtual Data* getDataFromBuffer();
-//
-//	/**
-//	 * sendCommand send a command to the FPGA
-//	 * @param	newCommand	contains the command and will be parsed before sending
-//	 * @return				error message of the result of this function
-//	 */
-//	virtual int sendCommand(std::string newCommand);
+	virtual void sendCommand(std::string cmd)=0;
+
+	virtual Data* getDataFromBuffer()=0;
+
+	virtual std::vector<Data*> getDataSet()=0;
+
+	virtual void storeToState(std::vector<Data*> dataSet)=0;
+
+	virtual void dataTransfer()=0;
 
 
-/* **************** Observable/State related **************** */
-
-	/**
-	 * notifyObserver notifies all observers of the observable when an update arrives
-	 */
-	void notifyObserver();
-
-	/**
-	 * store2State stores one Data pointer to state vector
-	 * @param	dataSet		the Data pointer that needs to be stored
-	 * @return				error message of the result of this function
-	 */
-	int storeToState(std::vector<Data*> dataSet);
-
-
-/* **************** FilterManager related **************** */
+/* **************** Filter/Filter Chain Management **************** */
 
 	/**
 	 * This inserts a filter to the end of the filter chain.
-	 * @param	fmID			the ID of the filter manager to which the new filter is inserted
-	 * @param	newFIlter		a pointer to the new filter
-	 * @param	newFilterID		the ID of the new filter
-	 * @return					error message of the result of this function
+	 * @param	fmID			ID of the desired filter manager for filter insertion
+	 * @param 	newFilter		the pointer to a filter object.
+	 * @param 	newFilterID 	is the unique identifier chosen by the owner of the filter.
+	 * @return 					0 for success, 2 for ID is not unique.
 	 */
 	int insertFilter(std::string fmID, Filter* newFilter, std::string newFilterID);
 
 	/**
 	 * This inserts a filter to the target location.
-	 * @param	fmID			the ID of the filter manager to which the new filter is inserted
-	 * @param	newFIlter		a pointer to the new filter
-	 * @param	newFilterID		the ID of the new filter
+	 * @param	fmID			ID of the desired filter manager for filter insertion
+	 * @param	newFIlter		a pointer to the new filter object
+	 * @param	newFilterID		ID of the new filter object
 	 * @param	targetID		the target location of the new filter
 	 * 								- It can be a filter ID then new filter is inserted before it.
 	 * 								- It can be BEGIN or END then new filter is inserted at the beginning or the end of the chain.
-	 * @return					error message of the result of this function
+	 * @return 					0 for success, 2 for ID is not unique.
 	 */
 	int insertFilter(std::string fmID, Filter* newFilter, std::string newFilterID, std::string targetID);
 
 	/**
 	 * This replace an existing filter by a new filter.
-	 * @param	fmID			the ID of the filter manager to which the new filter is inserted
-	 * @param	newFIlter		a pointer to the new filter
-	 * @param	newFilterID		the ID of the new filter
-	 * @param	targetID		the existing filter to be replaced
-	 * @return					error message of the result of this function
+	 * @param	fmID			ID of the desired filter manager for filter replacement
+	 * @param	newFIlter		a pointer to the new filter object
+	 * @param	newFilterID		the ID of the new filter object
+	 * @param	targetID		ID of the existing filter to be replaced
+	 * @return 					0 for success, 1 for targetID not found, 2 for ID not unique.
 	 */
 	int replaceFilter(std::string fmID, Filter* newFilter, std::string newFilterID, std::string targetID);
 
 	/**
 	 * This delete one or all of the filter in the filter chain.
-	 * @param	targetID	the ID of the one filter to be deleted or ALL if all filters should be deleted
-	 * @return 				error message of the result of this function
+	 * @param	fmID		ID of the desired filter manager for filter deletion
+	 * @param	targetID	ID of the filter to be deleted
+	 * @return 				0 for success, 1 for targetID not found.
 	 */
 	int deleteFilter(std::string targetID);
 
 	/**
+	 * Deletes all filters in filterChain.
+	 */
+	void deleteFilterChain();
+
+	/**
 	 * This return the length of the filter chain.
-	 * @param	fmID	the ID of the filter manager to look for the length of the filter chain
-	 * @return			the length of the filter chain
+	 * @param	fmID	ID of the filter manager to look for the length of the filter chain
+	 * @return			length of the filter chain
 	 */
 	int getFilterChainSize(std::string fmID);
 
 	/**
 	 * This returns the vector of all the filter IDs in the chain.
-	 * @param	fmID	the ID of the filter manager
-	 * @return			the vector of all the string filter IDs
+	 * @param	fmID	ID of the filter manager
+	 * @return			vector containing all filter ID strings
 	 */
 	std::vector<std::string> getFilterChainIDs(std::string fmID);
 
+
+/* ********* Filter Manager / Filter Manager List Management ********* */
+
 	/**
-	 * This returns the vector of all the filter managers in the list.
-	 * @return	the vector of all the string filter manager IDs
+	 * This returns a vector containing all filter manager ID strings
+	 * @return	the vector of all filter manager ID strings
 	 */
 	std::vector<std::string> getFMListIDs();
 
 	/**
-	 * This creates a filter manager and store it in the provided destination.
-	 * @param	fmID			the ID of the filter manager
-	 * @param	fmDestination	the filter manager pointer that store the "newed" filter manager
-	 * @return					error message of the result of this function
+	 * This creates a new filter manager and store it to the list.
+	 * @param	fmID		desired ID for the new filter manager
+	 * @param	fmType		type of the new filter manager object, 1 for automatic IDing and 0 for default.
 	 */
-	int createFM(std::string fmID, FilterManager* fmDestination);
+	void createAndStoreFM(std::string fmID, int fmType);
 
 	/**
-	 * This stores a newly created filter manager to the filter manager list.
-	 * @param	newFM	the pointer to the filter manager that will be stored
-	 * @return			error message of the result of this function
-	 */
-	int storeToFMList(FilterManager* newFM);
-
-	/**
-	 * This deletes one or all the filter managers in the list.
-	 * @param	fmID	the ID of the filter manager to be deleted or ALL to delete all the filter managers
-	 * @return			error message of the result of this function
+	 * This deletes one filter manager on the list.
+	 * @param	fmID	ID of the filter manager to be deleted
+	 * @return 			0 for success, 1 for targetID not found.
 	 */
 	int deleteFM(std::string fmID);
 
 	/**
-	 * This return the pointer to a filter manager in the list by its ID.
-	 * @param	fmID	the ID of the filter manager that is desired to get
-	 * @return			the pointer to the desired filter manager
+	 * This deletes all the filter managers from the list.
+	 */
+	void deleteFMList();
+
+	/**
+	 * This return the pointer to a filter manager object on the list by its ID.
+	 * @param	fmID	ID of the target filter manager
+	 * @return			pointer to the desired filter manager
 	 */
 	FilterManager* getFM(std::string fmID);
-
 };
 
 #endif /* MODEL_H_ */
