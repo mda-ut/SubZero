@@ -13,7 +13,11 @@ FPGAState::FPGAState(int framesStored) : State(framesStored){
 }
 
 FPGAState::~FPGAState(){
-	delete stateData;
+	for (auto& vector : stateData) {
+		for (auto& data : vector) {
+			delete data;
+		}
+	}
 }
 
 FPGAData* FPGAState::getState(std::string ID){
@@ -41,7 +45,7 @@ FPGAData* FPGAState::getState(std::string ID, int i){
 	}
 	inUse = true;
 
-	if (i > stateData.size()){
+	if (i > (int)stateData.size()){
 		return 0;				//index out of range
 	}
 
@@ -64,7 +68,7 @@ int FPGAState::setState(std::vector<FPGAData*> d){
 	}
 	inUse = true;
 
-	if (this->stateData.size() > this->maxLength){
+	if ((int)this->stateData.size() > this->maxLength){
 		this->stateData.pop_front();
 	}
 	this->stateData.push_back(d);

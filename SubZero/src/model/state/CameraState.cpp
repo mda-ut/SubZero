@@ -15,7 +15,11 @@ CameraState::CameraState(int framesStored) : State(framesStored){
 
 CameraState::~CameraState(){
 	//do i have to iterate to every pointer and delete it?
-	delete stateData;
+	for (auto& vector : stateData) {
+		for (auto& data : vector) {
+			delete data;
+		}
+	}
 }
 
 ImgData* CameraState::getState(std::string ID){
@@ -42,7 +46,7 @@ ImgData* CameraState::getState(std::string ID, int i){
 	}
 	inUse = true;
 
-	if (i > stateData.size()){
+	if (i > (int)stateData.size()){
 		return 0;				//index out of range
 	}
 
@@ -65,7 +69,7 @@ int CameraState::setState(std::vector<ImgData*> d){
 	}
 	inUse = true;
 
-	if (this->stateData.size() > this->maxLength){
+	if ((int)this->stateData.size() > this->maxLength){
 		this->stateData.pop_front();		//not sure if this will cause a memory leak
 	}
 	this->stateData.push_back(d);	//insert vector into list
