@@ -12,7 +12,7 @@ void FPGAModel::sendCommand(std::string cmd){
 }
 
 Data* FPGAModel::getDataFromBuffer(){
-	Data* rawFPGAData = (FPGAInterface*)&(this->interface)->getDataFromBuffer();
+	Data* rawFPGAData = ((FPGAInterface*)&(this->interface))->getDataFromBuffer();
 	return rawFPGAData;
 }
 

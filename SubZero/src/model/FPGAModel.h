@@ -10,6 +10,8 @@
 
 #include "Model.h"
 #include "state/FPGAState.h"
+#include "interface/HwInterface.h"
+#include "interface/FPGAInterface.h"
 
 /**
  * This is a concrete child of the Model class. It implements functions
