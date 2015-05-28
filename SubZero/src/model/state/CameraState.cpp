@@ -7,6 +7,7 @@
 
 #include "CameraState.h"
 #include "../../util/Logger.h"
+#include <iostream>
 
 CameraState::CameraState() : State(){
 	//stateData = std::list<std::vector<ImgData*> >;
@@ -42,16 +43,11 @@ ImgData* CameraState::getState(std::string ID){
 	inUse = true;
 	std::vector<ImgData*> temp = this->stateData.back();
 
-	Logger::trace("CamState Tracing " + ID);
-
 	for (unsigned int i = 0; i < temp.size(); i++){
 		ImgData* data = temp.at(i);
-		Logger::trace(data->getID());
 		if (data->getID().compare(ID) == 0){
-			Logger::trace("Generating imgdata clone");
 			ImgData *t = new ImgData(data);		//deep copy
 			inUse = false;
-			Logger::trace("Returned data");
 			return t;
 		}
 	}
@@ -65,7 +61,7 @@ ImgData* CameraState::getState(std::string ID, int i){
 	}
 	inUse = true;
 
-	if (i > (int)stateData.size()){
+	if (i >= (int)stateData.size()){
 		return 0;				//index out of range
 	}
 

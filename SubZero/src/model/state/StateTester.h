@@ -9,7 +9,10 @@
 #define SUBZERO_SRC_MODEL_STATE_STATETESTER_H_
 
 #include "CameraState.h"
+#include "FPGAState.h"
 #include "../../util/Logger.h"
+#include <exception>
+#include <iostream>
 
 class StateTester{
 public:
@@ -17,8 +20,14 @@ public:
 private:
 	ImgData* generateImgData(std::string id, std::string msg);
 	std::vector<ImgData*> generateImgVector(int i);
-	std::string testBasics();
-	std::string testSize();
+	bool testImgBasics();
+	bool testImgSize();
+
+
+	FPGAData* generateFPGAData(std::string id, std::string msg);
+	std::vector<FPGAData*> generateFPGAVector(int i);
+	bool testFPGABasics();
+	bool testFPGASize();
 };
 
 

@@ -52,7 +52,7 @@ FPGAData* FPGAState::getState(std::string ID, int i){
 	}
 	inUse = true;
 
-	if (i > (int)stateData.size()){
+	if (i >= (int)stateData.size()){
 		return 0;				//index out of range
 	}
 
