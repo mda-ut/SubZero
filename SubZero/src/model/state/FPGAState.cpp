@@ -13,7 +13,8 @@ FPGAState::FPGAState(int framesStored) : State(framesStored){
 }
 
 FPGAState::~FPGAState(){
-	for (unsigned int i = 0; i < stateData.size(); i++){
+	unsigned int i;
+	for (i = 0; i < stateData.size(); i++){
 		std::vector<FPGAData*> temp = stateData.front();
 		for (unsigned int n = 0; n < temp.size(); n++){
 			delete temp.back();
@@ -32,7 +33,9 @@ FPGAData* FPGAState::getState(std::string ID){
 
 	std::vector<FPGAData*> temp = this->stateData.back();
 
-	for (FPGAData* data: temp){
+	unsigned int i;
+	for (i = 0; i < temp.size(); i++){
+		FPGAData* data = temp.at(i);
 		if (data->getID().compare(ID) == 0){
 			FPGAData *t = new FPGAData(data);
 			inUse = false;
@@ -56,7 +59,10 @@ FPGAData* FPGAState::getState(std::string ID, int i){
 	std::list<std::vector<FPGAData*> >::reverse_iterator it = stateData.rbegin();
 	std::advance(it, i);		//advance the list to the ith position
 
-	for (FPGAData* data: *it){
+
+	unsigned int n = 0;
+	for (n = 0; n < it->size(); n++){
+		FPGAData* data = it->at(n);
 		if (data->getID().compare(ID) == 0){
 			FPGAData *t = new FPGAData(data);
 			inUse = false;
