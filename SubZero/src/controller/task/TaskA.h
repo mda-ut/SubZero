@@ -12,16 +12,16 @@
 #include <iostream>
 
 //This is a dummy task class
-class MoveForward : public BaseTask {
+class TaskA : public BaseTask {
 public:
 	/**
 	 * Dummy Contructor
 	 */
-	MoveForward();
+	TaskA();
 	/**
 	 * Virtual Destructor
 	 */
-	virtual ~MoveForward();
+	virtual ~TaskA();
 
 	/**
 	 * virtual execute function

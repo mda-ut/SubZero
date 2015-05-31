@@ -9,11 +9,9 @@
 #define CONTROLLERTHREAD_H_
 
 #include <QThread>
-#include <QQueue>
 
 class ControllerThread : public QThread {
 	public:
-		//QT Macro required whenever you deal with signals, slots or properties
     	Q_OBJECT
 
 		/**
@@ -24,7 +22,7 @@ class ControllerThread : public QThread {
 		ControllerThread(QQueue <class Command* > *cL);
 
     	/**
-    	 * Runs our Command queue execution and does each of the commands
+    	 * Runs our Command queue execution
     	 */
 		void run() Q_DECL_OVERRIDE;
 
