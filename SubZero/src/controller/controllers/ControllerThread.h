@@ -9,11 +9,9 @@
 #define CONTROLLERTHREAD_H_
 
 #include <QThread>
-#include <QQueue>
 
 class ControllerThread : public QObject {
 	public:
-		//QT Macro required whenever you deal with signals, slots or properties
     	Q_OBJECT
 
 		/**

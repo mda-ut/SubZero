@@ -6,10 +6,8 @@
 #define CONTROLLER_H_
 
 #include "../command/Command.h"
-#include "../../model/Model.h"
 #include <QObject>
 #include <QQueue>
-#include <vector>
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties
@@ -22,6 +20,7 @@ class Controller : public QObject {
 		QThread queueThread;
 		
 		/**
+
 		* Constructor
 		*
 		* @param vector containing the models
@@ -29,8 +28,8 @@ class Controller : public QObject {
 		Controller(std::vector <Model*> model);
 
 		/**
-		* Destructor
-		*/
+		 * Destructor
+		 */
 		virtual ~Controller();
 
 		/**
