@@ -6,19 +6,21 @@
 #define CONTROLLER_H_
 
 #include "../command/Command.h"
+#include "../../model/Model.h"
 #include <QObject>
 #include <QQueue>
+#include <vector>
 
 class Controller : public QObject {
 	public:
 		/**
-		 * Constructor
-		 */
-		Controller();
+		* Constructor
+		*/
+		Controller(std::vector <Model*> model);
 
 		/**
-		 * Destructor
-		 */
+		* Destructor
+		*/
 		virtual ~Controller();
 
 		/**
