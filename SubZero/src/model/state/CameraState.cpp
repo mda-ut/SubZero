@@ -14,12 +14,23 @@ CameraState::CameraState(int framesStored) : State(framesStored){
 }
 
 CameraState::~CameraState(){
-	//do i have to iterate to every pointer and delete it?
-	for (auto& vector : stateData) {
-		for (auto& data : vector) {
+
+	//carl and zack's fix
+	/*for(auto& vector: stateData){
+		for (auto& data: vector){
 			delete data;
 		}
+	}*/
+
+	for (unsigned int i = 0; i < stateData.size(); i++){
+		std::vector<ImgData*> temp = stateData.front();
+		for (unsigned int n = 0; n < temp.size(); n++){
+			delete temp.back();
+			temp.pop_back();
+		}
+		stateData.pop_front();
 	}
+	//delete stateData;
 }
 
 ImgData* CameraState::getState(std::string ID){

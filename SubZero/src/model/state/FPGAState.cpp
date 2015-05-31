@@ -13,11 +13,15 @@ FPGAState::FPGAState(int framesStored) : State(framesStored){
 }
 
 FPGAState::~FPGAState(){
-	for (auto& vector : stateData) {
-		for (auto& data : vector) {
-			delete data;
+	for (unsigned int i = 0; i < stateData.size(); i++){
+		std::vector<FPGAData*> temp = stateData.front();
+		for (unsigned int n = 0; n < temp.size(); n++){
+			delete temp.back();
+			temp.pop_back();
 		}
+		stateData.pop_front();
 	}
+	//delete stateData;
 }
 
 FPGAData* FPGAState::getState(std::string ID){
