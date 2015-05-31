@@ -29,7 +29,11 @@ std::vector<Data*> CameraModel::constructDataSet(){
 }
 
 void CameraModel::storeToState(std::vector<Data*> dataSet){
-// James go!!
+	std::vector<ImgData*> newData;
+	for(std::vector<Data*>::iterator it = dataSet.begin();it!=dataSet.end();++it){
+		newData.push_back((ImgData*)(*it));
+	}
+	((CameraState*) &(this->state))->setState(newData);
 }
 
 void CameraModel::dataTransfer(){
