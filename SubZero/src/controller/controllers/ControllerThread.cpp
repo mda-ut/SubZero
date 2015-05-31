@@ -12,6 +12,7 @@ void ControllerThread::executeCommands() {
 	/* ... here is the expensive or blocking operation ... */
 	emit resultReady(result);
 }
+
 void ControllerThread::resultReady(const QString &s){
 	//fartfartfart
 }

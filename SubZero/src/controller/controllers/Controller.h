@@ -16,11 +16,15 @@ class Controller : public QObject {
     Q_OBJECT
 	
 	public:	 
-	
+		/**
+		 * General QThread for the constructor and destructor - see http://doc.qt.io/qt-5/qthread.html
+		 */
 		QThread queueThread;
 		
 		/**
 		* Constructor
+		*
+		* @param vector containing the models
 		*/
 		Controller(std::vector <Model*> model);
 
@@ -52,10 +56,16 @@ class Controller : public QObject {
 		void killAll(void);
 		
 	public slots:
-		void handleResults(const QString &);
+		/**
+		 * Handles the results from the ControllerThread
+		 */
+		void cTHandleResults(const QString &);
 		
 	signals:
-		void operate(const QString &);
+		/**
+		 * Tells the ControllerThread to begin 
+		 */
+		void beginCT(const QString &);
 
 	private:
 		/**

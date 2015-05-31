@@ -22,22 +22,22 @@ class ControllerThread : public QObject {
 		 * @param cL - the QQueue from T~T
 		 */
 		ControllerThread(QQueue <class Command* > *cL);
-		
-		public slots:
-			/**
-			 * Execute the commands on the queue
-			 *
-			 * @param 
-			 */
-			void executeCommands(const QString &parameter);
 
-		signals:
-			/**
-			 * Signals the thread that created us that we are finished
-			 *
-			 * @params QString - the string we emit
-			 */
-			void resultReady(const QString &s);
+	public slots:
+		/**
+		 * Execute the commands on the queue
+		 *
+		 * @param 
+		 */
+		void executeCommands(const QString &parameter);
+
+	signals:
+		/**
+		 * Signals the thread that created us that we are finished
+		 *
+		 * @params QString - the string we emit
+		 */
+		void resultReady(const QString &s);
 
 	private:
     	/**
