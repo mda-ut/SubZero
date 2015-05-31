@@ -16,6 +16,7 @@ class Observer
 {
 public:
         Observer();
+        virtual ~Observer();
 
         /** The update function updates each view uniquely
          * Called by observable to notify observer of a change in

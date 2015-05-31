@@ -8,12 +8,14 @@
 #include <QFont>
 #include <QMouseEvent>
 #include <QPoint>
+#include <QObject>
 
 class Menu : public QWidget
 {
     Q_OBJECT
 public:
     Menu();
+    virtual ~Menu();
     void paintEvent(QPaintEvent *event);
 
 

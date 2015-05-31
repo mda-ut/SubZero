@@ -7,9 +7,9 @@
 #include <QColor>
 #include <QWidget>
 
-#include "guiview.h"
-#include "simview.h"
-#include "autview.h"
+//#include "guiview.h"
+//#include "simview.h"
+//#include "autview.h"
 
 /**
  * Menu for insantiating views
@@ -106,7 +106,9 @@ Menu::Menu()
 }
 
 
+Menu::~Menu(){
 
+}
 
 
 void Menu::paintEvent(QPaintEvent *event)
@@ -122,22 +124,21 @@ void Menu::paintEvent(QPaintEvent *event)
 
 void Menu::makeGuiView()
 {
-    GuiView *guiView = new GuiView;
-   
+    //GuiView *guiView = new GuiView;
+
 }
 /*Not made yet
  *
- *
+ */
 void Menu::makeSimView()
 {
-    SimView *simView = new SimView;
-    delete this;
+//    SimView *simView = new SimView;
+//    delete this;
 }
 
 void Menu::makeAutView()
 {
-    AutView *autView = new autView;
-    delete this;
+//    AutView *autView = new autView;
+//    delete this;
 }
 
-*/

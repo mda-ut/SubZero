@@ -13,7 +13,7 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QSize>
-
+#include <qcombobox.h>
 
 
 /** The GuiView class creates a GUI

@@ -6,9 +6,9 @@
  */
 
 #include "ImgDataTEST.h"
-#include <opencv2/core.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/highgui.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/video/video.hpp>
+#include <opencv2/highgui/highgui.hpp>
 /* TEMPLATE
 	int fail = 0;
 	Timer* logTimer = new Timer();
@@ -101,6 +101,7 @@ int ImgDataTEST::T_Constructor() {
 }
 
 int ImgDataTEST::T_Destructor() {
+	return 0;
 }
 
 /* ==========================================================================

@@ -12,3 +12,7 @@
 View::View(){
 
 }
+
+View::~View(){
+
+}

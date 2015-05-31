@@ -10,6 +10,7 @@
 
 #include <QThread>
 #include <QQueue>
+#include <QObject>
 
 class ControllerThread : public QThread {
 	public:

@@ -22,6 +22,7 @@ class View :public QWidget
     Q_OBJECT
 public:
     View();
+    virtual ~View();
 
     /**
     * @param viewFront 'Screen' of the Front facing camera
