@@ -14,20 +14,26 @@ protected:
 	//boolean to signal if a new frame has started
 	bool frameStarted;
 
+	//boolean to signal if the state is currently in use
+	bool inUse;
+
 	//the length of the linked list
 	//The amount of frames that the state will hold
 	int maxLength;
 
 	//LinkedList <Vector<Data>>
-	std::list<std::vector<Data> > stateData;
+	//std::list<std::vector<Data*>> stateData;
+
+	//Initialize the class
+	void init();
 
 	/**
 	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
 	 * @param ID = id of the State that is needed
-	 * @param i = how many frames ago was the State stored
+	 * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
 	 * @return returns the pointer to a deep copied State
 	 */
-	Data* getState (std::string ID, int i);
+	virtual Data* getState (std::string ID, int i) = 0;
 
 	/**
 	 * Returns a deep copy of the latest State specified with the _ID_
@@ -35,7 +41,7 @@ protected:
 	 * @param ID = id of the State that is needed
 	 * @return returns the pointer to a deep copied State
 	 */
-	Data* getState (std::string ID);
+	virtual Data* getState (std::string ID) = 0;
 
 	/**
 	 * Sets the state
@@ -45,7 +51,7 @@ protected:
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	int setState(Data* d);
+	//int setState(Data* d);
 
 	/**
 	 * Same thing as setState, except it takes an entire vector of data instead of 1 data
@@ -56,26 +62,24 @@ protected:
 	 *  	- 0 = successful
 	 *  	- 1 = called this function before startFrame is called
 	 */
-	int setState(std::vector<Data*> d);
+	//virtual int setState(std::vector<Data*> d) = 0;
 
 	/**
 	 * Gets a pointer to a deep copy of the newest raw State
-	 * @param data = pointer to the deep copy of the raw State
+	 * @return data = pointer to the deep copy of the raw State
 	 */
-	void getRaw(Data* data);
+	virtual Data* getRaw() = 0;
 
 	/**
 	 * Gets a pointer to the deep copy of the raw State _i_ frames before
-	 * @param i = how many frames ago the raw State was recorded
-	 * @param data = pointer to the deep copy of the raw State data _i_ frames before this function call
-	 * @return returns an int to indicate if the operation was successful
-	 * 		- 0 = success
-	 * 		- 1 = index out of range
+	 * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
+	 * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
 	 */
-	int getRaw(int i, Data* data);
+	virtual Data* getRaw(int i) = 0;
 
 public:
 	State();	//constructor
+	State(int framesStored);
 
 	virtual ~State();	//deconstructor
 
@@ -84,7 +88,7 @@ public:
 	 * Have to be called before you can call setState()
 	 * Only Model should be calling this function (might implement a check for that)
 	 */
-	void startFrame();
+	//void startFrame();
 
 	/**
 	 * Ends the frame
@@ -92,8 +96,7 @@ public:
 	 * If called before startFrame, then it does nothing
 	 * Be careful when calling this, since you cannot change the frame after it has ended
 	 */
-	void endFrame();
+	//void endFrame();
 
 };
-
 #endif /* SRC_MODEL_STATE_STATE_H_ */
