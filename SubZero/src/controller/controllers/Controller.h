@@ -6,21 +6,30 @@
 #define CONTROLLER_H_
 
 #include "../command/Command.h"
-#include "../../model/Model.h"
 #include <QObject>
 #include <QQueue>
-#include <vector>
 
 class Controller : public QObject {
-	public:
+	//QT Macro required whenever you deal with signals, slots or properties
+    Q_OBJECT
+	
+	public:	 
 		/**
+		 * General QThread for the constructor and destructor - see http://doc.qt.io/qt-5/qthread.html
+		 */
+		QThread queueThread;
+		
+		/**
+
 		* Constructor
+		*
+		* @param vector containing the models
 		*/
 		Controller(std::vector <Model*> model);
 
 		/**
-		* Destructor
-		*/
+		 * Destructor
+		 */
 		virtual ~Controller();
 
 		/**
@@ -44,6 +53,18 @@ class Controller : public QObject {
 		 * Cleans the queue; forces the last task to finish, then kills the sub
 		 */
 		void killAll(void);
+		
+	public slots:
+		/**
+		 * Handles the results from the ControllerThread
+		 */
+		void cTHandleResults(const QString &);
+		
+	signals:
+		/**
+		 * Tells the ControllerThread to begin 
+		 */
+		void beginCT(const QString &);
 
 	private:
 		/**

@@ -6,9 +6,18 @@
  */
 
 #include "Controller.h"
+#include "ControllerThread.h"
 
-Controller::Controller(std::vector <Model*> model){
+Controller::Controller(std::vector <Model*> model){	
+	ControllerThread *cT = new ControllerThread;
+    cT->moveToThread(&queueThread);
+	connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
+	connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
+	connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
+	queueThread.start();
 }
 
     //Destructor to free pointers
-Controller::~Controller(){}
+Controller::~Controller(){
+	
+}
