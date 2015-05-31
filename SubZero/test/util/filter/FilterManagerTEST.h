@@ -13,6 +13,7 @@
 #include "../../../src/util/Logger.h"
 #include "../../../src/util/StringTools.h"
 
+
 class FilterManagerTEST {
 
 public:
