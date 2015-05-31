@@ -12,7 +12,13 @@
 #include <vector>
 
 class Controller : public QObject {
-	public:
+	//QT Macro required whenever you deal with signals, slots or properties
+    Q_OBJECT
+	
+	public:	 
+	
+		QThread queueThread;
+		
 		/**
 		* Constructor
 		*/
@@ -44,6 +50,12 @@ class Controller : public QObject {
 		 * Cleans the queue; forces the last task to finish, then kills the sub
 		 */
 		void killAll(void);
+		
+	public slots:
+		void handleResults(const QString &);
+		
+	signals:
+		void operate(const QString &);
 
 	private:
 		/**
