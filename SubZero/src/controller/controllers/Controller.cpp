@@ -23,3 +23,4 @@ Controller::~Controller(){
 }
 
 void Controller::cTHandleResults(const QString &){}
+
