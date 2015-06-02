@@ -26,7 +26,7 @@ public:
 	/**
 	 * execute the current task
 	 */
-	virtual void execute() = 0;
+	void execute();
 
 private:
 	BaseTask *currentTask;

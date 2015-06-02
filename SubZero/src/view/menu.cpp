@@ -10,7 +10,7 @@
 //#include "guiview.h"
 //#include "simview.h"
 //#include "autview.h"
-
+#include "../SubZeroFactory.h"
 /**
  * Menu for insantiating views
  */
@@ -46,7 +46,7 @@ Menu::Menu()
     simButton = new QPushButton(this);
     autButton = new QPushButton(this);
 
-    connect(guiButton, SIGNAL(clicked()), this, SLOT(makeView()));
+    connect(guiButton, SIGNAL(clicked()), this, SLOT(makeGuiView()));
 
 
          //Sizing
@@ -125,7 +125,8 @@ void Menu::paintEvent(QPaintEvent *event)
 void Menu::makeGuiView()
 {
     //GuiView *guiView = new GuiView;
-
+	SubZeroFactory* subFactory = new SubZeroFactory();
+	subFactory->makeSubZero(GUI);
 }
 /*Not made yet
  *
@@ -134,11 +135,15 @@ void Menu::makeSimView()
 {
 //    SimView *simView = new SimView;
 //    delete this;
+	SubZeroFactory* subFactory = new SubZeroFactory();
+	subFactory->makeSubZero(SIM);
 }
 
 void Menu::makeAutView()
 {
 //    AutView *autView = new autView;
 //    delete this;
+	SubZeroFactory* subFactory = new SubZeroFactory();
+	subFactory->makeSubZero(AUT);
 }
 

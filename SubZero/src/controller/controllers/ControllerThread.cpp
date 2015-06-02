@@ -7,13 +7,13 @@
 
 #include "ControllerThread.h"
 
-void ControllerThread::run() Q_DECL_OVERRIDE {
+ControllerThread::ControllerThread(){
+}
+
+void ControllerThread::executeCommands(const QString &parameter) {
 	QString result;
 	/* ... here is the expensive or blocking operation ... */
 	emit resultReady(result);
 }
-/*void ControllerThread::resultReady(const QString &s){
-	//fartfartfart
-}
-*/
+
 

@@ -12,9 +12,7 @@
 #include <QQueue>
 #include <QObject>
 
-class ControllerThread : public QThread {
-	public:
-		//QT Macro required whenever you deal with signals, slots or properties
+class ControllerThread : public QObject {
     	Q_OBJECT
 
 		/**
@@ -22,20 +20,25 @@ class ControllerThread : public QThread {
 		 *
 		 * @param cL - the QQueue from T~T
 		 */
-		ControllerThread(QQueue <class Command* > *cL);
+    public:
+        ControllerThread();
+        //ControllerThread(QQueue <class Command* > *cL);
 
-    	/**
-    	 * Runs our Command queue execution and does each of the commands
-    	 */
-		void run() Q_DECL_OVERRIDE;
+	public slots:
+		/**
+		 * Execute the commands on the queue
+		 *
+		 * @param 
+		 */
+		void executeCommands(const QString &parameter);
 
-    signals:
+	signals:
 		/**
 		 * Signals the thread that created us that we are finished
 		 *
 		 * @params QString - the string we emit
 		 */
-    	void resultReady(const QString &s);
+		void resultReady(const QString &s);
 
 	private:
     	/**

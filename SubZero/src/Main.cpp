@@ -6,8 +6,10 @@
  */
 
 #include "util/Logger.h"
+#include "view/menu.h"
 #include "../test/util/filter/FilterManagerTEST.h"
 #include <string>
+#include <QApplication>
 
 using namespace std;
 
@@ -16,12 +18,15 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
-	FilterManagerTEST::runUnits();
-
-	Logger::trace("Began to work on project.");
+	//FilterManagerTEST::runUnits();
+	QApplication app(argc, argv);
+    Menu* newMenu = new Menu;
+    newMenu->show();
+    //newMenu.paintEvent();
+	Logger::trace("Does this build/run?");
 
 	Logger::close();
 
-	return 0;
+	return app.exec();
 }
 
