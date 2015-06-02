@@ -29,7 +29,11 @@ std::vector<Data*> FPGAModel::constructDataSet(){
 }
 
 void FPGAModel::storeToState(std::vector<Data*> dataSet){
-// James go!!
+	std::vector<FPGAData*> newData;
+	for(std::vector<Data*>::iterator it = dataSet.begin();it!=dataSet.end();++it){
+		newData.push_back((FPGAData*)(*it));
+	}
+	((FPGAState*) &(this->state))->setState(newData);
 }
 
 void FPGAModel::dataTransfer(){
