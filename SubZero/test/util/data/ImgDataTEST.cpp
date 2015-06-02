@@ -32,7 +32,7 @@
 
 
 int ImgDataTEST::runUnits() {
-	int res;
+	int res = 0;
 	Logger::trace("Running all unit tests for: ImgData");
 	Logger::trace("==============================");
 //	res += T_Constructor();

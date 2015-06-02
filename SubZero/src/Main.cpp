@@ -15,22 +15,18 @@
 using namespace std;
 
 int main(int argc, char** argv) {
+	QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
+    FilterManagerTEST::runUnits();
+    ImgDataTEST::runUnits();
 
-	//FilterManagerTEST::runUnits();
-	QApplication app(argc, argv);
     Menu* newMenu = new Menu;
     newMenu->show();
-    //newMenu.paintEvent();
 
-	FilterManagerTEST::runUnits();
-	ImgDataTEST::runUnits();
-
-
-	Logger::close();
+    //Logger::close();
 
 	return app.exec();
 }

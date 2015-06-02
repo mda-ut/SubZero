@@ -23,7 +23,7 @@
 
 
 int DataTEST::runUnits() {
-	int res;
+    int res = 0;
 	Logger::trace("Running all unit tests for: Data");
 	Logger::trace("==============================");
 	res += T_Constructor();
