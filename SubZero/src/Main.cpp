@@ -7,6 +7,7 @@
 
 #include "util/Logger.h"
 #include "../test/util/filter/FilterManagerTEST.h"
+#include "../test/util/data/ImgDataTEST.h"
 #include <string>
 
 using namespace std;
@@ -17,6 +18,7 @@ int main(int argc, char** argv) {
 	Logger::trace("Logger initialized.");
 
 	FilterManagerTEST::runUnits();
+	ImgDataTEST::runUnits();
 
 	Logger::close();
 

@@ -6,6 +6,7 @@
  */
 
 #include "ImgDataTEST.h"
+
 /*
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
@@ -41,19 +42,45 @@ int ImgDataTEST::runUnits() {
 //	res += T_cpConstructor();
 //	res += T_opEqual();
 
-//	Logger::trace("opening cap...");
-//	cv::VideoCapture capture(0);
-//	if (capture.isOpened()) {
-////	capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-////	capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
-//	cv::Mat camFeed;
-//	Logger::trace("grabbing read...");
-//	capture >> camFeed;
-//
-//	Logger::trace("cap read, showing cap...");
-//	cv::namedWindow("test",1);
-//	cv::imshow("test",camFeed);
-//	}
+	Logger::trace("opening cap...");
+	cv::namedWindow("ddddddd");
+	Logger::trace("window created...");
+	cv::VideoCapture capture(CV_CAP_ANY);
+
+	if (capture.isOpened()) {
+		Logger::trace("capture is opened....");
+		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
+		capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+
+	cv::Mat camFeed;
+	Logger::trace("grabbing read...");
+
+	/*
+	 * webcamCapture.read(currentWebcamFrame);
+	 */
+
+	bool bSuccess = capture.read(camFeed);
+
+	if (!bSuccess) //if not success, break loop
+	{
+		 Logger::trace( "Cannot read a frame from video stream");
+	}
+
+	Logger::trace("cap read, showing cap...");
+	Logger::trace("Press ESC to break the while loop...");
+
+	while(1){
+
+	//	key = cv::waitKey(10);
+		cv::imshow("ddddddd",camFeed);
+		if(cv::waitKey(10)==27){
+			break;
+		}
+
+	}
+
+	Logger::trace("appear............");
+	}
 
 	Logger::trace("==============================");
 	if (res != 0)
