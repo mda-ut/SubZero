@@ -6,6 +6,7 @@
 #define CONTROLLER_H_
 
 #include "../command/Command.h"
+#include "../../model/Model.h"
 #include <QObject>
 #include <QQueue>
 #include <QThread>

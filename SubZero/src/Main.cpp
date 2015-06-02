@@ -8,6 +8,7 @@
 #include "util/Logger.h"
 #include "view/menu.h"
 #include "../test/util/filter/FilterManagerTEST.h"
+#include "../test/util/data/ImgDataTEST.h"
 #include <string>
 #include <QApplication>
 
@@ -18,12 +19,16 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
+
 	//FilterManagerTEST::runUnits();
 	QApplication app(argc, argv);
     Menu* newMenu = new Menu;
     newMenu->show();
     //newMenu.paintEvent();
-	Logger::trace("Does this build/run?");
+
+	FilterManagerTEST::runUnits();
+	ImgDataTEST::runUnits();
+
 
 	Logger::close();
 

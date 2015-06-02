@@ -13,6 +13,7 @@
 #include "../../../src/util/data/FPGAData.h"
 #include "../../../src/util/Logger.h"
 #include "../../../src/util/StringTools.h"
+#include <unistd.h>
 
 
 class ImgDataTEST {
