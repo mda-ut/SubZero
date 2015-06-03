@@ -7,6 +7,7 @@
 
 #include "util/Logger.h"
 #include "../test/util/filter/FilterManagerTEST.h"
+#include "model/state/StateTester.h"
 #include <string>
 
 using namespace std;
@@ -16,7 +17,8 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
-	FilterManagerTEST::runUnits();
+	//FilterManagerTEST::runUnits();
+	StateTester::run();
 
 	Logger::close();
 

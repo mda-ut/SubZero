@@ -73,6 +73,10 @@ int FPGAState::setState(std::vector<FPGAData*> d){
 	inUse = true;
 
 	if ((int)this->stateData.size() > this->maxLength){
+		std::vector<FPGAData*> temp = this->stateData.front();
+		for (unsigned int i= 0; i < temp.size(); i++){
+			delete temp.at(i);
+		}
 		this->stateData.pop_front();
 	}
 	this->stateData.push_back(d);

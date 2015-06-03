@@ -6,6 +6,7 @@
  */
 
 #include "CameraState.h"
+#include "../../util/Logger.h"
 
 CameraState::CameraState() : State(){
 	//stateData = std::list<std::vector<ImgData*> >;
@@ -40,10 +41,15 @@ ImgData* CameraState::getState(std::string ID){
 	inUse = true;
 	std::vector<ImgData*> temp = this->stateData.back();
 
+	Logger::trace("CamState Tracing " + ID);
+
 	for (ImgData* data: temp){
+		Logger::trace(data->getID());
 		if (data->getID().compare(ID) == 0){
+			Logger::trace("Generating imgdata clone");
 			ImgData *t = new ImgData(data);		//deep copy
 			inUse = false;
+			Logger::trace("Returned data");
 			return t;
 		}
 	}
@@ -81,8 +87,13 @@ int CameraState::setState(std::vector<ImgData*> d){
 	inUse = true;
 
 	if ((int)this->stateData.size() > this->maxLength){
-		this->stateData.pop_front();		//not sure if this will cause a memory leak
+		std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
+		for (unsigned int i= 0; i < temp.size(); i++){
+			delete temp.at(i);
+		}
+		this->stateData.pop_front();
 	}
+
 	this->stateData.push_back(d);	//insert vector into list
 	inUse = false;
 	return 0;
