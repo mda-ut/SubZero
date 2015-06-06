@@ -7,6 +7,7 @@
 
 #include "util/Logger.h"
 #include "../test/util/filter/FilterManagerTEST.h"
+#include "../test/util/data/ImgDataTEST.h"
 #include "model/state/StateTester.h"
 #include <string>
 
@@ -17,8 +18,9 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
-	//FilterManagerTEST::runUnits();
-	StateTester::run();
+	FilterManagerTEST::runUnits();
+	ImgDataTEST::runUnits();
+	//StateTester::run();
 
 	Logger::close();
 
