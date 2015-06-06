@@ -11,7 +11,7 @@
 
 /**
  * Wrapper class for data from the FPGA. This class will store
- * FPGA data in 3 main doubles: depth, roll, and heading. This
+ * FPGA data in 3 main doubles: depth, speed, and heading. This
  * class will allow observers to get the doubles and perform
  * algorithm off them. It will not serve as a relay to send
  * commands to the FPGA thus, much like ImgData, the setters
@@ -42,12 +42,12 @@ private:
 	void setDepth(double newDepth);
 
 	/**
-	 * Setter for the roll. If a previous value exists, it will
+	 * Setter for the speed. If a previous value exists, it will
 	 * be replaced.
 	 *
-	 * @param newRoll	double value of roll.
+	 * @param newRoll	double value of speed.
 	 */
-	void setRoll(double newRoll);
+	void setSpeed(double newSpeed);
 
 	/**
 	 * Setter for heading. If a previous value exists, it will
@@ -63,9 +63,9 @@ private:
 	 */
 
 	/*
-	 * Depth, roll, heading vars.
+	 * Depth, speed, heading vars.
 	 */
-	double depth, roll, heading;
+	double depth, speed, heading;
 
 public:
 
@@ -78,10 +78,10 @@ public:
 	 * Constructor for FPGAData.
 	 *
 	 * @param depth
-	 * @param roll
+	 * @param speed
 	 * @param heading
 	 */
-	FPGAData(std::string dataID, double depth, double roll, double heading);
+	FPGAData(std::string dataID, double depth, double speed, double heading);
 
 	/**
 	 * Destructor stub.
@@ -101,11 +101,11 @@ public:
 	double getDepth();
 
 	/**
-	 * Getter for the roll.
+	 * Getter for the speed.
 	 *
-	 * @return 	double value of roll.
+	 * @return 	double value of speed.
 	 */
-	double getRoll();
+	double getSpeed();
 
 	/*
 	 * Getter for heading. Heading refers to? Ask Electronics

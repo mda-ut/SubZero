@@ -1,22 +1,24 @@
 /*
- * ImgDataTEST.h
+ * FPGADataTEST.h
  *
- *  Created on: May 16, 2015
+ *  Created on: Jun 3, 2015
  *      Author: ahsueh1996
  */
 
-#ifndef TEST_UTIL_DATA_IMGDATATEST_H_
-#define TEST_UTIL_DATA_IMGDATATEST_H_
+#ifndef TEST_UTIL_DATA_FPGADATATEST_H_
+#define TEST_UTIL_DATA_FPGADATATEST_H_
 
 #include "../../../src/util/data/Data.h"
 #include "../../../src/util/data/ImgData.h"
 #include "../../../src/util/data/FPGAData.h"
 #include "../../../src/util/Logger.h"
 #include "../../../src/util/StringTools.h"
-#include <cv.h>
-#include <highgui.h>
+//#include <linux/module.h>
+//#include <linux/kernel.h>
+//#include <linux/usb.h>
 
-class ImgDataTEST {
+
+class FPGADataTEST {
 
 public:
 	static int runUnits();
@@ -34,9 +36,7 @@ public:
 	 * ==========================================================================
 	 */
 
-	static int T_getImg();
-	static int T_getHeight();
-	static int T_getWidth();
+	//	tested in constructor
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD
@@ -49,4 +49,4 @@ public:
 
 };
 
-#endif /* TEST_UTIL_DATA_IMGDATATEST_H_ */
+#endif /* TEST_UTIL_DATA_FPGADATATEST_H_ */

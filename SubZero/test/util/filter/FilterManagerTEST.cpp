@@ -21,7 +21,7 @@
  */
 
 int FilterManagerTEST::runUnits() {
-	int res;
+	int res = 0;
 	Logger::trace("Running all unit tests for: FilterManager");
 	Logger::trace("==============================");
 	res += T_Constructor();
@@ -117,6 +117,7 @@ int FilterManagerTEST::T_Constructor() {
 }
 
 int FilterManagerTEST::T_Destructor() {
+	return 0;
 }
 
 /* ==========================================================================

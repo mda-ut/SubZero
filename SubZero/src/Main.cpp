@@ -6,10 +6,12 @@
  */
 
 #include "util/Logger.h"
-#include "../test/util/filter/FilterManagerTEST.h"
-#include "../test/util/data/ImgDataTEST.h"
 #include "model/state/StateTester.h"
 #include <string>
+#include "view/menu.h"
+#include <QApplication>
+
+#include "../test/CollectionTEST.h"
 
 using namespace std;
 
@@ -17,9 +19,14 @@ int main(int argc, char** argv) {
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
+	
+	QApplication app(argc, argv);
+    Menu* newMenu = new Menu;
+    newMenu->show();
+    //newMenu.paintEvent();
 
-	FilterManagerTEST::runUnits();
-	ImgDataTEST::runUnits();
+    CollectionTEST::runFilterCollection();
+
 	//StateTester::run();
 
 	Logger::close();
