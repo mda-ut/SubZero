@@ -7,16 +7,6 @@
 
 #include "ImgDataTEST.h"
 
-/*
-#include <opencv2/core.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/highgui.hpp>
-*/
-/*
-#include <opencv2/core/core.hpp>
-#include <opencv2/video/video.hpp>
-#include <opencv2/highgui/highgui.hpp>
-*/
 /* TEMPLATE
 	int fail = 0;
 	Timer* logTimer = new Timer();
@@ -32,7 +22,7 @@
 
 
 int ImgDataTEST::runUnits() {
-	int res;
+	int res = 0;
 	Logger::trace("Running all unit tests for: ImgData");
 	Logger::trace("==============================");
 //	res += T_Constructor();
@@ -42,45 +32,26 @@ int ImgDataTEST::runUnits() {
 //	res += T_cpConstructor();
 //	res += T_opEqual();
 
-	Logger::trace("opening cap...");
-	cv::namedWindow("ddddddd");
-	Logger::trace("window created...");
-	cv::VideoCapture capture(CV_CAP_ANY);
+	char key;
+    cvNamedWindow("Camera_Output", 1);    //Create window
+    CvCapture* capture = cvCaptureFromCAM(0);  //Capture using any camera connected to your system
+    while(1){ //Create infinte loop for live streaming
 
-	if (capture.isOpened()) {
-		Logger::trace("capture is opened....");
-		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-		capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+        IplImage* frame = cvQueryFrame(capture); //Create image frames from capture
+        cvShowImage("Camera_Output", frame);   //Show image frames on created window
+        key = cvWaitKey(10);     //Capture Keyboard stroke
 
-	cv::Mat camFeed;
-	Logger::trace("grabbing read...");
+        if(char(key)==32){
+        	cvSaveImage("abc.png",frame); // If you hit spacebar an image will be saved
+        }
 
-	/*
-	 * webcamCapture.read(currentWebcamFrame);
-	 */
-
-	bool bSuccess = capture.read(camFeed);
-
-	if (!bSuccess) //if not success, break loop
-	{
-		 Logger::trace( "Cannot read a frame from video stream");
-	}
-
-	Logger::trace("cap read, showing cap...");
-	Logger::trace("Press ESC to break the while loop...");
-
-	while(1){
-
-	//	key = cv::waitKey(10);
-		cv::imshow("ddddddd",camFeed);
-		if(cv::waitKey(10)==27){
-			break;
-		}
-
-	}
-
-	Logger::trace("appear............");
-	}
+        if (char(key) == 27){
+            break;      //If you hit ESC key loop will break.
+        }
+    }
+    cvReleaseCapture(&capture); //Release capture.
+    cvDestroyWindow("Camera_Output"); //Destroy Window
+    return 0;
 
 	Logger::trace("==============================");
 	if (res != 0)
