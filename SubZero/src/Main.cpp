@@ -6,9 +6,12 @@
  */
 
 #include "util/Logger.h"
-#include "../test/util/filter/FilterManagerTEST.h"
-#include "../test/util/data/ImgDataTEST.h"
+#include "view/menu.h"
 #include <string>
+#include <QApplication>
+
+#include "../test/CollectionTEST.h"
+
 
 using namespace std;
 
@@ -17,11 +20,15 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
-	FilterManagerTEST::runUnits();
-	ImgDataTEST::runUnits();
+	QApplication app(argc, argv);
+    Menu* newMenu = new Menu;
+    newMenu->show();
+    //newMenu.paintEvent();
+
+    CollectionTEST::runFilterCollection();
 
 	Logger::close();
 
-	return 0;
+	return app.exec();
 }
 

@@ -30,7 +30,7 @@ bool Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
 		strftime(buffer, 80, "%d-%m-%Y_%I:%M:%S.log", timer->getCurrentTime());
 
 		std::string logName(buffer);
-		logName = "logs/" + logName;
+        logName = "SubZero/logs/" + logName;
 
 		logFile.open(logName.c_str());
 		if (!logFile.is_open()) {
