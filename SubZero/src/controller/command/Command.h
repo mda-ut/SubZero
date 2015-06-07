@@ -13,20 +13,9 @@
 class Command {
 public:
 	/**
-	 * Constructor
-	 * @param inputTask The task to be done
-	 */
-	Command(BaseTask *inputTask);
-
-	/**
-	 * Destructor
-	 */
-	virtual ~Command();
-
-	/**
 	 * execute the current task
 	 */
-	void execute();
+    virtual void execute() = 0;
 
 private:
 	BaseTask *currentTask;

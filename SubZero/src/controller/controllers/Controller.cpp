@@ -7,17 +7,35 @@
 
 #include "Controller.h"
 #include "ControllerThread.h"
+#include <iostream>
 
-Controller::Controller(std::vector <Model*> model){	
-	ControllerThread *cT = new ControllerThread;
+Controller::Controller(void){
+    commandList = *new QQueue <class Command* >;
+}
+
+void Controller::initialize(void) {
+    ControllerThread *cT = new ControllerThread(&commandList, &mutex);
     cT->moveToThread(&queueThread);
-	connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
-	connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
-	connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
-	queueThread.start();
+    connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
+    connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
+    connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
+    queueThread.start();
+    emit beginCT("Fuck");
 }
 
     //Destructor to free pointers
 Controller::~Controller(){
-	
+    queueThread.quit();
+    queueThread.wait();
+}
+
+void Controller::cTHandleResults(const QString &){
+    std::cout << "Bye Bye Beautiful!!" << std::endl;
+}
+
+void Controller::addCommandToQueue(Command *newCommand)
+{
+    mutex.lock();
+    commandList.enqueue(newCommand);
+    mutex.unlock();
 }

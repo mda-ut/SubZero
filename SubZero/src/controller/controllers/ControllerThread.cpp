@@ -6,15 +6,21 @@
  */
 
 #include "ControllerThread.h"
+#include <iostream>
 
-void ControllerThread::executeCommands() {
-	QString result;
-	/* ... here is the expensive or blocking operation ... */
-	emit resultReady(result);
+ControllerThread::ControllerThread(QQueue <class Command* > *cL, QMutex *mutex){
+    commandList = cL;
+    this->mutex = mutex;
 }
 
-void ControllerThread::resultReady(const QString &s){
-	//fartfartfart
+void ControllerThread::executeCommands(const QString &parameter) {
+    QString result = "Done";
+    while (1){
+        mutex->lock();
+        if(!commandList->isEmpty()){
+            (*(commandList->dequeue())).execute();
+        }
+        mutex->unlock();
+    }
+    emit resultReady(result);
 }
-
-
