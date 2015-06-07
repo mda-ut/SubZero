@@ -9,17 +9,23 @@
 #define CONTROLLERTHREAD_H_
 
 #include <QThread>
+#include <QObject>
+#include <QQueue>
+#include <QMutex>
+
+#include "../command/Command.h"
 
 class ControllerThread : public QObject {
-	public:
-    	Q_OBJECT
+    Q_OBJECT
 
-		/**
-		 * Constructs a ControllerThread
+    public:
+        /**
+         * Command ControllerThread Constructor
 		 *
 		 * @param cL - the QQueue from T~T
+         * @param mutex - the QMutexd from T~T
 		 */
-		ControllerThread(QQueue <class Command* > *cL);
+        ControllerThread(QQueue <class Command* > *cL, QMutex *mutex);
 
 	public slots:
 		/**
@@ -27,7 +33,7 @@ class ControllerThread : public QObject {
 		 *
 		 * @param 
 		 */
-		void executeCommands(const QString &parameter);
+        void executeCommands(const QString &parameter);
 
 	signals:
 		/**
@@ -38,10 +44,11 @@ class ControllerThread : public QObject {
 		void resultReady(const QString &s);
 
 	private:
-    	/**
+        /**
     	 * A List of commands that the view tells us to complete
     	 */
-    	QQueue <class Command* > *commandList;
+        QQueue <class Command* > *commandList;
+        QMutex *mutex;
 };
 
 #endif /* CONTROLLERTHREAD_H_ */
