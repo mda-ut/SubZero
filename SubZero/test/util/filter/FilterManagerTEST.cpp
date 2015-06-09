@@ -9,14 +9,11 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: _______");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
  */
 
@@ -42,9 +39,6 @@ int FilterManagerTEST::runUnits() {
 
 int FilterManagerTEST::T_Constructor() {
 	int fail = 0;
-
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing FilterManager constructor:");
@@ -112,7 +106,6 @@ int FilterManagerTEST::T_Constructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: FilterManager constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -127,8 +120,6 @@ int FilterManagerTEST::T_Destructor() {
 
 int FilterManagerTEST::T_applyFilterChain() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing applyFilterChain():");
@@ -168,7 +159,6 @@ int FilterManagerTEST::T_applyFilterChain() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: applyFilterChain");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -179,8 +169,6 @@ int FilterManagerTEST::T_applyFilterChain() {
 
 int FilterManagerTEST::T_insertFilter() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing insertFilter():");
@@ -292,14 +280,11 @@ int FilterManagerTEST::T_insertFilter() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: insertFilter()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int FilterManagerTEST::T_replaceFilter() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing replaceFilter():");
@@ -423,6 +408,5 @@ int FilterManagerTEST::T_replaceFilter() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: replaceFilter()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
