@@ -20,6 +20,7 @@ class ImgDataTEST {
 
 public:
 	static int runUnits();
+	static cv::Mat camCap();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR

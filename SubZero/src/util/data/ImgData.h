@@ -62,12 +62,16 @@ private:
 	 * ==========================================================================
 	 */
 
-	/**this->img = newImg;
+	/*
 	 * Pointer to the actual image object. Mat is the designated standard
 	 * image type.
 	 */
 	cv::Mat* img;
 
+	/*
+	 * String for the named window showing the img
+	 */
+	std::string windowName;
 
 public:
 
@@ -116,6 +120,26 @@ public:
 	 * @return int representing the image width.
 	 */
 	int getWidth();
+
+	/**
+	 * Attempts to show the Mat img in a new window.
+	 */
+	void showImg(std::string windowName="");
+
+	/**
+	 * Attempts to close the window opened by showImg().
+	 */
+	void closeImg();
+
+	/**
+	 * Compares 2 Mat images and returns a bool indicating whether they are the same or not.
+	 *
+	 * @param testImg	to compare against ImgData's Mat img
+	 * @param mask		the difference Mat between the two operands. Default is nullptr and no mask is stored.
+	 * @return			1 for image is same, 0 for not the same.
+	 */
+
+	int compareImg(cv::Mat* testImg, cv::Mat* mask=0);
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD

@@ -9,14 +9,11 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: _______");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
  */
 
@@ -41,8 +38,6 @@ int FPGADataTEST::runUnits() {
 
 int FPGADataTEST::T_Constructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing Constructor:");
@@ -64,14 +59,11 @@ int FPGADataTEST::T_Constructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Data Constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int FPGADataTEST::T_opEqual() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing Operator=:");
@@ -103,7 +95,6 @@ int FPGADataTEST::T_opEqual() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Operator=");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 
 }
@@ -143,6 +134,5 @@ int FPGADataTEST::T_cpConstructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Copy Constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
