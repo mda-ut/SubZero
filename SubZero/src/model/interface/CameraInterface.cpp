@@ -7,7 +7,6 @@
 
 #include "CameraInterface.h"
 
-namespace std {
 //
 //CameraInterface::CameraInterface() {
 //	// TODO Auto-generated constructor stub
@@ -18,4 +17,3 @@ namespace std {
 //	// TODO Auto-generated destructor stub
 //}
 //
-} /* namespace std */

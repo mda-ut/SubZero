@@ -7,8 +7,9 @@
 
 #ifndef DATA_H_
 #define DATA_H_
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
+
+#include <cv.h>
+#include <highgui.h>
 
 #include <string.h>
 #include "../StringTools.h"

@@ -6,6 +6,8 @@
  */
 
 #include "CameraState.h"
+#include "../../util/Logger.h"
+#include <iostream>
 
 CameraState::CameraState() : State(){
 	//stateData = std::list<std::vector<ImgData*> >;
@@ -22,7 +24,8 @@ CameraState::~CameraState(){
 		}
 	}*/
 
-	for (unsigned int i = 0; i < stateData.size(); i++){
+	unsigned int i;
+	for (i = 0; i < stateData.size(); i++){
 		std::vector<ImgData*> temp = stateData.front();
 		for (unsigned int n = 0; n < temp.size(); n++){
 			delete temp.back();
@@ -40,7 +43,8 @@ ImgData* CameraState::getState(std::string ID){
 	inUse = true;
 	std::vector<ImgData*> temp = this->stateData.back();
 
-	for (ImgData* data: temp){
+	for (unsigned int i = 0; i < temp.size(); i++){
+		ImgData* data = temp.at(i);
 		if (data->getID().compare(ID) == 0){
 			ImgData *t = new ImgData(data);		//deep copy
 			inUse = false;
@@ -57,14 +61,16 @@ ImgData* CameraState::getState(std::string ID, int i){
 	}
 	inUse = true;
 
-	if (i > (int)stateData.size()){
+	if (i >= (int)stateData.size()){
 		return 0;				//index out of range
 	}
 
 	std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
 	std::advance(it, i);		//advance the list to the ith position
 
-	for (ImgData* data: *it){
+	unsigned int n = 0;
+	for (n = 0; n < it->size(); n++){
+		ImgData* data = it->at(n);
 		if (data->getID().compare(ID) == 0){
 			ImgData *t = new ImgData(data);		//deep copy of the image
 			inUse = false;
@@ -81,8 +87,13 @@ int CameraState::setState(std::vector<ImgData*> d){
 	inUse = true;
 
 	if ((int)this->stateData.size() > this->maxLength){
-		this->stateData.pop_front();		//not sure if this will cause a memory leak
+		std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
+		for (unsigned int i= 0; i < temp.size(); i++){
+			delete temp.at(i);
+		}
+		this->stateData.pop_front();
 	}
+
 	this->stateData.push_back(d);	//insert vector into list
 	inUse = false;
 	return 0;
