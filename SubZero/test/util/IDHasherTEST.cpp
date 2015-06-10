@@ -9,14 +9,11 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: _______");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
  */
 
@@ -48,8 +45,6 @@ int IDHasherTEST::runUnits() {
 int IDHasherTEST::T_Constructor() {
 	int fail = 0;
 
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing IDHasher constructor:");
@@ -91,18 +86,14 @@ int IDHasherTEST::T_Constructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: IDHahser constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_Destructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -113,8 +104,7 @@ int IDHasherTEST::T_Destructor() {
 
 int IDHasherTEST::T_get() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
+
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -155,14 +145,11 @@ int IDHasherTEST::T_get() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: IDHahser get()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_insByIndex() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -242,14 +229,11 @@ int IDHasherTEST::T_insByIndex() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: insByIndex()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_insByID() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -329,14 +313,11 @@ int IDHasherTEST::T_insByID() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: insByID()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_delByIndex() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -436,14 +417,11 @@ int IDHasherTEST::T_delByIndex() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: delByIndex()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_delByID() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -570,14 +548,11 @@ int IDHasherTEST::T_delByID() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: delByID()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_delAll() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -653,14 +628,11 @@ int IDHasherTEST::T_delAll() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: delAll()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_getNodeIDList() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -698,6 +670,5 @@ int IDHasherTEST::T_getNodeIDList() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: getNodeIDList()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }

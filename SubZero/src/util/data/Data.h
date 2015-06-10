@@ -14,6 +14,7 @@
 #include <string.h>
 #include "../StringTools.h"
 
+#include "../Logger.h"
 
 /**
  * Data is the generic class representing all data used by
