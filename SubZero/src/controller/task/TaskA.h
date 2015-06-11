@@ -9,7 +9,6 @@
 #define TASKA_H_
 
 #include "BaseTask.h"
-#include <iostream>
 
 //This is a dummy task class
 class TaskA : public BaseTask {

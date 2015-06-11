@@ -8,17 +8,28 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
+#include <QQueue>
+#include <QMutex>
+
 #include "../task/BaseTask.h"
 
 class Command {
-public:
-	/**
-	 * execute the current task
-	 */
-    virtual void execute() = 0;
+    public:
+        /**
+         * execute the current task
+         */
+        virtual void execute() = 0;
 
-private:
-	BaseTask *currentTask;
+//    private:
+        /**
+        * A Queue of tasks each command must execute
+        */
+        QQueue <class BaseTask* > taskList;
+
+        /**
+         * A mutex lock that will make our writes thread safe.
+         */
+        QMutex mutex;
 
 };
 

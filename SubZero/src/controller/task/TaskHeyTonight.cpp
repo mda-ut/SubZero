@@ -5,19 +5,19 @@
  *      Author: ed
  */
 
-#include "TaskA.h"
+#include "TaskHeyTonight.h"
 
 #include <iostream>
 
-TaskA::TaskA() {
+TaskHeyTonight::TaskHeyTonight() {
 	// TODO Auto-generated constructor stub
 
 }
 
-TaskA::~TaskA() {
+TaskHeyTonight::~TaskHeyTonight() {
 	// TODO Auto-generated destructor stub
 }
 
-void TaskA::execute(){
-	std::cout<<"Hello World"<<std::endl;
+void TaskHeyTonight::execute(){
+    std::cout << "Hey, Tonight!" << std::endl;
 }
