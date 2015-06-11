@@ -7,6 +7,7 @@
 
 #include "Controller.h"
 #include "ControllerThread.h"
+
 #include <iostream>
 
 Controller::Controller(void){
@@ -20,7 +21,7 @@ void Controller::initialize(void) {
     connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
     connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
     queueThread.start();
-    emit beginCT("Fuck");
+    emit beginCT("Begin handling Commands");
 }
 
     //Destructor to free pointers
@@ -29,7 +30,7 @@ Controller::~Controller(){
     queueThread.wait();
 }
 
-void Controller::cTHandleResults(const QString &){
+void Controller::cTHandleResults(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
 }
 

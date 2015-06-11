@@ -31,7 +31,7 @@ class ControllerThread : public QObject {
 		/**
 		 * Execute the commands on the queue
 		 *
-		 * @param 
+         * @param
 		 */
         void executeCommands(const QString &parameter);
 
@@ -45,9 +45,13 @@ class ControllerThread : public QObject {
 
 	private:
         /**
-    	 * A List of commands that the view tells us to complete
+         * A pointer to Controller's Queue of commands
     	 */
         QQueue <class Command* > *commandList;
+
+        /**
+         * A pointer to Controller's mutex lock
+         */
         QMutex *mutex;
 };
 

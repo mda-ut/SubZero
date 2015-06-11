@@ -6,7 +6,6 @@
  */
 
 #include "ControllerThread.h"
-#include <iostream>
 
 ControllerThread::ControllerThread(QQueue <class Command* > *cL, QMutex *mutex){
     commandList = cL;
