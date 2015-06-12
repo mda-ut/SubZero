@@ -13,27 +13,27 @@
 #include <QQueue>
 #include <QMutex>
 
-#include "../command/Command.h"
+#include "../task/Task.h"
 
 class ControllerThread : public QObject {
     Q_OBJECT
 
     public:
         /**
-         * Command ControllerThread Constructor
+         * Task ControllerThread Constructor
 		 *
 		 * @param cL - the QQueue from T~T
          * @param mutex - the QMutexd from T~T
 		 */
-        ControllerThread(QQueue <class Command* > *cL, QMutex *mutex);
+        ControllerThread(QQueue <class Task* > *tL, QMutex *mutex);
 
 	public slots:
 		/**
-		 * Execute the commands on the queue
+         * Execute the tasks on the queue
 		 *
          * @param
 		 */
-        void executeCommands(const QString &parameter);
+        void executeTasks(const QString &parameter);
 
 	signals:
 		/**
@@ -45,9 +45,9 @@ class ControllerThread : public QObject {
 
 	private:
         /**
-         * A pointer to Controller's Queue of commands
+         * A pointer to Controller's Queue of tasks
     	 */
-        QQueue <class Command* > *commandList;
+        QQueue <class Task* > *taskList;
 
         /**
          * A pointer to Controller's mutex lock

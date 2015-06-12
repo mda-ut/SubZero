@@ -8,10 +8,10 @@
 #ifndef TASKHEYTONIGHT_H_
 #define TASKHEYTONIGHT_H_
 
-#include "BaseTask.h"
+#include "Task.h"
 
 //This is a dummy task class
-class TaskHeyTonight : public BaseTask {
+class TaskHeyTonight : public Task {
 public:
 	/**
 	 * Dummy Contructor

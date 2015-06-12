@@ -10,7 +10,7 @@
 #include <QThread>
 #include <QMutex>
 
-#include "../command/Command.h"
+#include "../task/Task.h"
 #include "../../model/Model.h"
 
 class Controller : public QObject {
@@ -41,11 +41,11 @@ class Controller : public QObject {
 		virtual ~Controller();
 
 		/**
-		 * Adds a new Command to our queue
+         * Adds a new Task to our queue
 		 *
-		 * @param newCommand - the Command pointer to be added to queue
+         * @param newTask - the Task pointer to be added to queue
 		 */
-		void addCommandToQueue(Command *newCommand);
+        void addTaskToQueue(Task *newTask);
 
 		/**
 		 * Clears all Commands from our queue
@@ -53,9 +53,9 @@ class Controller : public QObject {
 		void clearQueue(void);
 
 		/**
-		 * Displays the Current commandList
+         * Displays the Current taskList
 		 */
-		void displayCommandList(void);
+        void displayTaskList(void);
 
 		/**
 		 * Cleans the queue; forces the last task to finish, then kills the sub
@@ -83,7 +83,7 @@ class Controller : public QObject {
 		/**
         * A Queue of commands View tells us to complete
 		*/
-		QQueue <class Command* > commandList;
+        QQueue <class Task* > taskList;
 
         /**
          * A mutex lock that will make our writes thread safe.

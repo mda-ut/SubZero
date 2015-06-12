@@ -8,17 +8,19 @@
  *  The idea was to display on stdout the Creedence Clearwater Revival (CCR) lyric - "Hey, Tonight!"
  */
 
-#ifndef COMMANDCCR_H
-#define COMMANDCCR_H
+#ifndef TASKCCR_H
+#define TASKCCR_H
 
-#include "Command.h"
+#include "Task.h"
 
-class CommandCCR : public Command {
+class TaskCCR : public Task {
 
     public:
-        CommandCCR();
+        TaskCCR();
+
+        ~TaskCCR();
 
         virtual void execute();
 };
 
-#endif // COMMANDCCR_H
+#endif // TASKCCR_H

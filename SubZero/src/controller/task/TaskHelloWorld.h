@@ -5,22 +5,22 @@
  *      Author: ed
  */
 
-#ifndef TASKA_H_
-#define TASKA_H_
+#ifndef TASKHELLOWORLD_H_
+#define TASKHELLOWORLD_H_
 
-#include "BaseTask.h"
+#include "Task.h"
 
 //This is a dummy task class
-class TaskA : public BaseTask {
+class TaskHelloWorld : public Task {
 public:
 	/**
 	 * Dummy Contructor
 	 */
-	TaskA();
+    TaskHelloWorld();
 	/**
 	 * Virtual Destructor
 	 */
-	virtual ~TaskA();
+    virtual ~TaskHelloWorld();
 
 	/**
 	 * virtual execute function
@@ -28,4 +28,4 @@ public:
     void execute();
 };
 
-#endif /* SUBZERO_SRC_CONTROLLER_TASK_TASKA_H_ */
+#endif /* SUBZERO_SRC_CONTROLLER_TASK_TASKHELLOWORLD_H_ */

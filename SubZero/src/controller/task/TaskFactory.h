@@ -1,14 +1,14 @@
 /*
- * BaseTaskFactory.h
+ * TaskFactory.h
  *
  *  Created on: Mar 28, 2015
  *      Author: ed
  */
 
-#ifndef BASETASKFACTORY_H_
-#define BASETASKFACTORY_H_
+#ifndef TASKFACTORY_H_
+#define TASKFACTORY_H_
 
-#include "BaseTask.h"
+#include "Task.h"
 #include <string>
 
 class TaskFactory {
@@ -23,8 +23,7 @@ public:
 	 * @param input the name of the new task
 	 */
 
-	static BaseTask* newTask(const std::string input);
-
+    static Task* newTask(const std::string input);
 
 	/**
 	 * Destructor
