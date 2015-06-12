@@ -7,20 +7,21 @@
 
 #include "Controller.h"
 #include "ControllerThread.h"
+
 #include <iostream>
 
 Controller::Controller(void){
-    commandList = *new QQueue <class Command* >;
+    taskList = *new QQueue <class Task* >;
 }
 
 void Controller::initialize(void) {
-    ControllerThread *cT = new ControllerThread(&commandList, &mutex);
+    ControllerThread *cT = new ControllerThread(&taskList, &mutex);
     cT->moveToThread(&queueThread);
     connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
-    connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
+    connect(this, &Controller::beginCT, cT, &ControllerThread::executeTasks);
     connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
     queueThread.start();
-    emit beginCT("Fuck");
+    emit beginCT("Begin handling Commands");
 }
 
     //Destructor to free pointers
@@ -29,13 +30,13 @@ Controller::~Controller(){
     queueThread.wait();
 }
 
-void Controller::cTHandleResults(const QString &){
+void Controller::cTHandleResults(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
 }
 
-void Controller::addCommandToQueue(Command *newCommand)
+void Controller::addTaskToQueue(Task *newTask)
 {
     mutex.lock();
-    commandList.enqueue(newCommand);
+    taskList.enqueue(newTask);
     mutex.unlock();
 }

@@ -5,13 +5,13 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
-#include "../command/Command.h"
-#include "../../model/Model.h"
-
 #include <QObject>
 #include <QQueue>
 #include <QThread>
 #include <QMutex>
+
+#include "../task/Task.h"
+#include "../../model/Model.h"
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties
@@ -31,7 +31,7 @@ class Controller : public QObject {
 		/**
         * Model Constructor
 		*
-		* @param vector containing the models
+        * @param model - the vector containing the models
 		*/
 		Controller(std::vector <Model*> model);
 
@@ -41,11 +41,11 @@ class Controller : public QObject {
 		virtual ~Controller();
 
 		/**
-		 * Adds a new Command to our queue
+         * Adds a new Task to our queue
 		 *
-		 * @param newCommand - the Command pointer to be added to queue
+         * @param newTask - the Task pointer to be added to queue
 		 */
-		void addCommandToQueue(Command *newCommand);
+        void addTaskToQueue(Task *newTask);
 
 		/**
 		 * Clears all Commands from our queue
@@ -53,9 +53,9 @@ class Controller : public QObject {
 		void clearQueue(void);
 
 		/**
-		 * Displays the Current commandList
+         * Displays the Current taskList
 		 */
-		void displayCommandList(void);
+        void displayTaskList(void);
 
 		/**
 		 * Cleans the queue; forces the last task to finish, then kills the sub
@@ -63,7 +63,7 @@ class Controller : public QObject {
 		void killAll(void);
 
         /**
-         * Starts our Controller
+         * Initializes our Controller
          */
         void initialize(void);
 		
@@ -71,19 +71,23 @@ class Controller : public QObject {
 		/**
 		 * Handles the results from the ControllerThread
 		 */
-		void cTHandleResults(const QString &);
+        void cTHandleResults(const QString &s);
 		
 	signals:
 		/**
 		 * Tells the ControllerThread to begin 
 		 */
-        void beginCT(const QString &);
+        void beginCT(const QString &s);
 
 	private:
 		/**
-		* A List of commands that the view tells us to complete
+        * A Queue of commands View tells us to complete
 		*/
-		QQueue <class Command* > commandList;
+        QQueue <class Task* > taskList;
+
+        /**
+         * A mutex lock that will make our writes thread safe.
+         */
         QMutex mutex;
 };
 

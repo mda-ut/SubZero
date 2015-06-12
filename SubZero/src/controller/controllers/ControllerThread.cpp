@@ -6,19 +6,20 @@
  */
 
 #include "ControllerThread.h"
-#include <iostream>
 
-ControllerThread::ControllerThread(QQueue <class Command* > *cL, QMutex *mutex){
-    commandList = cL;
+ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
+    taskList = tL;
     this->mutex = mutex;
 }
 
-void ControllerThread::executeCommands(const QString &parameter) {
+void ControllerThread::executeTasks(const QString &parameter) {
     QString result = "Done";
     while (1){
         mutex->lock();
-        if(!commandList->isEmpty()){
-            (*(commandList->dequeue())).execute();
+        if(!taskList->isEmpty()){
+            Task *temp = taskList->dequeue();
+            temp->execute();
+            delete temp;
         }
         mutex->unlock();
     }
