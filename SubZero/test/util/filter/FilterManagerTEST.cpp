@@ -140,10 +140,18 @@ int FilterManagerTEST::T_applyFilterChain() {
 	Logger::trace(" Inserting f4 as \"task 4\" to REAR...");
 	fm->insertFilter("task 4",f4);
 	Logger::trace(" Making img objs...");
-	cv::Mat img ;//= cv::Mat::eye(2,2,CV_32S);
+	cv::Mat img = cv::Mat::zeros(2,2,CV_8UC1);
 	ImgData* data = new ImgData("input",&img);
 	Logger::trace(" Applying all filters...");
 	int res = fm->applyFilterChain(data);
+	Logger::trace("  Checking data ID...");
+	Logger::trace("    "+data->getID());
+	if (data->getID() == "fm")
+		Logger::trace("    ok");
+	else {
+		Logger::warn("    NOT ok, ID not set!");
+		fail++;
+	}
 	Logger::trace("    "+data->getTrack()+"error code "+StringTools::intToStr(res));
 	if (data->getTrack() == "task 1; task 2-1; task 3; task 4; ")
 		if (res == 1)

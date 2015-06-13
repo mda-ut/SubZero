@@ -90,7 +90,7 @@ int ImgDataTEST::T_Constructor() {
 	data->showImg();
 	char key;
 	while (1) {
-		key = cvWaitKey(0);
+ 		key = cvWaitKey(0);
 		if (char(key) == 32) {
 			Logger::trace("    ok");
 			break;
@@ -238,6 +238,7 @@ int ImgDataTEST::T_cpConstructor() {
 	copy->closeImg();
 	img = ImgDataTEST::camCap();
 	cvDestroyWindow("camCap");
+	data->setImg(&img);
 
 	Logger::trace(" Checking variables...");
 	Logger::trace("  Using getMsg() on original...");

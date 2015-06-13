@@ -14,12 +14,14 @@
  */
 
 ImgData::ImgData(std::string dataID,cv::Mat* img) : Data(dataID) {
-	this->img = img;
+	this->img = 0;
+	this->setImg(img);
 }
 
 ImgData::~ImgData() {
 	this->closeImg();
-	this->img->release();
+	if (this->img != 0)
+		this->img->release();
 
 }
 
@@ -33,13 +35,12 @@ void ImgData::setID(std::string newID) {
 }
 
 void ImgData::setImg(cv::Mat* newImg) {
-	this->setImg(newImg,0);
-}
-
-void ImgData::setImg(cv::Mat* newImg,int type) {
-	if (type == 0)
+	if (this->img != 0) {
 		this->img->release();
-	this->img = newImg;
+		this->img = 0;
+	}
+	this->img = new cv::Mat();
+	*this->img = newImg->clone();
 }
 
 /* ==========================================================================
@@ -67,7 +68,7 @@ void ImgData::showImg(std::string windowName) {
 				cv::imshow(windowName,*this->img);
 				this->windowName = windowName;
 			} else {
-				cv::namedWindow(this->dataID, CV_WINDOW_AUTOSIZE);    //Create window
+				cv::namedWindow(this->dataID,CV_WINDOW_AUTOSIZE);    //Create window
 				cv::imshow(this->dataID,*this->img);   //Show image frames on created window
 			}
 		} catch (cv::Exception) {
@@ -83,14 +84,6 @@ void ImgData::closeImg() {
 	cv::destroyWindow(this->dataID); //Destroy Window
 }
 
-//int ImgData::compareImg(cv::Mat* testImg, cv::Mat* mask) {
-//	if (testImg == 0 || this->img == 0)
-//		return -1;
-//	cv::compare(this->img,testImg,mask,0);
-//
-//}
-
-
 /* ==========================================================================
  * OPERATOR OVERLOAD
  * ==========================================================================
@@ -101,7 +94,6 @@ ImgData* ImgData::operator =(ImgData* rhs) {
 }
 
 ImgData::ImgData(const ImgData* obj) : Data(obj) {
-	cv::Mat *copy = new cv::Mat(obj->img->clone());
-	this->img = copy;
+	this->img = 0;
+	this->setImg(obj->img);
 }
-

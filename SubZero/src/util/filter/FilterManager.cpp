@@ -57,6 +57,7 @@ int FilterManager::applyFilterChain(Data* data) {
 		}
 		nxt = nxt->nxt;
 	}
+	data->setID(this->fmID);
 	return ret;
 }
 

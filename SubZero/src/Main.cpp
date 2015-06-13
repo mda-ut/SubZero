@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
     newMenu->show();
     //newMenu.paintEvent();
 
+//    CollectionTEST::runDataAndFilterManagerCollection();
     CollectionTEST::runFilterCollection();
-
 	Logger::close();
 
 	return app.exec();

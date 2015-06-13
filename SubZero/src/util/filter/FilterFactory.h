@@ -44,12 +44,20 @@ public:
 	/**
 	 * RGB filter is created.
 	 *
-	 * @param r		:0-255 int values for red intensity.
-	 * @param g		:0-255 int values for green intensity.
-	 * @param b		:0-255 int values for blue intensity.
+	 * @param fullspec		:int arrary of size 3 for rgb offset in the full spectrum.
 	 * @return 		filter object pointer
 	 */
-	static Filter* createRGBFilter(int r, int g, int b);
+	static Filter* createRGBFilter(int fullspec[]);
+
+	/**
+	 * RGB filter is created.
+	 *
+	 * @param highlight		:int arr[3] values for rgb offset in the highlight region.
+	 * @param midtone		:int arr[3] values for rgb offset in the midtone region.
+	 * @param shadow		:int arr[3] values for rgb offset in the shadow region.
+	 * @return 		filter object pointer
+	 */
+	static Filter* createRGBFilter(int highlight[],int midtone[],int shadow[]);
 };
 
 #endif /* FILTERFACTORY_H_ */
