@@ -9,25 +9,31 @@
 #define CONTROLLERTHREAD_H_
 
 #include <QThread>
+#include <QObject>
+#include <QQueue>
+#include <QMutex>
+
+#include "../task/Task.h"
 
 class ControllerThread : public QObject {
-	public:
-    	Q_OBJECT
+    Q_OBJECT
 
-		/**
-		 * Constructs a ControllerThread
+    public:
+        /**
+         * Task ControllerThread Constructor
 		 *
 		 * @param cL - the QQueue from T~T
+         * @param mutex - the QMutexd from T~T
 		 */
-		ControllerThread(QQueue <class Command* > *cL);
+        ControllerThread(QQueue <class Task* > *tL, QMutex *mutex);
 
 	public slots:
 		/**
-		 * Execute the commands on the queue
+         * Execute the tasks on the queue
 		 *
-		 * @param 
+         * @param
 		 */
-		void executeCommands(const QString &parameter);
+        void executeTasks(const QString &parameter);
 
 	signals:
 		/**
@@ -38,10 +44,15 @@ class ControllerThread : public QObject {
 		void resultReady(const QString &s);
 
 	private:
-    	/**
-    	 * A List of commands that the view tells us to complete
+        /**
+         * A pointer to Controller's Queue of tasks
     	 */
-    	QQueue <class Command* > *commandList;
+        QQueue <class Task* > *taskList;
+
+        /**
+         * A pointer to Controller's mutex lock
+         */
+        QMutex *mutex;
 };
 
 #endif /* CONTROLLERTHREAD_H_ */
