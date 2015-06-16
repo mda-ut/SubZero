@@ -1,18 +1,26 @@
 /*
  * Controller.cpp
  *
- *  Created on: Jan 7, 2015
- *      Author: mda
+ *  Created on: Mar 12, 2015
+ *      Author: ed
  */
 
 #include "Controller.h"
+#include "ControllerThread.h"
 
-Controller::Controller() {
-	// TODO Auto-generated constructor stub
-
+Controller::Controller(std::vector <Model*> model){	
+    ControllerThread *cT = new ControllerThread();
+    cT->moveToThread(&queueThread);
+	connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
+	connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
+	connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
+	queueThread.start();
 }
 
-Controller::~Controller() {
-	// TODO Auto-generated destructor stub
+    //Destructor to free pointers
+Controller::~Controller(){
+	
 }
+
+void Controller::cTHandleResults(const QString &){}
 

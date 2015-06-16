@@ -8,9 +8,11 @@
 #include "Logger.h"
 #include "Timer.h"
 #include <iostream>
+#include <fstream>
 
 bool Logger::writeToConsole = true;
 bool Logger::writeToFile = false;
+std::ofstream Logger::logFile;
 Timer* Logger::timer = NULL;
 
 Logger::Logger() {
@@ -18,17 +20,27 @@ Logger::Logger() {
 
 }
 
-void Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
+bool Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
 	Logger::writeToConsole = writeToConsole;
 	Logger::writeToFile = writeToFile;
 	Logger::timer = timer;
 
-	char buffer[80];
-	strftime(buffer, 80, "%d-%m-%Y %I:%M:%S", timer->getCurrentTime());
+	if (writeToFile) {
+		char buffer[80];
+		strftime(buffer, 80, "%d-%m-%Y_%I:%M:%S.log", timer->getCurrentTime());
 
-	std::string logName(buffer);
+		std::string logName(buffer);
+        logName = "SubZero/logs/" + logName;
 
-	//TODO: Create log file.
+		logFile.open(logName.c_str());
+		if (!logFile.is_open()) {
+			std::cout << "Unable to create log file." << std::endl;
+			return false;
+		}
+	}
+
+	return true;
+
 }
 
 void Logger::trace(std::string msg) {
@@ -43,8 +55,7 @@ void Logger::trace(std::string msg) {
 
 void Logger::info(std::string msg) {
 	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tINFO\t",
-			timer->getCurrentTime());
+	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tINFO\t", timer->getCurrentTime());
 
 	std::string finalMsg(buffer);
 	finalMsg += msg;
@@ -63,8 +74,7 @@ void Logger::debug(std::string msg) {
 
 void Logger::warn(std::string msg) {
 	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tWARN\t",
-			timer->getCurrentTime());
+	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tWARN\t", timer->getCurrentTime());
 
 	std::string finalMsg(buffer);
 	finalMsg += msg;
@@ -87,10 +97,15 @@ void Logger::log(std::string msg) {
 	}
 
 	if (writeToFile) {
-		//TODO: Add functionality to write to file.
+		logFile << msg << std::endl;
 	}
 }
 
-Logger::~Logger() {
+void Logger::close() {
+	logFile.close();
 	delete timer;
+}
+
+Logger::~Logger() {
+
 }
