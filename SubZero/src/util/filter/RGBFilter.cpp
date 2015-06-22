@@ -22,7 +22,7 @@ RGBFilter::RGBFilter(int highlight[], int midtone[], int shadow[]) : Filter() {
 }
 
 RGBFilter::~RGBFilter() {
-	// TODO Auto-generated destructor stub
+
 }
 
 
@@ -44,12 +44,13 @@ int RGBFilter::filter(Data* data) {
 	// catch error?
 
 	// Full spectrum mode
-
 	if(this->mode == 0) {
 		for(int y = 0; y < (cast->getImg())->cols; y++ ) {
 			for(int x = 0; x < (cast->getImg())->rows; x++ ) {
 				for(int c = 0; c < 3; c++) {
 					newPixelVal = BGR[c].at<char>(x,y) + midtone[c];
+//					std::cout<<BGR[c].at<char>(x,y);
+//					Logger::trace("    "+StringTools::intToStr(c)+":"+StringTools::intToStr((int)BGR[c].at<char>(x,y))+"+"+StringTools::intToStr(midtone[c]*-1));
 					if(newPixelVal < 0)
 						newPixelVal = 0;
 					else if (newPixelVal > MXCOLOR)

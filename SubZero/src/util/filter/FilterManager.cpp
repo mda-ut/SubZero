@@ -33,7 +33,7 @@ FilterManager::FilterManager(std::string fmID, int type) {
 }
 
 FilterManager::~FilterManager() {
-	this->deleteFilterChain();
+//	this->deleteFilterChasin();
 	delete(this->filterChain);
 }
 
@@ -74,11 +74,17 @@ int FilterManager::insertFilter(std::string filterID, Filter* filter) {
 }
 
 int FilterManager::insertFilter(std::string filterID, Filter* filter, std::string targetID) {
+	if (filter == 0)
+		return 3;
 	NodeData* nodeData = new NodeData;
 	int event;
 	filter->setID(filterID);
 	nodeData->filter = filter;
 	event = this->filterChain->insByID(filterID,nodeData,targetID);
+	if (event != 0) {
+		nodeData->filter = 0;
+		delete nodeData;
+	}
 	return event;
 }
 
@@ -119,7 +125,7 @@ void FilterManager::deleteFilterChain() {
 
 int FilterManager::insertFilter(Filter* filter) {
 	if (this->fmMode != 1)
-		return 3;
+		return 4;
 	else
 	{
 		std::string generatedID = StringTools::intToStr(this->autoID++) + " " + filter->getID();
@@ -130,7 +136,7 @@ int FilterManager::insertFilter(Filter* filter) {
 
 int FilterManager::insertFilter(Filter* filter,std::string targetID) {
 	if (this->fmMode != 1)
-			return 3;
+			return 4;
 	else
 	{
 		std::string generatedID = StringTools::intToStr(this->autoID++) + " " + filter->getID();
@@ -141,7 +147,7 @@ int FilterManager::insertFilter(Filter* filter,std::string targetID) {
 
 int FilterManager::replaceFilter(Filter* filter,std::string targetID) {
 	if (this->fmMode != 1)
-			return 3;
+			return 4;
 	else
 	{
 		std::string generatedID = StringTools::intToStr(this->autoID++) + " " + filter->getID();

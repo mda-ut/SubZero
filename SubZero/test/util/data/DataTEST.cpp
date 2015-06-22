@@ -23,14 +23,17 @@ int DataTEST::runUnits() {
 	int res = 0;
 	Logger::trace("Running all unit tests for: Data");
 	Logger::trace("==============================");
+
 	res += T_Constructor();
 	res += T_setMsg();
 	res += T_cpConstructor();
 	res += T_opEqual();
+
 	Logger::trace("==============================");
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: Data");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 }
 

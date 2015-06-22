@@ -19,18 +19,20 @@ int main(int argc, char** argv) {
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");	
-	QApplication app(argc, argv);
-    Menu* newMenu = new Menu;
-    newMenu->show();
-    newMenu->close();
-    //newMenu.paintEvent();
+//	QApplication app(argc, argv);
+//    Menu* newMenu = new Menu;
+//    newMenu->show();
+
+///    newMenu.paintEvent();
 
     CollectionTEST::runDataAndFilterManagerCollection();
-    CollectionTEST::runFilterCollection();
+//    CollectionTEST::runFilterCollection(); //mem leak in here
 
-	StateTester::run();
+//	StateTester::run();
+
     Logger::close();
+//    delete logTimer;
 
-	return app.exec();
+	return 0;//app.exec();
 }
 

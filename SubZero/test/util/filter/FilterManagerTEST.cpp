@@ -29,6 +29,7 @@ int FilterManagerTEST::runUnits() {
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: FilterManager");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 }
 
@@ -162,6 +163,9 @@ int FilterManagerTEST::T_applyFilterChain() {
 	else {
 		Logger::warn("    NOT ok, track record not expected");
 	}
+    img.release();
+    delete data;
+    delete fm;
 	Logger::trace("Testing complete.");
 
 	if (fail > 0)
@@ -183,11 +187,12 @@ int FilterManagerTEST::T_insertFilter() {
 	Logger::trace(" Test under custom ID mode...");
 	FilterManager* fm = new FilterManager("fm");
 	Logger::trace("  Using factory, making 4 general filters...");
-	Filter* f1,*f2,*f3,*f4;
+	Filter* f1,*f2,*f3,*f4,*f5;
 	f1 = FilterFactory::createFilter();
 	f2 = FilterFactory::createFilter();
 	f3 = FilterFactory::createFilter();
 	f4 = FilterFactory::createFilter();
+	f5 = FilterFactory::createFilter();
 	Logger::trace("  Inserting f1 as \"task 3\" to FRONT...");
 	fm->insertFilter("task 3",f1,"FRONT");
 	Logger::trace("  Inserting f2 as \"task 1\"...");
@@ -209,7 +214,7 @@ int FilterManagerTEST::T_insertFilter() {
 		fail += 1;
 	}
 	Logger::trace("  Try inserting w/ non unique ID...");
-	res = StringTools::intToStr(fm->insertFilter("task 2",f2));
+	res = StringTools::intToStr(fm->insertFilter("task 2",f5));
 	Logger::trace("    error code: "+res);
 	if (res == "2")
 		Logger::trace("    ok");
@@ -218,7 +223,7 @@ int FilterManagerTEST::T_insertFilter() {
 		fail += 1;
 	}
 	Logger::trace("  Try inserting out of range...");
-	res = StringTools::intToStr(fm->insertFilter("task 2",f2,"what task?"));
+	res = StringTools::intToStr(fm->insertFilter("task 2",f5,"what task?"));
 	Logger::trace("    error code: "+res);
 	if (res == "1")
 		Logger::trace("    ok");
@@ -227,14 +232,15 @@ int FilterManagerTEST::T_insertFilter() {
 		fail += 1;
 	}
 	Logger::trace("  Try inserting with no filterID arg...");
-	res = StringTools::intToStr(fm->insertFilter(f2,"Task 2"));
+	res = StringTools::intToStr(fm->insertFilter(f5,"Task 2"));
 	Logger::trace("    error code: "+res);
-	if (res == "3")
+	if (res == "4")
 		Logger::trace("    ok");
 	else {
 		Logger::warn("    NOT ok, incorrect error");
 		fail += 1;
 	}
+	delete f5;
 	delete fm;
 
 	Logger::trace(" Test under auto ID mode...");
@@ -244,6 +250,7 @@ int FilterManagerTEST::T_insertFilter() {
 	f2 = FilterFactory::createFilter();
 	f3 = FilterFactory::createFilter();
 	f4 = FilterFactory::createFilter();
+	f5 = FilterFactory::createFilter();
 	Logger::trace("  Inserting f1 to FRONT...");
 	fm->insertFilter(f1,"FRONT");
 	Logger::trace("  Inserting f2...");
@@ -265,7 +272,7 @@ int FilterManagerTEST::T_insertFilter() {
 		fail += 1;
 	}
 	Logger::trace("  Try inserting w/ custom ID...");
-	res = StringTools::intToStr(fm->insertFilter("task 2",f2));
+	res = StringTools::intToStr(fm->insertFilter("task 2",f5));
 	Logger::trace("    error code: "+res);
 	if (res == "0")
 		Logger::trace("    ok");
@@ -274,7 +281,7 @@ int FilterManagerTEST::T_insertFilter() {
 		fail += 1;
 	}
 	Logger::trace("  Try inserting out of range...");
-	res = StringTools::intToStr(fm->insertFilter(f2,"what task?"));
+	res = StringTools::intToStr(fm->insertFilter(f5,"what task?"));
 	Logger::trace("    error code: "+res);
 	if (res == "1")
 		Logger::trace("    ok");
@@ -283,7 +290,7 @@ int FilterManagerTEST::T_insertFilter() {
 		fail += 1;
 	}
 	Logger::trace("Testing complete.");
-//	delete fm;
+    delete fm;
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: insertFilter()");
@@ -353,7 +360,7 @@ int FilterManagerTEST::T_replaceFilter() {
 	Logger::trace("  Try replacing using auto ID mode...");
 	res = StringTools::intToStr(fm->replaceFilter(f8,"task 2"));
 	Logger::trace("    error code: "+res);
-	if (res == "3")
+	if (res == "4")
 		Logger::trace("    ok");
 	else {
 		Logger::warn("    NOT ok, incorrect error");

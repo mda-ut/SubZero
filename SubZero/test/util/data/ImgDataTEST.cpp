@@ -24,6 +24,7 @@ int ImgDataTEST::runUnits() {
 	Logger::trace("==============================");
 
 	res += T_Constructor();
+	res += T_setImg();
 	res += T_getHeight();
 	res += T_getWidth();
 	res += T_cpConstructor();
@@ -32,6 +33,7 @@ int ImgDataTEST::runUnits() {
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: ImgData");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 }
 
@@ -179,6 +181,127 @@ int ImgDataTEST::T_getWidth() {
 	return fail;
 }
 
+int ImgDataTEST::T_setImg() {
+	int fail = 0;
+	Logger::trace("==============================");
+
+	Logger::trace("Testing setImg():");
+	Logger::trace(" Creating 2 Mat obj using camCap()...");
+    cv::Mat test = camCap();
+    cvDestroyWindow("camCap");
+    cv::Mat test2 = camCap();
+    cvDestroyWindow("camCap");
+    cv::namedWindow("obj 1");
+    cv::imshow("obj 1",test);
+    cv::namedWindow("obj 2");
+    cv::imshow("obj 2",test2);
+    Logger::trace("  Accessing refcount...");
+    int t1rc,t2rc,imgrc;
+    t1rc = *test.refcount;
+    t2rc = *test2.refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
+    if (t1rc+t2rc==2)
+    	Logger::trace("    ok");
+    else {
+    	Logger::warn("    NOT ok, refcount should be 1 for both");
+    	fail++;
+    }
+    Logger::trace(" Creating ImgData with obj 1...");
+    ImgData* testImg = new ImgData("plswork",&test);
+    Logger::trace("  Accessing refcount...");
+    t1rc = *test.refcount;
+    t2rc = *test2.refcount;
+    imgrc = *testImg->img->refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
+    if (t1rc == 2) {
+    	if (imgrc == 2) {
+    		if(t2rc == 1)
+    			Logger::trace("    ok");
+    		else {
+    			Logger::warn("    NOT ok, obj 2 refcount should be 1");
+    			fail++;
+    		}
+    	}
+    	else {
+    		Logger::warn("    NOT ok, obj 1 refcount disagree");
+    		fail++;
+    	}
+    } else {
+    	Logger::warn("    NOT ok, obj 1 refcount should be 2");
+    	fail++;
+    }
+    Logger::trace(" Try showImg(), expect photo to be as same as obj 1...");
+    Logger::trace(" If true, hit space, else hit esc...");
+    testImg->showImg();
+    char key;
+    while (1) {
+    	key = cvWaitKey(0);
+    	if (char(key) == 32) {
+    		Logger::trace("    ok");
+    		break;
+    	}
+    	else if (char(key) == 27) {
+    		Logger::warn("    NOT ok, img not expected");
+    		fail++;
+    		break;
+    	}
+    }
+    Logger::trace(" Setting obj 2 to img...");
+    testImg->setImg(&test2);
+    Logger::trace("  Accessing refcount...");
+    t1rc = *test.refcount;
+    t2rc = *test2.refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
+    if (t1rc==1 && t2rc==2)
+    	Logger::trace("    ok");
+    else {
+    	Logger::warn("    NOT ok, refcount should be 1 for obj 1 and 2 for obj 2");
+    	fail++;
+    }
+    Logger::trace(" Release obj 2 from outside ImgData...");
+    test2.release();
+    Logger::trace(" Try showImg(), expect photo to be as same as obj 2...");
+    testImg->showImg();
+    Logger::trace(" If true, hit space, else hit esc...");
+    while (1) {
+    	key = cvWaitKey(0);
+    	if (char(key) == 32) {
+    		Logger::trace("    ok");
+    		break;
+    	}
+    	else if (char(key) == 27) {
+    		Logger::warn("    NOT ok, img not expected");
+    		fail++;
+    		break;
+    	}
+    }
+    Logger::trace("  Accessing refcount...");
+    t1rc = *test.refcount;
+    imgrc = *testImg->img->refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(imgrc));
+    if (t1rc+imgrc==2)
+    	Logger::trace("    ok");
+    else {
+    	Logger::warn("    NOT ok, refcount should be 1 for both");
+    	fail++;
+    }
+    Logger::trace(" Deleting ImgData...");
+    delete testImg;
+    Logger::trace(" Release obj 1...");
+    test.release();
+    cv::destroyWindow("obj 1");
+    cv::destroyWindow("obj 2");
+
+	if (fail > 0)
+		Logger::warn("  TEST FAILED: setImg()");
+	Logger::trace("==============================");
+	return fail;
+}
+
 /* ==========================================================================
  * OPERATOR OVERLOAD
  * ==========================================================================
@@ -233,12 +356,13 @@ int ImgDataTEST::T_cpConstructor() {
 
 	Logger::trace(" Changing msg of copy to \"whatever\"...");
 	copy->setMsg("whatever");
-	Logger::trace(" Changing org img content");
-	data->closeImg();
-	copy->closeImg();
-	img = ImgDataTEST::camCap();
-	cvDestroyWindow("camCap");
-	data->setImg(&img);
+
+//	Logger::trace(" Changing org img content...");
+//	data->closeImg();
+//	copy->closeImg();
+//	img = ImgDataTEST::camCap();
+//	cvDestroyWindow("camCap");
+//	data->setImg(&img);
 
 	Logger::trace(" Checking variables...");
 	Logger::trace("  Using getMsg() on original...");
@@ -248,22 +372,37 @@ int ImgDataTEST::T_cpConstructor() {
 		Logger::warn("    NOT ok, org or copy Msg incorrect");
 		fail += 1;
 	}
-	Logger::trace("  Showing imgs using showImg()...");
-	data->showImg("data");
-	copy->showImg("copy");
-	Logger::trace("  If copy different from data then deep copy ok press spacebar, else press esc...");
-	while (1) {
-		key = cvWaitKey(0);
-		if (char(key) == 32) {
-			Logger::trace("    ok");
-			break;
-		}
-		else if (char(key) == 27) {
-			Logger::warn("    NOT ok, img not same");
-			fail++;
-			break;
-		}
+	Logger::trace(" Using refcount to check independence...");
+	int datarc, copyrc;
+	datarc = *data->img->refcount;
+	copyrc = *copy->img->refcount;
+	Logger::trace("    \"data\" img refcount: "+StringTools::intToStr(datarc));
+	Logger::trace("    \"copy\" img refcount: "+StringTools::intToStr(copyrc));
+	if (datarc==2 && copyrc ==1) {
+		Logger::trace("    ok");
+		fail--;
 	}
+	else if (datarc==3)
+		Logger::warn("    NOT ok, copy's img points to data's img obj");
+	else
+		Logger::warn("    NOT ok, data ref should be 2, copy ref should be 1");
+	fail++;
+//	Logger::trace("  Showing imgs using showImg()...");
+//	data->showImg("data");
+//	copy->showImg("copy");
+//	Logger::trace("  If copy different from data then deep copy ok press spacebar, else press esc...");
+//	while (1) {
+//		key = cvWaitKey(0);
+//		if (char(key) == 32) {
+//			Logger::trace("    ok");
+//			break;
+//		}
+//		else if (char(key) == 27) {
+//			Logger::warn("    NOT ok, img not same");
+//			fail++;
+//			break;
+//		}
+//	}
 	Logger::trace("Test complete.");
 	Logger::trace("Deleting data...");
 	delete data;

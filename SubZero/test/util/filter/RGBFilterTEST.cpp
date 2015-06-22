@@ -75,6 +75,7 @@ int RGBFilterTEST::T_Constructor() {
 	Logger::warn("    NOT ok, values not correct under div mode");
 		fail++;
 	}
+	delete rgbFilter;
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Constructor");
@@ -110,7 +111,7 @@ int RGBFilterTEST::T_filter() {
 
 	Logger::trace(" Filtering first data w/ full luminosity specturm, aka mode 0...");
 	Logger::trace("  Init int arr[3]...");
-	int arr[] = {10,-15,-18};
+	int arr[] = {25,-30,-50};
 	Logger::trace("  Using filter factory, create mode 0 filter...");
 	RGBFilter* rgbFilter = (RGBFilter*)FilterFactory::createRGBFilter(arr);
 	Logger::trace("  Creating filter manager w/ id \"RGBFilter MODE 0\"...");
@@ -172,6 +173,9 @@ int RGBFilterTEST::T_filter() {
 	cvDestroyWindow("raw");
 	testImg->closeImg();
 	testImg2->closeImg();
+    delete testImg;
+    delete testImg2;
+    img.release();
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: filter()");

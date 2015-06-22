@@ -20,9 +20,8 @@ ImgData::ImgData(std::string dataID,cv::Mat* img) : Data(dataID) {
 
 ImgData::~ImgData() {
 	this->closeImg();
-	if (this->img != 0)
-		this->img->release();
-
+	this->img->release();
+	delete this->img;
 }
 
 /* ==========================================================================
@@ -34,13 +33,19 @@ void ImgData::setID(std::string newID) {
 	this->dataID = newID;
 }
 
+
+#include <stdlib.h>
+#include <stdio.h>
+
 void ImgData::setImg(cv::Mat* newImg) {
 	if (this->img != 0) {
 		this->img->release();
-		this->img = 0;
+		delete this->img;
+	} else {
+		cv::Mat empty;
+		this->img = &empty;
 	}
-	this->img = new cv::Mat();
-	*this->img = newImg->clone();
+	this->img = new cv::Mat(*newImg);
 }
 
 /* ==========================================================================
@@ -94,6 +99,8 @@ ImgData* ImgData::operator =(ImgData* rhs) {
 }
 
 ImgData::ImgData(const ImgData* obj) : Data(obj) {
+	cv::Mat clone = obj->img->clone();
 	this->img = 0;
-	this->setImg(obj->img);
+	this->setImg(&clone);
+	clone.release();
 }
