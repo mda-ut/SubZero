@@ -24,9 +24,8 @@ public:
 	 * @param writeToConsole flag for logging to console
 	 * @param writeToFile flag for logging to file
 	 * @param timer pointer to a timer to be used for logging.  Do not share timers with other classes.
-	 * @return true if the logger was initialized successfully, false otherwise
 	 */
-	static bool initialize(bool writeToConsole, bool writeToFile, Timer* timer);
+	static void initialize(bool writeToConsole, bool writeToFile, Timer* timer);
 
 	/**
 	 * Logs the message at the TRACE level.
@@ -62,11 +61,6 @@ public:
 	 * @param msg
 	 */
 	static void error(std::string msg);
-
-	/**
-	 * Closes the Logger and closes and deletes anything associated to it.
-	 */
-	static void close();
 	virtual ~Logger();
 
 protected:
@@ -80,7 +74,6 @@ protected:
 private:
 	static Timer* timer;
 	static bool writeToFile;
-	static std::ofstream logFile;
 	static bool writeToConsole;
 };
 
