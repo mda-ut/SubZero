@@ -18,10 +18,10 @@ TaskCCR::TaskCCR()
     taskList = *new std::vector <class Task* >();
 
     TaskHelloWorld *Lodi = new TaskHelloWorld();
-    TaskHeyTonight *GreenRiver = new TaskHeyTonight();
+    TaskHeyTonight *LookingOutMyBackDoor = new TaskHeyTonight();
 
     taskList.push_back(Lodi);
-    taskList.push_back(GreenRiver);
+    taskList.push_back(LookingOutMyBackDoor);
 }
 
 TaskCCR::~TaskCCR()
