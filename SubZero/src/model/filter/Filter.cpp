@@ -1,18 +1,18 @@
 /*
- * Controller.cpp
+ * Filter.cpp
  *
  *  Created on: Jan 7, 2015
  *      Author: mda
  */
 
-#include "Controller.h"
+#include "Filter.h"
 
-Controller::Controller() {
+Filter::Filter() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Controller::~Controller() {
+Filter::~Filter() {
 	// TODO Auto-generated destructor stub
 }
 
