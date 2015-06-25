@@ -9,7 +9,7 @@
 #define HWINTERFACE_H_
 
 #include "../../util/data/Data.h"
-
+#include <queue>
 
 
 /**
@@ -39,7 +39,7 @@
 
 class HwInterface {
 
-private:
+protected:
 
 	/* ==========================================================================
 	 * 								CLASS VARIABLES
@@ -50,7 +50,7 @@ private:
 	 * Pointer to memory allocated for storing raw (but
 	 * decoded) data from hardware.
 	 */
-	Data** decodedBuffer[];
+	std::queue<Data> decodedBuffer;
 
 	/**
 	 * Allocate only enough memory to keep a max of
@@ -59,7 +59,8 @@ private:
 	int bufferSize;
 
 	/**
-	 * Poll data from hardware at this frequency. A.k.a. sampling rate.
+	 * Poll data from hardware at this frequency (number of polls per second).
+	 * A.k.a. sampling rate.
 	 */
 	int pollFrequency;
 
@@ -90,9 +91,8 @@ private:
 
 	/**
 	 * Poll raw data from the hardware.
-	 * @return	data polled from the hardware
 	 */
-	virtual Data* poll();
+	virtual void poll();
 
 	/**
 	 * Decode the data.
@@ -100,8 +100,6 @@ private:
 	 * @return	decoded data in a format defined in Data.h
    	 */
 	virtual Data* decode();
-
-protected:
 
 	/* ==========================================================================
 	 * 							MANAGING DATA BUFFER
@@ -113,10 +111,8 @@ protected:
 
 	/**
 	 * Delete buffer from startIdx to endIdx
-	 * @param	stardIdx	start deleting from this index
-	 * @param	endIdx	the index of the last data to delete
 	 */
-	virtual void deleteFromBuffer(int startIdx, int endIdx);
+	virtual void deleteFromBuffer();
 
 	/**
 	  * Store decoded data to buffer.
@@ -162,23 +158,13 @@ public:
 	virtual Data* getDataFromBuffer();
 
 	/**
-	 * Return the data in buffer from startIdx to endIdx. Overloading the function
-	 * above. (Also implemented in HwInterface.)
-	 * @param	startIdx	get data starting at this index
-	 * @param	endIdx	index of the last data to get
-	 * @return	an array of data
-	 */
-	//@Overload
-	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
-
-	/**
-	 * Get the frequency of data polling
+	 * Get the frequency of data polling (polls per second)
 	 * @return	polling frequency i.e. sampling rate
 	 */
-	virtual double getPollFrequency();
+	virtual int getPollFrequency();
 
 	/**
-	 * Set the frequency of data polling/polling.
+	 * Set the frequency of data polling (polls per second)
 	 * @param	frequency	set polling to this frequency
 	 */
 	virtual void setPollFrequency(int frequency);
@@ -204,10 +190,9 @@ public:
 	/**
 	 * Constructor for Hardware Interface
 	 * @param	bufferSize	buffer size for the interface
-	 * @param	policy	specifies the encoding and decoding policy to be used
-	 * @param	hardwareID	identifies the hardware this interface interacts with
+	 * @param	pollFrequency	number of polls per second
 	 */
-	HwInterface(int bufferSize, int pollFrequency, int policy, int hardwareID);
+	HwInterface(int bufferSize, int pollFrequency);
 
 	/**
 	 * Destructor

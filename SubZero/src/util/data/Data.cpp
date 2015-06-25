@@ -51,6 +51,11 @@ std::string Data::getMsg(){
 	return this->msg;
 }
 
+void Data::setID(std::string newID) {
+	this->dataID = newID;
+}
+
+
 int Data::setMsg(std::string newMsg){
 	if (this->msg != "")
 	{
@@ -85,3 +90,4 @@ Data::Data(const Data* obj) {
 	this->dataID = obj->dataID;
 	this->msg = obj->msg;
 }
+

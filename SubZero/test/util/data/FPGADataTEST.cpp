@@ -32,6 +32,7 @@ int FPGADataTEST::runUnits() {
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: FPGAData");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 
 }
@@ -130,6 +131,7 @@ int FPGADataTEST::T_cpConstructor() {
 	Logger::trace("Test complete.");
 	Logger::trace("Deleting data...");
 	delete data;
+	delete copy;
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Copy Constructor");

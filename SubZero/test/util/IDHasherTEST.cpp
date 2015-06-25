@@ -33,6 +33,7 @@ int IDHasherTEST::runUnits() {
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: IDHasher");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 }
 
@@ -224,6 +225,7 @@ int IDHasherTEST::T_insByIndex() {
 	}
 	Logger::trace("Testing Complete.");
 	Logger::trace("Deleting hasher...");
+	delete nd4;
 	delete hash;
 
 	if (fail > 0)
@@ -308,6 +310,7 @@ int IDHasherTEST::T_insByID() {
 	}
 	Logger::trace("Testing Complete.");
 	Logger::trace("Deleting hasher...");
+	delete nd4;
 	delete hash;
 
 	if (fail > 0)
@@ -466,6 +469,7 @@ int IDHasherTEST::T_delByID() {
 	if (hash->getFront()->nxt->nxt->nxt != 0)
 		nd3 = hash->getFront()->nxt->nxt->nxt->nodeData;
 	res = nd0->data+nd1->data+nd2->data+nd3->data;
+	delete nd3;
 	Logger::trace("    "+res);
 	if (res == "123")
 		Logger::trace("    ok");
@@ -487,6 +491,8 @@ int IDHasherTEST::T_delByID() {
 			nd3 = hash->getFront()->nxt->nxt->nxt->nodeData;
 	}
 	res = nd0->data+nd1->data+nd2->data+nd3->data;
+	delete nd2;
+	delete nd3;
 	Logger::trace("    "+res);
 	if (res == "12")
 		Logger::trace("    ok");
@@ -510,6 +516,9 @@ int IDHasherTEST::T_delByID() {
 				nd3 = hash->getFront()->nxt->nxt->nxt->nodeData;
 	}}
 	res = nd0->data+nd1->data+nd2->data+nd3->data;
+	delete nd1;
+	delete nd2;
+	delete nd3;
 	Logger::trace("    "+res);
 	if (res == "2")
 		Logger::trace("    ok");
@@ -535,6 +544,9 @@ int IDHasherTEST::T_delByID() {
 	}}
 	res = nd0->data+nd1->data+nd2->data+nd3->data+";error code "+res;
 	Logger::trace("    "+res);
+	delete nd1;
+	delete nd2;
+	delete nd3;
 	if (res == "2;error code 1")
 		Logger::trace("    ok");
 	else {
