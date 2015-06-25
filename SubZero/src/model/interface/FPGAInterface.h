@@ -8,13 +8,20 @@
 #ifndef FPGAINTERFACE_H_
 #define FPGAINTERFACE_H_
 
+#include <thread>
+#include <iostream>
 #include "HwInterface.h"
 #include "../../util/data/Data.h"
 #include "../../util/data/FPGAData.h"
 
 using namespace std;
 
-enum Commands {
+enum Attributes {
+	POWER,
+	DEPTH,
+	HEADING, // absolute, given by sonar
+	YAW, // relative to the direction the sub is heading
+	SPEED
 };
 
 //enum MoveCommands : Commands {
@@ -25,7 +32,7 @@ enum Commands {
 //	SINK,
 //	RISE
 //};
-//
+
 //enum SpecialCommands : Commands {
 //	POWERON,
 //	POWEROFF,
@@ -62,6 +69,8 @@ class FPGAInterface : public HwInterface {
 
 private:
 
+	std::thread readThread; // need c++11
+
 	/* ==========================================================================
 	 * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
 	 * ==========================================================================
@@ -72,11 +81,8 @@ private:
 
 	/**
 	 * Poll raw data from FPGA.
-	 * @return	data polled
 	 */
-
-	// same problem here... suggest using Data
-	virtual Data* poll();
+	virtual void poll();
 
 	/**
 	 * Decode the data.
@@ -97,16 +103,19 @@ protected:
 
 	/**
 	 * Delete buffer from startIdx to endIdx
-	 * @param	stardIdx	start deleting from this index
-	 * @param	endIdx	the index of the last data to delete
 	 */
-	virtual void deleteFromBuffer(int startIdx, int endIdx);
+	virtual void deleteFromBuffer();
 
 	/**
 	  * Store decoded data to buffer.
 	  * @param	data	data to be stored to buffer.
 	  */
 	virtual void storeToBuffer(Data* data);
+
+	/**
+	 * Procedures to execute for the FPGA reading thread.
+	 */
+	void in();
 
 public:
 
@@ -133,11 +142,17 @@ public:
 //	virtual string* encode(Commands command);
 
 	/**
+	 * Give commands to FPGA.
+	 * @param	attr	attribute to set
+	 * @param	value	set attribute to this value
+	 */
+	void set(Attributes attr, int value);
+
+	/**
 	 * Send the data.
 	 * @param	data	data to be sent
    	 */
 	virtual void send(string* data);
-
 
 	/* ==========================================================================
 	 * 								GETTERS AND SETTERS
@@ -153,24 +168,14 @@ public:
 	virtual Data* getDataFromBuffer();
 
 	/**
-	 * Return the data in buffer from startIdx to endIdx. Overloading the function
-	 * above. (Also implemented in HwInterface.)
-	 * @param	startIdx	get data starting at this index
-	 * @param	endIdx	index of the last data to get
-	 * @return	an array of data
-	 */
-	//@Overload
-	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
-
-	/**
-	 * Get the frequency of data polling
+	 * Get the frequency of data polling (polls per second).
 	 * @return	polling frequency i.e. sampling rate
 	 */
-	virtual double getPollFrequency();
+	virtual int getPollFrequency();
 
 	/**
-	 * Set the frequency of data polling/polling.
-	 * @param	frequency	set polling to this frequency
+	 * Set the frequency of data polling.
+	 * @param	frequency	number of polls per second
 	 */
 	virtual void setPollFrequency(int frequency);
 
@@ -193,12 +198,12 @@ public:
 	 */
 
 	/**
-	 * Constructor for Hardware Interface
+	 * Constructor for FPGA Interface
 	 * @param	bufferSize	buffer size for the interface
-	 * @param	policy	specifies the encoding and decoding policy to be used
-	 * @param	hardwareID	identifies the hardware this interface interacts with
+	 * @param	pollFrequency	frequency of polling (polls per second)
 	 */
-	FPGAInterface(int bufferSize, int pullFrequency, int policy, int hardwareID);
+	FPGAInterface(int bufferSize, int pollFrequency);
+
 
 	/**
 	 * Destructor

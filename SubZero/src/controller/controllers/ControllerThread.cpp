@@ -8,15 +8,15 @@
 #include "ControllerThread.h"
 
 
-ControllerThread::ControllerThread(){
-}
-
-void ControllerThread::executeCommands(const QString &parameter) {
-
-	QString result;
-	/* ... here is the expensive or blocking operation ... */
-	emit resultReady(result);
-}
-
-
-
+//ControllerThread::ControllerThread(){
+//}
+//
+//void ControllerThread::executeCommands(const QString &parameter) {
+//
+//	QString result;
+//	/* ... here is the expensive or blocking operation ... */
+//	emit resultReady(result);
+//}
+//
+//
+//

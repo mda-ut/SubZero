@@ -19,8 +19,11 @@ Filter* FilterFactory::createNullFPGAFilter() {
 	return new NullFPGAFilter();
 }
 
-Filter* FilterFactory::createRGBFilter(int r, int g, int b) {
-	return new RGBFilter(r,g,b);
+Filter* FilterFactory::createRGBFilter(int fullspec[]) {
+	return new RGBFilter(fullspec);
 }
 
+Filter* FilterFactory::createRGBFilter(int highlight[],int midtone[],int shadow[]){
+	return new RGBFilter(highlight,midtone,shadow);
+}
 

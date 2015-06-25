@@ -6,31 +6,33 @@
  */
 
 #include "util/Logger.h"
-#include "model/state/StateTester.h"
 #include <string>
 #include "view/menu.h"
 #include <QApplication>
 
 #include "../test/CollectionTEST.h"
+#include "model/state/StateTester.h"
 
 using namespace std;
 
 int main(int argc, char** argv) {
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
-	Logger::trace("Logger initialized.");
-	
-	QApplication app(argc, argv);
-    Menu* newMenu = new Menu;
-    newMenu->show();
-    //newMenu.paintEvent();
+	Logger::trace("Logger initialized.");	
+//	QApplication app(argc, argv);
+//    Menu* newMenu = new Menu;
+//    newMenu->show();
 
-    CollectionTEST::runFilterCollection();
+///    newMenu.paintEvent();
 
-	//StateTester::run();
+    CollectionTEST::runDataAndFilterManagerCollection();
+//    CollectionTEST::runFilterCollection(); //mem leak in here
 
-	Logger::close();
+//	StateTester::run();
 
-	return 0;
+    Logger::close();
+//    delete logTimer;
+
+	return 0;//app.exec();
 }
 

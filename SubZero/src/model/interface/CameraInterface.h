@@ -46,9 +46,7 @@ private:
 	 * Poll raw data from the camera.
 	 * @return	data polled
 	 */
-
-	// bug fix... seems like the virtual has to have the same return type.. suggest use of Data
-	Data* poll();
+	virtual void poll();
 
 	/**
 	 * Decode the data.
@@ -106,10 +104,10 @@ public:
 	virtual Data* getDataFromBuffer(int startIdx, int endIdx);
 
 	/**
-	 * Get the frequency of data polling
+	 * Get the frequency of data polling (polls per second)
 	 * @return	polling frequency i.e. sampling rate
 	 */
-	virtual double getPollFrequency();
+	virtual int getPollFrequency();
 
 	/**
 	 * Set the frequency of data polling/polling.
