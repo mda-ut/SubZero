@@ -54,7 +54,7 @@ public:
      * @param src = mat image to filter
      * @return reference to the filtered image
      */
-    cv::Mat filter(cv::Mat* src);
+    cv::Mat* filter(cv::Mat* src);
 
 
     /**

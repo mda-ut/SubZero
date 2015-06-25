@@ -14,11 +14,11 @@ this->mode = mode;
     this->msg = "Line";
 }
 
-cv::Mat LineFilter::filter(cv::Mat *src){
+cv::Mat* LineFilter::filter(cv::Mat *src){
     Mat dst;
-    Mat cdst;
+    Mat *cdst = new Mat(*src);
     Canny(*src, dst, 50, 200, 3);
-    cvtColor(dst, cdst, CV_GRAY2BGR);
+    cvtColor(dst, *cdst, CV_GRAY2BGR);
 
     if (mode == 0){
         vector<Vec2f> lines;
@@ -35,7 +35,7 @@ cv::Mat LineFilter::filter(cv::Mat *src){
             pt1.y = cvRound(y0 + 1000*(a));
             pt2.x = cvRound(x0 - 1000*(-b));
             pt2.y = cvRound(y0 - 1000*(a));
-            line(cdst, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+            line(*cdst, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
         }
     }
     else{
@@ -43,7 +43,7 @@ cv::Mat LineFilter::filter(cv::Mat *src){
         HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
         for( size_t i = 0; i < lines.size(); i++ ){
             Vec4i l = lines[i];
-            line(cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
+            line(*cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
         }
     }
 
