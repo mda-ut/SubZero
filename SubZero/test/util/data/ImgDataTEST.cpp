@@ -197,8 +197,8 @@ int ImgDataTEST::T_setImg() {
     cv::imshow("obj 2",test2);
     Logger::trace("  Accessing refcount...");
     int t1rc,t2rc,imgrc;
-    t1rc = *test.refcount;
-    t2rc = *test2.refcount;
+    t1rc = test.u->refcount;
+    t2rc = test2.u->refcount;
     Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
     Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
     if (t1rc+t2rc==2)
@@ -210,9 +210,9 @@ int ImgDataTEST::T_setImg() {
     Logger::trace(" Creating ImgData with obj 1...");
     ImgData* testImg = new ImgData("plswork",&test);
     Logger::trace("  Accessing refcount...");
-    t1rc = *test.refcount;
-    t2rc = *test2.refcount;
-    imgrc = *testImg->img->refcount;
+    t1rc = test.u->refcount;
+    t2rc = test2.u->refcount;
+    imgrc = testImg->img->u->refcount;
     Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
     Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
     if (t1rc == 2) {
@@ -251,8 +251,8 @@ int ImgDataTEST::T_setImg() {
     Logger::trace(" Setting obj 2 to img...");
     testImg->setImg(&test2);
     Logger::trace("  Accessing refcount...");
-    t1rc = *test.refcount;
-    t2rc = *test2.refcount;
+    t1rc = test.u->refcount;
+    t2rc = test2.u->refcount;
     Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
     Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
     if (t1rc==1 && t2rc==2)
@@ -279,8 +279,8 @@ int ImgDataTEST::T_setImg() {
     	}
     }
     Logger::trace("  Accessing refcount...");
-    t1rc = *test.refcount;
-    imgrc = *testImg->img->refcount;
+    t1rc = test.u->refcount;
+    imgrc = testImg->img->u->refcount;
     Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
     Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(imgrc));
     if (t1rc+imgrc==2)
@@ -374,8 +374,8 @@ int ImgDataTEST::T_cpConstructor() {
 	}
 	Logger::trace(" Using refcount to check independence...");
 	int datarc, copyrc;
-	datarc = *data->img->refcount;
-	copyrc = *copy->img->refcount;
+    datarc = data->img->u->refcount;
+    copyrc = copy->img->u->refcount;
 	Logger::trace("    \"data\" img refcount: "+StringTools::intToStr(datarc));
 	Logger::trace("    \"copy\" img refcount: "+StringTools::intToStr(copyrc));
 	if (datarc==2 && copyrc ==1) {

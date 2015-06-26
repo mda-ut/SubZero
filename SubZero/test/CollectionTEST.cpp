@@ -34,7 +34,7 @@ int CollectionTEST::runFilterCollection() {
 	int res = 0;
 	Logger::trace("Running filter collection, authored by Albert");
 	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	res += RGBFilterTEST::runUnits();
+    //res += RGBFilterTEST::runUnits();
 	Logger::trace("++++++++++++++++++++++++++++++++++++");
 	Logger::trace(StringTools::intToStr(res)+" warning(s)");
 	if (res != 0)
