@@ -116,12 +116,6 @@ protected:
      */
     void in();
 
-
-	/**
-	 * Procedures to execute for the FPGA reading thread.
-	 */
-	void in();
-
 public:
 
     /* ==========================================================================

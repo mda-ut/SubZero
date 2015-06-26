@@ -21,7 +21,7 @@ int RGBFilterTEST::runUnits() {
 	int res = 0;
 	Logger::trace("Running all unit tests for: RGBFilter");
 	Logger::trace("==============================");
-//	res += T_Constructor(); //uncomment this line to replicate crash
+    res += T_Constructor(); //uncomment this line to replicate crash
 	res += T_filter();
 	Logger::trace("==============================");
 	if (res != 0)

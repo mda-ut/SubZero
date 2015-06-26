@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
 ///    newMenu.paintEvent();
 
-//    CollectionTEST::runDataAndFilterManagerCollection();
+    CollectionTEST::runDataAndFilterManagerCollection();
     CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
 
 //	StateTester::run();
