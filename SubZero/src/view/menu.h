@@ -10,6 +10,8 @@
 #include <QPoint>
 #include <QObject>
 
+
+
 class Menu : public QWidget
 {
     Q_OBJECT
@@ -19,7 +21,6 @@ public:
     void paintEvent(QPaintEvent *event);
 
 
-private:
     QSize buttonRectSize;
     QFont menuItemFont;
     QPoint temp;
@@ -32,13 +33,17 @@ private:
 
     QGridLayout *mainLayout;
 
+private:
+    void initializeMenu();
 
 
 public slots:
+   void makeView();
+  /*
   void makeGuiView();
   void makeSimView();
   void makeAutView();
+  */
 };
 
 #endif // MENU_H
-

@@ -23,31 +23,6 @@ enum Attributes {
     SPEED
 };
 
-//enum MoveCommands : Commands {
-//	FORWARD,
-//	REVERSE,
-//	LEFT,
-//	RIGHT,
-//	SINK,
-//	RISE
-//};
-
-//enum SpecialCommands : Commands {
-//	POWERON,
-//	POWEROFF,
-//  // from previous year, AquaTux also had:
-//  // SUB_STARTUP_SEQUENCE,
-//  // SUB_MISSION_STARTUP_SEQUENCE,
-//  // SUB_POWER_OFF,
-//  // SIM_MOVE_FWD,
-//  // SIM_MOVE_REV,
-//  // SIM_MOVE_LEFT,
-//  // SIM_MOVE_RIGHT,
-//  // SIM_MOVE_RISE,
-//  // SIM_MOVE_SINK,
-//  // SIM_ACCEL_ZERO
-//};
-
 /**
  * A concrete child of HwInterface that deals specifically with the FPGA.
  *
@@ -68,7 +43,7 @@ class FPGAInterface : public HwInterface {
 
 private:
 
-    std::vector<std::thread> readThreads; // need c++11
+    std::vector<std::thread> readThreads; // needs c++11
 
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
@@ -90,32 +65,6 @@ private:
      */
     virtual FPGAData* decode(std::string* data);
 
-protected:
-
-    /* ==========================================================================
-     * 							MANAGING DATA BUFFER
-     * ==========================================================================
-     * The data buffer will be managed automatically and privately by this class.
-     * These functions are defined and implemented in the root parent class i.e.
-     * in HwInterface.
-     */
-
-    /**
-     * Delete buffer from startIdx to endIdx
-     */
-    virtual void deleteFromBuffer();
-
-    /**
-      * Store decoded data to buffer.
-      * @param	data	data to be stored to buffer.
-      */
-    virtual void storeToBuffer(Data* data);
-
-    /**
-     * Procedures to execute for the FPGA reading thread.
-     */
-    void in();
-
 public:
 
     /* ==========================================================================
@@ -124,21 +73,6 @@ public:
      * FPGAInterface provides functions for the Controller to send data/commands/
      * messages to the FPGA.
      */
-
-    /**
-     * Encodes the data to be sent to FPGA.
-     * @param	data	data to be encoded
-     * @return	encoded data in FPGA-understandable format
-     */
-//	virtual string* encode(FPGAData data); //might not be needed
-
-    /**
-     * Encodes the command to be sent to FPGA.
-     * @param	data	data to be encoded
-     * @return	encoded data in FPGA-understandable format
-     */
-    //@Overload
-//	virtual string* encode(Commands command);
 
     /**
      * Give commands to FPGA.
@@ -152,44 +86,6 @@ public:
      * @param	data	data to be sent
      */
     virtual void send(std::string* data);
-
-    /* ==========================================================================
-     * 								GETTERS AND SETTERS
-     * ==========================================================================
-     */
-
-    /**
-     * Return the most recent buffer data.
-     * This function is defined and implemented by the parent class (HwInterface).
-     * @return	Data*	the most recent data in buffer
-     *
-     */
-    virtual Data* getDataFromBuffer();
-
-    /**
-     * Get the frequency of data polling (polls per second).
-     * @return	polling frequency i.e. sampling rate
-     */
-    virtual int getPollFrequency();
-
-    /**
-     * Set the frequency of data polling.
-     * @param	frequency	number of polls per second
-     */
-    virtual void setPollFrequency(int frequency);
-
-    /**
-     * Get size of buffer.
-     * @return	size of the buffer
-     */
-    virtual int getBufferSize();
-
-    /**
-     * Set size of buffer.
-     * @param	bufferSize	reset buffer size to this
-     */
-    virtual void setBufferSize(int bufferSize);
-
 
     /* ==========================================================================
      * 							CONSTRUCTOR AND DESTRUCTOR
@@ -210,7 +106,6 @@ public:
     virtual ~FPGAInterface();
 
 };
-
 
 #endif
 

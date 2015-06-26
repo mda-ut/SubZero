@@ -51,48 +51,6 @@ FPGAData* FPGAInterface::decode(std::string* data) {
     return decoded;
 };
 
-
-/* ==========================================================================
- * 							MANAGING DATA BUFFER
- * ==========================================================================
- * The data buffer will be managed automatically and privately by this class.
- * These functions are defined and implemented in the root parent class i.e.
- * in HwInterface.
- */
-
-void FPGAInterface::deleteFromBuffer() {
-    this->decodedBuffer.pop();
-};
-
-
-void FPGAInterface::storeToBuffer(Data* data) {
-    this->decodedBuffer.push(data);
-}
-
-void FPGAInterface::in() {
-
-    struct timespec tictoc;
-    clock_gettime(CLOCK_MONOTONIC_RAW, &tictoc);
-
-    while (true) {
-
-        // setting period of polling and auto-clearing
-        // iterate once every this many seconds
-        tictoc.tv_nsec += (long) (1000000000 / pollFrequency);
-        tictoc.tv_sec += (time_t) (tictoc.tv_nsec /pollFrequency);
-        tictoc.tv_nsec %= 1000000000;
-        clock_nanosleep(CLOCK_MONOTONIC_RAW, TIMER_ABSTIME, &tictoc, NULL);
-
-        if ( decodedBuffer.size() >= bufferSize) {
-            // delete old stuff from buffer
-            this->deleteFromBuffer();
-        }
-
-        this->poll();
-
-    }
-}
-
 /* ==========================================================================
  * 				INTERACTING WITH DATA GOING OUT (TO FPGA)
  * ==========================================================================
@@ -108,39 +66,6 @@ void FPGAInterface::set(Attributes attr, int value) {
 void FPGAInterface::send(std::string* data) {
 
 };
-
-/* ==========================================================================
- * 								GETTERS AND SETTERS
- * ==========================================================================
- */
-
-Data* FPGAInterface::getDataFromBuffer() {
-    Data* data = new Data("bad");
-    if (! (this->decodedBuffer).empty()) {
-        data = &(this->decodedBuffer.back());
-    } else {
-        std::cout << "Nothing in buffer";
-    }
-    return data;
-};
-
-int FPGAInterface::getPollFrequency() {
-    return this->pollFrequency;
-};
-
-void FPGAInterface::setPollFrequency(int frequency){
-    this->pollFrequency = frequency;
-};
-
-
-int FPGAInterface::getBufferSize(){
-    return this->bufferSize;
-};
-
-void FPGAInterface::setBufferSize(int bufferSize) {
-    this->bufferSize = bufferSize;
-};
-
 
 /* ==========================================================================
  * 							CONSTRUCTOR AND DESTRUCTOR
@@ -174,7 +99,4 @@ FPGAInterface::~FPGAInterface() {
     delete &(this->bufferSize);
     delete &(this->pollFrequency);
 
-
-
 }
-

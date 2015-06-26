@@ -64,21 +64,6 @@ protected:
      */
     int pollFrequency;
 
-    /**
-     * Specifies the encoding and decoding policy to use.
-     * Alternatively, we can implement encode(), decode() ... etc
-     * differently for each hardwares when we branch out
-     * from the parent class.
-     */
-    int policy;
-
-
-    /*
-     * ID of hardware this interface interacts with.
-     * The hardware can be accessed (somehow) via this ID.
-     */
-    int hardwareID;
-
 
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM HARDWARE)
@@ -99,7 +84,7 @@ protected:
      * @param	data	data to be decoded
      * @return	decoded data in a format defined in Data.h
      */
- //   virtual Data* decode();
+    virtual Data* decode();
 
     /* ==========================================================================
      * 							MANAGING DATA BUFFER
@@ -192,7 +177,6 @@ public:
      * @param	bufferSize	buffer size for the interface
      * @param	pollFrequency	number of polls per second
      */
-    HwInterface();
     HwInterface(int bufferSize, int pollFrequency);
 
     /**
