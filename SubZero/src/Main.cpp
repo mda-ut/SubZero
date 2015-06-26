@@ -23,12 +23,14 @@ int main(int argc, char** argv) {
 	Logger::initialize(true, true, logTimer);
 	Logger::trace("Logger initialized.");
 
-    CollectionTEST::runFilterCollection();
+    //CollectionTEST::runFilterCollection();
     //Controller* newController = new Controller;
     Menu* newMenu = new Menu;
-    newMenu->show();
+    //newMenu->show();
 
-    //Logger::close();
+    HwInterface* hw = new FPGAInterface(10, 1);
+
+    Logger::close();
 
     return app.exec();
 }

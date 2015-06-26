@@ -9,8 +9,7 @@
 #define DATA_H_
 
 #include <cv.h>
-#include <highgui.h>
-
+#include <opencv2/highgui.hpp>
 #include <string.h>
 #include "../StringTools.h"
 

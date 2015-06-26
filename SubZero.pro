@@ -6,7 +6,10 @@ LIBS += -L/usr/local/lib \
 -lopencv_core \
 -lopencv_imgproc \
 -lopencv_highgui \
--lopencv_video
+-lopencv_video \
+-lopencv_videoio \
+-lopencv_imgcodecs
+
 CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION,4): QT += widgets
 
