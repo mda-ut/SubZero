@@ -23,6 +23,8 @@ int HSVFilter::filter(Data *data){
         this->track(data,this->filterID,1,1);
         return 1;
     }
+
+    //begin filtering squence
     cv::Mat* mat = imgData->getImg();
     cv::Mat imgHSV;
     cv::Mat* imgThresh = new cv::Mat(mat->clone());
@@ -40,7 +42,13 @@ int HSVFilter::filter(Data *data){
     cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
     cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
 
+    //ending filtering sequence
+
+    //setting the image to replace the old oe
     imgData->setImg(imgThresh);
+
+    //track and return
+    this->track(imgData, this->filterID, 0,0);
     return 0;
 }
 

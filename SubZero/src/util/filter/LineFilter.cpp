@@ -20,6 +20,7 @@ int LineFilter::filter(Data *data){
         return 1;
     }
 
+    //begin filter sequence
     cv::Mat dst;
     cv::Mat *cdst = new cv::Mat(imgData->getImg()->clone());
     Canny(*imgData->getImg(), dst, 50, 200, 3);
@@ -28,9 +29,10 @@ int LineFilter::filter(Data *data){
     std::vector<cv::Vec2f> lines;
     //detects lines
     HoughLines(dst, lines, 1, CV_PI/180, 100, 0, 0 );
+    //ending filter sequence
 
+    //calculating the line equation
     linesEq.clear();
-
     for( size_t i = 0; i < lines.size(); i++ ){
         float rho = lines[i][0], theta = lines[i][1];
         cv::Point pt1, pt2;
@@ -50,6 +52,8 @@ int LineFilter::filter(Data *data){
         //line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);     //drawing the line
     }
 
+    //track and return
+    this->track(imgData, this->filterID, 0,0);
     return 0;
 }
 

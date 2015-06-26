@@ -8,7 +8,8 @@ ShapeFilter::ShapeFilter(int shape)
     //contours = new std::vector<std::vector<cv::Point> >;
 }
 
-bool debug = true;
+//debug purposes
+bool debug = false;
 void print(int i){
     if (debug)
         std::cout<<i;
@@ -28,10 +29,15 @@ int ShapeFilter::filter(Data *data){
         return 1;
     }
 
+   //beging filtering process
     if (shape == 1){    //rectangle
-        return this->findRect(imgData->getImg());
+        return this->findRect(imgData->getImg());   //lazy to copy+paste everything
     }
-    return 1;
+    //ending filtering process
+
+    //track and return
+    this->track(imgData, this->filterID, 0,0);
+    return 0;
 }
 
 bool ShapeFilter::findRect(cv::Mat* img){
@@ -118,7 +124,7 @@ bool ShapeFilter::findRect(cv::Mat* img){
 
 void ShapeFilter::setShape(int shape){
     this->shape = shape;
-    if (shape == 0) this->msg = "rect";
+    if (shape == 0) this->setID("rect");
 }
 
 cv::RotatedRect* ShapeFilter::getRect(){
