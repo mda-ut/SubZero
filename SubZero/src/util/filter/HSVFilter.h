@@ -37,18 +37,19 @@ public:
      */
     HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int highV);
 
+
     /**
      * HSVFilter constructor to be used when wanting to copy the filter
      * @param obj = HSVFilter to copy
      */
-    HSVFilter(HSVFilter* obj);
+    //HSVFilter(HSVFilter* obj);
 
     /**
      * Operator overload
      * @param rhs = HSVFilter to copy
      * @return depp copy of rhs
      */
-    HSVFilter* operator=(HSVFilter rhs);
+    //HSVFilter* operator=(HSVFilter rhs);
 
     /* =================================================
      * Filtering
@@ -61,7 +62,7 @@ public:
      * @param data = image data to be processed
      * @return 0, successful filter
      */
-    int filter(ImgData* data);
+    int filter(Data* data);
 
     /**
      * Quick and cheap filtering for internal testing

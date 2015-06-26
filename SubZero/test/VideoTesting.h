@@ -7,6 +7,15 @@
 
 #include "../src/util/filter/HSVFilter.h"
 #include "../src/util/filter/LineFilter.h"
+#include "../src/util/filter/ShapeFilter.h"
+#include "../src/util/filter/BlurFilter.h"
+
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 /**
  * Video testing is for opening video files and testing with them
