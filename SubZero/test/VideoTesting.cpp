@@ -1,15 +1,5 @@
 #include "VideoTesting.h"
 
-/*VideoTesting::VideoTesting(){
-    cv::VideoCapture cap("test.avi");
-    if( !cap.isOpened()){
-         std::cout << "Cannot open the video file" << std::endl;
-         return;
-    }
-    double count = cap.get(CV_CAP_PROP_FRAME_COUNT); //get the frame count
-    cap.set(CV_CAP_PROP_POS_FRAMES,count-1); //Set index to last frame
-    this->cap = cap;
-}*/
 VideoTesting::VideoTesting(const std::string fileName){
     cv::VideoCapture cap(fileName);
     if( !cap.isOpened()){
@@ -20,148 +10,44 @@ VideoTesting::VideoTesting(const std::string fileName){
     cap.set(CV_CAP_PROP_POS_FRAMES,count-1); //Set index to last frame
     this->cap = cap;
 }
-
-std::vector<std::vector<cv::Point> > *contours;
-std::vector<cv::Vec4i> hierarchy;
-
-cv::Mat* getContours(cv::Mat* img){
-    if (img->cols == 0) return 0;
-    cv::Mat canny;
-    contours = new std::vector<std::vector<cv::Point> >;
-    //std::vector<cv::Vec4i> hierarchy;
-
-    //std::cout<<"first"<<std::endl;
-
-    cv::Canny(*img, canny, 50, 200, 3);
-    //cv::cvtColor(gray, canny, CV_GRAY2BGR);
-
-    cv::findContours(canny, *contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-    cv::Mat drawing = cv::Mat::zeros(canny.size(), CV_8UC3);
-    for (unsigned int i = 0; i < contours->size(); i++){
-        cv::Scalar color = cv::Scalar(0, 255, 0);
-        cv::drawContours(drawing, *contours, i, color, 2, 8, hierarchy, 0, cv::Point());
-    }
-
-    return new cv::Mat(drawing);
+//================get next frame from camera=====================================
+CvCapture* capture = cvCaptureFromCAM(0);  //Capture using any camera connected to your system
+cv::Mat getNextCameraFrame(){
+    IplImage* frame = cvQueryFrame(capture); //Create image frames from capture
+    return cv::cvarrToMat(frame,true,true,0); // If you hit spacebar an image will be saved
 }
-int compareRect(){     //copying last year's code; math complicated
-    //if (img == NULL) return false;
-    int boxesFound = 0;
-    int minPoints = 6;
-    double minArea = 50;
-    double maxArea = 500;
-    float lwMin = 2;
-    float lwMax = 5;
-    double areaMin = 0.6;
-    double perimMin = 0.75;
-    double perimMax = 1.2;
-    for (std::vector<cv::Point> co: *contours){
-        //error checking
-        if (co.size() < minPoints){
-            std::cout << "Not enough Points" << std::endl;
-            continue;
-        }
-        double area = cv::contourArea(co);
-        if (area < minArea){
-            std::cout << area << " Not enough Area" << std::endl;
-            continue;
-        }
-        if (area > maxArea){
-            std::cout << area << " Too much Area" << std::endl;
-            continue;
-        }
+//================HSV filter==========================================
+cv::Mat* HSVFilter(cv::Mat* mat, int lowH, int highH, int lowS, int highS, int lowV, int highV){
+    //cv::Mat* mat = data->getImg();
+    cv::Mat imgHSV;
+    cv::Mat* imgThresh = new cv::Mat(*mat);
 
-        CvBox2D rect = cv::minAreaRect(co);
-        float angle = rect.angle;
-        float length = rect.size.height;
-        float width = rect.size.width;
-        if (length < width){
-            length = rect.size.width;
-            width = rect.size.height;
-            angle += 90;
-        }
+    cv::cvtColor(*mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
-        float lw_ratio = length/width;
-        if (lw_ratio < lwMin){
-            std::cout << "LW ratio too small" << std::endl;
-            continue;
-        }
-        if (lw_ratio > lwMax){
-            std::cout << "LW ratio too big" << std::endl;
-            continue;
-        }
-        double perimneter = cv::arcLength(co, 1);
-        double perim_ratio = perimneter/ (2*length+2*width);
-        double area_ratio = area/(length*width);
-        if (area_ratio < areaMin){
-            std::cout << "area ratio too small" << std::endl;
-            continue;
-        }
-        if (perim_ratio > perimMax){
-            std::cout << "area ratio too small" << std::endl;
-            continue;
-        }
-        if (perim_ratio < perimMin){
-            std::cout << "area ratio too small" << std::endl;
-            continue;
-        }
-/*
-        MvRotatedBox rbox;
-        rbox.center.x = rect.center.x;
-        rbox.center.y = rect.center.y;
-        rbox.length = length;
-        rbox.width = width;
-        rbox.angle = angle;
-        rbox.m1 = 100;
-        rbox.m2 = 255;
-        rbox.m3 = 0;
-        */
-        std::cout<<"FOUND"<<std::endl;
-        boxesFound++;
-    }
+    cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV),
+            cv::Scalar(highH, highS, highV), *imgThresh); //Threshold the image
 
-    return boxesFound;
+    //morphological opening (remove small objects from the foreground)
+    cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+    cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+
+    //morphological closing (fill small holes in the foreground)
+    cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+    cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+
+    return imgThresh;
 }
+//============blur filter============================================
+cv::Mat* blur(cv::Mat* src, int max){
+    //cv::Mat* dst = new cv::Mat(src->clone());
+    cv::Mat* dst = new cv::Mat( cv::Mat::zeros(src->size(), CV_8UC3));
+    max = max*2+1;
 
-int thresh = 150;
-int max_thresh = 200;
-
-cv::Mat* boundingBoxes(cv::Mat* src){
-    cv::Mat threshold_output;
-    std::vector<std::vector<cv::Point> > contours;
-    std::vector<cv::Vec4i> hierarchy;
-
-    /// Detect edges using Threshold
-    //cv::threshold(*src, threshold_output, thresh, 255, cv::THRESH_BINARY );
-    cv::Canny(*src, threshold_output, 50, 200, 3);
-    /// Find contours
-    cv::findContours(threshold_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
-
-    /// Find the rotated rectangles and ellipses for each contour
-    std::vector<cv::RotatedRect> minRect( contours.size() );
-    std::vector<cv::RotatedRect> minEllipse( contours.size() );
-
-    for( int i = 0; i < contours.size(); i++ )
-       { minRect[i] = minAreaRect( cv::Mat(contours[i]) );
-         if( contours[i].size() > 5 )
-           { minEllipse[i] = fitEllipse( cv::Mat(contours[i]) ); }
-       }
-
-    /// Draw contours + rotated rects + ellipses
-    cv::Mat drawing = cv::Mat::zeros( threshold_output.size(), CV_8UC3 );
-    for( int i = 0; i< contours.size(); i++ )
-       {
-         cv::Scalar color = cv::Scalar(0, 255, 0);
-         // contour
-         cv::drawContours(drawing, contours, i, color, 1, 8, std::vector<cv::Vec4i>(), 0, cv::Point() );
-         // ellipse
-         ellipse( drawing, minEllipse[i], color, 2, 8 );
-         // rotated rectangle
-         cv::Point2f rect_points[4]; minRect[i].points( rect_points );
-         for( int j = 0; j < 4; j++ )
-            line( drawing, rect_points[j], rect_points[(j+1)%4], color, 1, 8 );
-       }
-    return new cv::Mat(drawing);
+    GaussianBlur(*src, *dst, cv::Size(max, max), 0,0);
+    //blur(*src, *dst, cv::Size(3,3), cv::Point(-1,-1));
+    //medianBlur(*src, *dst, max);
+    //bilateralFilter(*src, *dst, max, max*2, max/2);
+    return dst;
 }
 
 void VideoTesting::run(){
@@ -170,36 +56,77 @@ void VideoTesting::run(){
     cv::namedWindow("HSV Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Line Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Canny", CV_WINDOW_AUTOSIZE);
-    cv::moveWindow("Orginal", 1400, 100);
+    /*cv::moveWindow("Orginal", 1400, 50);           //reading from photo
+    cv::moveWindow("HSV Filtered", 1000, 50);
+    cv::moveWindow("Line Filtered", 600, 50);
+    cv::moveWindow("Canny", 100, 50);*/
+    cv::moveWindow("Orginal", 1200, 50);           //reading from camera
+    cv::moveWindow("HSV Filtered", 1200, 500);
+    cv::moveWindow("Line Filtered", 600, 50);
+    cv::moveWindow("Canny", 600, 500);
+    /*cv::moveWindow("Orginal", 1400, 100);         //reading from video
     cv::moveWindow("HSV Filtered", 1400, 500);
     cv::moveWindow("Line Filtered", 800, 100);
-    cv::moveWindow("Canny", 800, 500);
+    cv::moveWindow("Canny", 800, 500);*/
     cv::Mat frame;
     cv::Mat* filtered;
     cv::Mat* lineFiltered;
-    cv::Mat* contour;
+    cv::Mat contour;
 
+    cv::namedWindow("Control", CV_WINDOW_AUTOSIZE); //create a window called "Control"
+    int iLowH = 30;
+    int iHighH = 179;
+    int iLowS = 0;
+    int iHighS = 255;
+    int iLowV = 0;
+    int iHighV = 255;
+    int max = 1;
+    //Create trackbars in "Control" window
+    cvCreateTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
+    cvCreateTrackbar("HighH", "Control", &iHighH, 179);
+    cvCreateTrackbar("LowS", "Control", &iLowS, 255); //Saturation (0 - 255)
+    cvCreateTrackbar("HighS", "Control", &iHighS, 255);
+    cvCreateTrackbar("LowV", "Control", &iLowV, 255); //Value (0 - 255)
+    cvCreateTrackbar("HighV", "Control", &iHighV, 255);
+    cvCreateTrackbar("max", "Control", &max, 130);
 
-    HSVFilter hf(25, 179, 0, 255, 0,255);
-    LineFilter lf(0);
+    //HSVFilter hf(25, 179, 0, 255, 0,255);
+    LineFilter lf;
+    ShapeFilter sf(1);
+    BlurFilter bf(2, 0.4f);
+    //frame = cv::imread("rect.jpg");       //img
+    cv::Scalar color = cv::Scalar(255, 0, 0);
+
     while (1){
-        frame = this->getNextFrame();
+        //contour = cv::Mat::zeros(frame.size(), CV_8UC3);
+        //frame = this->getNextFrame(); //video
+        frame = getNextCameraFrame(); //webcam
+        contour = frame.clone();
         if(frame.cols == 0)break;       //exit when there is no next fraame
 
-        filtered = hf.filter(&frame);
-        lineFiltered = lf.filter(filtered);
+        //filtered = hf.filter(&frame);
+        filtered = HSVFilter(&frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
+        //filtered = blur(filtered,max);
+        filtered = bf.filter(filtered);
+        lineFiltered = lf.filter(filtered, 0);
+        sf.findRect(filtered);
+
         //contour = getContours(filtered);
-        contour = getContours(filtered);
-        //contour = boundingBoxes(lineFiltered);
+        //getContours(filtered);//Canny(*filtered, *contour, 50, 200, 3);
+        //contour = boundingBoxes(filtered);
+
+
+        //compareRect();
+        cv::RotatedRect* rect = sf.getRect();
+        if (rect != 0){
+        cv::Point2f rect_points[4]; sf.getRect()->points( rect_points );
+        for( int j = 0; j < 4; j++ )
+           line( contour, rect_points[j], rect_points[(j+1)%4], color, 1, 8 );}
 
         imshow("Orginal", frame);
         imshow("HSV Filtered", *filtered);
         imshow("Line Filtered", *lineFiltered);
-        imshow("Canny", *contour);
-
-        compareRect();
-
-
+        imshow("Canny", contour);
         int key = cv::waitKey((33));        //wait for 33ms, ~= 30fps;
         //std::cout<<key<<std::endl;
         if (key == 27) break;               //if user press esc, break the loop

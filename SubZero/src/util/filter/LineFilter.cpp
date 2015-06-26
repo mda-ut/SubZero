@@ -6,46 +6,99 @@
 
 #include "LineFilter.h"
 
-using namespace cv;
-using namespace std;
-LineFilter::LineFilter(int mode)
+LineFilter::LineFilter()
 {
-this->mode = mode;
-    this->msg = "Line";
+    this->setID("line");
 }
 
-cv::Mat* LineFilter::filter(cv::Mat *src){
-    Mat dst;
-    Mat *cdst = new Mat(*src);
+int LineFilter::filter(Data *data){
+    // check for whether the input is of the correct type.          From Albert
+    ImgData* imgData = dynamic_cast<ImgData*>(data);
+    if (imgData == 0) {
+        // track the error and return error
+        this->track(data,this->filterID,1,1);
+        return 1;
+    }
+
+    cv::Mat dst;
+    cv::Mat *cdst = new cv::Mat(imgData->getImg()->clone());
+    Canny(*imgData->getImg(), dst, 50, 200, 3);
+    cvtColor(dst, *cdst, CV_GRAY2BGR);
+
+    std::vector<cv::Vec2f> lines;
+    //detects lines
+    HoughLines(dst, lines, 1, CV_PI/180, 100, 0, 0 );
+
+    linesEq.clear();
+
+    for( size_t i = 0; i < lines.size(); i++ ){
+        float rho = lines[i][0], theta = lines[i][1];
+        cv::Point pt1, pt2;
+        double a = cos(theta), b = sin(theta);
+        double x0 = a*rho, y0 = b*rho;
+        pt1.x = cvRound(x0 + 1000*(-b));
+        pt1.y = cvRound(y0 + 1000*(a));
+        pt2.x = cvRound(x0 - 1000*(-b));
+        pt2.y = cvRound(y0 - 1000*(a));
+
+        //equation of line
+        std::vector<float> eq;
+        eq.push_back(((float)(pt2.y-pt1.y))/((float)(pt2.x-pt1.x)));
+        eq.push_back((float)pt1.y - eq[0]*(float(pt1.x)));
+        linesEq.push_back(eq);
+
+        //line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);     //drawing the line
+    }
+
+    return 0;
+}
+
+cv::Mat* LineFilter::filter(cv::Mat *src, int mode){
+    cv::Mat dst;
+    cv::Mat *cdst = new cv::Mat(src->clone());
     Canny(*src, dst, 50, 200, 3);
     cvtColor(dst, *cdst, CV_GRAY2BGR);
 
     if (mode == 0){
-        vector<Vec2f> lines;
+        std::vector<cv::Vec2f> lines;
         //detects lines
         HoughLines(dst, lines, 1, CV_PI/180, 100, 0, 0 );
+
+        linesEq.clear();
 
         //draws the lines detected
         for( size_t i = 0; i < lines.size(); i++ ){
             float rho = lines[i][0], theta = lines[i][1];
-            Point pt1, pt2;
+            cv::Point pt1, pt2;
             double a = cos(theta), b = sin(theta);
             double x0 = a*rho, y0 = b*rho;
             pt1.x = cvRound(x0 + 1000*(-b));
             pt1.y = cvRound(y0 + 1000*(a));
             pt2.x = cvRound(x0 - 1000*(-b));
             pt2.y = cvRound(y0 - 1000*(a));
-            line(*cdst, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+
+            //equation of line
+            std::vector<float> eq;
+            eq.push_back(((float)(pt2.y-pt1.y))/((float)(pt2.x-pt1.x)));
+            eq.push_back((float)pt1.y - eq[0]*(float(pt1.x)));
+            linesEq.push_back(eq);
+
+            line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);       //drawing the line
         }
     }
     else{
-        vector<Vec4i> lines;
+        std::vector<cv::Vec4i> lines;
         HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
         for( size_t i = 0; i < lines.size(); i++ ){
-            Vec4i l = lines[i];
-            line(*cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
+            cv::Vec4i l = lines[i];
+            line(*cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
+                    cv::Scalar(0,0,255), 3, CV_AA);
         }
     }
 
     return cdst;
+}
+
+std::vector<std::vector<float> > LineFilter::getlineEq(){
+    return linesEq;
 }

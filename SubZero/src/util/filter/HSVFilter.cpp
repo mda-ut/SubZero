@@ -15,18 +15,17 @@ HSVFilter::HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int hig
     this->setID("HSV");
 }
 
-HSVFilter::HSVFilter(HSVFilter* obj){
-    //need to implement
-}
-
-HSVFilter* HSVFilter::operator =(HSVFilter rhs){
-    //need to implement
-}
-
-int HSVFilter::filter(ImgData *data){
-    cv::Mat* mat = data->getImg();
+int HSVFilter::filter(Data *data){
+    // check for whether the input is of the correct type.      From Albert
+    ImgData* imgData = dynamic_cast<ImgData*>(data);
+    if (imgData == 0) {
+        // track the error and return error
+        this->track(data,this->filterID,1,1);
+        return 1;
+    }
+    cv::Mat* mat = imgData->getImg();
     cv::Mat imgHSV;
-    cv::Mat* imgThresh = new cv::Mat(*mat);
+    cv::Mat* imgThresh = new cv::Mat(mat->clone());
 
     cv::cvtColor(*mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
@@ -41,11 +40,11 @@ int HSVFilter::filter(ImgData *data){
     cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
     cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
 
+    imgData->setImg(imgThresh);
     return 0;
 }
 
 cv::Mat* HSVFilter::filter(cv::Mat* mat){
-    //cv::Mat* mat = data->getImg();
     cv::Mat imgHSV;
     cv::Mat* imgThresh = new cv::Mat(*mat);
 
