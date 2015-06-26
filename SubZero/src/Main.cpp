@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
 
 ///    newMenu.paintEvent();
 
-    CollectionTEST::runDataAndFilterManagerCollection();
-//    CollectionTEST::runFilterCollection(); //mem leak in here
+//    CollectionTEST::runDataAndFilterManagerCollection();
+    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
 
 //	StateTester::run();
 

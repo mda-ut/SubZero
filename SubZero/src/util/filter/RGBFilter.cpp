@@ -35,6 +35,11 @@ int RGBFilter::filter(Data* data) {
 		return 1;
 	}
 
+	if (cast->img->type() != 16) {
+		this->track(data,this->filterID,2,1);
+		return 2;
+	}
+
 	// begin filter sequence.
 	int newPixelVal;
 	cv::Mat filteredImg = (cast->getImg())->clone();
@@ -48,14 +53,8 @@ int RGBFilter::filter(Data* data) {
 		for(int y = 0; y < (cast->getImg())->cols; y++ ) {
 			for(int x = 0; x < (cast->getImg())->rows; x++ ) {
 				for(int c = 0; c < 3; c++) {
-					newPixelVal = BGR[c].at<char>(x,y) + midtone[c];
-//					std::cout<<BGR[c].at<char>(x,y);
-//					Logger::trace("    "+StringTools::intToStr(c)+":"+StringTools::intToStr((int)BGR[c].at<char>(x,y))+"+"+StringTools::intToStr(midtone[c]*-1));
-					if(newPixelVal < 0)
-						newPixelVal = 0;
-					else if (newPixelVal > MXCOLOR)
-						newPixelVal = MXCOLOR;
-					BGR[c].at<char>(x,y) = newPixelVal;
+					newPixelVal = std::max(0,std::min(MXCOLOR,BGR[c].at<unsigned char>(x,y) + midMult[c]*midtone[c]));
+					BGR[c].at<unsigned char>(x,y) = newPixelVal;
 				}
 			}
 		}
@@ -73,22 +72,18 @@ int RGBFilter::filter(Data* data) {
 				// From 11%,59%,30% bgr respectively. Scaled to 1:6:3 factors
 				// luminosity range is from 0-2550, 1/3 is 850. Calc this from:
 				// 10*255, 10* MXCOLOR
-				luminosity = BGR[0].at<char>(x,y)*1+BGR[1].at<char>(x,y)*6+BGR[2].at<char>(x,y)*3;
+				luminosity = BGR[0].at<unsigned char>(x,y)*1+BGR[1].at<unsigned char>(x,y)*6+BGR[2].at<unsigned char>(x,y)*3;
 
 				for(int c = 0; c < 3; c++) {
 
 					if (luminosity < SHADTHRESHOLD)
-						newPixelVal = BGR[c].at<char>(x,y) + shadow[c];
+						newPixelVal = std::max(0,std::min(MXCOLOR,BGR[c].at<unsigned char>(x,y) + shadMult[c]*shadow[c]));
 					else if (luminosity > HIGHTHRESHOLD)
-						newPixelVal = BGR[c].at<char>(x,y) + highlight[c];
+						newPixelVal = std::max(0,std::min(MXCOLOR,BGR[c].at<unsigned char>(x,y) + highMult[c]*highlight[c]));
 					else
-						newPixelVal = BGR[c].at<char>(x,y) + midtone[c];
+						newPixelVal = std::max(0,std::min(MXCOLOR,BGR[c].at<unsigned char>(x,y) + midMult[c]*midtone[c]));
 
-					if(newPixelVal < 0)
-						newPixelVal = 0;
-					else if (newPixelVal > MXCOLOR)
-						newPixelVal = MXCOLOR;
-					BGR[c].at<char>(x,y) = newPixelVal;
+					BGR[c].at<unsigned char>(x,y) = newPixelVal;
 				}
 			}
 		}
@@ -109,40 +104,52 @@ int RGBFilter::filter(Data* data) {
 
 void RGBFilter::setValues(int fullspec[]){
 	this->mode = 0;
-	this->midtone[0] = fullspec[2];
-	this->midtone[1] = fullspec[1];
-	this->midtone[2] = fullspec[0];
+	this->midMult[0] = (int)((fullspec[2]+.1)/std::abs(fullspec[2]+.1));
+	this->midtone[0] = std::max(0,std::min(MXCOLOR,this->midMult[0]*fullspec[2]));
+	this->midMult[1] = (int)((fullspec[1]+.1)/std::abs(fullspec[1]+.1));
+	this->midtone[1] = std::max(0,std::min(MXCOLOR,this->midMult[1]*fullspec[1]));
+	this->midMult[2] = (int)((fullspec[0]+.1)/std::abs(fullspec[0]+.1));
+	this->midtone[2] = std::max(0,std::min(MXCOLOR,this->midMult[2]*fullspec[0]));
 }
 
 void RGBFilter::setValues(int highlight[], int midtone[], int shadow[]) {
 	this->mode = 1;
-	this->highlight[0] = highlight[2];
-	this->highlight[1] = highlight[1];
-	this->highlight[2] = highlight[0];
-	this->midtone[0] = midtone[2];
-	this->midtone[1] = midtone[1];
-	this->midtone[2] = midtone[0];
-	this->shadow[0] = shadow[2];
-	this->shadow[1] = shadow[1];
-	this->shadow[2] = shadow[0];
+	this->highMult[0] = (int)((highlight[2]+.1)/std::abs(highlight[2]+.1));
+	this->highlight[0] = std::max(0,std::min(MXCOLOR,this->highMult[0]*highlight[2]));
+	this->highMult[1] = (int)((highlight[1]+.1)/std::abs(highlight[1]+.1));
+	this->highlight[1] = std::max(0,std::min(MXCOLOR,this->highMult[1]*highlight[1]));
+	this->highMult[2] = (int)((highlight[0]+.1)/std::abs(highlight[0]+.1));
+	this->highlight[2] = std::max(0,std::min(MXCOLOR,this->highMult[2]*highlight[0]));
+	this->midMult[0] = (int)((midtone[2]+.1)/std::abs(midtone[2]+.1));
+	this->midtone[0] = std::max(0,std::min(MXCOLOR,this->midMult[0]*midtone[2]));
+	this->midMult[1] = (int)((midtone[1]+.1)/std::abs(midtone[1]+.1));
+	this->midtone[1] = std::max(0,std::min(MXCOLOR,this->midMult[1]*midtone[1]));
+	this->midMult[2] = (int)((midtone[0]+.1)/std::abs(midtone[0]+.1));
+	this->midtone[2] = std::max(0,std::min(MXCOLOR,this->midMult[2]*midtone[0]));
+	this->shadMult[0] = (int)((shadow[2]+.1)/std::abs(shadow[2]+.1));
+	this->shadow[0] = std::max(0,std::min(MXCOLOR,this->shadMult[0]*shadow[2]));
+	this->shadMult[1] = (int)((shadow[1]+.1)/std::abs(shadow[1]+.1));
+	this->shadow[1] = std::max(0,std::min(MXCOLOR,this->shadMult[1]*shadow[1]));
+	this->shadMult[2] = (int)((shadow[0]+.1)/std::abs(shadow[0]+.1));
+	this->shadow[2] = std::max(0,std::min(MXCOLOR,this->shadMult[2]*shadow[0]));
 }
 
 std::vector<int> RGBFilter::getValues() {
 	std::vector<int> ret;
 	if (mode == 0) {
-		ret.push_back(this->midtone[2]);
-		ret.push_back(this->midtone[1]);
-		ret.push_back(this->midtone[0]);
+		ret.push_back(int(this->midtone[2])*midMult[2]);
+		ret.push_back(int(this->midtone[1])*midMult[1]);
+		ret.push_back(int(this->midtone[0])*midMult[0]);
 	} else if (mode == 1) {
-		ret.push_back(this->highlight[2]);
-		ret.push_back(this->highlight[1]);
-		ret.push_back(this->highlight[0]);
-		ret.push_back(this->midtone[2]);
-		ret.push_back(this->midtone[1]);
-		ret.push_back(this->midtone[0]);
-		ret.push_back(this->shadow[2]);
-		ret.push_back(this->shadow[1]);
-		ret.push_back(this->shadow[0]);
+		ret.push_back(int(this->highlight[2])*highMult[2]);
+		ret.push_back(int(this->highlight[1])*highMult[1]);
+		ret.push_back(int(this->highlight[0])*highMult[0]);
+		ret.push_back(int(this->midtone[2])*midMult[2]);
+		ret.push_back(int(this->midtone[1])*midMult[1]);
+		ret.push_back(int(this->midtone[0])*midMult[0]);
+		ret.push_back(int(this->shadow[2])*shadMult[2]);
+		ret.push_back(int(this->shadow[1])*shadMult[1]);
+		ret.push_back(int(this->shadow[0])*shadMult[0]);
 	}
 	return ret;
 }

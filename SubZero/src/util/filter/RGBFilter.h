@@ -10,6 +10,7 @@
 
 #include "Filter.h"
 #include <vector>
+#include <math.h>
 
 /**
  * The RBGFilter allows user to raise and lower pixel value of
@@ -27,9 +28,16 @@ private:
 	 * The value x implies the operation: pixel val + x.
 	 * So if x is -5 this implies: pixel val + -5.
 	 */
-	int highlight [3];
-	int midtone [3];
-	int shadow [3];
+	unsigned char highlight [3];
+	unsigned char midtone [3];
+	unsigned char shadow [3];
+
+	/*
+	 * Int 1 or -1 multiplier to carry the sign of the int arg.
+	 */
+	int highMult[3];
+	int midMult[3];
+	int shadMult[3];
 
 	/*
 	 * 0 for no divide, 1 for dividing into 3 zones.
@@ -74,6 +82,7 @@ public:
 	 * Filtering function for filter obj. Takes the inputImg and filters it.
 	 *
 	 * @param inputImg
+	 * @return	0 for success, 1 for incorret arg, 2 for incorrect Mat type.
 	 */
 	int filter (Data* data);
 
