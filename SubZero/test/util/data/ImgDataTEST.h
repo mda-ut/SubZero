@@ -38,6 +38,7 @@ public:
 	static int T_getImg();
 	static int T_getHeight();
 	static int T_getWidth();
+	static int T_setImg();
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD

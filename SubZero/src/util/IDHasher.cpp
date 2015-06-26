@@ -31,7 +31,8 @@ NodeData::NodeData() {
 
 NodeData::~NodeData() {
 	// Delete class objs
-	delete this->filter;
+	if (this->filter != 0)
+		delete this->filter;
 }
 
 
@@ -44,7 +45,7 @@ IDHasher::IDHasher() {
 	this->count = 0;
 	this->linkedListFront = 0;
 	this->linkedListRear = 0;
-	this->dictionary = *new std::map<std::string, struct Node*>;
+//	this->dictionary = *new std::map<std::string, struct Node*>;
 	// Special keys
 	this->dictionary["FRONT"] = 0;
 	this->dictionary["REAR"] = 0;

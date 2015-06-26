@@ -18,8 +18,11 @@
 #include "util/data/ImgDataTEST.h"
 #include "util/data/FPGADataTEST.h"
 
+#include "util/filter/RGBFilterTEST.h"
+
 class CollectionTEST {
 public:
+	static int runDataAndFilterManagerCollection();
 	static int runFilterCollection();
 };
 

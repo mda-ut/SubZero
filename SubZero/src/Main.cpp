@@ -6,7 +6,6 @@
  */
 
 #include "util/Logger.h"
-#include "model/state/StateTester.h"
 #include <string>
 #include "view/menu.h"
 #include "controller/controllers/Controller.h"
@@ -14,6 +13,7 @@
 #include <iostream>
 
 #include "../test/CollectionTEST.h"
+#include "model/state/StateTester.h"
 
 using namespace std;
 
@@ -21,17 +21,21 @@ int main(int argc, char** argv) {
 	QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
-	Logger::trace("Logger initialized.");
+	Logger::trace("Logger initialized.");	
+//	QApplication app(argc, argv);
+//    Menu* newMenu = new Menu;
+//    newMenu->show();
 
-    //CollectionTEST::runFilterCollection();
-    //Controller* newController = new Controller;
-    Menu* newMenu = new Menu;
-    //newMenu->show();
+///    newMenu.paintEvent();
 
-    HwInterface* hw = new FPGAInterface(10, 1);
+//    CollectionTEST::runDataAndFilterManagerCollection();
+    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
+
+//	StateTester::run();
 
     Logger::close();
+//    delete logTimer;
 
-    return app.exec();
+	return 0;//app.exec();
 }
 

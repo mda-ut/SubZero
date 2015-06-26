@@ -114,6 +114,13 @@ public:
 	std::string getMsg();
 
 	/**
+	 * Set the ID of data.
+	 *
+	 * @param newID		to be set
+	 */
+	void setID(std::string newID);
+
+	/**
 	 * Set the message carried by the data.
 	 *
 	 * @param newMsg 	to be set

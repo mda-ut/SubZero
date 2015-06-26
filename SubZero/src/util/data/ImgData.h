@@ -22,7 +22,7 @@ class ImgData: public Data {
 	 * FRIEND CLASSES
 	 * =========================================================================
 	 */
-	friend class Filter;
+	friend class RGBFilter;
 	friend class HwInterface;
 
 private:
@@ -39,34 +39,10 @@ private:
 	 */
 	void setID(std::string newID);
 
-	/**
-	 * Setter for replacing the actual image object that a ImgData object
-	 * wraps. By default the old img object is destroyed.
-	 *
-	 * @param pointer to the image object (Mat*)
-	 */
-	void setImg(cv::Mat* newImg);
-
-	/**
-	 * Setter for replacing the actual image object that a ImgData object
-	 * wraps. Type allows for selection on whether or not to destroy the
-	 * old image.
-	 *
-	 * @param newImg	pointer to the image object (Mat*)
-	 * @param type		0 for destroy old img, 1 for keep old img.
-	 */
-	void setImg(cv::Mat* newImg,int type);
-
 	/* ==========================================================================
 	 * CLASS VARS
 	 * ==========================================================================
 	 */
-
-	/*
-	 * Pointer to the actual image object. Mat is the designated standard
-	 * image type.
-	 */
-	cv::Mat* img;
 
 	/*
 	 * String for the named window showing the img
@@ -74,6 +50,11 @@ private:
 	std::string windowName;
 
 public:
+	/*
+	 * Pointer to the actual image object. Mat is the designated standard
+	 * image type.
+	 */
+	cv::Mat* img;
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
@@ -99,9 +80,19 @@ public:
 	 */
 
 	/**
+	 * Setter for img data. This function will make a copy of the mat img
+	 * and set the img variable to point to it. This way the mat img is
+	 * within the ImgData obj's scope.
+	 *
+	 * @param newImg	the pointer to the new Mat obj to wrap
+	 */
+	void setImg(cv::Mat* newImg);
+
+	/**
 	 * Getter for img data, invoker must expect the standard image type,
-	 * in this case Mat, and will be returned a pointer to a deep copy
-	 * of Mat.
+	 * in this case Mat, and will be returned a pointer to the Mat wrapped
+	 * by ImgData. Don't delete the img by accident!! Alternatively
+	 * directly access the img variable.
 	 *
 	 * @return standard image pointer.
 	 */
@@ -130,16 +121,6 @@ public:
 	 * Attempts to close the window opened by showImg().
 	 */
 	void closeImg();
-
-	/**
-	 * Compares 2 Mat images and returns a bool indicating whether they are the same or not.
-	 *
-	 * @param testImg	to compare against ImgData's Mat img
-	 * @param mask		the difference Mat between the two operands. Default is nullptr and no mask is stored.
-	 * @return			1 for image is same, 0 for not the same.
-	 */
-
-	int compareImg(cv::Mat* testImg, cv::Mat* mask=0);
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD
