@@ -19,6 +19,7 @@ protected:
 
 	//the length of the linked list
 	//The amount of frames that the state will hold
+	//ZERO INDEXED
 	int maxLength;
 
 	//LinkedList <Vector<Data>>
@@ -79,6 +80,10 @@ protected:
 
 public:
 	State();	//constructor
+	/**
+	 * Construct a state with a limit of frames _framesStored_ (Zero indexed)
+	 * ie, frameStored = 10, this State will store 11 frames
+	 */
 	State(int framesStored);
 
 	virtual ~State();	//deconstructor

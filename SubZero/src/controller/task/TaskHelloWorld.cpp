@@ -5,17 +5,19 @@
  *      Author: ed
  */
 
-#include "TaskA.h"
+#include "TaskHelloWorld.h"
 
-TaskA::TaskA() {
+#include <iostream>
+
+TaskHelloWorld::TaskHelloWorld() {
 	// TODO Auto-generated constructor stub
 
 }
 
-TaskA::~TaskA() {
+TaskHelloWorld::~TaskHelloWorld() {
 	// TODO Auto-generated destructor stub
 }
 
-void TaskA::execute(){
+void TaskHelloWorld::execute(){
 	std::cout<<"Hello World"<<std::endl;
 }

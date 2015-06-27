@@ -12,16 +12,16 @@
 #include "Command.h"
 
 class CommandFactory {
-	public:
-		/**
-		* An postToScreen Command is created.
-		*
-		* @param postToScreenTask for the
-		* @param postString for the string to be posted
-		* @return Command object pointer
-		*/
-		static Command* createPostToScreen(TaskA postToScreen, std::string PostString);
-
+//	public:
+//		/**
+//		* An postToScreen Command is created.
+//		*
+//		* @param postToScreenTask for the
+//		* @param postString for the string to be posted
+//		* @return Command object pointer
+//		*/
+//		static Command* createPostToScreen(TaskA postToScreen, std::string PostString);
+//
 };
 
 #endif /* COMMANDFACTORY_H_ */

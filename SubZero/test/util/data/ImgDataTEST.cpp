@@ -7,86 +7,60 @@
 
 #include "ImgDataTEST.h"
 
-/*
-#include <opencv2/core.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/highgui.hpp>
-*/
-/*
-#include <opencv2/core/core.hpp>
-#include <opencv2/video/video.hpp>
-#include <opencv2/highgui/highgui.hpp>
-*/
 /* TEMPLATE
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: _______");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
  */
 
 
 int ImgDataTEST::runUnits() {
-	int res;
+	int res = 0;
 	Logger::trace("Running all unit tests for: ImgData");
 	Logger::trace("==============================");
-//	res += T_Constructor();
-//	res += T_getImg();
-//	res += T_getHeight();
-//	res += T_getWidth();
-//	res += T_cpConstructor();
-//	res += T_opEqual();
 
-	Logger::trace("opening cap...");
-	cv::namedWindow("ddddddd");
-	Logger::trace("window created...");
-	cv::VideoCapture capture(CV_CAP_ANY);
-
-	if (capture.isOpened()) {
-		Logger::trace("capture is opened....");
-		capture.set(CV_CAP_PROP_FRAME_WIDTH,640);
-		capture.set(CV_CAP_PROP_FRAME_HEIGHT,480);
-
-	cv::Mat camFeed;
-	Logger::trace("grabbing read...");
-
-	/*
-	 * webcamCapture.read(currentWebcamFrame);
-	 */
-
-	bool bSuccess = capture.read(camFeed);
-
-	if (!bSuccess) //if not success, break loop
-	{
-		 Logger::trace( "Cannot read a frame from video stream");
-	}
-
-	Logger::trace("cap read, showing cap...");
-	Logger::trace("Press ESC to break the while loop...");
-
-	while(1){
-
-	//	key = cv::waitKey(10);
-		cv::imshow("ddddddd",camFeed);
-		if(cv::waitKey(10)==27){
-			break;
-		}
-
-	}
-
-	Logger::trace("appear............");
-	}
+	res += T_Constructor();
+	res += T_setImg();
+	res += T_getHeight();
+	res += T_getWidth();
+	res += T_cpConstructor();
 
 	Logger::trace("==============================");
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: ImgData");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
+}
+
+cv::Mat ImgDataTEST::camCap() {
+	char key;
+	cv::Mat ret;
+    cvNamedWindow("camCap", 1);    //Create window
+    CvCapture* capture = cvCaptureFromCAM(1);  //Capture using any camera connected to your system
+    while(1) { //Create infinte loop for live streaming
+
+        IplImage* frame = cvQueryFrame(capture); //Create image frames from capture
+        cvShowImage("camCap", frame);   //Show image frames on created window
+        key = cvWaitKey(10);     //Capture Keyboard stroke
+
+        if(char(key)==32 || 1==1){
+        	ret = cv::cvarrToMat(frame,true,true,0); // If you hit spacebar an image will be saved
+        	break;
+        }
+
+//        if (char(key) == 27){
+//        	cvReleaseCapture(&capture); //Release capture.
+//        	cvDestroyWindow("camCap"); //Destroy Window
+//        	return cv::Mat();
+//        }
+    }
+    cvReleaseCapture(&capture);
+    return ret;
 }
 
 /* ==========================================================================
@@ -96,16 +70,14 @@ int ImgDataTEST::runUnits() {
 
 int ImgDataTEST::T_Constructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing Constructor:");
-	Logger::trace(" Init Mat obj...");
-	cv::Mat* img = new cv::Mat;
-	img->eye(2,2,1);
+	Logger::trace(" Init Mat obj using camCap()...");
+	Logger::trace(" Showing capped img...");
+	cv::Mat img = ImgDataTEST::camCap();
 	Logger::trace(" Constructing new ImgData obj with arg \"data\" and Mat obj...");
-	ImgData* data = new ImgData("data",img);
+	ImgData* data = new ImgData("data",&img);
 	Logger::trace(" Complete.");
 	Logger::trace(" Checking initialized variables...");
 	Logger::trace("  Using getID()...");
@@ -115,22 +87,34 @@ int ImgDataTEST::T_Constructor() {
 		Logger::warn("    NOT ok, ID initialization incorrect");
 		fail += 1;
 	}
-	Logger::trace("  Using getImg()...");
-	if (data->getImg() != 0)
-		Logger::trace("    ok");
-	else {
-		Logger::warn("    NOT ok, Img initialization incorrect");
-		fail += 1;
+	Logger::trace("  Using showImg()...");
+	Logger::trace("  If both imgs are identical press spacebar, else press esc...");
+	data->showImg();
+	char key;
+	while (1) {
+ 		key = cvWaitKey(0);
+		if (char(key) == 32) {
+			Logger::trace("    ok");
+			break;
+		}
+		else if (char(key) == 27) {
+			Logger::warn("    NOT ok, img not same");
+			fail++;
+			break;
+		}
 	}
+//	Logger::trace(" Using getImg() and comparing...");
+	//TODO
 	Logger::trace("Test complete.");
+	Logger::trace("Closing windows...");
+	data->closeImg();
+	cvDestroyWindow("camCap");
 	Logger::trace("Deleting data...");
 	delete data;
-	delete img;
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Data Constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -143,40 +127,8 @@ int ImgDataTEST::T_Destructor() {
  * ==========================================================================
  */
 
-int ImgDataTEST::T_getImg() {
-	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
-	Logger::trace("==============================");
-
-	Logger::trace("Testing getImg():");
-	Logger::trace(" Init Mat obj...");
-	cv::Mat img = cv::Mat::eye(2,2,CV_32F);
-	std::string row1,row2;
-//	row1 = StringTools::intToStr(img.at(0,0)) + StringTools::intToStr(img.at(0,1));
-
-	Logger::trace(" Constructing new ImgData obj with arg \"data\" and Mat obj...");
-	ImgData* data = new ImgData("data",&img);
-	Logger::trace(" Complete.");
-	Logger::trace(" Obtaining copy of img using getImg()...");
-//	cv::Mat* copy = data->getImg();
-
-
-	Logger::trace("Test complete.");
-	Logger::trace("Deleting data...");
-	delete data;
-
-	if (fail > 0)
-		Logger::warn("  TEST FAILED: getImg()");
-	Logger::trace("==============================");
-	Logger::close();
-	return fail;
-}
-
 int ImgDataTEST::T_getHeight() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing getHeight():");
@@ -199,14 +151,11 @@ int ImgDataTEST::T_getHeight() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: getHeight()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int ImgDataTEST::T_getWidth() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing getWidth():");
@@ -229,7 +178,127 @@ int ImgDataTEST::T_getWidth() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: getWidth()");
 	Logger::trace("==============================");
-	Logger::close();
+	return fail;
+}
+
+int ImgDataTEST::T_setImg() {
+	int fail = 0;
+	Logger::trace("==============================");
+
+	Logger::trace("Testing setImg():");
+	Logger::trace(" Creating 2 Mat obj using camCap()...");
+    cv::Mat test = camCap();
+    cvDestroyWindow("camCap");
+    cv::Mat test2 = camCap();
+    cvDestroyWindow("camCap");
+    cv::namedWindow("obj 1");
+    cv::imshow("obj 1",test);
+    cv::namedWindow("obj 2");
+    cv::imshow("obj 2",test2);
+    Logger::trace("  Accessing refcount...");
+    int t1rc,t2rc,imgrc;
+    t1rc = test.u->refcount;
+    t2rc = test2.u->refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
+    if (t1rc+t2rc==2)
+    	Logger::trace("    ok");
+    else {
+    	Logger::warn("    NOT ok, refcount should be 1 for both");
+    	fail++;
+    }
+    Logger::trace(" Creating ImgData with obj 1...");
+    ImgData* testImg = new ImgData("plswork",&test);
+    Logger::trace("  Accessing refcount...");
+    t1rc = test.u->refcount;
+    t2rc = test2.u->refcount;
+    imgrc = testImg->img->u->refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
+    if (t1rc == 2) {
+    	if (imgrc == 2) {
+    		if(t2rc == 1)
+    			Logger::trace("    ok");
+    		else {
+    			Logger::warn("    NOT ok, obj 2 refcount should be 1");
+    			fail++;
+    		}
+    	}
+    	else {
+    		Logger::warn("    NOT ok, obj 1 refcount disagree");
+    		fail++;
+    	}
+    } else {
+    	Logger::warn("    NOT ok, obj 1 refcount should be 2");
+    	fail++;
+    }
+    Logger::trace(" Try showImg(), expect photo to be as same as obj 1...");
+    Logger::trace(" If true, hit space, else hit esc...");
+    testImg->showImg();
+    char key;
+    while (1) {
+    	key = cvWaitKey(0);
+    	if (char(key) == 32) {
+    		Logger::trace("    ok");
+    		break;
+    	}
+    	else if (char(key) == 27) {
+    		Logger::warn("    NOT ok, img not expected");
+    		fail++;
+    		break;
+    	}
+    }
+    Logger::trace(" Setting obj 2 to img...");
+    testImg->setImg(&test2);
+    Logger::trace("  Accessing refcount...");
+    t1rc = test.u->refcount;
+    t2rc = test2.u->refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
+    if (t1rc==1 && t2rc==2)
+    	Logger::trace("    ok");
+    else {
+    	Logger::warn("    NOT ok, refcount should be 1 for obj 1 and 2 for obj 2");
+    	fail++;
+    }
+    Logger::trace(" Release obj 2 from outside ImgData...");
+    test2.release();
+    Logger::trace(" Try showImg(), expect photo to be as same as obj 2...");
+    testImg->showImg();
+    Logger::trace(" If true, hit space, else hit esc...");
+    while (1) {
+    	key = cvWaitKey(0);
+    	if (char(key) == 32) {
+    		Logger::trace("    ok");
+    		break;
+    	}
+    	else if (char(key) == 27) {
+    		Logger::warn("    NOT ok, img not expected");
+    		fail++;
+    		break;
+    	}
+    }
+    Logger::trace("  Accessing refcount...");
+    t1rc = test.u->refcount;
+    imgrc = testImg->img->u->refcount;
+    Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
+    Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(imgrc));
+    if (t1rc+imgrc==2)
+    	Logger::trace("    ok");
+    else {
+    	Logger::warn("    NOT ok, refcount should be 1 for both");
+    	fail++;
+    }
+    Logger::trace(" Deleting ImgData...");
+    delete testImg;
+    Logger::trace(" Release obj 1...");
+    test.release();
+    cv::destroyWindow("obj 1");
+    cv::destroyWindow("obj 2");
+
+	if (fail > 0)
+		Logger::warn("  TEST FAILED: setImg()");
+	Logger::trace("==============================");
 	return fail;
 }
 
@@ -238,63 +307,20 @@ int ImgDataTEST::T_getWidth() {
  * ==========================================================================
  */
 
-int ImgDataTEST::T_opEqual() {
-	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
-	Logger::trace("==============================");
-
-	Logger::trace("Testing operator= overload:");
-	Logger::trace(" Constructing new ImgData obj with arg \"data\" and 4x5 Mat obj...");
-	cv::Mat img, *imgptr;
-	img = cv::Mat::eye(4,5,CV_32F);
-	imgptr = &img;
-	ImgData* data = new ImgData("data",imgptr);
-	Logger::trace(" Set Msg to \"HII\"...");
-	data->setMsg("HII");
-	Logger::trace(" Assigning obj to new Data obj pointer...");
-	ImgData* copy = data;
-	Logger::trace(" Checking new obj variables...");
-	Logger::trace("  Using getID()...");
-	if (copy->getID() == "data")
-		Logger::trace("    ok");
-	else {
-		Logger::warn("    NOT ok, ID copy incorrect");
-		fail += 1;
-	}
-	Logger::trace("  Using getMsg()...");
-	if (data->getMsg() == "HII")
-		Logger::trace("    ok");
-	else {
-		Logger::warn("    NOT ok, Msg copy incorrect");
-		fail += 1;
-	}
-	Logger::trace("Test complete.");
-	Logger::trace("Deleting data...");
-	delete data;
-
-	if (fail > 0)
-		Logger::warn("  TEST FAILED: operator= overload");
-	Logger::trace("==============================");
-	Logger::close();
-	return fail;
-}
-
 int ImgDataTEST::T_cpConstructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing Copy Constructor:");
-	Logger::trace(" Constructing new ImgData obj with arg \"data\" and 4x5 Mat obj...");
-	cv::Mat img = cv::Mat::eye(4,5,CV_32F);
-	cv::Mat* imgptr = &img;
-	ImgData* data = new ImgData("data",imgptr);
+	Logger::trace(" Using camCap() to get Mat obj...");
+	cv::Mat img = ImgDataTEST::camCap();
+	cvDestroyWindow("camCap");
+	Logger::trace(" Constructing new ImgData obj with arg \"data\" and Mat obj...");
+	ImgData* data = new ImgData("data",&img);
 	Logger::trace(" Setting Msg to \"SubZero rox\"...");
 	data->setMsg("SubZero rox");
 	Logger::trace(" Invoking Copy Constructor...");
-	ImgData* copy = new ImgData(*data);
+	ImgData* copy = new ImgData(data);
 	Logger::trace(" Checking variables...");
 	Logger::trace("  Using getID()...");
 	if (copy->getID() == "data")
@@ -310,26 +336,73 @@ int ImgDataTEST::T_cpConstructor() {
 		Logger::warn("    NOT ok, Msg copy incorrect");
 		fail += 1;
 	}
-	Logger::trace("  Using getHeight() and getWidth()...");
-	if (copy->getHeight() == 4 && copy->getWidth() == 5)
-		Logger::trace("    ok");
-	else {
-		Logger::warn("    NOT ok, Img not copied correctly");
-		fail += 1;
+	Logger::trace("  Showing imgs using showImg()...");
+	Logger::trace("  If both imgs are identical press spacebar, else press esc...");
+	data->showImg("data");
+	copy->showImg("copy");
+	char key;
+	while (1) {
+		key = cvWaitKey(0);
+		if (char(key) == 32) {
+			Logger::trace("    ok");
+			break;
+		}
+		else if (char(key) == 27) {
+			Logger::warn("    NOT ok, img not same");
+			fail++;
+			break;
+		}
 	}
 
 	Logger::trace(" Changing msg of copy to \"whatever\"...");
 	copy->setMsg("whatever");
-	Logger::trace(" Changing org img content");
-	//TODO
+
+//	Logger::trace(" Changing org img content...");
+//	data->closeImg();
+//	copy->closeImg();
+//	img = ImgDataTEST::camCap();
+//	cvDestroyWindow("camCap");
+//	data->setImg(&img);
+
 	Logger::trace(" Checking variables...");
 	Logger::trace("  Using getMsg() on original...");
-	if (copy->getMsg() == "whatever")
+	if (copy->getMsg() == "whatever" && data->getMsg() == "SubZero rox")
 		Logger::trace("    ok");
 	else {
-		Logger::warn("    NOT ok, org Msg incorrect");
+		Logger::warn("    NOT ok, org or copy Msg incorrect");
 		fail += 1;
 	}
+	Logger::trace(" Using refcount to check independence...");
+	int datarc, copyrc;
+    datarc = data->img->u->refcount;
+    copyrc = copy->img->u->refcount;
+	Logger::trace("    \"data\" img refcount: "+StringTools::intToStr(datarc));
+	Logger::trace("    \"copy\" img refcount: "+StringTools::intToStr(copyrc));
+	if (datarc==2 && copyrc ==1) {
+		Logger::trace("    ok");
+		fail--;
+	}
+	else if (datarc==3)
+		Logger::warn("    NOT ok, copy's img points to data's img obj");
+	else
+		Logger::warn("    NOT ok, data ref should be 2, copy ref should be 1");
+	fail++;
+//	Logger::trace("  Showing imgs using showImg()...");
+//	data->showImg("data");
+//	copy->showImg("copy");
+//	Logger::trace("  If copy different from data then deep copy ok press spacebar, else press esc...");
+//	while (1) {
+//		key = cvWaitKey(0);
+//		if (char(key) == 32) {
+//			Logger::trace("    ok");
+//			break;
+//		}
+//		else if (char(key) == 27) {
+//			Logger::warn("    NOT ok, img not same");
+//			fail++;
+//			break;
+//		}
+//	}
 	Logger::trace("Test complete.");
 	Logger::trace("Deleting data...");
 	delete data;
@@ -338,6 +411,5 @@ int ImgDataTEST::T_cpConstructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: ImgData Copy Constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }

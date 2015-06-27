@@ -9,19 +9,16 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: _______");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
  */
 
 int IDHasherTEST::runUnits() {
-	int res;
+	int res = 0;
 	Logger::trace("Running all unit tests for: IDHasher");
 	Logger::trace("==============================");
 	res += T_Constructor();
@@ -36,6 +33,7 @@ int IDHasherTEST::runUnits() {
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: IDHasher");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 }
 
@@ -48,8 +46,6 @@ int IDHasherTEST::runUnits() {
 int IDHasherTEST::T_Constructor() {
 	int fail = 0;
 
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing IDHasher constructor:");
@@ -91,18 +87,14 @@ int IDHasherTEST::T_Constructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: IDHahser constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_Destructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -113,8 +105,7 @@ int IDHasherTEST::T_Destructor() {
 
 int IDHasherTEST::T_get() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
+
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -155,14 +146,11 @@ int IDHasherTEST::T_get() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: IDHahser get()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_insByIndex() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -237,19 +225,17 @@ int IDHasherTEST::T_insByIndex() {
 	}
 	Logger::trace("Testing Complete.");
 	Logger::trace("Deleting hasher...");
+	delete nd4;
 	delete hash;
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: insByIndex()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_insByID() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -324,19 +310,17 @@ int IDHasherTEST::T_insByID() {
 	}
 	Logger::trace("Testing Complete.");
 	Logger::trace("Deleting hasher...");
+	delete nd4;
 	delete hash;
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: insByID()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_delByIndex() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -436,14 +420,11 @@ int IDHasherTEST::T_delByIndex() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: delByIndex()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_delByID() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -488,6 +469,7 @@ int IDHasherTEST::T_delByID() {
 	if (hash->getFront()->nxt->nxt->nxt != 0)
 		nd3 = hash->getFront()->nxt->nxt->nxt->nodeData;
 	res = nd0->data+nd1->data+nd2->data+nd3->data;
+	delete nd3;
 	Logger::trace("    "+res);
 	if (res == "123")
 		Logger::trace("    ok");
@@ -509,6 +491,8 @@ int IDHasherTEST::T_delByID() {
 			nd3 = hash->getFront()->nxt->nxt->nxt->nodeData;
 	}
 	res = nd0->data+nd1->data+nd2->data+nd3->data;
+	delete nd2;
+	delete nd3;
 	Logger::trace("    "+res);
 	if (res == "12")
 		Logger::trace("    ok");
@@ -532,6 +516,9 @@ int IDHasherTEST::T_delByID() {
 				nd3 = hash->getFront()->nxt->nxt->nxt->nodeData;
 	}}
 	res = nd0->data+nd1->data+nd2->data+nd3->data;
+	delete nd1;
+	delete nd2;
+	delete nd3;
 	Logger::trace("    "+res);
 	if (res == "2")
 		Logger::trace("    ok");
@@ -557,6 +544,9 @@ int IDHasherTEST::T_delByID() {
 	}}
 	res = nd0->data+nd1->data+nd2->data+nd3->data+";error code "+res;
 	Logger::trace("    "+res);
+	delete nd1;
+	delete nd2;
+	delete nd3;
 	if (res == "2;error code 1")
 		Logger::trace("    ok");
 	else {
@@ -570,14 +560,11 @@ int IDHasherTEST::T_delByID() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: delByID()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_delAll() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -653,14 +640,11 @@ int IDHasherTEST::T_delAll() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: delAll()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int IDHasherTEST::T_getNodeIDList() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	IDHasher* hash = new IDHasher;
@@ -698,6 +682,5 @@ int IDHasherTEST::T_getNodeIDList() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: getNodeIDList()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }

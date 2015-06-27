@@ -6,66 +6,66 @@
  */
 
 #include "FPGAData.h"
-//
-///* ==========================================================================
-// * CONSTRUCTOR & DESTRUCTOR
-// * ==========================================================================
-// */
-//
-FPGAData::FPGAData(std::string dataID, double depth, double roll, double heading) : Data(dataID) {
+
+/* ==========================================================================
+ * CONSTRUCTOR & DESTRUCTOR
+ * ==========================================================================
+ */
+
+FPGAData::FPGAData(std::string dataID, double depth, double speed, double heading) : Data(dataID) {
 	this->depth = depth;
-	this->roll = roll;
+	this->speed = speed;
 	this->heading = heading;
 }
 
 FPGAData::~FPGAData() {
 }
-//
-///* ==========================================================================
-// * FRIEND FUNCS
-// * ==========================================================================
-// */
-//
-//void FPGAData::setDepth(double newDepth) {
-//	this->depth = newDepth;
-//}
-//
-//void FPGAData::setRoll(double newRoll) {
-//	this->roll = newRoll;
-//}
-//
-//void FPGAData::setHeading(double newHeading) {
-//	this->heading = newHeading;
-//}
-//
-///* ==========================================================================
-// * FPGA MANIPULATION FUNCS
-// * ==========================================================================
-// */
-//
-//double FPGAData::getDepth() {
-//	return this->depth;
-//}
-//
-//double FPGAData::getRoll() {
-//	return this->roll;
-//}
-//
-//double FPGAData::getHeading() {
-//	return this->heading;
-//}
-//
-///* ==========================================================================
-// * OPERATOR OVERLOAD
-// * ==========================================================================
-// */
-//
+
+/* ==========================================================================
+ * FRIEND FUNCS
+ * ==========================================================================
+ */
+
+void FPGAData::setDepth(double newDepth) {
+	this->depth = newDepth;
+}
+
+void FPGAData::setSpeed(double newSpeed) {
+	this->speed = newSpeed;
+}
+
+void FPGAData::setHeading(double newHeading) {
+	this->heading = newHeading;
+}
+
+/* ==========================================================================
+ * FPGA MANIPULATION FUNCS
+ * ==========================================================================
+ */
+
+double FPGAData::getDepth() {
+	return this->depth;
+}
+
+double FPGAData::getSpeed() {
+	return this->speed;
+}
+
+double FPGAData::getHeading() {
+	return this->heading;
+}
+
+/* ==========================================================================
+ * OPERATOR OVERLOAD
+ * ==========================================================================
+ */
+
 FPGAData* FPGAData::operator =(FPGAData* rhs) {
 	return new FPGAData(rhs);
 }
 
 FPGAData::FPGAData(const FPGAData* obj) : Data(obj) {
 	this->depth = obj->depth;
-	this->roll = obj->roll;
+	this->speed = obj->speed;
 	this->heading = obj->heading;
 }

@@ -22,6 +22,7 @@ SubZero* SubZeroFactory::makeSubZero(int subType) {
 	case GUI:
 		//TODO SubZero has models, which needs States, FMs, and Interfaces, which need filters? and observers? which needs View, which needs Controller, which needs Model?
 		std::cout << "guisub" << std::endl;
+
 		break;
 	case SIM:
 		std::cout << "simsub" << std::endl;

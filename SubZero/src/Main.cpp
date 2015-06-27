@@ -6,32 +6,38 @@
  */
 
 #include "util/Logger.h"
-#include "view/menu.h"
-#include "../test/util/filter/FilterManagerTEST.h"
-#include "../test/util/data/ImgDataTEST.h"
 #include <string>
+#include "view/menu.h"
+#include "controller/controllers/Controller.h"
 #include <QApplication>
+#include <iostream>
+#include "../test/VideoTesting.h"
+#include "../test/CollectionTEST.h"
+#include "model/state/StateTester.h"
+#include "FPGAInterface.h"
 
 using namespace std;
 
 int main(int argc, char** argv) {
+    //QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
 	Logger::initialize(true, true, logTimer);
-	Logger::trace("Logger initialized.");
+	Logger::trace("Logger initialized.");	
+//	QApplication app(argc, argv);
+//    Menu* newMenu = new Menu;
+//    newMenu->show();
 
+//    newMenu.paintEvent();
+    VideoTesting vt("videofile");
+//    vt.run();
+//    CollectionTEST::runDataAndFilterManagerCollection();
+//    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
 
-	//FilterManagerTEST::runUnits();
-	QApplication app(argc, argv);
-    Menu* newMenu = new Menu;
-    newMenu->show();
-    //newMenu.paintEvent();
+//	StateTester::run();
+    FPGAInterface newInterface(20, 1);
+    Logger::close();
+//    delete logTimer;
 
-	FilterManagerTEST::runUnits();
-	ImgDataTEST::runUnits();
-
-
-	Logger::close();
-
-	return app.exec();
+    return 0;//app.exec();
 }
 

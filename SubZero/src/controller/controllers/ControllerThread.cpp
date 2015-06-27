@@ -7,16 +7,21 @@
 
 #include "ControllerThread.h"
 
-
-ControllerThread::ControllerThread(){
+ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
+    taskList = tL;
+    this->mutex = mutex;
 }
 
-void ControllerThread::executeCommands(const QString &parameter) {
-
-	QString result;
-	/* ... here is the expensive or blocking operation ... */
-	emit resultReady(result);
+void ControllerThread::executeTasks(const QString &parameter) {
+    QString result = "Done";
+    while (1){
+        mutex->lock();
+        if(!taskList->isEmpty()){
+            Task *temp = taskList->dequeue();
+            temp->execute();
+            delete temp;
+        }
+        mutex->unlock();
+    }
+    emit resultReady(result);
 }
-
-
-

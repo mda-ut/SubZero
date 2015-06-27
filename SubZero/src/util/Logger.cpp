@@ -9,6 +9,8 @@
 #include "Timer.h"
 #include <iostream>
 #include <fstream>
+#include <qdir.h>
+#include "util/Util.h"
 
 bool Logger::writeToConsole = true;
 bool Logger::writeToFile = false;
@@ -17,7 +19,6 @@ Timer* Logger::timer = NULL;
 
 Logger::Logger() {
 	// TODO Auto-generated constructor stub
-
 }
 
 bool Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
@@ -30,12 +31,21 @@ bool Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
 		strftime(buffer, 80, "%d-%m-%Y_%I:%M:%S.log", timer->getCurrentTime());
 
 		std::string logName(buffer);
-        logName = "SubZero/logs/" + logName;
+
+        //Create a logs folder if one does not exist and places a log file into
+        QString test= QString::fromStdString(Util::getWorkingDirectory());
+        QDir dir(test);
+
+        if (!(QDir(QString::fromStdString(Util::getWorkingDirectory()+"/logs")).exists())) {
+            dir.mkpath("logs");
+        }
+
+        logName = Util::getWorkingDirectory() + "/logs/"+ logName;
 
 		logFile.open(logName.c_str());
 		if (!logFile.is_open()) {
 			std::cout << "Unable to create log file." << std::endl;
-			return false;
+            return false;
 		}
 	}
 

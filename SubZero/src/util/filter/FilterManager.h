@@ -121,7 +121,7 @@ public:
 	 *
 	 * @param ID 		is the unique identifier chosen by the owner of the filter.
 	 * @param filter	the pointer to a filter object.
-	 * @return 			0 for success, 2 for ID is not unique.
+	 * @return 			0 for success, 2 for ID is not unique, 3 for null filter.
 	 */
 	int insertFilter(std::string filterID, Filter* filter);
 
@@ -132,7 +132,7 @@ public:
 	 * @param ID 		of the new filter.
 	 * @param filter 	the a pointer to a filter object to be inserted.
 	 * @param targetID 	the location to perform insertion. BEGIN and END keywords are also recognized.
-	 * @return 			0 for success, 1 for target not found, 2 for ID is not unique.
+	 * @return 			0 for success, 1 for target not found, 2 for ID is not unique, 3 for null filter.
 	 */
 	int insertFilter(std::string filterID, Filter* filter, std::string targetID);
 
@@ -144,7 +144,7 @@ public:
 	 * @param ID 		of the new filter.
 	 * @param filter 	the pointer to a filter object that will be inserted.
 	 * @param targetID	the old filter to replace.
-	 * @return 			0 for success, 1 for targetID not found, 2 for ID not unique.
+	 * @return 			0 for success, 1 for targetID not found, 2 for ID not unique, 3 for null filter.
 	 */
 	int replaceFilter(std::string filterID, Filter* filter, std::string targetID);
 
@@ -172,7 +172,7 @@ public:
 	 * Insertion to back under automatic IDing mode.
 	 *
 	 * @param filter 	is a pointer to a filter object.
-	 * @return 			0 for success, 3 for not in auto mode.
+	 * @return 			0 for success, , 3 for null filter, 4 for not in auto mode.
 	 */
 	int insertFilter(Filter* filter);
 
@@ -183,7 +183,7 @@ public:
 	 *
 	 * @param filter 	is a pointer to a filter object to be inserted.
 	 * @param targetID	is the location to perform insertion. FRONT and BACK keywords are also recognized.
-	 * @return 			0 for success, 1 for target not found, 3 for not in auto mode.
+	 * @return 			0 for success, 1 for target not found, 3 for null filter, 4 for not in auto mode.
 	 */
 	int insertFilter(Filter* filter, std::string targetID);
 
@@ -194,7 +194,7 @@ public:
 	 *
 	 * @param filter	is a pointer to a filter object that will be inserted.
 	 * @param targetID  is the old filter to replace.
-	 * @return 			0 for success, 1 for targetID not found, 3 for not in auto mode.
+	 * @return 			0 for success, 1 for targetID not found, 3 for null filter, 4 for not in auto mode.
 	 */
 	int replaceFilter(Filter* filter, std::string targetID);
 

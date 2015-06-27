@@ -7,12 +7,13 @@
 
 #ifndef DATA_H_
 #define DATA_H_
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 
+#include <cv.h>
+#include <opencv2/highgui.hpp>
 #include <string.h>
 #include "../StringTools.h"
 
+#include "../Logger.h"
 
 /**
  * Data is the generic class representing all data used by
@@ -111,6 +112,13 @@ public:
 	 * @return string message
 	 */
 	std::string getMsg();
+
+	/**
+	 * Set the ID of data.
+	 *
+	 * @param newID		to be set
+	 */
+	void setID(std::string newID);
 
 	/**
 	 * Set the message carried by the data.

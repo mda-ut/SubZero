@@ -13,13 +13,14 @@
 #include "../../../src/util/data/FPGAData.h"
 #include "../../../src/util/Logger.h"
 #include "../../../src/util/StringTools.h"
-#include <unistd.h>
-
+#include <cv.h>
+#include <opencv2/highgui/highgui.hpp>
 
 class ImgDataTEST {
 
 public:
 	static int runUnits();
+	static cv::Mat camCap();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
@@ -37,6 +38,7 @@ public:
 	static int T_getImg();
 	static int T_getHeight();
 	static int T_getWidth();
+	static int T_setImg();
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD

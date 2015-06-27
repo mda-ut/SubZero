@@ -10,30 +10,30 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: _______");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
  */
 
 
 int DataTEST::runUnits() {
-	int res;
+    int res = 0;
 	Logger::trace("Running all unit tests for: Data");
 	Logger::trace("==============================");
+
 	res += T_Constructor();
 	res += T_setMsg();
 	res += T_cpConstructor();
 	res += T_opEqual();
+
 	Logger::trace("==============================");
 	if (res != 0)
 		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
 	Logger::trace("Unit testing complete: Data");
+	Logger::trace("NOTE: all units mem tested");
 	return res;
 }
 
@@ -44,8 +44,6 @@ int DataTEST::runUnits() {
 
 int DataTEST::T_Constructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing Constructor:");
@@ -74,7 +72,6 @@ int DataTEST::T_Constructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Data Constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -94,8 +91,6 @@ int DataTEST::T_Constructor() {
 
 int DataTEST::T_setMsg() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing setMsg():");
@@ -137,7 +132,6 @@ int DataTEST::T_setMsg() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: setMsg()");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
@@ -148,8 +142,6 @@ int DataTEST::T_setMsg() {
 
 int DataTEST::T_opEqual() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing operator= overload:");
@@ -181,14 +173,11 @@ int DataTEST::T_opEqual() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: operator= overload");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
 
 int DataTEST::T_cpConstructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
 	Logger::trace("==============================");
 
 	Logger::trace("Testing Copy Constructor:");
@@ -238,6 +227,5 @@ int DataTEST::T_cpConstructor() {
 	if (fail > 0)
 		Logger::warn("  TEST FAILED: Data Copy Constructor");
 	Logger::trace("==============================");
-	Logger::close();
 	return fail;
 }
