@@ -138,7 +138,6 @@ void Menu::paintEvent(QPaintEvent *event)
 
     QPainter painter;
 
-
      painter.begin(this);
     painter.fillRect(event->rect(), background);
 
