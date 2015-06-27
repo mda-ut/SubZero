@@ -147,6 +147,11 @@ void Menu::paintEvent(QPaintEvent *event)
      background = background.scaled(800,700);
 
     QPainter painter;
+
+     painter.begin(this);
+    painter.fillRect(event->rect(), background);
+
+    painter.end();
 }
 //void Menu::makeGuiView()
 //{
