@@ -1,23 +1,47 @@
-/* menu Class header
-February 7 2015 */
+#ifndef MENU_H
+#define MENU_H
 
-#ifndef MENU_H_
-#define MENU_H_
+#include <QWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QFont>
+#include <QMouseEvent>
+#include <QPoint>
 
-#include <QApplication>
-#include "mainwindow.h"
 
-class Menu {
 
+class Menu : public QWidget
+{
+    Q_OBJECT
 public:
-  Menu();
-  ~Menu();
+    Menu();
+    void paintEvent(QPaintEvent *event);
 
-Protected:
-  Menu.chooseView();
-  Menu.displayMainMenu();
-  Menu.terminate();
 
+    QSize buttonRectSize;
+    QFont menuItemFont;
+    QPoint temp;
+    QFont welcomeFont;
+
+    QLabel *welcomeMessage;
+    QPushButton *guiButton;
+    QPushButton *simButton;
+    QPushButton *autButton;
+
+    QGridLayout *mainLayout;
+
+private:
+    void initializeMenu();
+
+
+public slots:
+   void makeView();
+  /*
+  void makeGuiView();
+  void makeSimView();
+  void makeAutView();
+  */
 };
 
-#endif
+#endif // MENU_H
