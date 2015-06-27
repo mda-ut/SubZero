@@ -133,6 +133,7 @@ void Menu::initializeMenu()
      simButton->setFlat(true);
      autButton->setFlat(true);
 
+}
 
 Menu::~Menu(){
 
@@ -146,27 +147,27 @@ void Menu::paintEvent(QPaintEvent *event)
      background = background.scaled(800,700);
 
     QPainter painter;
-
-void Menu::makeGuiView()
-{
-    //GuiView *guiView = new GuiView;
-	SubZeroFactory* subFactory = new SubZeroFactory();
-	subFactory->makeSubZero(GUI);
-    painter.begin(this);
-    painter.fillRect(event->rect(), background);
-
-    painter.end();
 }
-/*Not made yet
- *
- */
-void Menu::makeSimView()
-{
-//    SimView *simView = new SimView;
-//    delete this;
-	SubZeroFactory* subFactory = new SubZeroFactory();
-    subFactory->makeSubZero(SIM);
-}
+//void Menu::makeGuiView()
+//{
+//    //GuiView *guiView = new GuiView;
+//	SubZeroFactory* subFactory = new SubZeroFactory();
+//	subFactory->makeSubZero(GUI);
+//    painter.begin(this);
+//    painter.fillRect(event->rect(), background);
+
+//    painter.end();
+//}
+///*Not made yet
+// *
+// */
+//void Menu::makeSimView()
+//{
+////    SimView *simView = new SimView;
+////    delete this;
+//	SubZeroFactory* subFactory = new SubZeroFactory();
+//    subFactory->makeSubZero(SIM);
+//}
 
 
 void Menu::makeView()

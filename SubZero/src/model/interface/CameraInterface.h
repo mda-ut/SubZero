@@ -10,7 +10,9 @@
 
 #include "HwInterface.h"
 #include "../../util/data/ImgData.h"
-#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/opencv.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
 #include <iostream>
 
 enum CameraPosition {
@@ -33,7 +35,7 @@ class CameraInterface : public HwInterface {
 private:
 
     CameraPosition position;
-    VideoCapture camStream;
+    cv::VideoCapture camStream;
 
     // CvCapture* camStream;
 
