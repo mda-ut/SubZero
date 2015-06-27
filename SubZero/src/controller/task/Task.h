@@ -11,13 +11,9 @@
 #include <QMutex>
 #include <vector>
 
-//View adding QObject to allow QObject * version of signal mapping
-
-
 #define TASKLISTLENGTH 10
 
-class Task{
-
+class Task {
     public:
         //The Task class is purely virtual (abstract)
         virtual ~Task();

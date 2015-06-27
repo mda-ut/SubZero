@@ -1,16 +1,13 @@
 /*
- * BaseTask.cpp
+ * Task.cpp
  *
  *  Created on: Jan 7, 2015
  *      Author: mda
  */
 
-#include "BaseTask.h"
+#include "Task.h"
 
-
-BaseTask::BaseTask() {}
-
-BaseTask::~BaseTask() {
+Task::~Task() {
 	// TODO Auto-generated destructor stub
 }
 
