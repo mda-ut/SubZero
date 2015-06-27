@@ -10,6 +10,7 @@
 
 #include "../../util/data/Data.h"
 #include <queue>
+#include <thread>
 
 
 /**
@@ -64,6 +65,8 @@ protected:
      */
     int pollFrequency;
 
+    std::vector<std::thread> readThreads; // needs c++11
+
 
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM HARDWARE)
@@ -84,7 +87,7 @@ protected:
      * @param	data	data to be decoded
      * @return	decoded data in a format defined in Data.h
      */
-    virtual Data* decode();
+   // virtual Data* decode()=0;
 
     /* ==========================================================================
      * 							MANAGING DATA BUFFER
@@ -97,13 +100,13 @@ protected:
     /**
      * Delete buffer from startIdx to endIdx
      */
-    virtual void deleteFromBuffer()=0;
+    virtual void deleteFromBuffer();
 
     /**
       * Store decoded data to buffer.
       * @param	data	data to be stored to buffer.
       */
-    virtual void storeToBuffer(Data* data)=0;
+    virtual void storeToBuffer(Data* data);
 
 public:
 
@@ -115,6 +118,7 @@ public:
      * implemented by the children. Here they are just placeholders.
      */
 
+    virtual void in();
     /**
      * Encodes the data to be sent.
      * @param	data	data to be encoded
@@ -140,31 +144,31 @@ public:
      * @return	Data*	the most recent data in buffer
      *
      */
-    virtual Data* getDataFromBuffer()=0;
+    virtual Data* getDataFromBuffer();
 
     /**
      * Get the frequency of data polling (polls per second)
      * @return	polling frequency i.e. sampling rate
      */
-    virtual int getPollFrequency()=0;
+    virtual int getPollFrequency();
 
     /**
      * Set the frequency of data polling (polls per second)
      * @param	frequency	set polling to this frequency
      */
-    virtual void setPollFrequency(int frequency)=0;
+    virtual void setPollFrequency(int frequency);
 
     /**
      * Get size of buffer.
      * @return	size of the buffer
      */
-    virtual int getBufferSize()=0;
+    virtual int getBufferSize();
 
     /**
      * Set size of buffer.
      * @param	bufferSize	reset buffer size to this
      */
-    virtual void setBufferSize(int bufferSize)=0;
+    virtual void setBufferSize(int bufferSize);
 
 
     /* ==========================================================================
@@ -177,6 +181,7 @@ public:
      * @param	bufferSize	buffer size for the interface
      * @param	pollFrequency	number of polls per second
      */
+    HwInterface();
     HwInterface(int bufferSize, int pollFrequency);
 
     /**

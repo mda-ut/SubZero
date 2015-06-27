@@ -14,7 +14,7 @@
 #include "../../../src/util/Logger.h"
 #include "../../../src/util/StringTools.h"
 #include <cv.h>
-#include <highgui.h>
+#include <opencv2/highgui/highgui.hpp>
 
 class ImgDataTEST {
 

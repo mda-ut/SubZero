@@ -28,7 +28,7 @@ void CameraInterface::poll() {
     // cv::cvarrToMat(raw, true, true, 0);
 
     //New version of OpenCV (not yet tested)
-    camStream.read(raw);
+    camStream->read(raw);
     Data* decoded = this->decode(&raw);
     this->storeToBuffer(decoded);
 
@@ -41,7 +41,7 @@ void CameraInterface::poll() {
  */
 ImgData* CameraInterface::decode(cv::Mat* data) {
 
-    ImgData decoded = new ImgData("raw", data);
+    ImgData* decoded = new ImgData("raw", data);
     return decoded;
 
 };
@@ -51,7 +51,7 @@ ImgData* CameraInterface::decode(cv::Mat* data) {
  * ==========================================================================
  */
 
-CameraPosition getPosition(){
+CameraPosition CameraInterface::getPosition(){
     return this->position;
 }
 
@@ -61,16 +61,16 @@ CameraPosition getPosition(){
  */
 
 
-CameraInterface::CameraInterface(int bufferSize, int pollFrequency, CameraPosition position) {
+CameraInterface::CameraInterface(int bufferSize, int pollFrequency, CameraPosition position){
 
     this->bufferSize = bufferSize;
     this->pollFrequency = pollFrequency;
     this->position = position;
-    this->camStream(this->position);
+    this->camStream = new cv::VideoCapture(this->position);
     // this->camStream = cvCaptureFromCAM(this->position);
 
     // thread for reading and polling camera input
-   readThreads.push_back(std::thread(&CameraInterface::in, this));
+   readThreads.push_back(std::thread(&HwInterface::in, this));
 
 }
 
@@ -88,7 +88,4 @@ CameraInterface::~CameraInterface() {
     delete &(this->decodedBuffer);
     delete &(this->bufferSize);
     delete &(this->pollFrequency);
-    delete position;
-    delete camStream;
-
 }

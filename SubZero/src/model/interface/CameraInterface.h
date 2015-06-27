@@ -35,7 +35,7 @@ class CameraInterface : public HwInterface {
 private:
 
     CameraPosition position;
-    cv::VideoCapture camStream;
+    cv::VideoCapture* camStream;
 
     // CvCapture* camStream;
 

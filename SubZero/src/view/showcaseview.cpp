@@ -6,10 +6,10 @@
 #include <QLinearGradient>
 #include <QSignalMapper>
 
-#include "../../../git/SubZero/src/controller/task/Task.h"
-#include "../../../git/SubZero/src/controller/task/TaskCCR.h"
-#include "../../../git/SubZero/src/controller/task/TaskHelloWorld.h"
-#include "../../../git/SubZero/src/controller/task/TaskHeyTonight.h"
+#include "../controller/task/Task.h"
+#include "../controller/task/TaskCCR.h"
+#include "../controller/task/TaskHelloWorld.h"
+#include "../controller/task/TaskHeyTonight.h"
 
 
 ShowCaseView::ShowCaseView():View()

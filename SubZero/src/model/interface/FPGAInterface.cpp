@@ -17,15 +17,15 @@
  * the polling process privately within the interface at pollFrequency
  * using the functions below.
  */
-
+static int counter = 0;
 void FPGAInterface::poll() {
-
-    std::string raw;
+    std::cout<<"this poll gets called "<< counter++ <<std::endl;
+    /*std::string raw;
     std::cin >> raw;
     Data* decoded = this->decode(&raw);
     this->storeToBuffer(decoded);
-
-};
+*/
+}
 
 FPGAData* FPGAInterface::decode(std::string* data) {
 
@@ -49,7 +49,8 @@ FPGAData* FPGAInterface::decode(std::string* data) {
     FPGAData* decoded = new FPGAData("raw", depth, speed, heading);
 
     return decoded;
-};
+}
+
 
 /* ==========================================================================
  * 				INTERACTING WITH DATA GOING OUT (TO FPGA)
@@ -65,7 +66,7 @@ void FPGAInterface::set(Attributes attr, int value) {
 // for method 2: using libusb
 void FPGAInterface::send(std::string* data) {
 
-};
+}
 
 /* ==========================================================================
  * 							CONSTRUCTOR AND DESTRUCTOR
@@ -81,11 +82,9 @@ FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency) {
     // thread for reading and polling FPGA input
     // main thread will listen for commands to be sent to FPGA
    readThreads.push_back(std::thread(&FPGAInterface::in, this));
-
 }
 
 FPGAInterface::~FPGAInterface() {
-
     // join readThread with main
     for(auto& t: readThreads) {t.join();}
 
@@ -98,5 +97,4 @@ FPGAInterface::~FPGAInterface() {
     delete &(this->decodedBuffer);
     delete &(this->bufferSize);
     delete &(this->pollFrequency);
-
 }

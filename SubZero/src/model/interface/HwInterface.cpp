@@ -8,6 +8,8 @@
 #include "HwInterface.h"
 #include <sstream>
 #include <iterator>
+#include <iostream>
+#include <unistd.h>
 
 
 /* ==========================================================================
@@ -30,16 +32,16 @@ void HwInterface::storeToBuffer(Data* data) {
 void HwInterface::in() {
 
     struct timespec tictoc;
-    clock_gettime(CLOCK_MONOTONIC_RAW, &tictoc);
+    clock_gettime(CLOCK_MONOTONIC, &tictoc);
 
     while (true) {
 
         // setting period of polling and auto-clearing
         // iterate once every this many seconds
         tictoc.tv_nsec += (long) (1000000000 / pollFrequency);
-        tictoc.tv_sec += (time_t) (tictoc.tv_nsec /pollFrequency);
-        tictoc.tv_nsec %= 1000000000;
-        clock_nanosleep(CLOCK_MONOTONIC_RAW, TIMER_ABSTIME, &tictoc, NULL);
+        tictoc.tv_sec += (time_t) (tictoc.tv_nsec /1000000000);
+        tictoc.tv_nsec = tictoc.tv_nsec % 1000000000;
+        clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tictoc, NULL);
 
         if ( decodedBuffer.size() >= bufferSize) {
             // delete old stuff from buffer
@@ -89,6 +91,7 @@ void HwInterface::setBufferSize(int bufferSize) {
  * ==========================================================================
  */
 
+HwInterface::HwInterface(){}
 
 HwInterface::HwInterface(int bufferSize, int pollFrequency) {
 

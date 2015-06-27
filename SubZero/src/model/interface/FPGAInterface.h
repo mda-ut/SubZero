@@ -43,8 +43,6 @@ class FPGAInterface : public HwInterface {
 
 private:
 
-    std::vector<std::thread> readThreads; // needs c++11
-
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
      * ==========================================================================

@@ -7,6 +7,10 @@ View::View()
 
 }
 
+View::~View(){
+
+}
+
 void View::initializeView()
 {
     setWindowTitle("Camera Displays");
