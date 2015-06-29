@@ -7,7 +7,9 @@
 
 #include "FPGAInterface.h"
 #include <sstream>
+#include <string>
 #include <iterator>
+#include "scripts.h"
 
 
 /* ==========================================================================
@@ -17,9 +19,15 @@
  * the polling process privately within the interface at pollFrequency
  * using the functions below.
  */
-static int counter = 0;
+
 void FPGAInterface::poll() {
-    std::cout<<"this poll gets called "<< counter++ <<std::endl;
+    double depth = (double) get_depth();
+    double heading = (double) get_yaw();
+    int accel_x, accel_y, accel_z;
+    get_accel(&accel_x, &accel_y, &accel_z);
+    //need to adjust code for accel rather than speed
+    Data* new_data = new FPGAData("raw", depth, 0, heading);
+    this->storeToBuffer(new_data);
     /*std::string raw;
     std::cin >> raw;
     Data* decoded = this->decode(&raw);
@@ -61,6 +69,33 @@ FPGAData* FPGAInterface::decode(std::string* data) {
 
 void FPGAInterface::set(Attributes attr, int value) {
     std::cout << attr << ":" << value << std::endl;
+    switch(attr) {
+    case POWER:
+        if (value == 0) {
+            power_off();
+        } else if (value == 1){
+            power_on();
+        } else {
+            Logger::trace("Error: wrong power value of " + std::to_string(value));
+        }
+        break;
+    case DEPTH:
+        dyn_set_target_depth(value);
+        break;
+    case HEADING:
+        dyn_set_target_yaw(value);
+        break;
+    case YAW:
+        dyn_set_target_yaw(value);
+        break;
+    case SPEED:
+        dyn_set_target_speed(value);
+        break;
+    default:
+        break;
+    }
+
+
 }
 
 // for method 2: using libusb
@@ -84,17 +119,22 @@ FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency) {
    readThreads.push_back(std::thread(&FPGAInterface::in, this));
 }
 
+void FPGAInterface::init() {
+    init_fpga();
+    set_verbose(0);
+    readThreads.push_back(std::thread(&FPGAInterface::in, this));
+}
+
 FPGAInterface::~FPGAInterface() {
     // join readThread with main
+    executing = false;
     for(auto& t: readThreads) {t.join();}
 
     // clears the queue
     while ( ! decodedBuffer.empty()) {
+        delete decodedBuffer.front();
         decodedBuffer.pop();
     }
-    // not sure if the above also frees up memory used up by the "queue container"
-    // whatever the container may be... delete it by following the pointer
-    delete &(this->decodedBuffer);
-    delete &(this->bufferSize);
-    delete &(this->pollFrequency);
+
+    exit_safe();
 }

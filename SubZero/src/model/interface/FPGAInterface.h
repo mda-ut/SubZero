@@ -97,6 +97,7 @@ public:
      */
     FPGAInterface(int bufferSize, int pollFrequency);
 
+    virtual void init();
 
     /**
      * Destructor

@@ -51,7 +51,7 @@ protected:
      * Pointer to memory allocated for storing raw (but
      * decoded) data from hardware.
      */
-    std::queue<Data> decodedBuffer;
+    std::queue<Data*> decodedBuffer;
 
     /**
      * Allocate only enough memory to keep a max of
@@ -64,6 +64,9 @@ protected:
      * A.k.a. sampling rate.
      */
     int pollFrequency;
+
+    bool executing;
+
 
     std::vector<std::thread> readThreads; // needs c++11
 
@@ -183,6 +186,8 @@ public:
      */
     HwInterface();
     HwInterface(int bufferSize, int pollFrequency);
+
+    virtual void init()=0;
 
     /**
      * Destructor
