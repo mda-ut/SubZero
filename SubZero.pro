@@ -62,6 +62,8 @@ HEADERS += SubZero/src/Observable.h \
            SubZero/src/model/interface/CameraInterface.h \
            SubZero/src/model/interface/FPGAInterface.h \
            SubZero/src/model/interface/HwInterface.h \
+           SubZero/src/model/interface/scripts.h \
+           SubZero/src/model/interface/fpga_ui.h \
            SubZero/src/model/state/CameraState.h \
            SubZero/src/model/state/FPGAState.h \
            SubZero/src/model/state/State.h \
@@ -117,6 +119,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/model/interface/CameraInterface.cpp \
            SubZero/src/model/interface/FPGAInterface.cpp \
            SubZero/src/model/interface/HwInterface.cpp \
+           SubZero/src/model/interface/fpga_ui.c \
            SubZero/src/model/state/CameraState.cpp \
            SubZero/src/model/state/FPGAState.cpp \
            SubZero/src/model/state/State.cpp \

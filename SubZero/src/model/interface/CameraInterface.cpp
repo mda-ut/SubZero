@@ -74,6 +74,8 @@ CameraInterface::CameraInterface(int bufferSize, int pollFrequency, CameraPositi
 
 }
 
+void CameraInterface::init(){}
+
 CameraInterface::~CameraInterface() {
 
     // join readThread with main

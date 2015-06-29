@@ -34,7 +34,7 @@ void HwInterface::in() {
     struct timespec tictoc;
     clock_gettime(CLOCK_MONOTONIC, &tictoc);
 
-    while (true) {
+    while(executing) {
 
         // setting period of polling and auto-clearing
         // iterate once every this many seconds
@@ -60,8 +60,8 @@ void HwInterface::in() {
 
 Data* HwInterface::getDataFromBuffer() {
     Data* data = new Data("bad");
-    if (! (this->decodedBuffer).empty()) {
-        data = &(this->decodedBuffer.back());
+    if (! (this->decodedBuffer.empty())) {
+        data = this->decodedBuffer.back();
     } else {
         std::cout << "Nothing in buffer";
     }

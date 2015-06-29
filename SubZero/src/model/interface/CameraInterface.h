@@ -89,6 +89,8 @@ public:
      */
     CameraInterface(int bufferSize, int pollFrequency, CameraPosition position);
 
+    virtual void init();
+
     /**
      * Destructor
      */
