@@ -17,33 +17,33 @@ cv::Mat getNextCameraFrame(){
     return cv::cvarrToMat(frame,true,true,0); // If you hit spacebar an image will be saved
 }
 //================HSV filter==========================================
-cv::Mat* HSVFilter(cv::Mat* mat, int lowH, int highH, int lowS, int highS, int lowV, int highV){
+cv::Mat HSVFilter(cv::Mat mat, int lowH, int highH, int lowS, int highS, int lowV, int highV){
     //cv::Mat* mat = data->getImg();
     cv::Mat imgHSV;
-    cv::Mat* imgThresh = new cv::Mat(*mat);
+    cv::Mat imgThresh = mat.clone();
 
-    cv::cvtColor(*mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
+    cv::cvtColor(mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
     cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV),
-            cv::Scalar(highH, highS, highV), *imgThresh); //Threshold the image
+            cv::Scalar(highH, highS, highV), imgThresh); //Threshold the image
 
     //morphological opening (remove small objects from the foreground)
-    cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
-    cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+    cv::erode(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+    cv::dilate(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
 
     //morphological closing (fill small holes in the foreground)
-    cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
-    cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+    cv::dilate(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+    cv::erode(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
 
     return imgThresh;
 }
 //============blur filter============================================
-cv::Mat* blur(cv::Mat* src, int max){
+cv::Mat blur(cv::Mat src, int max){
     //cv::Mat* dst = new cv::Mat(src->clone());
-    cv::Mat* dst = new cv::Mat( cv::Mat::zeros(src->size(), CV_8UC3));
+    cv::Mat dst(cv::Mat::zeros(src.size(), CV_8UC3));
     max = max*2+1;
 
-    GaussianBlur(*src, *dst, cv::Size(max, max), 0,0);
+    GaussianBlur(src, dst, cv::Size(max, max), 0,0);
     //blur(*src, *dst, cv::Size(3,3), cv::Point(-1,-1));
     //medianBlur(*src, *dst, max);
     //bilateralFilter(*src, *dst, max, max*2, max/2);
@@ -69,8 +69,8 @@ void VideoTesting::run(){
     cv::moveWindow("Line Filtered", 800, 100);
     cv::moveWindow("Canny", 800, 500);*/
     cv::Mat frame;
-    cv::Mat* filtered;
-    cv::Mat* lineFiltered;
+    cv::Mat filtered;
+    cv::Mat lineFiltered;
     cv::Mat contour;
 
     cv::namedWindow("Control", CV_WINDOW_AUTOSIZE); //create a window called "Control"
@@ -105,7 +105,7 @@ void VideoTesting::run(){
         if(frame.cols == 0)break;       //exit when there is no next fraame
 
         //filtered = hf.filter(&frame);
-        filtered = HSVFilter(&frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
+        filtered = HSVFilter(frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
         //filtered = blur(filtered,max);
         filtered = bf.filter(filtered);
         lineFiltered = lf.filter(filtered, 0);
@@ -117,15 +117,15 @@ void VideoTesting::run(){
 
 
         //compareRect();
-        cv::RotatedRect* rect = sf.getRect();
-        if (rect != 0){
-        cv::Point2f rect_points[4]; sf.getRect()->points( rect_points );
+        cv::RotatedRect rect = sf.getRect();
+        if (rect.size.area() != 0){
+        cv::Point2f rect_points[4]; sf.getRect().points( rect_points );
         for( int j = 0; j < 4; j++ )
            line( contour, rect_points[j], rect_points[(j+1)%4], color, 1, 8 );}
 
         imshow("Orginal", frame);
-        imshow("HSV Filtered", *filtered);
-        imshow("Line Filtered", *lineFiltered);
+        imshow("HSV Filtered", filtered);
+        imshow("Line Filtered", lineFiltered);
         imshow("Canny", contour);
         int key = cv::waitKey((33));        //wait for 33ms, ~= 30fps;
         //std::cout<<key<<std::endl;

@@ -34,7 +34,7 @@ public:
 	 * @param Mat 	pointer of the actual image object
 	 * @return 		pointer to the newly made ImgData obj
 	 */
-	static ImgData* createImgData(std::string imgID, cv::Mat* img);
+    static ImgData* createImgData(std::string imgID, cv::Mat img);
 
 	/*
 	 * New FPGAData object created. Takes the data required by

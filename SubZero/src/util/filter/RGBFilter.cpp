@@ -35,14 +35,15 @@ int RGBFilter::filter(Data* data) {
 		return 1;
 	}
 
-	if (cast->img->type() != 16) {
+    if (cast->img.type() != 16) {
 		this->track(data,this->filterID,2,1);
 		return 2;
 	}
 
 	// begin filter sequence.
 	int newPixelVal;
-	cv::Mat filteredImg = (cast->getImg())->clone();
+    cv::Mat src = cast->getImg();
+    cv::Mat filteredImg = src.clone();
 	cv::Mat BGR[3];
 
 	cv::split(filteredImg,BGR);
@@ -50,8 +51,8 @@ int RGBFilter::filter(Data* data) {
 
 	// Full spectrum mode
 	if(this->mode == 0) {
-		for(int y = 0; y < (cast->getImg())->cols; y++ ) {
-			for(int x = 0; x < (cast->getImg())->rows; x++ ) {
+        for(int y = 0; y < src.cols; y++ ) {
+            for(int x = 0; x < src.rows; x++ ) {
 				for(int c = 0; c < 3; c++) {
 					newPixelVal = std::max(0,std::min(MXCOLOR,BGR[c].at<unsigned char>(x,y) + midMult[c]*midtone[c]));
 					BGR[c].at<unsigned char>(x,y) = newPixelVal;
@@ -67,8 +68,8 @@ int RGBFilter::filter(Data* data) {
 		const int HIGHTHRESHOLD = SHADTHRESHOLD * 2;
 		// get luminosity with some function
 		// use luminosity as a switch for case using high, mid or shad
-		for(int y = 0; y < (cast->getImg())->cols; y++ ) {
-			for(int x = 0; x < (cast->getImg())->rows; x++ ) {
+        for(int y = 0; y < src.cols; y++ ) {
+            for(int x = 0; x < src.rows; x++ ) {
 				// From 11%,59%,30% bgr respectively. Scaled to 1:6:3 factors
 				// luminosity range is from 0-2550, 1/3 is 850. Calc this from:
 				// 10*255, 10* MXCOLOR
@@ -93,7 +94,7 @@ int RGBFilter::filter(Data* data) {
 	cv::merge(BGR,3,filteredImg);
 
 	//set sequence
-	cast->setImg(&filteredImg);
+    cast->setImg(filteredImg);
 
 	// end sequence.
 
@@ -159,7 +160,7 @@ std::vector<int> RGBFilter::getValues() {
  * ==========================================================================
  */
 
-RGBFilter* RGBFilter::operator =(RGBFilter* rhs) {
+/*RGBFilter* RGBFilter::operator =(RGBFilter* rhs) {
 	return new RGBFilter(rhs);
 }
 
@@ -176,5 +177,5 @@ RGBFilter::RGBFilter(RGBFilter* obj) : Filter(obj) {
 	this->shadow[1] = obj->shadow[1];
 	this->shadow[2] = obj->shadow[2];
 }
-
+*/
 

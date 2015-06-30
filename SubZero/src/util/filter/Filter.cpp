@@ -57,7 +57,7 @@ void Filter::track(Data* data, std::string task, int error, int type) {
  * OPERATOR OVERLOAD
  * ==========================================================================
  */
-
+/*
 Filter* Filter::operator =(Filter* rhs) {
 	return new Filter(rhs);
 }
@@ -66,4 +66,4 @@ Filter::Filter(Filter* obj) {
 	this->filterID = obj->filterID;
 	this->msg = obj->msg;
 }
-
+*/

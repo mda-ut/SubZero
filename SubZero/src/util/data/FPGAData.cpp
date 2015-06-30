@@ -59,13 +59,14 @@ double FPGAData::getHeading() {
  * OPERATOR OVERLOAD
  * ==========================================================================
  */
-
-FPGAData* FPGAData::operator =(FPGAData* rhs) {
+/*
+FPGAData FPGAData::operator=(FPGAData rhs) {
 	return new FPGAData(rhs);
 }
 
-FPGAData::FPGAData(const FPGAData* obj) : Data(obj) {
+FPGAData::FPGAData(const FPGAData obj) : Data(obj) {
 	this->depth = obj->depth;
 	this->speed = obj->speed;
 	this->heading = obj->heading;
 }
+*/

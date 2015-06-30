@@ -71,7 +71,7 @@ public:
 	 * @param rhs	the filter obj on the right hand side of the = operator
 	 * @return 		pointer to the new deep copy of rhs
 	 */
-	TemplateFilter* operator=(TemplateFilter* rhs);
+    //TemplateFilter* operator=(TemplateFilter* rhs);
 
 
 	/**
@@ -79,7 +79,7 @@ public:
 	 *
 	 * @param obj	the reference of the new copy
 	 */
-	TemplateFilter(TemplateFilter* obj);
+    //TemplateFilter(TemplateFilter* obj);
 };
 
 #endif /* TEMPLATEFILTER_H_ */

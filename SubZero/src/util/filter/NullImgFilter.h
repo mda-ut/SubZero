@@ -65,7 +65,7 @@ public:
 	 * @param rhs	the filter obj on the right hand side of the = operator
 	 * @return 		pointer to the new deep copy of rhs
 	 */
-	NullImgFilter* operator=(NullImgFilter* rhs);
+    //NullImgFilter* operator=(NullImgFilter* rhs);
 
 
 	/**
@@ -73,7 +73,7 @@ public:
 	 *
 	 * @param obj	the reference of the new copy
 	 */
-	NullImgFilter(NullImgFilter* obj);
+    //NullImgFilter(NullImgFilter* obj);
 };
 
 #endif /* NULLIMGFILTER_H_ */

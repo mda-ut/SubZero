@@ -47,10 +47,11 @@ void NullImgFilter::setValues() {
  * ==========================================================================
  */
 
-
+/*
 NullImgFilter* NullImgFilter::operator =(NullImgFilter* rhs) {
 	return new NullImgFilter(rhs);
 }
 
 NullImgFilter::NullImgFilter(NullImgFilter* obj) : Filter(obj) {
 }
+*/

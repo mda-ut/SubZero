@@ -70,7 +70,7 @@ public:
      * @param mat = image to be filtered
      * @return pointer to the filterd mat image
      */
-    cv::Mat* filter(cv::Mat* mat);
+    cv::Mat filter(cv::Mat mat);
 
     /**
      * Sets the values to be used when filtering

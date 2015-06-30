@@ -37,12 +37,12 @@ public:
      * Gets the bounding box of the rectangle found
      * @return RotatedRect of the rectangle
      */
-    cv::RotatedRect* getRect();
+    cv::RotatedRect getRect();
 
-    bool findRect(cv::Mat* img);
+    bool findRect(cv::Mat img);
 private:
     int shape;              //shape to look for
-    cv::RotatedRect* rektangle;  //bounding box of rectangle
+    cv::RotatedRect rektangle;  //bounding box of rectangle
 
     //std::vector<std::vector<cv::Point> > *contours;
     //std::vector<cv::Vec4i> hierarchy;

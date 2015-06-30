@@ -28,11 +28,6 @@ void FPGAInterface::poll() {
     //need to adjust code for accel rather than speed
     Data* new_data = new FPGAData("raw", depth, 0, heading);
     this->storeToBuffer(new_data);
-    /*std::string raw;
-    std::cin >> raw;
-    Data* decoded = this->decode(&raw);
-    this->storeToBuffer(decoded);
-*/
 }
 
 FPGAData* FPGAInterface::decode(std::string* data) {
@@ -128,13 +123,7 @@ void FPGAInterface::init() {
 FPGAInterface::~FPGAInterface() {
     // join readThread with main
     executing = false;
-    for(auto& t: readThreads) {t.join();}
-
-    // clears the queue
-    while ( ! decodedBuffer.empty()) {
-        delete decodedBuffer.front();
-        decodedBuffer.pop();
-    }
-
     exit_safe();
+
+    //calls HwInterfaces dtor afterwards
 }

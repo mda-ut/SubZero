@@ -77,7 +77,7 @@ int ImgDataTEST::T_Constructor() {
 	Logger::trace(" Showing capped img...");
 	cv::Mat img = ImgDataTEST::camCap();
 	Logger::trace(" Constructing new ImgData obj with arg \"data\" and Mat obj...");
-	ImgData* data = new ImgData("data",&img);
+    ImgData* data = new ImgData("data", img);
 	Logger::trace(" Complete.");
 	Logger::trace(" Checking initialized variables...");
 	Logger::trace("  Using getID()...");
@@ -135,7 +135,7 @@ int ImgDataTEST::T_getHeight() {
 	Logger::trace(" Init 10x2 Mat obj...");
 	cv::Mat img = cv::Mat::eye(10,2,CV_32F);
 	Logger::trace(" Creating ImgData obj...");
-	ImgData* data = new ImgData("data",&img);
+    ImgData* data = new ImgData("data", img);
 	Logger::trace(" Using getHeight()...");
 	Logger::trace("    "+StringTools::intToStr(data->getHeight()));
 	if (data->getHeight() == 10)
@@ -162,7 +162,7 @@ int ImgDataTEST::T_getWidth() {
 	Logger::trace(" Init 10x2 Mat obj...");
 	cv::Mat img = cv::Mat::eye(10,2,CV_32F);
 	Logger::trace(" Creating ImgData obj...");
-	ImgData* data = new ImgData("data",&img);
+    ImgData* data = new ImgData("data",img);
 	Logger::trace(" Using getWidth()...");
 	Logger::trace("    "+StringTools::intToStr(data->getWidth()));
 	if (data->getWidth() == 2)
@@ -208,11 +208,11 @@ int ImgDataTEST::T_setImg() {
     	fail++;
     }
     Logger::trace(" Creating ImgData with obj 1...");
-    ImgData* testImg = new ImgData("plswork",&test);
+    ImgData* testImg = new ImgData("plswork", test);
     Logger::trace("  Accessing refcount...");
     t1rc = test.u->refcount;
     t2rc = test2.u->refcount;
-    imgrc = testImg->img->u->refcount;
+    imgrc = testImg->img.u->refcount;
     Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
     Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(t2rc));
     if (t1rc == 2) {
@@ -249,7 +249,7 @@ int ImgDataTEST::T_setImg() {
     	}
     }
     Logger::trace(" Setting obj 2 to img...");
-    testImg->setImg(&test2);
+    testImg->setImg(test2);
     Logger::trace("  Accessing refcount...");
     t1rc = test.u->refcount;
     t2rc = test2.u->refcount;
@@ -280,7 +280,7 @@ int ImgDataTEST::T_setImg() {
     }
     Logger::trace("  Accessing refcount...");
     t1rc = test.u->refcount;
-    imgrc = testImg->img->u->refcount;
+    imgrc = testImg->img.u->refcount;
     Logger::trace("    Obj 1 refcount: "+StringTools::intToStr(t1rc));
     Logger::trace("    Obj 2 refcount: "+StringTools::intToStr(imgrc));
     if (t1rc+imgrc==2)
@@ -316,11 +316,11 @@ int ImgDataTEST::T_cpConstructor() {
 	cv::Mat img = ImgDataTEST::camCap();
 	cvDestroyWindow("camCap");
 	Logger::trace(" Constructing new ImgData obj with arg \"data\" and Mat obj...");
-	ImgData* data = new ImgData("data",&img);
+    ImgData* data = new ImgData("data",img);
 	Logger::trace(" Setting Msg to \"SubZero rox\"...");
 	data->setMsg("SubZero rox");
 	Logger::trace(" Invoking Copy Constructor...");
-	ImgData* copy = new ImgData(data);
+    ImgData* copy = new ImgData(*data);
 	Logger::trace(" Checking variables...");
 	Logger::trace("  Using getID()...");
 	if (copy->getID() == "data")
@@ -374,8 +374,8 @@ int ImgDataTEST::T_cpConstructor() {
 	}
 	Logger::trace(" Using refcount to check independence...");
 	int datarc, copyrc;
-    datarc = data->img->u->refcount;
-    copyrc = copy->img->u->refcount;
+    datarc = data->img.u->refcount;
+    copyrc = copy->img.u->refcount;
 	Logger::trace("    \"data\" img refcount: "+StringTools::intToStr(datarc));
 	Logger::trace("    \"copy\" img refcount: "+StringTools::intToStr(copyrc));
 	if (datarc==2 && copyrc ==1) {

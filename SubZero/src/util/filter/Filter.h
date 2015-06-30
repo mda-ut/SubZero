@@ -121,7 +121,7 @@ public:
 	 * @param rhs	the filter obj on the right hand side of the = operator
 	 * @return 		pointer to the new deep copy of rhs
 	 */
-	Filter* operator=(Filter* rhs);
+//	Filter* operator=(Filter* rhs);
 
 
 	/**
@@ -129,7 +129,7 @@ public:
 	 *
 	 * @param obj	the reference of the new copy
 	 */
-	Filter(Filter* obj);
+//	Filter(Filter* obj);
 
 };
 

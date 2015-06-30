@@ -5,6 +5,8 @@
  *      Author: ahsueh1996
  */
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "ImgData.h"
 
 
@@ -13,15 +15,13 @@
  * ==========================================================================
  */
 
-ImgData::ImgData(std::string dataID,cv::Mat* img) : Data(dataID) {
-	this->img = 0;
-	this->setImg(img);
+ImgData::ImgData(std::string dataID,cv::Mat img) : Data(dataID) {
+    this->img = img;
 }
 
 ImgData::~ImgData() {
 	this->closeImg();
-	this->img->release();
-	delete this->img;
+    this->img.release();
 }
 
 /* ==========================================================================
@@ -34,18 +34,9 @@ void ImgData::setID(std::string newID) {
 }
 
 
-#include <stdlib.h>
-#include <stdio.h>
 
-void ImgData::setImg(cv::Mat* newImg) {
-	if (this->img != 0) {
-		this->img->release();
-		delete this->img;
-	} else {
-		cv::Mat empty;
-		this->img = &empty;
-	}
-	this->img = new cv::Mat(*newImg);
+void ImgData::setImg(cv::Mat newImg) {
+    this->img = newImg;
 }
 
 /* ==========================================================================
@@ -53,28 +44,29 @@ void ImgData::setImg(cv::Mat* newImg) {
  * ==========================================================================
  */
 
-cv::Mat* ImgData::getImg() {
+cv::Mat ImgData::getImg() {
 	return this->img;
 }
 
 int ImgData::getHeight() {
-	return this->img->rows;
+    return this->img.rows;
 }
 
 int ImgData::getWidth() {
-	return this->img->cols;
+    return this->img.cols;
 }
 
 void ImgData::showImg(std::string windowName) {
-	if (this->img != 0) {
+    if (!this->img.empty()) {
 		try {
 			if (windowName != "") {
 				cv::namedWindow(windowName, CV_WINDOW_AUTOSIZE);
-				cv::imshow(windowName,*this->img);
+                cv::imshow(windowName,this->img);
 				this->windowName = windowName;
 			} else {
 				cv::namedWindow(this->dataID,CV_WINDOW_AUTOSIZE);    //Create window
-				cv::imshow(this->dataID,*this->img);   //Show image frames on created window
+                cv::imshow(this->dataID,this->img);   //Show image frames on created window
+                this->windowName = this->dataID;
 			}
 		} catch (cv::Exception) {
 			Logger::warn("Unable to show \""+this->dataID+"\"'s img, cv::exception");
@@ -94,13 +86,14 @@ void ImgData::closeImg() {
  * ==========================================================================
  */
 
-ImgData* ImgData::operator =(ImgData* rhs) {
-	return new ImgData(rhs);
+ImgData& ImgData::operator=(const ImgData& rhs) {
+    Data::operator=(rhs); //implicitly generated operator=
+    this->img = rhs.img.clone();
+    this->windowName = rhs.windowName;
+    return *this;
 }
 
-ImgData::ImgData(const ImgData* obj) : Data(obj) {
-	cv::Mat clone = obj->img->clone();
-	this->img = 0;
-	this->setImg(&clone);
-	clone.release();
+ImgData::ImgData(const ImgData& copy) : Data(copy) {
+    this->img = copy.img.clone();
+    this->windowName = copy.windowName;
 }

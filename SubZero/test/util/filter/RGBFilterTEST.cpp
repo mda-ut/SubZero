@@ -101,9 +101,9 @@ int RGBFilterTEST::T_filter() {
 	cv::Mat img = ImgDataTEST::camCap();
 	cvDestroyWindow("camCap");
 	Logger::trace(" Loading test image into a ImgData wrapper...");
-	ImgData* testImg = new ImgData("raw",&img);
+    ImgData* testImg = new ImgData("raw",img);
 	Logger::trace(" Copying ImgData to second wrapper...");
-	ImgData* testImg2 = new ImgData(testImg);
+    ImgData* testImg2 = new ImgData(*testImg);
 	Logger::trace(" Showing one copy of test image (should be named \"raw\")...");
 	testImg->showImg();
 

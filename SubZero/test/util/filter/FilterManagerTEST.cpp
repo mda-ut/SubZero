@@ -143,7 +143,7 @@ int FilterManagerTEST::T_applyFilterChain() {
 	fm->insertFilter("task 4",f4);
 	Logger::trace(" Making img objs...");
 	cv::Mat img = cv::Mat::zeros(2,2,CV_8UC1);
-	ImgData* data = new ImgData("input",&img);
+    ImgData* data = new ImgData("input",img);
 	Logger::trace(" Applying all filters...");
 	int res = fm->applyFilterChain(data);
 	Logger::trace("  Checking data ID...");
