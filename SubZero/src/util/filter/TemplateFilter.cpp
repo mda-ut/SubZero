@@ -56,14 +56,14 @@ void TemplateFilter::setValues() {
  * ==========================================================================
  */
 
-
+/*
 TemplateFilter* TemplateFilter::operator =(TemplateFilter* rhs) {
 	return new TemplateFilter(rhs);
 }
-
-TemplateFilter::TemplateFilter(TemplateFilter* obj) : Filter(obj) {
+*/
+//TemplateFilter::TemplateFilter(TemplateFilter* obj) : Filter(obj) {
 	/* complete as follows (note don't include filterID and msg):
 	 * this->var1 = obj->var1;
 	 * this->var2 = obj->var2;
 	 */
-}
+//}

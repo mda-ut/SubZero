@@ -18,12 +18,12 @@ CameraState::CameraState(int framesStored) : State(framesStored){
 CameraState::~CameraState(){
 
 	//carl and zack's fix
-	/*for(auto& vector: stateData){
+    for(auto& vector: stateData){
 		for (auto& data: vector){
 			delete data;
 		}
-	}*/
-
+    }
+    /*
 	unsigned int i;
 	for (i = 0; i < stateData.size(); i++){
 		std::vector<ImgData*> temp = stateData.front();
@@ -32,7 +32,7 @@ CameraState::~CameraState(){
 			temp.pop_back();
 		}
 		stateData.pop_front();
-	}
+    }*/
 	//delete stateData;
 }
 
@@ -46,12 +46,11 @@ ImgData* CameraState::getState(std::string ID){
 	for (unsigned int i = 0; i < temp.size(); i++){
 		ImgData* data = temp.at(i);
 		if (data->getID().compare(ID) == 0){
-			ImgData *t = new ImgData(data);		//deep copy
+            ImgData *t = new ImgData(*data);		//deep copy
 			inUse = false;
 			return t;
 		}
 	}
-
 	return 0;
 }
 
@@ -72,7 +71,7 @@ ImgData* CameraState::getState(std::string ID, int i){
 	for (n = 0; n < it->size(); n++){
 		ImgData* data = it->at(n);
 		if (data->getID().compare(ID) == 0){
-			ImgData *t = new ImgData(data);		//deep copy of the image
+            ImgData *t = new ImgData(*data);		//deep copy of the image
 			inUse = false;
 			return t;
 		}

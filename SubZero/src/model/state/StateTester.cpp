@@ -12,7 +12,7 @@
 #include "StateTester.h"
 
 ImgData* StateTester::generateImgData(std::string id, std::string msg){
-	cv::Mat *m = new cv::Mat(10, 10, 2);
+    cv::Mat m(10, 10, 2);
 	ImgData *d = new ImgData(id, m);
 	d->setMsg(msg);
 	return d;

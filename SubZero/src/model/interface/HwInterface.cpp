@@ -97,26 +97,22 @@ HwInterface::HwInterface(int bufferSize, int pollFrequency) {
 
     this->bufferSize = bufferSize;
     this->pollFrequency = pollFrequency;
+}
 
+void HwInterface::init() {
     // thread for reading and polling Hw input
     // main thread will listen for commands to be sent to Hw
    readThreads.push_back(std::thread(&HwInterface::in, this));
-
 }
 
 HwInterface::~HwInterface() {
-
     // join readThread with main
     for(auto& t: readThreads) {t.join();}
 
     // clears the queue
     while ( ! decodedBuffer.empty()) {
+        delete decodedBuffer.front();
         decodedBuffer.pop();
     }
-    // not sure if the above also frees up memory used up by the "queue container"
-    // whatever the container may be... delete it by following the pointer
-    delete &(this->decodedBuffer);
-    delete &(this->bufferSize);
-    delete &(this->pollFrequency);
 
 }

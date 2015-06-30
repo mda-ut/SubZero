@@ -26,8 +26,8 @@ int DataTEST::runUnits() {
 
 	res += T_Constructor();
 	res += T_setMsg();
-	res += T_cpConstructor();
-	res += T_opEqual();
+//	res += T_cpConstructor();
+//	res += T_opEqual();
 
 	Logger::trace("==============================");
 	if (res != 0)

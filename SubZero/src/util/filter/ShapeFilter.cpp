@@ -3,7 +3,6 @@
 
 ShapeFilter::ShapeFilter(int shape)
 {
-    rektangle = 0;
     setShape(shape);
     //contours = new std::vector<std::vector<cv::Point> >;
 }
@@ -40,13 +39,13 @@ int ShapeFilter::filter(Data *data){
     return 0;
 }
 
-bool ShapeFilter::findRect(cv::Mat* img){
+bool ShapeFilter::findRect(cv::Mat img){
     //getting the contours
     cv::Mat canny;
     std::vector<std::vector<cv::Point> > *contours
-            = new std::vector<std::vector<cv::Point> >;
+            = new std::vector<std::vector<cv::Point> >; //why is it a pointer? o.o -Carl
     std::vector<cv::Vec4i> hierarchy;
-    cv::Canny(*img, canny, 50, 20, 3);
+    cv::Canny(img, canny, 50, 20, 3);
     cv::findContours(canny, *contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
     //searching for rectangles
@@ -97,8 +96,8 @@ bool ShapeFilter::findRect(cv::Mat* img){
             println("LW ratio too big");
             continue;
         }
-        double perimneter = cv::arcLength(co, 1);
-        double perim_ratio = perimneter/ (2*length+2*width);
+        double perimeter = cv::arcLength(co, 1);
+        double perim_ratio = perimeter/ (2*length+2*width);
         double area_ratio = area/(length*width);
         if (area_ratio < areaMin){
             println("area ratio too small");
@@ -113,9 +112,7 @@ bool ShapeFilter::findRect(cv::Mat* img){
             continue;
         }
 
-
-        delete rektangle;   //prevent memory leaks, hope it dosnt crash
-        rektangle = new cv::RotatedRect(rect);
+        rektangle = cv::RotatedRect(rect);
         println("FOUND");
         boxesFound++;
     }
@@ -127,6 +124,6 @@ void ShapeFilter::setShape(int shape){
     if (shape == 0) this->setID("rect");
 }
 
-cv::RotatedRect* ShapeFilter::getRect(){
+cv::RotatedRect ShapeFilter::getRect(){
     return rektangle;
 }

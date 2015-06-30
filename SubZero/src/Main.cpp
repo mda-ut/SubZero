@@ -28,14 +28,14 @@ int main(int argc, char** argv) {
 //    newMenu->show();
 
 //    newMenu.paintEvent();
-    VideoTesting vt("videofile");
+//    VideoTesting vt("videofile");
 //    vt.run();
-//    CollectionTEST::runDataAndFilterManagerCollection();
-//    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
+    CollectionTEST::runDataAndFilterManagerCollection();
+    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
 
 //	StateTester::run();
-    FPGAInterface newInterface(20, 1);
-    Logger::close();
+//    FPGAInterface newInterface(20, 1);
+//    Logger::close();
 //    delete logTimer;
 
     return 0;//app.exec();

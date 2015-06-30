@@ -50,7 +50,7 @@ public:
      *              1 = Probabilistic Hough Line Transform
      * @return reference to the filtered image with lines drawn
      */
-    cv::Mat* filter(cv::Mat* src, int mode);
+    cv::Mat filter(cv::Mat src, int mode);
 
     /**
      * Returns the slope and intercept value of all the lines detected,

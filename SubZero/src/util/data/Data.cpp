@@ -81,7 +81,7 @@ std::string Data::getTrack() {
  * OPERATOR OVERLOAD
  * ==========================================================================
  */
-
+/*
 Data* Data::operator=(Data* rhs) {
 	return new Data(rhs);
 }
@@ -89,5 +89,4 @@ Data* Data::operator=(Data* rhs) {
 Data::Data(const Data* obj) {
 	this->dataID = obj->dataID;
 	this->msg = obj->msg;
-}
-
+}*/

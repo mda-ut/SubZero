@@ -126,14 +126,14 @@ public:
 	 * @param rhs	the right hand side of the equal operator, the parent copy
 	 * @return		address to a new ImgData
 	 */
-	FPGAData* operator=(FPGAData* rhs);
+    //FPGAData* operator=(FPGAData* rhs);
 
 	/**
 	 * Copy constructor
 	 *
 	 * @param obj	the object referenced by constructor
 	 */
-	FPGAData(const FPGAData* obj);
+    //FPGAData(const FPGAData* obj);
 };
 
 #endif /* FPGADATA_H_ */

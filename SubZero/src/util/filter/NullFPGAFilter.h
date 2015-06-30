@@ -65,7 +65,7 @@ public:
 	 * @param rhs	the filter obj on the right hand side of the = operator
 	 * @return 		pointer to the new deep copy of rhs
 	 */
-	NullFPGAFilter* operator=(NullFPGAFilter* rhs);
+    //NullFPGAFilter* operator=(NullFPGAFilter* rhs);
 
 
 	/**
@@ -73,7 +73,7 @@ public:
 	 *
 	 * @param obj	the reference of the new copy
 	 */
-	NullFPGAFilter(NullFPGAFilter* obj);
+	//NullFPGAFilter(NullFPGAFilter* obj);
 };
 
 #endif /* NULLFPGAFILTER_H_ */

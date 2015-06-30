@@ -35,7 +35,7 @@ class CameraInterface : public HwInterface {
 private:
 
     CameraPosition position;
-    cv::VideoCapture* camStream;
+    cv::VideoCapture camStream;
 
     // CvCapture* camStream;
 
@@ -59,7 +59,7 @@ private:
      * @param	data	data to be decoded
      * @return	decoded data in a ImgData format
      */
-    virtual ImgData* decode(cv::Mat* data);
+    virtual ImgData* decode(cv::Mat data);
 
 public:
 
