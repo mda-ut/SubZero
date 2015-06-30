@@ -19,22 +19,22 @@ ImgData* StateTester::generateImgData(std::string id, std::string msg){
 }
 
 std::vector<ImgData*> StateTester::generateImgVector(int i){
-	std::vector<ImgData*> vec;
+    std::vector<ImgData*> vec;
 	if (i == 1){
-		vec.push_back(generateImgData("First", "msg1"));
-		vec.push_back(generateImgData("Second", "msg2"));
-		vec.push_back(generateImgData("Third", "msg3"));
+        vec.push_back(generateImgData("First", "msg1"));
+        vec.push_back(generateImgData("Second", "msg2"));
+        vec.push_back(generateImgData("Third", "msg3"));
 	}else if (i == 2){
-		vec.push_back(generateImgData("1", "one"));
-		vec.push_back(generateImgData("2", "two"));
-		vec.push_back(generateImgData("3", "three"));
-		vec.push_back(generateImgData("4", "four"));
-		vec.push_back(generateImgData("5", "five"));
-		vec.push_back(generateImgData("6", "six"));
-		vec.push_back(generateImgData("7", "seven"));
-		vec.push_back(generateImgData("8", "eight"));
-		vec.push_back(generateImgData("9", "nine"));
-		vec.push_back(generateImgData("10", "ten"));
+        vec.push_back(generateImgData("1", "one"));
+        vec.push_back(generateImgData("2", "two"));
+        vec.push_back(generateImgData("3", "three"));
+        vec.push_back(generateImgData("4", "four"));
+        vec.push_back(generateImgData("5", "five"));
+        vec.push_back(generateImgData("6", "six"));
+        vec.push_back(generateImgData("7", "seven"));
+        vec.push_back(generateImgData("8", "eight"));
+        vec.push_back(generateImgData("9", "nine"));
+        vec.push_back(generateImgData("10", "ten"));
 	}
 	else{
 
@@ -49,15 +49,15 @@ FPGAData* StateTester::generateFPGAData(std::string id, std::string msg){
 	return d;
 }
 std::vector<FPGAData*> StateTester::generateFPGAVector(int i){
-	std::vector<FPGAData*> vec;
+    std::vector<FPGAData*> vec;
 	if (i == 1){
-		vec.push_back(generateFPGAData("First", "msg1"));
-		vec.push_back(generateFPGAData("Second", "msg2"));
+        vec.push_back(generateFPGAData("First", "msg1"));
+        vec.push_back(generateFPGAData("Second", "msg2"));
 	}else if (i == 2){
-		vec.push_back(generateFPGAData("1", "one"));
-		vec.push_back(generateFPGAData("2", "two"));
-		vec.push_back(generateFPGAData("3", "three"));
-		vec.push_back(generateFPGAData("4", "four"));
+        vec.push_back(generateFPGAData("1", "one"));
+        vec.push_back(generateFPGAData("2", "two"));
+        vec.push_back(generateFPGAData("3", "three"));
+        vec.push_back(generateFPGAData("4", "four"));
 	}
 	else{
 
@@ -71,9 +71,9 @@ std::vector<FPGAData*> StateTester::generateFPGAVector(int i){
  * Test the basic State; make sure it can be created and an image stored
  */
 bool StateTester::testImgBasics(){
-	CameraState cs;
+    CameraState cs;
 
-	cs.setState(generateImgVector(1));
+    cs.setState(generateImgVector(1));
 	return cs.getState("First")->getMsg().compare("msg1") == 0;
 }
 
@@ -83,9 +83,9 @@ bool StateTester::testImgBasics(){
  */
 bool StateTester::testImgSize(){
 	CameraState CS;
-	CS.setState(generateImgVector(1));
+    CS.setState(generateImgVector(1));
 	for (int i = 0; i < 10; i++){
-		CS.setState(generateImgVector(2));
+        CS.setState(generateImgVector(2));
 	}
 	CS.getState("First", 10);
 	CS.getState("1", 9);

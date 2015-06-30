@@ -20,7 +20,6 @@ ImgData::ImgData(std::string dataID,cv::Mat img) : Data(dataID) {
 }
 
 ImgData::~ImgData() {
-	this->closeImg();
     this->img.release();
 }
 
@@ -62,10 +61,12 @@ void ImgData::showImg(std::string windowName) {
 			if (windowName != "") {
 				cv::namedWindow(windowName, CV_WINDOW_AUTOSIZE);
                 cv::imshow(windowName,this->img);
+                cv::waitKey(1);
 				this->windowName = windowName;
 			} else {
 				cv::namedWindow(this->dataID,CV_WINDOW_AUTOSIZE);    //Create window
                 cv::imshow(this->dataID,this->img);   //Show image frames on created window
+                cv::waitKey(1);
                 this->windowName = this->dataID;
 			}
 		} catch (cv::Exception) {
@@ -76,7 +77,7 @@ void ImgData::showImg(std::string windowName) {
 
 void ImgData::closeImg() {
 	cv::namedWindow(this->dataID);
-	cv::namedWindow(windowName);
+    cv::namedWindow(windowName);
 	cv::destroyWindow(windowName);
 	cv::destroyWindow(this->dataID); //Destroy Window
 }
