@@ -43,6 +43,7 @@ HEADERS += SubZero/src/Observable.h \
            SubZero/src/model/Model.h \
            SubZero/src/util/IDHasher.h \
            SubZero/src/util/Logger.h \
+           SubZero/src/util/PropertyReader.h \
            SubZero/src/util/StringTools.h \
            SubZero/src/util/Timer.h \
            SubZero/src/util/Util.h \
@@ -100,6 +101,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/model/Model.cpp \
            SubZero/src/util/IDHasher.cpp \
            SubZero/src/util/Logger.cpp \
+           SubZero/src/util/PropertyReader.cpp \
            SubZero/src/util/StringTools.cpp \
            SubZero/src/util/Timer.cpp \
            SubZero/src/util/Util.cpp \

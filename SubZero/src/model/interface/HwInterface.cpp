@@ -21,11 +21,16 @@
  */
 
 void HwInterface::deleteFromBuffer() {
-    this->decodedBuffer.pop();
-};
+    delete decodedBuffer.front();
+    decodedBuffer.pop();
+}
 
 
 void HwInterface::storeToBuffer(Data* data) {
+    if ( decodedBuffer.size() >= bufferSize) {
+        // delete old stuff from buffer
+        this->deleteFromBuffer();
+    }
     this->decodedBuffer.push(data);
 }
 
@@ -43,11 +48,6 @@ void HwInterface::in() {
         tictoc.tv_nsec = tictoc.tv_nsec % 1000000000;
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tictoc, NULL);
 
-        if ( decodedBuffer.size() >= bufferSize) {
-            // delete old stuff from buffer
-            this->deleteFromBuffer();
-        }
-
         this->poll();
 
     }
@@ -63,19 +63,18 @@ Data* HwInterface::getDataFromBuffer() {
     if (! (this->decodedBuffer.empty())) {
         data = this->decodedBuffer.back();
     } else {
-        std::cout << "Nothing in buffer";
+     //   std::cout << "Nothing in buffer";
     }
     return data;
-};
+}
 
 int HwInterface::getPollFrequency() {
     return this->pollFrequency;
-};
+}
 
 void HwInterface::setPollFrequency(int frequency){
     this->pollFrequency = frequency;
-};
-
+}
 
 int HwInterface::getBufferSize(){
     return this->bufferSize;

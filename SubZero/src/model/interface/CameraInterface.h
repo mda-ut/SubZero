@@ -17,7 +17,8 @@
 
 enum CameraPosition {
     FRONT,
-    DOWN
+    DOWN,
+    THREE
 };
 
 /**

@@ -6,6 +6,7 @@
  */
 
 #include "CameraInterface.h"
+#include <string>
 
 /* ==========================================================================
  * 				INTERACTING WITH DATA COMING IN (FROM Camera)
@@ -19,8 +20,9 @@
  * Poll raw data from the camera.
  * @return	data polled
  */
-
+static int counter=0;
 void CameraInterface::poll() {
+    Logger::trace("retrieving raw " + std::to_string(counter));
     cv::Mat raw;
     //Older version of OpenCV (tested on Alb's laptop setting)
     // IplImage* raw = cvQueryFrame(this->camStream);
@@ -29,6 +31,7 @@ void CameraInterface::poll() {
     //New version of OpenCV (not yet tested)
     camStream.read(raw);
     Data* decoded = this->decode(raw);
+
     this->storeToBuffer(decoded);
 }
 
@@ -38,7 +41,8 @@ void CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
-    ImgData* decoded = new ImgData("raw", data);
+    Logger::trace("inserted image " + std::to_string(counter));
+    ImgData* decoded = new ImgData(std::to_string(counter++), data);
     return decoded;
 }
 
@@ -59,14 +63,14 @@ CameraPosition CameraInterface::getPosition(){
 
 CameraInterface::CameraInterface(int bufferSize, int pollFrequency, CameraPosition position) : HwInterface(bufferSize, pollFrequency) {
     this->position = position;
-    this->camStream.open(this->position);
     //this->camStream = new cv::VideoCapture(this->position);
     // this->camStream = cvCaptureFromCAM(this->position);
 }
 
 void CameraInterface::init(){
     // thread for reading and polling camera input
-   readThreads.push_back(std::thread(&CameraInterface::in, this));
+    camStream.open(position);
+    readThreads.push_back(std::thread(&CameraInterface::in, this));
 }
 
 CameraInterface::~CameraInterface() {
