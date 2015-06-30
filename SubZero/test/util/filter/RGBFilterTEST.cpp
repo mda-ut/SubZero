@@ -21,7 +21,7 @@ int RGBFilterTEST::runUnits() {
 	int res = 0;
 	Logger::trace("Running all unit tests for: RGBFilter");
 	Logger::trace("==============================");
-    res += T_Constructor(); //uncomment this line to replicate crash
+        res += T_Constructor(); //uncomment this line to replicate crash
 	res += T_filter();
 	Logger::trace("==============================");
 	if (res != 0)
@@ -43,7 +43,7 @@ int RGBFilterTEST::T_Constructor() {
 	Logger::trace(" Init int arr[3] = {1,2,3}...");
 	int arr[] = {1,2,3};
 	Logger::trace(" Using filter factory, create mode 0 filter...");
-    RGBFilter* rgbFilter = (RGBFilter*)FilterFactory::createRGBFilter(arr); //this line causes the crash: malloc:mem corruption
+        RGBFilter* rgbFilter = (RGBFilter*)FilterFactory::createRGBFilter(arr); //this line causes the crash: malloc:mem corruption
 	Logger::trace(" Checking variables...");
 	Logger::trace("  Using getValues...");
 	std::vector<int> list = rgbFilter->getValues();
@@ -57,7 +57,7 @@ int RGBFilterTEST::T_Constructor() {
 		Logger::warn("    NOT ok, values not correct under full mode");
 		fail++;
 	}
-
+        delete rgbFilter;
 	Logger::trace(" Using filter factory, create mode 1 filter...");
 	rgbFilter = (RGBFilter*)FilterFactory::createRGBFilter(arr,arr,arr);
 	Logger::trace(" Checking variables...");
@@ -182,6 +182,7 @@ int RGBFilterTEST::T_filter() {
 }
 
 int RGBFilterTEST::T_setValues() {
+    return 0;
 }
 
 /* ==========================================================================

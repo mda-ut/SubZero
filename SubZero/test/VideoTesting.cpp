@@ -11,7 +11,7 @@ VideoTesting::VideoTesting(const std::string fileName){
     this->cap = cap;
 }
 //================get next frame from camera=====================================
-CvCapture* capture = cvCaptureFromCAM(0);  //Capture using any camera connected to your system
+CvCapture* capture = cvCaptureFromCAM(1);  //Capture using any camera connected to your system
 cv::Mat getNextCameraFrame(){
     IplImage* frame = cvQueryFrame(capture); //Create image frames from capture
     return cv::cvarrToMat(frame,true,true,0); // If you hit spacebar an image will be saved
