@@ -1,7 +1,7 @@
 #ifndef SHOWCASEVIEW_H
 #define SHOWCASEVIEW_H
 
-#include "view.h"
+#include "View.h"
 #include <QPushButton>
 #include <QLabel>
 #include "../controller/controllers/Controller.h"
@@ -14,6 +14,7 @@ class ShowCaseView : public View
 {
 public:
     ShowCaseView();
+    ShowCaseView(std::vector<State*> states_);
 
     QLabel* movement;
     QPushButton *leftButton;
@@ -28,15 +29,12 @@ public:
     QPushButton *menuButton;
     QPushButton *exitButton;
 
+    virtual void update(int ID);
     void initialize_VC_Connection(Controller *controller);
 
 
-
 private:
-    void initializeShowCaseView();
-    void makeQImage(Mat* imgData, QImage *imgHolder);
-
-
+    virtual void initializeShowCaseView();
 
 };
 

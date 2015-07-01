@@ -51,7 +51,7 @@ ImgData* CameraInterface::decode(cv::Mat data) {
  * ==========================================================================
  */
 
-CameraPosition CameraInterface::getPosition(){
+int CameraInterface::getPosition(){
     return this->position;
 }
 
@@ -61,7 +61,7 @@ CameraPosition CameraInterface::getPosition(){
  */
 
 
-CameraInterface::CameraInterface(int bufferSize, int pollFrequency, CameraPosition position) : HwInterface(bufferSize, pollFrequency) {
+CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position) : HwInterface(bufferSize, pollFrequency) {
     this->position = position;
     //this->camStream = new cv::VideoCapture(this->position);
     // this->camStream = cvCaptureFromCAM(this->position);

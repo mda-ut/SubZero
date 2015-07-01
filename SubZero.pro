@@ -33,8 +33,7 @@ INCLUDEPATH += . \
                /usr/local/include/opencv
 
 # Input
-HEADERS += SubZero/src/Observable.h \
-           SubZero/src/SubZero.h \
+HEADERS += SubZero/src/SubZero.h \
            SubZero/src/SubZeroFactory.h \
            SubZero/test/CollectionTEST.h \
            SubZero/test/VideoTesting.h \
@@ -47,10 +46,6 @@ HEADERS += SubZero/src/Observable.h \
            SubZero/src/util/StringTools.h \
            SubZero/src/util/Timer.h \
            SubZero/src/util/Util.h \
-           SubZero/src/view/menu.h \
-           SubZero/src/Observer.h \
-           SubZero/src/view/showcaseview.h \
-           SubZero/src/view/view.h \
            SubZero/test/util/IDHasherTEST.h \
            SubZero/src/controller/controllers/Controller.h \
            SubZero/src/controller/controllers/ControllerThread.h \
@@ -88,10 +83,12 @@ HEADERS += SubZero/src/Observable.h \
            SubZero/test/util/data/FPGADataTEST.h \
            SubZero/test/util/data/ImgDataTEST.h \
            SubZero/test/util/filter/FilterManagerTEST.h \
-           SubZero/test/util/filter/RGBFilterTEST.h
+           SubZero/test/util/filter/RGBFilterTEST.h \
+    SubZero/src/view/Menu.h \
+    SubZero/src/view/ShowCaseView.h \
+    SubZero/src/view/View.h
 
 SOURCES += SubZero/src/Main.cpp \
-           SubZero/src/Observable.cpp \
            SubZero/src/SubZero.cpp \
            SubZero/src/SubZeroFactory.cpp \
            SubZero/test/CollectionTEST.cpp \
@@ -105,10 +102,6 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/util/StringTools.cpp \
            SubZero/src/util/Timer.cpp \
            SubZero/src/util/Util.cpp \
-           SubZero/src/view/menu.cpp \
-           SubZero/src/Observer.cpp \
-           SubZero/src/view/showcaseview.cpp \
-           SubZero/src/view/view.cpp \
            SubZero/test/util/IDHasherTEST.cpp \
            SubZero/src/controller/controllers/Controller.cpp \
            SubZero/src/controller/controllers/ControllerThread.cpp \
@@ -145,4 +138,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/test/util/data/FPGADataTEST.cpp \
            SubZero/test/util/data/ImgDataTEST.cpp \
            SubZero/test/util/filter/FilterManagerTEST.cpp \
-           SubZero/test/util/filter/RGBFilterTEST.cpp
+           SubZero/test/util/filter/RGBFilterTEST.cpp \
+    SubZero/src/view/Menu.cpp \
+    SubZero/src/view/ShowCaseView.cpp \
+    SubZero/src/view/View.cpp

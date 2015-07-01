@@ -7,9 +7,9 @@
 
 #include "FPGAState.h"
 
-FPGAState::FPGAState() : State(){
+FPGAState::FPGAState(int stateID) : State(stateID){
 }
-FPGAState::FPGAState(int framesStored) : State(framesStored){
+FPGAState::FPGAState(int stateID, int framesStored) : State(stateID, framesStored){
 }
 
 FPGAState::~FPGAState(){
@@ -41,7 +41,7 @@ FPGAData* FPGAState::getState(std::string ID){
 
 	unsigned int i;
 	for (i = 0; i < temp.size(); i++){
-		FPGAData* data = temp.at(i);
+        FPGAData* data = temp[i];
 		if (data->getID().compare(ID) == 0){
             FPGAData *t = new FPGAData(*data);
 			inUse = false;

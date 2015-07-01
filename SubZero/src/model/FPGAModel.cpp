@@ -7,6 +7,12 @@
 
 #include "FPGAModel.h"
 
+FPGAModel::FPGAModel(State *inputState, HwInterface *inputInterface) : Model(inputState, inputInterface){
+}
+
+FPGAModel::~FPGAModel(){
+}
+
 void FPGAModel::sendCommand(std::string cmd){
 // Emma go!!
 }

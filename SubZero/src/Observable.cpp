@@ -8,7 +8,8 @@
 #include "Observable.h"
 
 
-Observable::Observable() {
+Observable::Observable(int ID_) {
+    ID = ID_;
 }
 
 Observable::~Observable() {
@@ -16,16 +17,4 @@ Observable::~Observable() {
 }
 
 
-void Observable::addObserver(Observer* obs) {
-	observers.insert(obs);
-}
 
-void Observable::removeObserver(Observer* obs) {
-	observers.erase(obs);
-}
-
-void Observable::notifyObservers() {
-//	for (auto& obs : observers) {
-//		obs->update();
-//	}
-}

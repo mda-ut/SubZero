@@ -26,8 +26,8 @@ public:
 	/**
 	 * constructor
 	 */
-	CameraState();
-	CameraState(int framesStored);
+    CameraState(int stateID);
+    CameraState(int stateID, int framesStored);
 
 	/**
 	 * destructor

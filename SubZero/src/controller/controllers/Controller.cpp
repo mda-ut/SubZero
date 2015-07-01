@@ -9,7 +9,12 @@
 #include "ControllerThread.h"
 #include <iostream>
 
-Controller::Controller(void){
+Controller::Controller(){
+    taskList = *new QQueue <class Task* >;
+}
+
+Controller::Controller(std::vector<Model*> models_){
+    models = models_;
     taskList = *new QQueue <class Task* >;
 }
 

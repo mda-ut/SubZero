@@ -71,7 +71,7 @@ std::vector<FPGAData*> StateTester::generateFPGAVector(int i){
  * Test the basic State; make sure it can be created and an image stored
  */
 bool StateTester::testImgBasics(){
-    CameraState cs;
+    CameraState cs(FRONTCAM);
 
     cs.setState(generateImgVector(1));
 	return cs.getState("First")->getMsg().compare("msg1") == 0;
@@ -82,7 +82,7 @@ bool StateTester::testImgBasics(){
  * Tests the above for both constructors
  */
 bool StateTester::testImgSize(){
-	CameraState CS;
+    CameraState CS(FRONTCAM);
     CS.setState(generateImgVector(1));
 	for (int i = 0; i < 10; i++){
         CS.setState(generateImgVector(2));
@@ -108,14 +108,14 @@ bool StateTester::testImgSize(){
 }
 
 bool StateTester::testFPGABasics(){
-	FPGAState fs;
+    FPGAState fs(FPGA);
 	fs.setState(generateFPGAVector(1));
 
 	return fs.getState("First")->getMsg().compare("msg1") == 0;
 }
 
 bool StateTester::testFPGASize(){
-	FPGAState FS;
+    FPGAState FS(FPGA);
 	FS.setState(generateFPGAVector(1));
 	for (int i = 0; i < 10; i++){
 		FS.setState(generateFPGAVector(2));

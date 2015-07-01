@@ -7,12 +7,29 @@
 
 #include "SubZero.h"
 
-SubZero::SubZero() {
-	// TODO Auto-generated constructor stub
-
+SubZero::SubZero(std::vector<Model *> models_, View *view_, Controller *controller_) {
+    models = models_;
+    view = view_;
+    controller = controller_;
 }
 
 SubZero::~SubZero() {
-	// TODO Auto-generated destructor stub
+    for (auto& model : models) {
+        delete model;
+    }
+    delete view;
+    delete controller;
 }
 
+void SubZero::init() {
+    for (auto& model : models) {
+        model->initialize();
+    }
+    controller->initialize();
+    view->initialize_VC_Connection(controller);//Connect the controller to the view
+    view->show();
+}
+
+void SubZero::run() {
+    while(1);
+}

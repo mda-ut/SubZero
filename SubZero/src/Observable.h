@@ -20,12 +20,12 @@
 class Observable {
 private:
 	std::set<class Observer*> observers;
-
+    int ID;
 public:
 	/**
 	 * Constructor
 	 */
-	Observable();
+    Observable(int ID_);
 
 	/**
 	 * Destructor

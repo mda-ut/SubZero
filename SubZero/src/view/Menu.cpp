@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "Menu.h"
 #include <QDebug>
 #include <QString>
 #include <QPainter>
@@ -10,22 +10,22 @@
 #include <QHBoxLayout>
 
 
-#include "showcaseview.h"
+#include "ShowCaseView.h"
 
 //#include "guiview.h"
 //#include "simview.h"
 //#include "autview.h"
-#include "../SubZeroFactory.h"
+#include "SubZeroFactory.h"
 /**
  * Menu for insantiating views
  */
 
 
-Menu::Menu()
+Menu::Menu(PropertyReader* settings_)
 {
+    settings = settings_;
+    Logger::trace(std::to_string(std::stoi(settings_->getProperty("CAM_BUFFER_SIZE"))));
     initializeMenu();
-
-
 }
 
 
@@ -51,8 +51,6 @@ void Menu::initializeMenu()
      welcomeMessage->setFont(welcomeFont);
      welcomeMessage->setText("Welcome to the menu\nPlease select your view");
 
-    connect(guiButton, SIGNAL(clicked()), this, SLOT(makeGuiView()));
-
 
 
      //Making the Buttons
@@ -62,7 +60,7 @@ void Menu::initializeMenu()
 
 
           //Connecting
-     connect(guiButton, SIGNAL(clicked()), this, SLOT(makeView()));
+     connect(guiButton, SIGNAL(clicked()), this, SLOT(makeGuiView()));
 
 
           //Sizing
@@ -116,14 +114,14 @@ void Menu::initializeMenu()
 
      for (int i = 0; i<10; i++)
     {
-     mainLayout->setColumnMinimumWidth(i,100); //Setting 10 Columns of equal "size" 100
-     }
+        mainLayout->setColumnMinimumWidth(i,100); //Setting 10 Columns of equal "size" 100
+    }
 
          //Positioning      *note that the widgets span multiple rows and columns
      mainLayout->addWidget(welcomeMessage,0,5);
-     mainLayout->addWidget(guiButton,3,6);
-     mainLayout->addWidget(simButton,4,6);
-     mainLayout->addWidget(autButton,5,6);
+     mainLayout->addWidget(guiButton,4,6);
+     mainLayout->addWidget(simButton,5,6);
+     mainLayout->addWidget(autButton,6,6);
      this->setLayout(mainLayout);
 
 
@@ -153,37 +151,15 @@ void Menu::paintEvent(QPaintEvent *event)
 
     painter.end();
 }
-//void Menu::makeGuiView()
-//{
-//    //GuiView *guiView = new GuiView;
-//	SubZeroFactory* subFactory = new SubZeroFactory();
-//	subFactory->makeSubZero(GUI);
-//    painter.begin(this);
-//    painter.fillRect(event->rect(), background);
-
-//    painter.end();
-//}
-///*Not made yet
-// *
-// */
-//void Menu::makeSimView()
-//{
-////    SimView *simView = new SimView;
-////    delete this;
-//	SubZeroFactory* subFactory = new SubZeroFactory();
-//    subFactory->makeSubZero(SIM);
-//}
 
 
-void Menu::makeView()
+void Menu::makeGuiView()
 {
-    ShowCaseView *view = new ShowCaseView;
-    view->show();
-
-    Controller *controller = new Controller();
-    controller->initialize();
-
-    view->initialize_VC_Connection(controller);//Connect the controller to the view
-
     this->close();
+    SubZeroFactory subFactory;
+    Logger::trace(std::to_string(std::stoi(settings->getProperty("CAM_BUFFER_SIZE"))));
+    SubZero* guiSub = subFactory.makeSubZero(GUI, settings);
+    guiSub->init();
+    guiSub->run();
+    delete guiSub;
 }

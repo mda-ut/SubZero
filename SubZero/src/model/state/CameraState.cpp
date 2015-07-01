@@ -9,10 +9,10 @@
 #include "../../util/Logger.h"
 #include <iostream>
 
-CameraState::CameraState() : State(){
+CameraState::CameraState(int stateID) : State(stateID){
 	//stateData = std::list<std::vector<ImgData*> >;
 }
-CameraState::CameraState(int framesStored) : State(framesStored){
+CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored){
 }
 
 CameraState::~CameraState(){

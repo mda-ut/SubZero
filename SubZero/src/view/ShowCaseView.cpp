@@ -1,4 +1,4 @@
-#include "showcaseview.h"
+#include "ShowCaseView.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QImage>
@@ -15,14 +15,32 @@
 ShowCaseView::ShowCaseView():View()
 {
     initializeShowCaseView();
+}
 
+ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
+    initializeShowCaseView();
+}
+
+void ShowCaseView::update(int ID) {
+    switch (ID) {
+    case FRONTCAM: {
+        ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
+        makeQImage(newImg->img, frontCameraImage);
+        break;
+    }
+    case DOWNCAM: {
+        ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
+        makeQImage(newImg->img, downCameraImage);
+        break;
+    }
+    case FPGA:
+        break;
+    }
 }
 
 void ShowCaseView::initializeShowCaseView()
 {
-    *frontCameraImage = QImage(":/img/MDA.jpg");
-
-
+    frontCameraImage = QImage(":/img/MDA.jpg");
 
    //Creating an image that holds a gradient of blue
 
@@ -49,12 +67,7 @@ void ShowCaseView::initializeShowCaseView()
 
 
 
-    *downCameraImage = sub;
-
-
-
-
-
+    downCameraImage = sub;
 
 
     // Show Case View WIdget Initialization
@@ -100,19 +113,7 @@ void ShowCaseView::initializeShowCaseView()
     mainLayout->addSpacing(800);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
-
-
-
 }
-
-
-void ShowCaseView::makeQImage(cv::Mat *imgData, QImage *imgHolder)
-{
-    *imgHolder = QImage(imgData->data, imgData->cols, imgData->rows,QImage::Format_RGB32);
-
-    return;
-}
-
 
 
 void ShowCaseView::initialize_VC_Connection(Controller *controller)

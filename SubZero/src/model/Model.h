@@ -14,12 +14,8 @@
 #include "interface/HwInterface.h"
 #include "../util/filter/FilterManager.h"
 #include "../util/filter/FilterFactory.h"
-#include "../Observable.h"
+#include "State.h"
 
-enum ModelType{
-	CAMERAMODEL = 1,
-	FPGAMODEL = 2
-};
 
 /**
  * This can have the potential to be an pure virtual (abstract) class, but it's not for now. Modle
@@ -35,13 +31,11 @@ enum ModelType{
 class Model {
 
 protected:
-	Observable* state;
+    State* state;
 
 	HwInterface* interface;
 
 	std::vector<FilterManager*> filterManagerList;
-
-	ModelType modelType;
 
 	/**
 	 * This creates a filter manager and store it in the provided destination.
@@ -66,15 +60,17 @@ public:
 
 	/**
 	 * This is the constructor to a parent Model object.
-	 * @param	inputObservable		an observable pointer used to create a Model
+     * @param	inputState	a state pointer used to create a Model
 	 * @param	inputHwInterface	an interface pointer used to create a Model
 	 */
-	Model(Observable* inputObservable, HwInterface* inputHwInterface);
+    Model(State* inputState, HwInterface* inputHwInterface);
 
 	/**
 	 * Model destructor
 	 */
 	virtual ~Model();
+
+    void initialize();
 
 
 /* **************** Data Management **************** */

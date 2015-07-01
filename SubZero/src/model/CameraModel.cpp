@@ -7,6 +7,12 @@
 
 #include "CameraModel.h"
 
+CameraModel::CameraModel(State*inputState, HwInterface *inputInterface):Model(inputState, inputInterface){
+}
+
+CameraModel::~CameraModel(){
+}
+
 void CameraModel::sendCommand(std::string cmd){
 // Emma go!!
 }

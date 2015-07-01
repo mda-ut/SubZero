@@ -27,7 +27,7 @@ public:
 	 * @param	inputState		an observable pointer that is expected to be a CameraState pointer
 	 * @param	inputInterface	a HwInterface pointer that is expected to be a CameraInterface pointer
 	 */
-	CameraModel(Observable* inputState, HwInterface* inputInterface);
+    CameraModel(State* inputState, HwInterface* inputInterface);
 
 	virtual ~CameraModel();
 

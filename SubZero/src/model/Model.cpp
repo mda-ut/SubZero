@@ -22,7 +22,7 @@ void Model::storeToFMList(FilterManager* newFM){
 }
 
 void Model::notifyObserver(){
-	this->state->notifyObservers();
+    this->state->notifyViewers();
 }
 
 
@@ -30,14 +30,16 @@ void Model::notifyObserver(){
 				public functions
  * ========================================================================== */
 
-Model::Model(Observable* inputObservable, HwInterface* inputHwInterface){
-	this->state = inputObservable;
-	this->interface = inputHwInterface;
-	this->modelType = CAMERAMODEL; // Default model type is set to camera model.
+Model::Model(State* inputState, HwInterface* inputHwInterface){
+    state = inputState;
+    interface = inputHwInterface;
 }
 
 Model::~Model(){}
 
+void Model::initialize() {
+    interface->init();
+}
 
 /* -------------------------------------------------------------------------- *
 				Filter/Filter Chain Management

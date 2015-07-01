@@ -10,7 +10,7 @@
 #include <QQueue>
 #include <QThread>
 #include <QMutex>
-
+#include <vector>
 #include "../task/Task.h"
 #include "../../model/Model.h"
 
@@ -27,14 +27,14 @@ class Controller : public QObject {
         /**
          * Empty Constructor
          */
-        Controller(void);
+        Controller();
 
 		/**
         * Model Constructor
 		*
         * @param model - the vector containing the models
 		*/
-		Controller(std::vector <Model*> model);
+        Controller(std::vector <Model*> models_);
 
 		/**
 		 * Destructor
@@ -90,6 +90,8 @@ class Controller : public QObject {
          * A mutex lock that will make our writes thread safe.
          */
         QMutex mutex;
+
+        std::vector<Model*> models;
 };
 
 #endif /* CONTROLLER_H_ */
