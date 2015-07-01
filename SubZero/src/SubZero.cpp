@@ -6,6 +6,9 @@
  */
 
 #include "SubZero.h"
+#include <QCoreApplication>
+
+int SubZero::ctr = 0;
 
 SubZero::SubZero(std::vector<Model *> models_, View *view_, Controller *controller_) {
     models = models_;
@@ -17,8 +20,9 @@ SubZero::~SubZero() {
     for (auto& model : models) {
         delete model;
     }
-    delete view;
     delete controller;
+    delete view;
+
 }
 
 void SubZero::init() {
@@ -31,5 +35,15 @@ void SubZero::init() {
 }
 
 void SubZero::run() {
-    while(1);
+
+    while(ctr < 5) {
+        for (auto& model : models) {
+            if(model->dataTransfer()) {
+                model->notifyObserver();
+                //ctr++;
+            }
+        }
+        QCoreApplication::processEvents();
+    }
+    view->close();
 }

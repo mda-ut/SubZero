@@ -21,6 +21,7 @@ ImgData::ImgData(std::string dataID,cv::Mat img) : Data(dataID) {
 
 ImgData::~ImgData() {
     this->img.release();
+    delete logger;
 }
 
 /* ==========================================================================

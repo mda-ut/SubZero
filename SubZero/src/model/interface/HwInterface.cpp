@@ -35,6 +35,7 @@ void HwInterface::storeToBuffer(Data* data) {
 }
 
 void HwInterface::in() {
+    std::cout<<"in"<<std::endl;
 
     struct timespec tictoc;
     clock_gettime(CLOCK_MONOTONIC, &tictoc);
@@ -47,7 +48,7 @@ void HwInterface::in() {
         tictoc.tv_sec += (time_t) (tictoc.tv_nsec /1000000000);
         tictoc.tv_nsec = tictoc.tv_nsec % 1000000000;
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tictoc, NULL);
-
+        //std::cout<<"poll"<<std::endl;
         this->poll();
 
     }
@@ -58,15 +59,17 @@ void HwInterface::in() {
  * ==========================================================================
  */
 
+
+/*
 Data* HwInterface::getDataFromBuffer() {
-    Data* data = new Data("bad");
-    if (! (this->decodedBuffer.empty())) {
+    Data* data = nullptr;
+    if (!(this->decodedBuffer.empty())) {
         data = this->decodedBuffer.back();
     } else {
-     //   std::cout << "Nothing in buffer";
+        std::cout << "Nothing in buffer"<<std::endl;
     }
     return data;
-}
+}*/
 
 int HwInterface::getPollFrequency() {
     return this->pollFrequency;
@@ -106,12 +109,5 @@ void HwInterface::init() {
 
 HwInterface::~HwInterface() {
     // join readThread with main
-    for(auto& t: readThreads) {t.join();}
-
-    // clears the queue
-    while ( ! decodedBuffer.empty()) {
-        delete decodedBuffer.front();
-        decodedBuffer.pop();
-    }
 
 }

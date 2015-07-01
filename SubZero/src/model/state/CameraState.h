@@ -20,7 +20,7 @@ class CameraState : public State {
 
 	//all of this class' variables are inherited from its parent (State.h)
 protected:
-	std::list<std::vector<ImgData*> > stateData;
+    std::list<std::vector<ImgData*>> stateData;
 
 public:
 	/**

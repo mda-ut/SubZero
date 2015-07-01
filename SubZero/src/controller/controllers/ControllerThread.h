@@ -27,6 +27,8 @@ class ControllerThread : public QObject {
 		 */
         ControllerThread(QQueue <class Task* > *tL, QMutex *mutex);
 
+        virtual ~ControllerThread();
+
 	public slots:
 		/**
          * Execute the tasks on the queue
@@ -44,6 +46,7 @@ class ControllerThread : public QObject {
 		void resultReady(const QString &s);
 
 	private:
+
         /**
          * A pointer to Controller's Queue of tasks
     	 */

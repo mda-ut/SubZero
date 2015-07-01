@@ -117,6 +117,7 @@ FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency) {
 void FPGAInterface::init() {
     init_fpga();
     set_verbose(0);
+    executing = true;
     readThreads.push_back(std::thread(&FPGAInterface::in, this));
 }
 

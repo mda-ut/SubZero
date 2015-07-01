@@ -10,6 +10,7 @@
 #include <cv.h>
 #include <highgui.h>
 #include <vector>
+#include <iostream>
 
 class State;
 class Controller;
@@ -67,9 +68,8 @@ protected:
     std::vector<State*> states;
 
     void initializeView();
-    QRect* frontCameraRect;
-    QRect* downCameraRect;
-    QPainter *painter;
+    QRect frontCameraRect;
+    QRect downCameraRect;
 
     void paintEvent(QPaintEvent *event); //All drawing and painting will take place in here
 

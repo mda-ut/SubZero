@@ -11,6 +11,7 @@
 #include "../../util/data/Data.h"
 #include <queue>
 #include <thread>
+#include <iostream>
 
 
 /**
@@ -147,7 +148,19 @@ public:
      * @return	Data*	the most recent data in buffer
      *
      */
-    virtual Data* getDataFromBuffer();
+    //virtual Data* getDataFromBuffer();
+
+    template<class dataType> dataType* getDataFromBuffer(){
+        dataType* data = nullptr;
+        if (!(this->decodedBuffer.empty())) {
+            data = dynamic_cast<dataType*>(decodedBuffer.back());
+            std::cout <<"new data"<<std::endl;
+            return new dataType(*data);
+        } else {
+            //std::cout << "Nothing in buffer"<<std::endl;
+            return data;
+        }
+    }
 
     /**
      * Get the frequency of data polling (polls per second)

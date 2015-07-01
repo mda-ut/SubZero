@@ -19,6 +19,7 @@ private:
     View* view;
     Controller* controller;
 public:
+    static int ctr;
     SubZero(std::vector<Model*> models_, View* view_, Controller* controller_);
 	virtual ~SubZero();
     void init();

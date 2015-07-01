@@ -35,7 +35,13 @@ Model::Model(State* inputState, HwInterface* inputHwInterface){
     interface = inputHwInterface;
 }
 
-Model::~Model(){}
+Model::~Model(){
+    delete state;
+    delete interface;
+    for (auto& fm : filterManagerList) {
+        delete fm;
+    }
+}
 
 void Model::initialize() {
     interface->init();

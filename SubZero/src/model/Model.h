@@ -54,7 +54,7 @@ protected:
 	/**
 	 * notifyObserver notifies all observers of the observable when an update arrives
 	 */
-	void notifyObserver(); // This might be an unnecessary function. ASK!!!
+
 
 public:
 
@@ -75,15 +75,17 @@ public:
 
 /* **************** Data Management **************** */
 
-	virtual void sendCommand(std::string cmd)=0;
+    virtual void sendCommand(std::string cmd)=0;
 
-	virtual Data* getDataFromBuffer()=0;
+    virtual Data* getDataFromBuffer()=0;
 
-	virtual std::vector<Data*> constructDataSet()=0;
+    virtual std::vector<Data*> constructDataSet()=0;
 
-	virtual void storeToState(std::vector<Data*> dataSet)=0;
+    virtual void storeToState(std::vector<Data*> dataSet)=0;
 
-	virtual void dataTransfer()=0;
+    virtual bool dataTransfer()=0;
+
+    void notifyObserver(); // This might be an unnecessary function. ASK!!!
 
 
 /* **************** Filter/Filter Chain Management **************** */

@@ -26,16 +26,19 @@ void ShowCaseView::update(int ID) {
     case FRONTCAM: {
         ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
         makeQImage(newImg->img, frontCameraImage);
+        //std::cout << "make front" << std::endl;
         break;
     }
     case DOWNCAM: {
         ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
         makeQImage(newImg->img, downCameraImage);
+        //std::cout << "make down" << std::endl;
         break;
     }
     case FPGA:
         break;
     }
+    repaint();
 }
 
 void ShowCaseView::initializeShowCaseView()
@@ -123,10 +126,10 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller)
 
     //Create holder functions since having trouble with task* - QObject * conversions
 
-    QuickTaskAdder *qta = new QuickTaskAdder();
-    qta->initializeQuickTaskAdder(controller);
+    //QuickTaskAdder *qta = new QuickTaskAdder();
+    //qta->initializeQuickTaskAdder(controller);
 
-    connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
+    //connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
 
 
 }

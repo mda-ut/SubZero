@@ -59,7 +59,7 @@ public:
 	/**
 	 * This automate the process of getting FPGA data from buffer, pack raw and filtered data together and store into state.
 	 */
-	void dataTransfer();
+    bool dataTransfer();
 
 };
 

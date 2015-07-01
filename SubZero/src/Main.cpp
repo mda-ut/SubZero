@@ -21,15 +21,16 @@ using namespace std;
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
-    Logger::trace("Logger initialized.");
+    Logger logger("Main");
+    Logger::initialize(Logger::Level::TRACE,true, true, logTimer);
+    logger.trace("Logger initialized.");
     PropertyReader* settings;
     if (argc > 1) {
         settings = new PropertyReader(argv[1]);
     } else {
         settings = new PropertyReader("../SubZero/src/settings/settings.txt");
     }
-    //Logger::trace(std::to_string(std::stoi(settings->getProperty("CAM_BUFFER_SIZE"))));
+    settings->load();
     Menu* newMenu = new Menu(settings);
     newMenu->show();
 

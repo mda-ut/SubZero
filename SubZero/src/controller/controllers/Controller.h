@@ -13,6 +13,7 @@
 #include <vector>
 #include "../task/Task.h"
 #include "../../model/Model.h"
+#include "ControllerThread.h"
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties
@@ -81,10 +82,12 @@ class Controller : public QObject {
         void beginCT(const QString &s);
 
 	private:
+        ControllerThread *cT;
+
 		/**
         * A Queue of commands View tells us to complete
 		*/
-        QQueue <class Task* > taskList;
+        QQueue <class Task* >* taskList;
 
         /**
          * A mutex lock that will make our writes thread safe.

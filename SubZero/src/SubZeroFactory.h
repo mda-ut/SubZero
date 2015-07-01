@@ -10,11 +10,15 @@
 
 #include "SubZero.h"
 #include "PropertyReader.h"
+#include "Logger.h"
 
 //jon says to move inside class
 enum SubType {GUI, SIM, AUT};
 
 class SubZeroFactory {
+private:
+    Logger* logger =  new Logger("SubZeroFactory");
+
 public:
 	SubZeroFactory();
 	virtual ~SubZeroFactory();

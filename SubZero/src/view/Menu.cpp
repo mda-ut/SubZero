@@ -24,7 +24,6 @@
 Menu::Menu(PropertyReader* settings_)
 {
     settings = settings_;
-    Logger::trace(std::to_string(std::stoi(settings_->getProperty("CAM_BUFFER_SIZE"))));
     initializeMenu();
 }
 
@@ -134,7 +133,7 @@ void Menu::initializeMenu()
 }
 
 Menu::~Menu(){
-
+    delete settings;
 }
 
 
@@ -155,11 +154,16 @@ void Menu::paintEvent(QPaintEvent *event)
 
 void Menu::makeGuiView()
 {
-    this->close();
+    /*ShowCaseView *view = new ShowCaseView;
+    view->show();
+
+    Controller* controller = new Controller;
+    controller->initialize();
+*/
     SubZeroFactory subFactory;
-    Logger::trace(std::to_string(std::stoi(settings->getProperty("CAM_BUFFER_SIZE"))));
     SubZero* guiSub = subFactory.makeSubZero(GUI, settings);
     guiSub->init();
+    this->close();
     guiSub->run();
     delete guiSub;
 }
