@@ -7,64 +7,65 @@
 
 #include "PropertyReader.h"
 
-/* ***************************
- * Private functions
- */
-
-std::string PropertyReader::getValueByName(std::string wantedName, std::string tryingLine){
-	std::size_t dividerPosition = tryingLine.find("=");
-	std::string tryingName = tryingLine.substr (0,dividerPosition-1);
-	if(tryingName == wantedName)
-		return tryingLine.substr (dividerPosition + 2);
-	else
-		return "Wrong";
+void PropertyReader::loadLine(std::string inputLine) {
+    std::size_t delimiterPosition = inputLine.find("=");    //TODO: Replace string literal with a member variable
+    //TODO: Find a way to trim white space
+    std::string propertyName = inputLine.substr(0, delimiterPosition - 1);
+    std::string value = inputLine.substr (delimiterPosition + 2);
+    // Map the property name to the value
+    values[propertyName] = value;
+    logger->info("Mapped " + value + " to " + propertyName);
 }
 
-
-/* ***************************
- * Public functions
- */
-
-std::string PropertyReader::getProperty(std::string propertyName){
-    while (inFileStream)
-    {
-        // read stuff from the file into a string and print it
-        std::string inputString;
-        getline(inFileStream, inputString);
-        std::string findResult = getValueByName(propertyName,inputString);
-        if(findResult != "Wrong")
-            return findResult;
+void PropertyReader::load() {
+    logger->trace("Opening file: " + filePath);
+    if(ifstream.is_open()) {
+        logger->info("File already open: " + filePath);
+        ifstream.close();
+        logger->trace("File closed: " + filePath);
     }
 
-    return "Wrong";
-}
+    ifstream.open(filePath);
 
-PropertyReader::~PropertyReader(){
-}
-
-PropertyReader::PropertyReader(std::string propertyFilePath){
-    inFileStream.open(propertyFilePath);
-	// inFileStream->open(propertyFilePath);
-
-	// If we couldn't open the input file stream for reading
-    if (!inFileStream)
-	{
-		// Print an error and exit
-		std::cerr << "Uh oh, Sample.dat could not be opened for reading!" << std::endl;
-	}
-}
-
-void PropertyReader::changeFilePath(std::string newFilePath){
-    if(inFileStream.is_open()) {
-        inFileStream.close();
+    // If we couldn't open the input file stream for reading
+    if (!ifstream) {
+        // Error occured opening file exit
+        logger->error("File could not be opened: " + filePath);
+        return;
+    } else {
+        logger->info("File opened: " + filePath);
     }
-    inFileStream.open(newFilePath);
-	// inFileStream->open(propertyFilePath);
 
-	// If we couldn't open the input file stream for reading
-    if (!inFileStream)
-	{
-		// Print an error and exit
-		std::cerr << "Uh oh, Sample.dat could not be opened for reading!" << std::endl;
-	}
+    // Iterate through the file to find all properties
+    logger->info("Loading properties file...");
+    while (ifstream) {
+        std::string inputLine;
+        getline(ifstream, inputLine);
+        //TODO: Ignore comments and blank lines
+        if (inputLine == "") {
+            continue;
+        }
+        loadLine(inputLine);
+    }
+    logger->debug("Loaded " + std::to_string(values.size()) + " properties successfully");
+}
+
+std::string PropertyReader::getProperty(std::string propertyName) {
+    return values[propertyName];
+}
+
+PropertyReader::~PropertyReader() {
+    if(ifstream.is_open()) {
+        ifstream.close();
+        logger->trace("File closed: " + filePath);
+    }
+    logger->trace("Property file deleted");
+}
+
+PropertyReader::PropertyReader(std::string filePath){
+    this->filePath = filePath;
+}
+
+void PropertyReader::setFilePath(std::string newFilePath){
+    filePath = newFilePath;
 }

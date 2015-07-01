@@ -9,18 +9,18 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: _______");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: _______");
+    logger->trace("==============================");
 	return fail;
  */
 
 int FPGADataTEST::runUnits() {
 	int res = 0;
-	Logger::trace("Running all unit tests for: FPGAData");
-	Logger::trace("==============================");
+    logger->trace("Running all unit tests for: FPGAData");
+    logger->trace("==============================");
 
 //	libusb_init(0);
 //	std::system("gedit test.c");
@@ -28,111 +28,109 @@ int FPGADataTEST::runUnits() {
 //	res += T_cpConstructor();
 //	res += T_opEqual();
 
-	Logger::trace("==============================");
+    logger->trace("==============================");
 	if (res != 0)
-		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
-	Logger::trace("Unit testing complete: FPGAData");
-	Logger::trace("NOTE: all units mem tested");
+        logger->warn(StringTools::intToStr(res)+" warning(s) in unit tests");
+    logger->trace("Unit testing complete: FPGAData");
+    logger->trace("NOTE: all units mem tested");
 	return res;
 
 }
 
 int FPGADataTEST::T_Constructor() {
 	int fail = 0;
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
-	Logger::trace("Testing Constructor:");
-	Logger::trace(" Constructing new FPGAData with arg \"data\", 10.0,3.5,120...");
+    logger->trace("Testing Constructor:");
+    logger->trace(" Constructing new FPGAData with arg \"data\", 10.0,3.5,120...");
 	FPGAData* data = new FPGAData("data",10.0,3.5,120);
-	Logger::trace(" Complete.");
-	Logger::trace(" Checking initialized variables...");
-	Logger::trace("  Using gets()...");
+    logger->trace(" Complete.");
+    logger->trace(" Checking initialized variables...");
+    logger->trace("  Using gets()...");
 	if (data->getDepth() == 10.0 && data->getSpeed() == 3.5 && data->getHeading() == 120.0)
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-		Logger::warn("    NOT ok, value initialization incorrect");
+        logger->warn("    NOT ok, value initialization incorrect");
 		fail += 1;
 	}
-	Logger::trace("Test complete.");
-	Logger::trace("Deleting data...");
+    logger->trace("Test complete.");
+    logger->trace("Deleting data...");
 	delete data;
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: Data Constructor");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: Data Constructor");
+    logger->trace("==============================");
 	return fail;
 }
 
 int FPGADataTEST::T_opEqual() {
 	int fail = 0;
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
-	Logger::trace("Testing Operator=:");
-	Logger::trace(" Constructing new FPGAData with arg \"data\", 10.0,3.5,120...");
+    logger->trace("Testing Operator=:");
+    logger->trace(" Constructing new FPGAData with arg \"data\", 10.0,3.5,120...");
     FPGAData data("data",10.0,3.5,120);
-	Logger::trace("  Complete.");
-	Logger::trace(" Set \"copy\" equal \"data\"...");
+    logger->trace("  Complete.");
+    logger->trace(" Set \"copy\" equal \"data\"...");
     FPGAData copy = data;
-	Logger::trace("  Complete.");
-	Logger::trace(" Checking \"copy\" variables...");
-	Logger::trace("  Using getID()...");
+    logger->trace("  Complete.");
+    logger->trace(" Checking \"copy\" variables...");
+    logger->trace("  Using getID()...");
     if (copy.getID() == "data")
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-		Logger::warn("    NOT ok, ID incorrect");
+        logger->warn("    NOT ok, ID incorrect");
 		fail += 1;
 	}
-	Logger::trace("  Using gets()...");
+    logger->trace("  Using gets()...");
     if (copy.getDepth() == 10.0 && copy.getSpeed() == 3.5 && copy.getHeading() == 120.0)
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-		Logger::warn("    NOT ok, value incorrect");
+        logger->warn("    NOT ok, value incorrect");
 		fail += 1;
 	}
-	Logger::trace("Test complete.");
+    logger->trace("Test complete.");
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: Operator=");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: Operator=");
+    logger->trace("==============================");
 	return fail;
 
 }
 
 int FPGADataTEST::T_cpConstructor() {
 	int fail = 0;
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
-	Logger::trace("Testing Copy Constructor:");
-	Logger::trace(" Constructing new FPGAData with arg \"data\", 10.0,3.5,120...");
+    logger->trace("Testing Copy Constructor:");
+    logger->trace(" Constructing new FPGAData with arg \"data\", 10.0,3.5,120...");
 	FPGAData* data = new FPGAData("data",10.0,3.5,120);
-	Logger::trace("  Complete.");
-	Logger::trace(" Constructing \"copy\" with \"data\" as arg...");
+    logger->trace("  Complete.");
+    logger->trace(" Constructing \"copy\" with \"data\" as arg...");
     FPGAData* copy = new FPGAData(*data);
-	Logger::trace("  Complete.");
-	Logger::trace(" Checking \"copy\" variables...");
-	Logger::trace("  Using getID()...");
+    logger->trace("  Complete.");
+    logger->trace(" Checking \"copy\" variables...");
+    logger->trace("  Using getID()...");
 	if (copy->getID() == "data")
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-		Logger::warn("    NOT ok, ID incorrect");
+        logger->warn("    NOT ok, ID incorrect");
 		fail += 1;
 	}
-	Logger::trace("  Using gets()...");
+    logger->trace("  Using gets()...");
 	if (copy->getDepth() == 10.0 && copy->getSpeed() == 3.5 && copy->getHeading() == 120.0)
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-		Logger::warn("    NOT ok, value incorrect");
+        logger->warn("    NOT ok, value incorrect");
 		fail += 1;
 	}
-	Logger::trace("Test complete.");
-	Logger::trace("Deleting data...");
+    logger->trace("Test complete.");
+    logger->trace("Deleting data...");
 	delete data;
 	delete copy;
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: Copy Constructor");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: Copy Constructor");
+    logger->trace("==============================");
 	return fail;
 }

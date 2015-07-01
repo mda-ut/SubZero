@@ -11,19 +11,54 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <map>
 
-class PropertyReader{
+#include <Logger.h>
+
+/**
+ * @brief The PropertyReader class is analogous to the Java Properties class.  Properties are loaded from a file and each property is delimited by a new line.  Each line has the following format:
+ * propertyName = value
+ * Where each property name is case sensitive.  Values are always interpreted as std::strings and it is up to the caller to convert to another primitive datatype if desired.  If a property is not found, its corresponding value will be an empty string.
+ */
+class PropertyReader {
 
 private:
-    std::ifstream inFileStream;
+    Logger* logger = new Logger("PropertyReader");
 
-	std::string getValueByName(std::string wantedName, std::string tryingLine);
+protected:
+    std::ifstream ifstream;
+    std::string filePath;
+    std::map<std::string, std::string> values;
+
+    void loadLine(std::string inputLine);
 
 public:
-	PropertyReader(std::string propertyFilePath);
+    /**
+     * @brief PropertyReader Constructor that takes in the file path to the properties file
+     * @param filePath Path to the properties file
+     */
+    PropertyReader(std::string filePath);
+
 	virtual ~PropertyReader();
+
+    /**
+     * @brief load Opens the properties file and loads the values
+     */
+    void load();
+
+    /**
+     * @brief getProperty Returns the value corresponding to the property name
+     * @param propertyName Case sensitive property name found in the properties file
+     * @return Returns the corresponding value as a std::string and returns an empty string if property cannot be found
+     */
 	std::string getProperty(std::string propertyName);
-	void changeFilePath(std::string newFilePath);
+
+    /**
+     * @brief setFilePath Sets the file path to the properties file
+     * @param newFilePath New file path for the properties file
+     */
+    void setFilePath(std::string newFilePath);
+
 };
 
 

@@ -99,9 +99,9 @@ bool StateTester::testImgSize(){
 		cs.setState(generateImgVector(2));
 	}
 
-	//Logger::trace(cs.getState("First", 7)->getMsg());
+    //logger->trace(cs.getState("First", 7)->getMsg());
 	cs.setState(generateImgVector(2));
-	//Logger::trace(cs.getState("First", 8)->getMsg());
+    //logger->trace(cs.getState("First", 8)->getMsg());
 	cs.setState(generateImgVector(2));
 
 	return cs.getState("First", 9) == 0;
@@ -135,9 +135,9 @@ bool StateTester::testFPGASize(){
 		fs.setState(generateFPGAVector(2));
 	}
 
-	//Logger::trace(fs.getState("First", 7)->getMsg());
+    //logger->trace(fs.getState("First", 7)->getMsg());
 	fs.setState(generateFPGAVector(2));
-	//Logger::trace(fs.getState("First", 8)->getMsg());
+    //logger->trace(fs.getState("First", 8)->getMsg());
 	fs.setState(generateFPGAVector(2));
 
 	return fs.getState("First", 9) == 0;
@@ -145,45 +145,45 @@ bool StateTester::testFPGASize(){
 
 void StateTester::run(){
 	StateTester st;
-	Logger::trace("===========Starting Image State Testing===========");
+    logger->trace("===========Starting Image State Testing===========");
 
 	//========================================================================
-	Logger::trace("-----Testing basics-----");
+    logger->trace("-----Testing basics-----");
 	if (st.testImgBasics())
-		Logger::trace("Basics passed");
+        logger->trace("Basics passed");
 	else
-		Logger::trace("Basics test FAILED");
+        logger->trace("Basics test FAILED");
 
 	//========================================================================
-	Logger::trace("-----Testing size-----");
+    logger->trace("-----Testing size-----");
 	if (st.testImgSize())
-		Logger::trace("Size passed");
+        logger->trace("Size passed");
 	else
-		Logger::trace("Size test FAILED");
+        logger->trace("Size test FAILED");
 
 
-	Logger::trace("============End Image State Testing===============");
+    logger->trace("============End Image State Testing===============");
 	//===============================================================================================
 	//									FPGA State testing
 	//===============================================================================================
-	Logger::trace("===========Starting FPGA State Testing===========");
+    logger->trace("===========Starting FPGA State Testing===========");
 
 	//========================================================================
-	Logger::trace("-----Testing basics-----");
+    logger->trace("-----Testing basics-----");
 	if (st.testFPGABasics())
-		Logger::trace("Basics passed");
+        logger->trace("Basics passed");
 	else
-		Logger::trace("Basics test FAILED");
+        logger->trace("Basics test FAILED");
 
 	//========================================================================
-	Logger::trace("-----Testing size-----");
+    logger->trace("-----Testing size-----");
 	if (st.testFPGASize())
-		Logger::trace("Size passed");
+        logger->trace("Size passed");
 	else
-		Logger::trace("Size test FAILED");
+        logger->trace("Size test FAILED");
 
 
-	Logger::trace("============End FPGA State Testing===============");
+    logger->trace("============End FPGA State Testing===============");
 
 }
 

@@ -30,7 +30,11 @@ class CameraInterface : public HwInterface {
 
 private:
 
+
    int position;
+
+    Logger* logger = new Logger("CameraInterface");
+
     cv::VideoCapture camStream;
 
     // CvCapture* camStream;

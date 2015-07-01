@@ -43,6 +43,8 @@ class FPGAInterface : public HwInterface {
 
 private:
 
+    Logger* logger = new Logger("FPGAInterface");
+
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
      * ==========================================================================

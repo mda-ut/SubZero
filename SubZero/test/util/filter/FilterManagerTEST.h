@@ -17,32 +17,36 @@
 class FilterManagerTEST {
 
 public:
-	static int runUnits();
+    int runUnits();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
 	 * ==========================================================================
 	 */
 
-	static int T_Constructor();
-	static int T_Destructor();
+    int T_Constructor();
+    int T_Destructor();
 
 	/* ==========================================================================
 	 * MAIN FUNCTIONALITY: FILTRATION
 	 * ==========================================================================
 	 */
 
-	static int T_applyFilterChain();
+    int T_applyFilterChain();
 
 	/* ==========================================================================
 	 * FILTER MANAGMENT FUNCTIONS: CUSTOM ID MODE and AUTO ID MODE
 	 * ==========================================================================
 	 */
 
-	static int T_insertFilter();
-	static int T_replaceFilter();
-	static int T_deleteFilter();
-	static int T_detletFilterChain();
+    int T_insertFilter();
+    int T_replaceFilter();
+    int T_deleteFilter();
+    int T_detletFilterChain();
+
+private:
+    Logger* logger = new Logger("FilterManagerTEST");
+
 };
 
 #endif /* TEST_UTIL_FILTER_FILTERMANAGERTEST_H_ */

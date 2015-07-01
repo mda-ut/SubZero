@@ -71,7 +71,7 @@ void FPGAInterface::set(Attributes attr, int value) {
         } else if (value == 1){
             power_on();
         } else {
-            Logger::trace("Error: wrong power value of " + std::to_string(value));
+            logger->trace("Error: wrong power value of " + std::to_string(value));
         }
         break;
     case DEPTH:

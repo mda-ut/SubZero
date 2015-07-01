@@ -16,13 +16,19 @@ bool Logger::writeToConsole = true;
 bool Logger::writeToFile = false;
 std::ofstream Logger::logFile;
 Timer* Logger::timer = NULL;
+Logger::Level Logger::level = Logger::Level::DEBUG;
 
-Logger::Logger() {
-	// TODO Auto-generated constructor stub
+Logger::Logger(std::string className) {
+    this->className = className;
 }
 
-bool Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
-	Logger::writeToConsole = writeToConsole;
+void Logger::setLoggingLevel(Level level) {
+    Logger::level = level;
+}
+
+bool Logger::initialize(Level level, bool writeToConsole, bool writeToFile, Timer* timer) {
+    Logger::level = level;
+    Logger::writeToConsole = writeToConsole;
 	Logger::writeToFile = writeToFile;
 	Logger::timer = timer;
 
@@ -54,51 +60,63 @@ bool Logger::initialize(bool writeToConsole, bool writeToFile, Timer* timer) {
 }
 
 void Logger::trace(std::string msg) {
-	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tTRACE\t",
-			timer->getCurrentTime());
+    if (Level::TRACE >= Logger::level) {
+        char buffer[100];
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tTRACE\t";
+        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
-	std::string finalMsg(buffer);
-	finalMsg += msg;
-	log(finalMsg);
+        std::string finalMsg(buffer);
+        finalMsg += msg;
+        log(finalMsg);
+    }
 }
 
 void Logger::info(std::string msg) {
-	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tINFO\t", timer->getCurrentTime());
+    if (Level::INFO >= Logger::level) {
+        char buffer[100];
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tINFO\t";
+        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
-	std::string finalMsg(buffer);
-	finalMsg += msg;
-	log(finalMsg);
+        std::string finalMsg(buffer);
+        finalMsg += msg;
+        log(finalMsg);
+    }
 }
 
 void Logger::debug(std::string msg) {
-	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tDEBUG\t",
-			timer->getCurrentTime());
+    if (Level::DEBUG >= Logger::level) {
+        char buffer[100];
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tDEBUG\t";
+        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
-	std::string finalMsg(buffer);
-	finalMsg += msg;
-	log(finalMsg);
+        std::string finalMsg(buffer);
+        finalMsg += msg;
+        log(finalMsg);
+    }
 }
 
 void Logger::warn(std::string msg) {
-	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tWARN\t", timer->getCurrentTime());
+    if (Level::WARN >= Logger::level) {
+        char buffer[100];
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tWARN\t";
+        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
-	std::string finalMsg(buffer);
-	finalMsg += msg;
-	log(finalMsg);
+        std::string finalMsg(buffer);
+        finalMsg += msg;
+        log(finalMsg);
+    }
 }
 
 void Logger::error(std::string msg) {
-	char buffer[100];
-	strftime(buffer, 100, "%d-%m-%Y %I:%M:%S\tERROR\t",
-			timer->getCurrentTime());
+    if (Level::ERROR >= Logger::level) {
+        char buffer[100];
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tERROR\t";
+        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
-	std::string finalMsg(buffer);
-	finalMsg += msg;
-	log(finalMsg);
+        std::string finalMsg(buffer);
+        finalMsg += msg;
+        log(finalMsg);
+    }
 }
 
 void Logger::log(std::string msg) {
