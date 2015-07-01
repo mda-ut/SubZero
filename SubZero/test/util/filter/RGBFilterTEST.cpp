@@ -9,24 +9,24 @@
 
 /* TEMPLATE
 	int fail = 0;
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: _______");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: _______");
+    logger->trace("==============================");
 	return fail;
  */
 
 int RGBFilterTEST::runUnits() {
 	int res = 0;
-	Logger::trace("Running all unit tests for: RGBFilter");
-	Logger::trace("==============================");
+    logger->trace("Running all unit tests for: RGBFilter");
+    logger->trace("==============================");
         res += T_Constructor(); //uncomment this line to replicate crash
 	res += T_filter();
-	Logger::trace("==============================");
+    logger->trace("==============================");
 	if (res != 0)
-		Logger::warn(StringTools::intToStr(res)+" warning(s) in unit tests");
-	Logger::trace("Unit testing complete: RGBFilter");
+        logger->warn(StringTools::intToStr(res)+" warning(s) in unit tests");
+    logger->trace("Unit testing complete: RGBFilter");
 	return res;
 }
 
@@ -37,47 +37,47 @@ int RGBFilterTEST::runUnits() {
 
 int RGBFilterTEST::T_Constructor() {
 	int fail = 0;
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
-	Logger::trace("Testing Constructor:");
-	Logger::trace(" Init int arr[3] = {1,2,3}...");
+    logger->trace("Testing Constructor:");
+    logger->trace(" Init int arr[3] = {1,2,3}...");
 	int arr[] = {1,2,3};
-	Logger::trace(" Using filter factory, create mode 0 filter...");
+    logger->trace(" Using filter factory, create mode 0 filter...");
         RGBFilter* rgbFilter = (RGBFilter*)FilterFactory::createRGBFilter(arr); //this line causes the crash: malloc:mem corruption
-	Logger::trace(" Checking variables...");
-	Logger::trace("  Using getValues...");
+    logger->trace(" Checking variables...");
+    logger->trace("  Using getValues...");
 	std::vector<int> list = rgbFilter->getValues();
 	std::string res;
 	for (std::vector<int>::iterator it = list.begin(); it != list.end(); it++)
 		res += " "+StringTools::intToStr(*it);
-	Logger::trace("   "+res);
+    logger->trace("   "+res);
 	if (res == " 1 2 3")
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-		Logger::warn("    NOT ok, values not correct under full mode");
+        logger->warn("    NOT ok, values not correct under full mode");
 		fail++;
 	}
         delete rgbFilter;
-	Logger::trace(" Using filter factory, create mode 1 filter...");
+    logger->trace(" Using filter factory, create mode 1 filter...");
 	rgbFilter = (RGBFilter*)FilterFactory::createRGBFilter(arr,arr,arr);
-	Logger::trace(" Checking variables...");
-	Logger::trace("  Using getValues...");
+    logger->trace(" Checking variables...");
+    logger->trace("  Using getValues...");
 	list = rgbFilter->getValues();
 	res = "";
 	for (std::vector<int>::iterator it = list.begin(); it != list.end(); it++)
 		res += " "+StringTools::intToStr(*it);
-	Logger::trace("   "+res);
+    logger->trace("   "+res);
 	if (res == " 1 2 3 1 2 3 1 2 3")
-		Logger::trace("    ok");
+        logger->trace("    ok");
 	else {
-	Logger::warn("    NOT ok, values not correct under div mode");
+    logger->warn("    NOT ok, values not correct under div mode");
 		fail++;
 	}
 	delete rgbFilter;
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: Constructor");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: Constructor");
+    logger->trace("==============================");
 	return fail;
 }
 
@@ -88,79 +88,80 @@ int RGBFilterTEST::T_Constructor() {
 
 int RGBFilterTEST::T_filter() {
 	int fail = 0;
-	Logger::trace("==============================");
+    logger->trace("==============================");
 
-	Logger::trace("Testing filter():");
+    logger->trace("Testing filter():");
 
-//	Logger::trace(" Using imread...");
+//	logger->trace(" Using imread...");
 //	cv::Mat img = cv::imread("rgb_mode_0.jpg",CV_LOAD_IMAGE_COLOR);
 //	if (! img.data)
-//		Logger::warn(" OH NO, img not read");
+//		logger->warn(" OH NO, img not read");
 
-	Logger::trace(" Using camCap...");
-	cv::Mat img = ImgDataTEST::camCap();
+    logger->trace(" Using camCap...");
+    ImgDataTEST* imgTest = new ImgDataTEST();
+    cv::Mat img = imgTest->camCap();
 	cvDestroyWindow("camCap");
-	Logger::trace(" Loading test image into a ImgData wrapper...");
+    logger->trace(" Loading test image into a ImgData wrapper...");
     ImgData* testImg = new ImgData("raw",img);
-	Logger::trace(" Copying ImgData to second wrapper...");
+    logger->trace(" Copying ImgData to second wrapper...");
     ImgData* testImg2 = new ImgData(*testImg);
-	Logger::trace(" Showing one copy of test image (should be named \"raw\")...");
+    logger->trace(" Showing one copy of test image (should be named \"raw\")...");
 	testImg->showImg();
 
-	Logger::trace(" Filtering first data w/ full luminosity specturm, aka mode 0...");
-	Logger::trace("  Init int arr[3]...");
+    logger->trace(" Filtering first data w/ full luminosity specturm, aka mode 0...");
+    logger->trace("  Init int arr[3]...");
 	int arr[] = {25,-15,-20};
-	Logger::trace("  Using filter factory, create mode 0 filter...");
+    logger->trace("  Using filter factory, create mode 0 filter...");
 	RGBFilter* rgbFilter = new RGBFilter(arr);//(RGBFilter*)FilterFactory::createRGBFilter(arr);
-	Logger::trace("  Creating filter manager w/ id \"RGBFilter MODE 0\"...");
+    logger->trace("  Creating filter manager w/ id \"RGBFilter MODE 0\"...");
 	FilterManager* fm = new FilterManager("RGBFilter MODE 0");
-	Logger::trace("  Inserting filter as \"rgb mode 0\"...");
+    logger->trace("  Inserting filter as \"rgb mode 0\"...");
 	fm->insertFilter("rgb mode 0",rgbFilter);
-	Logger::trace("  Attempt filtering using filter manager...");
+    logger->trace("  Attempt filtering using filter manager...");
 	fm->applyFilterChain(testImg);
-	Logger::trace("  Showing filtered test image...");
+    logger->trace("  Showing filtered test image...");
 	testImg->showImg();
-	Logger::trace("   Expect 2 windows, \"raw\" and \"RGBFilter MODE 0\", the latter should be red shifted");
-	Logger::trace("   If true, hit space, else hit esc");
+    logger->trace("   Expect 2 windows, \"raw\" and \"RGBFilter MODE 0\", the latter should be red shifted");
+    logger->trace("   If true, hit space, else hit esc");
 	char key;
 	while (1) {
 		key = cvWaitKey(0);
 		if (char(key) == 32) {
-			Logger::trace("    ok");
+            logger->trace("    ok");
 				break;
 		}
 		else if (char(key) == 27) {
-			Logger::warn("    NOT ok, details of output under mode 0 not correct");
+            logger->warn("    NOT ok, details of output under mode 0 not correct");
 			fail++;
 			break;
 		}
 	}
 
-	Logger::trace(" Filtering data 2 w/ 3 zones of luminosity separately, aka mode 1...");
-	Logger::trace("  Init int high[3],mid[3],shad[3]...");
+    logger->trace(" Filtering data 2 w/ 3 zones of luminosity separately, aka mode 1...");
+    logger->trace("  Init int high[3],mid[3],shad[3]...");
 	int high[] = {255,255,255};
 	int mid[] = {50,-30,-30};
 	int shad[]	= {-255,-255,-255};
-	Logger::trace("  Using filter factory, create mode 1 filter...");
+    logger->trace("  Using filter factory, create mode 1 filter...");
 	RGBFilter* rgbFilter2 = new RGBFilter(high,mid,shad);//(RGBFilter*)FilterFactory::createRGBFilter(high,mid,shad);
-	Logger::trace("  Creating filter manager w/ id \"RGBFilter MODE 1\"...");
+    logger->trace("  Creating filter manager w/ id \"RGBFilter MODE 1\"...");
 	FilterManager* fm2 = new FilterManager("RGBFilter MODE 1");
-	Logger::trace("  Inserting filter as \"rgb mode 1\"...");
+    logger->trace("  Inserting filter as \"rgb mode 1\"...");
 	fm2->insertFilter("rgb mode 1",rgbFilter2);
-	Logger::trace("  Attempt filtering using filter manager...");
+    logger->trace("  Attempt filtering using filter manager...");
 	fm2->applyFilterChain(testImg2);
-	Logger::trace("  Showing filtered test image...");
+    logger->trace("  Showing filtered test image...");
 	testImg2->showImg();
-	Logger::trace("   Expect 3 windows in total, \"raw\" and \"RGBFilter MODE 0\" and \"RGBFilter MODE 1\", the latter should be red shifted, but a bit differently");
-	Logger::trace("   If true, hit space, else hit esc");
+    logger->trace("   Expect 3 windows in total, \"raw\" and \"RGBFilter MODE 0\" and \"RGBFilter MODE 1\", the latter should be red shifted, but a bit differently");
+    logger->trace("   If true, hit space, else hit esc");
 	while (1) {
 		key = cvWaitKey(0);
 		if (char(key) == 32) {
-			Logger::trace("    ok");
+            logger->trace("    ok");
 				break;
 		}
 		else if (char(key) == 27) {
-			Logger::warn("    NOT ok, details of output under mode 1 not correct");
+            logger->warn("    NOT ok, details of output under mode 1 not correct");
 			fail++;
 			break;
 		}
@@ -176,8 +177,8 @@ int RGBFilterTEST::T_filter() {
     img.release();
 
 	if (fail > 0)
-		Logger::warn("  TEST FAILED: filter()");
-	Logger::trace("==============================");
+        logger->warn("  TEST FAILED: filter()");
+    logger->trace("==============================");
 	return fail;
 }
 

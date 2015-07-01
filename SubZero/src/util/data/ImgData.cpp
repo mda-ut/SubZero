@@ -70,7 +70,7 @@ void ImgData::showImg(std::string windowName) {
                 this->windowName = this->dataID;
 			}
 		} catch (cv::Exception) {
-			Logger::warn("Unable to show \""+this->dataID+"\"'s img, cv::exception");
+            logger->warn("Unable to show \""+this->dataID+"\"'s img, cv::exception");
 		}
 	}
 }

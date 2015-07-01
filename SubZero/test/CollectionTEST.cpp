@@ -9,38 +9,44 @@
 
 int CollectionTEST::runDataAndFilterManagerCollection() {
 	int res = 0;
-	Logger::trace("Running data/filter manager collection, authored by Albert");
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	res += IDHasherTEST::runUnits();
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	res += FilterManagerTEST::runUnits();
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	res += DataTEST::runUnits();
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	res += ImgDataTEST::runUnits();
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	res += FPGADataTEST::runUnits();
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	Logger::trace(StringTools::intToStr(res)+" warning(s)");
+    logger->trace("Running data/filter manager collection, authored by Albert");
+    IDHasherTEST* hasherTest = new IDHasherTEST();
+    FilterManagerTEST* filterTest = new FilterManagerTEST();
+    DataTEST* dataTest = new DataTEST();
+    ImgDataTEST* imgDataTest = new ImgDataTEST();
+    FPGADataTEST* fpgaDataTest = new FPGADataTEST();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    res += hasherTest->runUnits();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    res += filterTest->runUnits();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    res += dataTest->runUnits();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    res += imgDataTest->runUnits();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    res += fpgaDataTest->runUnits();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    logger->trace(StringTools::intToStr(res)+" warning(s)");
 	if (res != 0)
-		Logger::trace("Collection FAILED!!");
+        logger->trace("Collection FAILED!!");
 	else
-		Logger::trace("Collection passed");
-	Logger::trace("End");
+        logger->trace("Collection passed");
+    logger->trace("End");
 	return res;
 }
 
 int CollectionTEST::runFilterCollection() {
 	int res = 0;
-	Logger::trace("Running filter collection, authored by Albert");
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-    res += RGBFilterTEST::runUnits();
-	Logger::trace("++++++++++++++++++++++++++++++++++++");
-	Logger::trace(StringTools::intToStr(res)+" warning(s)");
+    RGBFilterTEST* RGBFilterTest = new RGBFilterTEST();
+    logger->trace("Running filter collection, authored by Albert");
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    res += RGBFilterTest->runUnits();
+    logger->trace("++++++++++++++++++++++++++++++++++++");
+    logger->trace(StringTools::intToStr(res)+" warning(s)");
 	if (res != 0)
-		Logger::trace("Collection FAILED!!");
+        logger->trace("Collection FAILED!!");
 	else
-		Logger::trace("Collection passed");
-	Logger::trace("End");
+        logger->trace("Collection passed");
+    logger->trace("End");
 	return res;
 }

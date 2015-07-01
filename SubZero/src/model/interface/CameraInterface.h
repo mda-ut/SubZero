@@ -35,6 +35,8 @@ class CameraInterface : public HwInterface {
 
 private:
 
+    Logger* logger = new Logger("CameraInterface");
+
     CameraPosition position;
     cv::VideoCapture camStream;
 

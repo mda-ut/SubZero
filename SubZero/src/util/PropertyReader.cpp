@@ -13,8 +13,8 @@
 
 std::string PropertyReader::getValueByName(std::string wantedName, std::string tryingLine){
 	std::size_t dividerPosition = tryingLine.find("=");
-	std::string tryingName = tryingLine.substr (0,dividerPosition-1);
-	if(tryingName == wantedName)
+    std::string tryingName = tryingLine.substr (0, dividerPosition - 1);
+    if (tryingName == wantedName)
 		return tryingLine.substr (dividerPosition + 2);
 	else
 		return "Wrong";

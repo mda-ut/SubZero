@@ -21,15 +21,15 @@
 class FPGADataTEST {
 
 public:
-	static int runUnits();
+    int runUnits();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
 	 * ==========================================================================
 	 */
 
-	static int T_Constructor();
-	static int T_Destructor();
+    int T_Constructor();
+    int T_Destructor();
 
 	/* ==========================================================================
 	 * IMG MANIPULATION FUNCS
@@ -43,9 +43,11 @@ public:
 	 * ==========================================================================
 	 */
 
-	static int T_opEqual();
-	static int T_cpConstructor();
+    int T_opEqual();
+    int T_cpConstructor();
 
+private:
+    Logger* logger = new Logger("FPGADataTEST");
 
 };
 

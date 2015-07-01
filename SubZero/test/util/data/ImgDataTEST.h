@@ -19,35 +19,37 @@
 class ImgDataTEST {
 
 public:
-	static int runUnits();
-	static cv::Mat camCap();
+    int runUnits();
+    cv::Mat camCap();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
 	 * ==========================================================================
 	 */
 
-	static int T_Constructor();
-	static int T_Destructor();
+    int T_Constructor();
+    int T_Destructor();
 
 	/* ==========================================================================
 	 * IMG MANIPULATION FUNCS
 	 * ==========================================================================
 	 */
 
-	static int T_getImg();
-	static int T_getHeight();
-	static int T_getWidth();
-	static int T_setImg();
+    int T_getImg();
+    int T_getHeight();
+    int T_getWidth();
+    int T_setImg();
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD
 	 * ==========================================================================
 	 */
 
-	static int T_opEqual();
-	static int T_cpConstructor();
+    int T_opEqual();
+    int T_cpConstructor();
 
+private:
+    Logger* logger = new Logger("ImgDataTEST");
 
 };
 

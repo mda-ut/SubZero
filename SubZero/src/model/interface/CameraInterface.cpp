@@ -22,7 +22,7 @@
  */
 static int counter=0;
 void CameraInterface::poll() {
-    Logger::trace("retrieving raw " + std::to_string(counter));
+    logger->trace("retrieving raw " + std::to_string(counter));
     cv::Mat raw;
     //Older version of OpenCV (tested on Alb's laptop setting)
     // IplImage* raw = cvQueryFrame(this->camStream);
@@ -41,7 +41,7 @@ void CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
-    Logger::trace("inserted image " + std::to_string(counter));
+    logger->trace("inserted image " + std::to_string(counter));
     ImgData* decoded = new ImgData(std::to_string(counter++), data);
     return decoded;
 }
