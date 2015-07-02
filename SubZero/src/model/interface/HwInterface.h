@@ -12,6 +12,7 @@
 #include <queue>
 #include <thread>
 #include <iostream>
+#include "Logger.h"
 
 
 /**
@@ -22,7 +23,7 @@
  * From the hardware, the data is polled at the
  * specified sampling rate then decoded into a format (as defined in Data.h) that
  * can be directly used by the rest of the software system. The decoded data is
- * temporary stored in a buffer.
+ * temporarily stored in a buffer.
  *
  * This temporary buffer is managed automatically and privately by the interface to
  * ensure that the data stays up-to-date.
@@ -40,6 +41,8 @@
  */
 
 class HwInterface {
+private:
+    Logger* logger = new Logger("HwInterface");
 
 protected:
 
@@ -84,7 +87,7 @@ protected:
     /**
      * Poll raw data from the hardware.
      */
-    virtual void poll()=0;
+    virtual void poll() = 0;
 
     /**
      * Decode the data.
@@ -150,14 +153,14 @@ public:
      */
     //virtual Data* getDataFromBuffer();
 
-    template<class dataType> dataType* getDataFromBuffer(){
+    template<class dataType> dataType* getDataFromBuffer() {
         dataType* data = nullptr;
         if (!(this->decodedBuffer.empty())) {
             data = dynamic_cast<dataType*>(decodedBuffer.back());
-            std::cout <<"new data"<<std::endl;
+            logger->trace("Data retrieved from buffer");
             return new dataType(*data);
         } else {
-            //std::cout << "Nothing in buffer"<<std::endl;
+            logger->trace("No data in buffer");
             return data;
         }
     }
@@ -200,7 +203,7 @@ public:
     HwInterface();
     HwInterface(int bufferSize, int pollFrequency);
 
-    virtual void init()=0;
+    virtual void init() = 0;
 
     /**
      * Destructor

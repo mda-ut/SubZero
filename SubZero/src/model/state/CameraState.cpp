@@ -9,84 +9,71 @@
 #include "../../util/Logger.h"
 #include <iostream>
 
-CameraState::CameraState(int stateID) : State(stateID){
-	//stateData = std::list<std::vector<ImgData*> >;
+CameraState::CameraState(int stateID) : State(stateID) {
+
 }
-CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored){
+CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored) {
+
 }
 
 CameraState::~CameraState(){
 
-	//carl and zack's fix
+    //carl and zack's fix
     for(auto& vector: stateData){
-		for (auto& data: vector){
-			delete data;
-		}
+        for (auto& data: vector){
+            delete data;
+        }
     }
-    /*
-	unsigned int i;
-	for (i = 0; i < stateData.size(); i++){
-		std::vector<ImgData*> temp = stateData.front();
-		for (unsigned int n = 0; n < temp.size(); n++){
-			delete temp.back();
-			temp.pop_back();
-		}
-		stateData.pop_front();
-    }*/
-	//delete stateData;
+
+    delete logger;
 }
 
-ImgData* CameraState::getState(std::string ID){
-	std::vector<ImgData*> temp = this->stateData.back();
-
-	for (unsigned int i = 0; i < temp.size(); i++){
-		ImgData* data = temp.at(i);
-		if (data->getID().compare(ID) == 0){
-            ImgData *t = data;		//deep copy
-			return t;
-		}
-	}
-	return 0;
+ImgData* CameraState::getState(std::string id) {
+    return getState(id, 0);
 }
 
-ImgData* CameraState::getState(std::string ID, int i){
+ImgData* CameraState::getState(std::string id, int i) {
+    if (i >= (int)stateData.size() || i < 0) {
+        logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
+        return 0;
+    }
 
-	if (i >= (int)stateData.size()){
-		return 0;				//index out of range
-	}
+    std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
+    std::advance(it, i);		//advance the list to the ith position
 
-	std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
-	std::advance(it, i);		//advance the list to the ith position
 
-	unsigned int n = 0;
-	for (n = 0; n < it->size(); n++){
-		ImgData* data = it->at(n);
-		if (data->getID().compare(ID) == 0){
-            ImgData *t = data;		//deep copy of the image
-			inUse = false;
-			return t;
-		}
-	}
-	return 0;
+    unsigned int n = 0;
+    for (n = 0; n < it->size(); n++) {
+        ImgData* data = it->at(n);
+        if (data->getID().compare(id) == 0) {
+            ImgData *t = new ImgData(*data);
+            inUse = false;
+            logger->info("State '" + id + "' found");
+            return t;
+        }
+    }
+
+    logger->info("State '" + id + "' was not found");
+    return 0;
 }
 
-int CameraState::setState(std::vector<ImgData*> d){
-	if ((int)this->stateData.size() > this->maxLength){
-		std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
-		for (unsigned int i= 0; i < temp.size(); i++){
+int CameraState::setState(std::vector<ImgData*> d) {
+    if ((int)this->stateData.size() > this->maxLength){
+        std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
+        for (unsigned int i= 0; i < temp.size(); i++){
             delete temp[i];
-		}
-		this->stateData.pop_front();
-	}
+        }
+        this->stateData.pop_front();
+    }
 
-	this->stateData.push_back(d);	//insert vector into list
-	return 0;
+    this->stateData.push_back(d);	//insert vector into list
+    return 0;
 }
 
-ImgData* CameraState::getRaw(){
-	return this->getState("RAW");
+ImgData* CameraState::getRaw() {
+    return this->getState("RAW");
 }
 
-ImgData* CameraState::getRaw(int i){
-	return this->getState("RAW", i);
+ImgData* CameraState::getRaw(int i) {
+    return this->getState("RAW", i);
 }

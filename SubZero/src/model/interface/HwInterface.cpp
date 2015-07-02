@@ -27,15 +27,15 @@ void HwInterface::deleteFromBuffer() {
 
 
 void HwInterface::storeToBuffer(Data* data) {
-    if ( decodedBuffer.size() >= bufferSize) {
+    if (decodedBuffer.size() >= bufferSize) {
         // delete old stuff from buffer
-        this->deleteFromBuffer();
+        deleteFromBuffer();
     }
-    this->decodedBuffer.push(data);
+    decodedBuffer.push(data);
 }
 
 void HwInterface::in() {
-    std::cout<<"in"<<std::endl;
+    logger->info("Executing");
 
     struct timespec tictoc;
     clock_gettime(CLOCK_MONOTONIC, &tictoc);
@@ -48,8 +48,7 @@ void HwInterface::in() {
         tictoc.tv_sec += (time_t) (tictoc.tv_nsec /1000000000);
         tictoc.tv_nsec = tictoc.tv_nsec % 1000000000;
         clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &tictoc, NULL);
-        //std::cout<<"poll"<<std::endl;
-        this->poll();
+        poll();
 
     }
 }
@@ -72,20 +71,20 @@ Data* HwInterface::getDataFromBuffer() {
 }*/
 
 int HwInterface::getPollFrequency() {
-    return this->pollFrequency;
+    return pollFrequency;
 }
 
 void HwInterface::setPollFrequency(int frequency){
-    this->pollFrequency = frequency;
+    pollFrequency = frequency;
 }
 
 int HwInterface::getBufferSize(){
-    return this->bufferSize;
-};
+    return bufferSize;
+}
 
 void HwInterface::setBufferSize(int bufferSize) {
-    this->bufferSize = bufferSize;
-};
+    bufferSize = bufferSize;
+}
 
 
 /* ==========================================================================
@@ -93,7 +92,9 @@ void HwInterface::setBufferSize(int bufferSize) {
  * ==========================================================================
  */
 
-HwInterface::HwInterface(){}
+HwInterface::HwInterface() {
+
+}
 
 HwInterface::HwInterface(int bufferSize, int pollFrequency) {
 
@@ -105,9 +106,9 @@ void HwInterface::init() {
     // thread for reading and polling Hw input
     // main thread will listen for commands to be sent to Hw
    readThreads.push_back(std::thread(&HwInterface::in, this));
+   logger->info("Thread started");
 }
 
 HwInterface::~HwInterface() {
-    // join readThread with main
-
+    delete logger;
 }

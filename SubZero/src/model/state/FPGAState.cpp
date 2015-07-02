@@ -7,99 +7,83 @@
 
 #include "FPGAState.h"
 
-FPGAState::FPGAState(int stateID) : State(stateID){
+FPGAState::FPGAState(int stateID) : State(stateID) {
+
 }
-FPGAState::FPGAState(int stateID, int framesStored) : State(stateID, framesStored){
+FPGAState::FPGAState(int stateID, int framesStored) : State(stateID, framesStored) {
+
 }
 
-FPGAState::~FPGAState(){
+FPGAState::~FPGAState() {
     for (auto& vector : stateData) {
         for (auto& data : vector) {
             delete data;
         }
     }
 
-    /*unsigned int i;
-	for (i = 0; i < stateData.size(); i++){
-		std::vector<FPGAData*> temp = stateData.front();
-		for (unsigned int n = 0; n < temp.size(); n++){
-			delete temp.back();
-			temp.pop_back();
-		}
-		stateData.pop_front();
-    }*/
-	//delete stateData;
+    delete logger;
 }
 
-FPGAData* FPGAState::getState(std::string ID){
-	if (inUse){
-		return 0;
-	}
-	inUse = true;
-
-	std::vector<FPGAData*> temp = this->stateData.back();
-
-	unsigned int i;
-	for (i = 0; i < temp.size(); i++){
-        FPGAData* data = temp[i];
-		if (data->getID().compare(ID) == 0){
-            FPGAData *t = new FPGAData(*data);
-			inUse = false;
-			return t;
-		}
-	}
-
-	return 0;
+FPGAData* FPGAState::getState(std::string id) {
+    return getState(id, 0);
 }
 
-FPGAData* FPGAState::getState(std::string ID, int i){
-	if (inUse){
-		return 0;
-	}
-	inUse = true;
+FPGAData* FPGAState::getState(std::string id, int i) {
+    if (inUse) {
+        logger->info("State '" + id + "' is in use and cannot be read");
+        return 0;
+    }
+    inUse = true;
 
-	if (i >= (int)stateData.size()){
-		return 0;				//index out of range
-	}
+    if (i >= (int)stateData.size() || i < 0) {
+        logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
+        return 0;
+    }
 
-	std::list<std::vector<FPGAData*> >::reverse_iterator it = stateData.rbegin();
-	std::advance(it, i);		//advance the list to the ith position
+    std::list<std::vector<FPGAData*> >::reverse_iterator it = stateData.rbegin();
+    std::advance(it, i);		//advance the list to the ith position
 
 
-	unsigned int n = 0;
-	for (n = 0; n < it->size(); n++){
-		FPGAData* data = it->at(n);
-		if (data->getID().compare(ID) == 0){
+    unsigned int n = 0;
+    for (n = 0; n < it->size(); n++) {
+        FPGAData* data = it->at(n);
+        if (data->getID().compare(id) == 0) {
             FPGAData *t = new FPGAData(*data);
-			inUse = false;
-			return t;
-		}
-	}
-	return 0;
+            inUse = false;
+            logger->info("State '" + id + "' found");
+            return t;
+        }
+    }
+
+    logger->info("State '" + id + "' was not found");
+    return 0;
 }
 
 int FPGAState::setState(std::vector<FPGAData*> d){
-	if (inUse){
-		return 1;
-	}
-	inUse = true;
+    if (inUse) {
+        logger->info("State is in use and cannot be set");
+        return 1;
+    }
+    inUse = true;
 
-	if ((int)this->stateData.size() > this->maxLength){
-		std::vector<FPGAData*> temp = this->stateData.front();
-		for (unsigned int i= 0; i < temp.size(); i++){
-			delete temp.at(i);
-		}
-		this->stateData.pop_front();
-	}
-	this->stateData.push_back(d);
-	inUse = false;
-	return 0;
+    if ((int)this->stateData.size() > this->maxLength){
+        std::vector<FPGAData*> temp = this->stateData.front();
+        for (unsigned int i= 0; i < temp.size(); i++){
+            logger->trace("Removing data at index " + std::to_string(i));
+            delete temp[i];
+        }
+        this->stateData.pop_front();
+    }
+    this->stateData.push_back(d);
+    inUse = false;
+    logger->info("New data set");
+    return 0;
 }
 
-FPGAData* FPGAState::getRaw(){
-	return this->getState("RAW");
+FPGAData* FPGAState::getRaw() {
+    return this->getState("RAW");
 }
 
-FPGAData* FPGAState::getRaw(int i){
-	return this->getState("RAW", i);
+FPGAData* FPGAState::getRaw(int i) {
+    return this->getState("RAW", i);
 }

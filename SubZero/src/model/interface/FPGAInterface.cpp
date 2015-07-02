@@ -21,13 +21,15 @@
  */
 
 void FPGAInterface::poll() {
+    //TODO Add error checking on values from FPGA
     double depth = (double) get_depth();
     double heading = (double) get_yaw();
     int accel_x, accel_y, accel_z;
     get_accel(&accel_x, &accel_y, &accel_z);
-    //need to adjust code for accel rather than speed
+    //Need to adjust code for accel rather than speed
     Data* new_data = new FPGAData("raw", depth, 0, heading);
-    this->storeToBuffer(new_data);
+    storeToBuffer(new_data);
+    logger->trace("Decoded and stored data to buffer");
 }
 
 FPGAData* FPGAInterface::decode(std::string* data) {
@@ -63,15 +65,16 @@ FPGAData* FPGAInterface::decode(std::string* data) {
  */
 
 void FPGAInterface::set(Attributes attr, int value) {
+    logger->trace("Setting " + std::to_string(attr) + " to " + std::to_string(value));
     std::cout << attr << ":" << value << std::endl;
     switch(attr) {
     case POWER:
         if (value == 0) {
             power_off();
-        } else if (value == 1){
+        } else if (value == 1) {
             power_on();
         } else {
-            logger->trace("Error: wrong power value of " + std::to_string(value));
+            logger->warn("Invalid power value of " + std::to_string(value));
         }
         break;
     case DEPTH:
@@ -109,22 +112,25 @@ FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency) {
     this->bufferSize = bufferSize;
     this->pollFrequency = pollFrequency;
 
-    // thread for reading and polling FPGA input
-    // main thread will listen for commands to be sent to FPGA
-   readThreads.push_back(std::thread(&FPGAInterface::in, this));
+
 }
 
 void FPGAInterface::init() {
+    logger->info("Initializing FPGA connection");
     init_fpga();
     set_verbose(0);
     executing = true;
+    // thread for reading and polling FPGA input
+    // main thread will listen for commands to be sent to FPGA
+    logger->info("Started a new thread to read and poll FPGA input");
     readThreads.push_back(std::thread(&FPGAInterface::in, this));
 }
 
 FPGAInterface::~FPGAInterface() {
     // join readThread with main
     executing = false;
+    logger->info("Safely closing FPGA connection");
     exit_safe();
 
-    //calls HwInterfaces dtor afterwards
+    delete logger;
 }

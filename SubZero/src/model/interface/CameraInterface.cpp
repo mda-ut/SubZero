@@ -20,21 +20,20 @@
  * Poll raw data from the camera.
  * @return	data polled
  */
-static int counter=0;
+
 void CameraInterface::poll() {
-    //logger->trace("retrieving raw " + std::to_string(counter));
     cv::Mat raw;
-    //Older version of OpenCV (tested on Alb's laptop setting)
-    // IplImage* raw = cvQueryFrame(this->camStream);
-    // cv::cvarrToMat(raw, true, true, 0);
 
     //New version of OpenCV (not yet tested)
-    if (camStream.isOpened()) {
+    if (!camStream.isOpened()) {
+        logger->debug("Camera stream is not opened");
+    } else {
         camStream.read(raw);
     }
-    Data* decoded = this->decode(raw);
+    Data* decoded = decode(raw);
 
-    this->storeToBuffer(decoded);
+    storeToBuffer(decoded);
+    logger->trace("Image decoded and stored to buffer");
 }
 
 /**
@@ -43,7 +42,6 @@ void CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
-    //logger->trace("inserted image " + std::to_string(counter++));
     cv::cvtColor(data, data, CV_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
     return decoded;
@@ -55,7 +53,7 @@ ImgData* CameraInterface::decode(cv::Mat data) {
  */
 
 int CameraInterface::getPosition(){
-    return this->position;
+    return position;
 }
 
 /* ==========================================================================
@@ -66,8 +64,6 @@ int CameraInterface::getPosition(){
 
 CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position) : HwInterface(bufferSize, pollFrequency) {
     this->position = position;
-    //this->camStream = new cv::VideoCapture(this->position);
-    // this->camStream = cvCaptureFromCAM(this->position);
 }
 
 void CameraInterface::init(){
@@ -83,13 +79,16 @@ void CameraInterface::init(){
 CameraInterface::~CameraInterface() {
     delete logger;
     executing = false;
-    for(auto& t: readThreads) {t.join();}
+    for(auto& t: readThreads) {
+        t.join();
+    }
+    camStream.release();
 
     // clears the queue
-    while ( ! decodedBuffer.empty()) {
+    while (!decodedBuffer.empty()) {
         delete decodedBuffer.front();
         decodedBuffer.pop();
     }
 
-    camStream.release();
+    delete logger;
 }
