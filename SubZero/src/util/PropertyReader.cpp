@@ -60,6 +60,7 @@ PropertyReader::~PropertyReader() {
         logger->trace("File closed: " + filePath);
     }
     logger->trace("Property file deleted");
+    delete logger;
 }
 
 PropertyReader::PropertyReader(std::string filePath){

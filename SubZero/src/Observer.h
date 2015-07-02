@@ -12,8 +12,9 @@
  * observer pattern in the name of modularity.
  */
 
-class Observer
-{
+class Observer {
+private:
+
 public:
         Observer();
         virtual ~Observer();
@@ -21,14 +22,9 @@ public:
         /** The update function updates each view uniquely
          * Called by observable to notify observer of a change in
          * state. Receives pointers to the latests data
-         * @param 	imgLocFront	 Pointer to the matrix holding
-         * 			image pixel data for the front camera.
-         * @param 	imgLocDown 	Pointer to the matrix holding
-         * 			image pixel data for the downward camera
-         * @param	sonarLoc 	Pointer to latest sonar strength data
          */
 
-        virtual void update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc) = 0;
+        virtual void update() = 0;
 
 };
 

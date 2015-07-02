@@ -1,14 +1,19 @@
 #ifndef STATE_H_
 #define STATE_H_
-#include "../../Observable.h"
-#include "../../util/data/Data.h"
-
+#include "Observable.h"
+#include "Data.h"
 #include <string>
 #include <list>
-#include <vector>
+#include <set>
+#include "View.h"
 
+enum StateType{
+    FRONTCAM,
+    DOWNCAM,
+    FPGA
+};
 
-class State: public Observable {
+class State {
 
 protected:
 	//boolean to signal if a new frame has started
@@ -22,27 +27,13 @@ protected:
 	//ZERO INDEXED
 	int maxLength;
 
+    int stateID;
+    std::set<View*> viewers;
+
 	//LinkedList <Vector<Data>>
 	//std::list<std::vector<Data*>> stateData;
 
 	//Initialize the class
-	void init();
-
-	/**
-	 * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
-	 * @param ID = id of the State that is needed
-	 * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
-	 * @return returns the pointer to a deep copied State
-	 */
-	virtual Data* getState (std::string ID, int i) = 0;
-
-	/**
-	 * Returns a deep copy of the latest State specified with the _ID_
-	 * (same as calling getState(ID, 0))
-	 * @param ID = id of the State that is needed
-	 * @return returns the pointer to a deep copied State
-	 */
-	virtual Data* getState (std::string ID) = 0;
 
 	/**
 	 * Sets the state
@@ -79,14 +70,36 @@ protected:
 	virtual Data* getRaw(int i) = 0;
 
 public:
-	State();	//constructor
+
+    State(int stateID);	//constructor
 	/**
 	 * Construct a state with a limit of frames _framesStored_ (Zero indexed)
 	 * ie, frameStored = 10, this State will store 11 frames
 	 */
-	State(int framesStored);
+    State(int stateID, int framesStored);
 
 	virtual ~State();	//deconstructor
+
+    void addViewer(View* view);
+    void notifyViewers();
+
+    void init();
+
+    /**
+     * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
+     * @param ID = id of the State that is needed
+     * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
+     * @return returns the pointer to a deep copied State
+     */
+    virtual Data* getState (std::string ID, int i) = 0;
+
+    /**
+     * Returns a deep copy of the latest State specified with the _ID_
+     * (same as calling getState(ID, 0))
+     * @param ID = id of the State that is needed
+     * @return returns the pointer to a deep copied State
+     */
+    virtual Data* getState (std::string ID) = 0;
 
 	/**
 	 * Starts a new Frame

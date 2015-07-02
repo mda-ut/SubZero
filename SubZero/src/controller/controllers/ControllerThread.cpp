@@ -6,15 +6,20 @@
  */
 
 #include "ControllerThread.h"
+#include "SubZero.h"
 
 ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
     taskList = tL;
     this->mutex = mutex;
 }
 
+ControllerThread::~ControllerThread() {
+
+}
+
 void ControllerThread::executeTasks(const QString &parameter) {
     QString result = "Done";
-    while (1){
+    while (SubZero::ctr < 5){
         mutex->lock();
         if(!taskList->isEmpty()){
             Task *temp = taskList->dequeue();

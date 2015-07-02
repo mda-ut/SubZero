@@ -9,7 +9,11 @@
 //#include "observer.h"    //Need a concerte observer class
 #include <cv.h>
 #include <highgui.h>
+#include <vector>
+#include <iostream>
 
+class State;
+class Controller;
 
 using namespace cv;
 
@@ -45,28 +49,33 @@ using namespace cv;
 
 //Ignoring the inheritance from observer until I place this back in view
 
-class View: public QWidget
-{
+class View: public QWidget {
     Q_OBJECT
 
 public:
     View();
+    View(std::vector<State*> states_);
     virtual ~View();
 
-    QImage *frontCameraImage;
-    QImage *downCameraImage;
+    virtual void update(int ID);
 
-private:
+    virtual void initialize_VC_Connection(Controller* controller) = 0;
+
+    QImage frontCameraImage;
+    QImage downCameraImage;
+
+protected:
+    std::vector<State*> states;
+
     void initializeView();
-    QRect *frontCameraRect;
-    QRect *downCameraRect;
-
-    QPainter *painter;
+    QRect frontCameraRect;
+    QRect downCameraRect;
 
     void paintEvent(QPaintEvent *event); //All drawing and painting will take place in here
 
     //From View
-    virtual void makeQImage(Mat *imgData, QImage *imgHolder)=0; //Converting Mat to QImage //Creating camera image, overload
+    virtual void makeQImage(Mat imgData, QImage& imgHolder); //Converting Mat to QImage //Creating camera image, overload
+
 
 };
 

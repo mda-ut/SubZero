@@ -9,24 +9,36 @@
 #include "ControllerThread.h"
 #include <iostream>
 
-Controller::Controller(void){
-    taskList = *new QQueue <class Task* >;
+Controller::Controller(){
+    taskList = new QQueue <class Task* >;
+}
+
+Controller::Controller(std::vector<Model*> models_){
+    models = models_;
+    taskList = new QQueue <class Task* >;
 }
 
 void Controller::initialize(void) {
-    ControllerThread *cT = new ControllerThread(&taskList, &mutex);
+    cT = new ControllerThread(taskList, &mutex);
     cT->moveToThread(&queueThread);
-    connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
     connect(this, &Controller::beginCT, cT, &ControllerThread::executeTasks);
     connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
+    connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
     queueThread.start();
     emit beginCT("Begin handling Commands");
 }
 
     //Destructor to free pointers
 Controller::~Controller(){
-    queueThread.quit();
-    queueThread.wait();
+    if(queueThread.isRunning()){
+        queueThread.quit();
+            queueThread.wait();
+    }
+    while(!taskList->isEmpty()){
+        Task *temp = taskList->dequeue();
+        delete temp;
+    }
+    delete taskList;
 }
 
 void Controller::cTHandleResults(const QString &s){
@@ -36,6 +48,6 @@ void Controller::cTHandleResults(const QString &s){
 void Controller::addTaskToQueue(Task *newTask)
 {
     mutex.lock();
-    taskList.enqueue(newTask);
+    taskList->enqueue(newTask);
     mutex.unlock();
 }

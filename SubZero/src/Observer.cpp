@@ -5,9 +5,9 @@
  *      Author: edem
  */
 
-#include "observer.h"
+#include "Observer.h"
 
-Observer:: Observer(){
+Observer:: Observer(std::vector<Observable*>){
 
 
 }
@@ -28,7 +28,7 @@ Observer::~Observer(){
  * @param	sonarLoc 	Pointer to latest sonar strength data
  */
 
-void Observer:: update(cv::Mat* imgLocFront,cv::Mat* imgLocDown , int* sonarLoc){
+void Observer:: update(int ID){
 
 
 }

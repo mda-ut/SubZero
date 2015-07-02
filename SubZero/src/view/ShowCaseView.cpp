@@ -1,4 +1,4 @@
-#include "showcaseview.h"
+#include "ShowCaseView.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QImage>
@@ -15,14 +15,35 @@
 ShowCaseView::ShowCaseView():View()
 {
     initializeShowCaseView();
+}
 
+ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
+    initializeShowCaseView();
+}
+
+void ShowCaseView::update(int ID) {
+    switch (ID) {
+    case FRONTCAM: {
+        ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
+        makeQImage(newImg->img, frontCameraImage);
+        //std::cout << "make front" << std::endl;
+        break;
+    }
+    case DOWNCAM: {
+        ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
+        makeQImage(newImg->img, downCameraImage);
+        //std::cout << "make down" << std::endl;
+        break;
+    }
+    case FPGA:
+        break;
+    }
+    repaint();
 }
 
 void ShowCaseView::initializeShowCaseView()
 {
-    *frontCameraImage = QImage(":/img/MDA.jpg");
-
-
+    frontCameraImage = QImage(":/img/MDA.jpg");
 
    //Creating an image that holds a gradient of blue
 
@@ -49,12 +70,7 @@ void ShowCaseView::initializeShowCaseView()
 
 
 
-    *downCameraImage = sub;
-
-
-
-
-
+    downCameraImage = sub;
 
 
     // Show Case View WIdget Initialization
@@ -100,19 +116,7 @@ void ShowCaseView::initializeShowCaseView()
     mainLayout->addSpacing(800);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
-
-
-
 }
-
-
-void ShowCaseView::makeQImage(cv::Mat *imgData, QImage *imgHolder)
-{
-    *imgHolder = QImage(imgData->data, imgData->cols, imgData->rows,QImage::Format_RGB32);
-
-    return;
-}
-
 
 
 void ShowCaseView::initialize_VC_Connection(Controller *controller)
@@ -122,10 +126,10 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller)
 
     //Create holder functions since having trouble with task* - QObject * conversions
 
-    QuickTaskAdder *qta = new QuickTaskAdder();
-    qta->initializeQuickTaskAdder(controller);
+    //QuickTaskAdder *qta = new QuickTaskAdder();
+    //qta->initializeQuickTaskAdder(controller);
 
-    connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
+    //connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
 
 
 }

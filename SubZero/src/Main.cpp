@@ -7,26 +7,32 @@
 
 #include "util/Logger.h"
 #include <string>
-#include "view/menu.h"
+#include "view/Menu.h"
 #include "controller/controllers/Controller.h"
 #include <QApplication>
 #include <iostream>
 #include "../test/VideoTesting.h"
 #include "../test/CollectionTEST.h"
 #include "model/state/StateTester.h"
-#include "FPGAInterface.h"
-#include "CameraInterface.h"
+#include "PropertyReader.h"
 
 using namespace std;
 
 int main(int argc, char** argv) {
-    //QApplication app(argc, argv);
-	Timer* logTimer = new Timer();
-	Logger::initialize(true, true, logTimer);
-	Logger::trace("Logger initialized.");	
     QApplication app(argc, argv);
-//    Menu* newMenu = new Menu;
-//    newMenu->show();
+	Timer* logTimer = new Timer();
+    Logger logger("Main");
+    Logger::initialize(Logger::Level::TRACE,true, true, logTimer);
+    logger.trace("Logger initialized.");
+    PropertyReader* settings;
+    if (argc > 1) {
+        settings = new PropertyReader(argv[1]);
+    } else {
+        settings = new PropertyReader("../SubZero/src/settings/settings.txt");
+    }
+    settings->load();
+    Menu* newMenu = new Menu(settings);
+    newMenu->show();
 
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
@@ -38,7 +44,7 @@ int main(int argc, char** argv) {
 //    FPGAInterface newInterface(20, 1);
 //    Logger::close();
 //    delete logTimer;
-
+/*
     CameraInterface newCam(20, 25, FRONT);
     CameraInterface downCam(20, 25, DOWN);
     newCam.init();
@@ -56,8 +62,9 @@ int main(int argc, char** argv) {
             downDataCopy.showImg("down");
         }
     }
-
-
-    return 0;//app.exec();
+*/
+    int error = app.exec();
+    //delete settings;
+    return error;
 }
 

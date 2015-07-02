@@ -15,11 +15,6 @@
 #include "opencv2/imgproc.hpp"
 #include <iostream>
 
-enum CameraPosition {
-    FRONT,
-    DOWN,
-    THREE
-};
 
 /**
  * A concrete child of HwInterface that deals specifically with the camera.
@@ -35,9 +30,11 @@ class CameraInterface : public HwInterface {
 
 private:
 
+
+   int position;
+
     Logger* logger = new Logger("CameraInterface");
 
-    CameraPosition position;
     cv::VideoCapture camStream;
 
     // CvCapture* camStream;
@@ -77,7 +74,7 @@ public:
      * CameraInterface. This is to prevent confusion such as data buffer having
      * frames from fixed sources.
      */
-    CameraPosition getPosition();
+    int getPosition();
 
     /* ==========================================================================
      * 							CONSTRUCTOR AND DESTRUCTOR
@@ -90,7 +87,7 @@ public:
      * @param 	pollFrequencey specifies how frequent video stream is pulled
      * @param	position	camera position
      */
-    CameraInterface(int bufferSize, int pollFrequency, CameraPosition position);
+    CameraInterface(int bufferSize, int pollFrequency, int position);
 
     virtual void init();
 
