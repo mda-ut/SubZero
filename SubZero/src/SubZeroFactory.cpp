@@ -45,7 +45,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
 		std::cout << "guisub" << std::endl;
 
         states.push_back(new CameraState(FRONTCAM));
-        states.push_back(new CameraState(DOWNCAM));
+        //states.push_back(new CameraState(DOWNCAM));
         //states.push_back(new FPGAState(FPGA));
         view = new ShowCaseView(states);
 
@@ -56,7 +56,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
         int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
         HwInterface* frontCamInt = new CameraInterface(camBufferSize,camPollFrequency,frontCamPos);
-        HwInterface* downCamInt = new CameraInterface(camBufferSize,camPollFrequency,downCamPos);
+        //HwInterface* downCamInt = new CameraInterface(camBufferSize,camPollFrequency,downCamPos);
         //HwInterface* fpgaInt = new FPGAInterface(fpgaBufferSize, fpgaPollFrequency);
 
         models.push_back(new CameraModel(states[0], frontCamInt));

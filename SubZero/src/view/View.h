@@ -57,8 +57,7 @@ public:
     View(std::vector<State*> states_);
     virtual ~View();
 
-    virtual void update(int ID);
-
+    virtual void update(int ID) = 0;
     virtual void initialize_VC_Connection(Controller* controller) = 0;
 
     QImage frontCameraImage;
@@ -75,7 +74,6 @@ protected:
 
     //From View
     virtual void makeQImage(Mat imgData, QImage& imgHolder); //Converting Mat to QImage //Creating camera image, overload
-
 
 };
 

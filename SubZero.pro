@@ -52,7 +52,6 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/test/util/IDHasherTEST.h \
            SubZero/src/controller/controllers/Controller.h \
            SubZero/src/controller/controllers/ControllerThread.h \
-           SubZero/src/controller/task/quicktaskadder.h \
            SubZero/src/controller/task/Task.h \
            SubZero/src/controller/task/TaskCCR.h \
            SubZero/src/controller/task/TaskFactory.h \
@@ -89,7 +88,8 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/test/util/filter/RGBFilterTEST.h \
     SubZero/src/view/Menu.h \
     SubZero/src/view/ShowCaseView.h \
-    SubZero/src/view/View.h
+    SubZero/src/view/View.h \
+    SubZero/src/controller/task/QuickTaskAdder.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -108,7 +108,6 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/test/util/IDHasherTEST.cpp \
            SubZero/src/controller/controllers/Controller.cpp \
            SubZero/src/controller/controllers/ControllerThread.cpp \
-           SubZero/src/controller/task/quicktaskadder.cpp \
            SubZero/src/controller/task/Task.cpp \
            SubZero/src/controller/task/TaskCCR.cpp \
            SubZero/src/controller/task/TaskFactory.cpp \
@@ -144,4 +143,5 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/test/util/filter/RGBFilterTEST.cpp \
     SubZero/src/view/Menu.cpp \
     SubZero/src/view/ShowCaseView.cpp \
-    SubZero/src/view/View.cpp
+    SubZero/src/view/View.cpp \
+    SubZero/src/controller/task/QuickTaskAdder.cpp

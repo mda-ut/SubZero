@@ -14,8 +14,7 @@
 #include "Task.h"
 
 class TaskCCR : public Task {
-
-    public:
+public:
         TaskCCR();
 
         ~TaskCCR();

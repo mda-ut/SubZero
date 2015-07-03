@@ -12,8 +12,7 @@
 #include "../controller/task/TaskHeyTonight.h"
 
 
-ShowCaseView::ShowCaseView():View()
-{
+ShowCaseView::ShowCaseView():View() {
     initializeShowCaseView();
 }
 
@@ -41,8 +40,7 @@ void ShowCaseView::update(int ID) {
     repaint();
 }
 
-void ShowCaseView::initializeShowCaseView()
-{
+void ShowCaseView::initializeShowCaseView() {
     frontCameraImage = QImage(":/img/MDA.jpg");
 
    //Creating an image that holds a gradient of blue
@@ -119,17 +117,17 @@ void ShowCaseView::initializeShowCaseView()
 }
 
 
-void ShowCaseView::initialize_VC_Connection(Controller *controller)
-{
+void ShowCaseView::initialize_VC_Connection(Controller *controller) {
     //Test code to check view and controller connection capabilities
     //Links the 1st 3 buttons of view to controller's first tasks. TaskCCR, TaskHeyTonight, TaskHelloWorld
 
     //Create holder functions since having trouble with task* - QObject * conversions
 
-    //QuickTaskAdder *qta = new QuickTaskAdder();
-    //qta->initializeQuickTaskAdder(controller);
+    QuickTaskAdder *qta = new QuickTaskAdder();
+    qta->initializeQuickTaskAdder(controller);
 
-    //connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
+    connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
+    //connect(exitButton, SIGNAL(clicked()), qta, SLOT(killAll()));
 
 
 }

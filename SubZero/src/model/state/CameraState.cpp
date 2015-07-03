@@ -46,7 +46,7 @@ ImgData* CameraState::getState(std::string id, int i) {
     for (n = 0; n < it->size(); n++) {
         ImgData* data = it->at(n);
         if (data->getID().compare(id) == 0) {
-            ImgData *t = new ImgData(*data);
+            ImgData *t = data; //shallow copy quick fix
             inUse = false;
             return t;
         }

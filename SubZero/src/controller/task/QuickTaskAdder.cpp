@@ -1,4 +1,4 @@
-#include "quicktaskadder.h"
+#include "QuickTaskAdder.h"
 
 QuickTaskAdder::QuickTaskAdder()
 {

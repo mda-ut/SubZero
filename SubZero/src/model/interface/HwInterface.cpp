@@ -36,7 +36,6 @@ void HwInterface::storeToBuffer(Data* data) {
 
 void HwInterface::in() {
     logger->info("Executing");
-
     struct timespec tictoc;
     clock_gettime(CLOCK_MONOTONIC, &tictoc);
 

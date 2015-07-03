@@ -54,15 +54,6 @@ class Controller : public QObject {
 		 */
 		void clearQueue(void);
 
-		/**
-         * Displays the Current taskList
-		 */
-        void displayTaskList(void);
-
-		/**
-		 * Cleans the queue; forces the last task to finish, then kills the sub
-		 */
-		void killAll(void);
 
         /**
          * Initializes our Controller
@@ -73,7 +64,17 @@ class Controller : public QObject {
 		/**
 		 * Handles the results from the ControllerThread
 		 */
-        void cTHandleResults(const QString &s);
+        void finished(const QString &s);
+
+        /**
+         * Cleans the queue; forces the last task to finish, then kills the sub
+         */
+        //void killAll(void);
+
+        /**
+         * Displays the Current taskList
+         */
+        //void displayTaskList(void);
 		
 	signals:
 		/**
@@ -95,6 +96,8 @@ class Controller : public QObject {
         QMutex mutex;
 
         std::vector<Model*> models;
+
+        bool running;
 };
 
 #endif /* CONTROLLER_H_ */
