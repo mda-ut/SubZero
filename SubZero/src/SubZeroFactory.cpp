@@ -32,6 +32,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
     std::vector<State*> states;
     View* view;
     Controller* controller;
+    //TODO: Add error checking for property file reading
     logger->trace(std::to_string(std::stoi(settings->getProperty("CAM_BUFFER_SIZE"))));
     int camBufferSize = std::stoi(settings->getProperty("CAM_BUFFER_SIZE"));
     int camPollFrequency = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
@@ -59,7 +60,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
         //HwInterface* fpgaInt = new FPGAInterface(fpgaBufferSize, fpgaPollFrequency);
 
         models.push_back(new CameraModel(states[0], frontCamInt));
-        models.push_back(new CameraModel(states[1], downCamInt));
+        //models.push_back(new CameraModel(states[1], downCamInt));
         //models.push_back(new FPGAModel(states[2], fpgaInt));
 
         controller = new Controller(models);
