@@ -8,6 +8,7 @@
 #include "CameraInterface.h"
 #include <string>
 
+
 /* ==========================================================================
  * 				INTERACTING WITH DATA COMING IN (FROM Camera)
  * ==========================================================================
@@ -20,6 +21,17 @@
  * Poll raw data from the camera.
  * @return	data polled
  */
+volatile int quit_signal = 0;
+#ifdef __unix__
+#include <signal.h>
+extern "C" void quit_signal_handler(int signum) {
+    if (quit_signal != 0) {
+        exit(0);
+    }
+    quit_signal = 1;
+    printf("Will quit at next camera frame (repeat to kill now)\n");
+}
+#endif
 
 void CameraInterface::poll() {
     cv::Mat raw;
@@ -29,6 +41,10 @@ void CameraInterface::poll() {
         logger->debug("Camera stream is not opened");
     } else {
         readSuccess = camStream.read(raw);
+    }
+    if (quit_signal) {
+        logger->trace("Ctrl+C detected.  Exiting...");
+        exit(0);
     }
     if (readSuccess) {
         Data* decoded = decode(raw);
@@ -71,6 +87,10 @@ CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position
 void CameraInterface::init() {
     // thread for reading and polling camera input
     logger->info("Initializing");
+
+    #ifdef __unix__
+        signal(SIGINT,quit_signal_handler);
+    #endif
 
     logger->info("Opening Camera Stream at position " + std::to_string(position));
     camStream.open(position);

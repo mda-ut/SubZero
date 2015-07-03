@@ -123,11 +123,11 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller) {
 
     //Create holder functions since having trouble with task* - QObject * conversions
 
-    //QuickTaskAdder *qta = new QuickTaskAdder();
-    //qta->initializeQuickTaskAdder(controller);
+    QuickTaskAdder *qta = new QuickTaskAdder();
+    qta->initializeQuickTaskAdder(controller);
 
     connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
-    connect(exitButton, SIGNAL(clicked()), qta, SLOT(killAll()))
+    //connect(exitButton, SIGNAL(clicked()), qta, SLOT(killAll()));
 
 
 }

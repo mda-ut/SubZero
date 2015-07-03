@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         settings = new PropertyReader(argv[1]);
     } else {
-        settings = new PropertyReader("../SubZero/SubZero/src/settings/settings.txt");
+        settings = new PropertyReader("../SubZero/src/settings/settings.txt");
     }
     settings->load();
     std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");

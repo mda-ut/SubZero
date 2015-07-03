@@ -64,17 +64,17 @@ class Controller : public QObject {
 		/**
 		 * Handles the results from the ControllerThread
 		 */
-        void cTHandleResults(const QString &s);
+        void finished(const QString &s);
 
         /**
          * Cleans the queue; forces the last task to finish, then kills the sub
          */
-        void killAll(void);
+        //void killAll(void);
 
         /**
          * Displays the Current taskList
          */
-        void displayTaskList(void);
+        //void displayTaskList(void);
 		
 	signals:
 		/**
