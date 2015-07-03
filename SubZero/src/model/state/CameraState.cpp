@@ -48,7 +48,6 @@ ImgData* CameraState::getState(std::string id, int i) {
         if (data->getID().compare(id) == 0) {
             ImgData *t = new ImgData(*data);
             inUse = false;
-            logger->info("State '" + id + "' found");
             return t;
         }
     }

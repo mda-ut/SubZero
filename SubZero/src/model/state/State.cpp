@@ -38,7 +38,6 @@ void State::notifyViewers() {
     for (auto& viewer : viewers) {
         viewer->update(stateID);
     }
-    logger->trace("Updated viewers");
 }
 /*
 Data* State::getState (std::string ID, int i){

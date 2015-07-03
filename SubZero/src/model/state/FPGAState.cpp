@@ -50,7 +50,6 @@ FPGAData* FPGAState::getState(std::string id, int i) {
         if (data->getID().compare(id) == 0) {
             FPGAData *t = new FPGAData(*data);
             inUse = false;
-            logger->info("State '" + id + "' found");
             return t;
         }
     }
@@ -69,7 +68,6 @@ int FPGAState::setState(std::vector<FPGAData*> d){
     if ((int)this->stateData.size() > this->maxLength){
         std::vector<FPGAData*> temp = this->stateData.front();
         for (unsigned int i= 0; i < temp.size(); i++){
-            logger->trace("Removing data at index " + std::to_string(i));
             delete temp[i];
         }
         this->stateData.pop_front();

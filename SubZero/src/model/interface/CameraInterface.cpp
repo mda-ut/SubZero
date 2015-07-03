@@ -23,17 +23,19 @@
 
 void CameraInterface::poll() {
     cv::Mat raw;
-
-    //New version of OpenCV (not yet tested)
+    bool readSuccess = false;
+    // New version of OpenCV
     if (!camStream.isOpened()) {
         logger->debug("Camera stream is not opened");
     } else {
-        camStream.read(raw);
+        readSuccess = camStream.read(raw);
     }
-    Data* decoded = decode(raw);
-
-    storeToBuffer(decoded);
-    logger->trace("Image decoded and stored to buffer");
+    if (readSuccess) {
+        Data* decoded = decode(raw);
+        storeToBuffer(decoded);
+    } else {
+        logger->error("Camera stream failed to read image");
+    }
 }
 
 /**
@@ -52,7 +54,7 @@ ImgData* CameraInterface::decode(cv::Mat data) {
  * ==========================================================================
  */
 
-int CameraInterface::getPosition(){
+int CameraInterface::getPosition() {
     return position;
 }
 
@@ -66,18 +68,19 @@ CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position
     this->position = position;
 }
 
-void CameraInterface::init(){
+void CameraInterface::init() {
     // thread for reading and polling camera input
-    std::cout <<"initialized"<<std::endl;
+    logger->info("Initializing");
 
+    logger->info("Opening Camera Stream at position " + std::to_string(position));
     camStream.open(position);
-    camStream.set(CV_CAP_PROP_CONVERT_RGB, true);
+    //camStream.set(CV_CAP_PROP_CONVERT_RGB, true);
     executing = true;
+    logger->info("Starting thread");
     readThreads.push_back(std::thread(&CameraInterface::in, this));
 }
 
 CameraInterface::~CameraInterface() {
-    delete logger;
     executing = false;
     for(auto& t: readThreads) {
         t.join();

@@ -157,10 +157,8 @@ public:
         dataType* data = nullptr;
         if (!(this->decodedBuffer.empty())) {
             data = dynamic_cast<dataType*>(decodedBuffer.back());
-            logger->trace("Data retrieved from buffer");
             return new dataType(*data);
         } else {
-            logger->trace("No data in buffer");
             return data;
         }
     }
