@@ -82,6 +82,11 @@ void ShowCaseView::initializeShowCaseView() {
     leftButton = new QPushButton("Veer Left");
     rightButton = new QPushButton("Veer right");
 
+    forwardButton = new QPushButton("Move Forward");
+    backwardButton = new QPushButton("Move Backward");
+    sinkButton = new QPushButton("Sink");
+    riseButton = new QPushButton("Rise");
+
     specialActions = new QLabel("Special Actions");
     surfaceButton = new QPushButton("Surface");
     fireTorpedoButton = new QPushButton("Fire Torpedo");
@@ -96,8 +101,8 @@ void ShowCaseView::initializeShowCaseView() {
 
     // Show Case View layouts
 
-    QVBoxLayout *verticalLayout = new QVBoxLayout;
-    QHBoxLayout *mainLayout = new QHBoxLayout;
+    QVBoxLayout *verticalLayout = new QVBoxLayout();
+    QHBoxLayout *mainLayout = new QHBoxLayout();
 
     //Show Case view Widget Positioning
     //Down want to add rects from view to layout
@@ -106,6 +111,10 @@ void ShowCaseView::initializeShowCaseView() {
     verticalLayout->addWidget(movement);
     verticalLayout->addWidget(leftButton);
     verticalLayout->addWidget(rightButton);
+    verticalLayout->addWidget(forwardButton);
+    verticalLayout->addWidget(backwardButton);
+    verticalLayout->addWidget(sinkButton);
+    verticalLayout->addWidget(riseButton);
     verticalLayout->addSpacing(20);//Spacing size of 20 pixels
 
     verticalLayout->addWidget(specialActions);
@@ -139,8 +148,13 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller) {
     QuickTaskAdder *qta = new QuickTaskAdder();
     qta->initializeQuickTaskAdder(controller);
 
-    connect(leftButton, SIGNAL(clicked()), qta, SLOT(addTaskCCR()));
-    //connect(exitButton, SIGNAL(clicked()), qta, SLOT(killAll()));
+    connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
+    connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
+    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
+    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
+    connect(sinkButton, SIGNAL(clicked()), controller, SLOT(handleSinkButtonClick()));
+    connect(riseButton, SIGNAL(clicked()), controller, SLOT(handleRiseButtonClick()));
+    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
 
 
 }

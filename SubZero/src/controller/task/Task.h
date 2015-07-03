@@ -1,5 +1,5 @@
 /*
- * BaseTask.h
+ * Task.h
  *
  *  Created on: Jan 7, 2015
  *      Author: mda
@@ -10,6 +10,7 @@
 
 #include <QMutex>
 #include <vector>
+#include "Model.h"
 
 #define TASKLISTLENGTH 10
 
@@ -21,7 +22,8 @@ class Task {
         virtual void execute() = 0;
 
     protected:
-       std::vector <Task*> taskList;
+       std::vector<Task*> taskList;
+       std::vector<Model*> models;
 };
 
-#endif /* BASETASK_H_ */
+#endif /* TASK_H_ */

@@ -9,9 +9,10 @@
 #include "ControllerThread.h"
 #include <iostream>
 
+bool Controller::running = false;
+
 Controller::Controller(){
     taskList = new QQueue <class Task* >;
-    running = false;
 }
 
 Controller::Controller(std::vector<Model*> models_){
@@ -34,7 +35,7 @@ void Controller::initialize(void) {
 Controller::~Controller(){
     if(queueThread.isRunning()){
         queueThread.quit();
-            queueThread.wait();
+        queueThread.wait();
     }
     while(!taskList->isEmpty()){
         Task *temp = taskList->dequeue();
@@ -43,9 +44,49 @@ Controller::~Controller(){
     delete taskList;
 }
 
+bool Controller::isRunning() {
+    return running;
+}
+
 void Controller::finished(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
 }
+
+void Controller::handleMoveLeftButtonClick() {
+    logger->info("Adding Move Left Task to queue");
+    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+}
+
+void Controller::handleMoveRightButtonClick() {
+    logger->info("Adding Move Right Task to queue");
+    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+}
+
+void Controller::handleMoveForwardButtonClick() {
+    logger->info("Adding Move Forward Task to queue");
+    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+}
+
+void Controller::handleMoveBackwardButtonClick() {
+    logger->info("Adding Move Backward Task to queue");
+    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+}
+
+void Controller::handleSinkButtonClick() {
+    logger->info("Adding Sink Task to queue");
+    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+}
+
+void Controller::handleRiseButtonClick() {
+    logger->info("Adding Rise Task to queue");
+    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+}
+
+void Controller::killAll() {
+    logger->info("Exiting...");
+    running = false;
+}
+
 
 void Controller::addTaskToQueue(Task *newTask)
 {

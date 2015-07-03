@@ -18,7 +18,6 @@
 enum Attributes {
     POWER,
     DEPTH,
-    HEADING, // absolute, given by sonar
     YAW, // relative to the direction the sub is heading
     SPEED
 };

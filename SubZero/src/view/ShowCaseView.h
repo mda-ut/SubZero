@@ -20,6 +20,11 @@ public:
     QPushButton *leftButton;
     QPushButton *rightButton;
 
+    QPushButton *forwardButton;
+    QPushButton *backwardButton;
+    QPushButton *sinkButton;
+    QPushButton *riseButton;
+
     QLabel* specialActions;
     QPushButton *surfaceButton;
     QPushButton *fireTorpedoButton;

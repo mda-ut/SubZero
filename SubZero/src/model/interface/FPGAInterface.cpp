@@ -79,9 +79,6 @@ void FPGAInterface::set(Attributes attr, int value) {
     case DEPTH:
         dyn_set_target_depth(value);
         break;
-    case HEADING:
-        dyn_set_target_yaw(value);
-        break;
     case YAW:
         dyn_set_target_yaw(value);
         break;

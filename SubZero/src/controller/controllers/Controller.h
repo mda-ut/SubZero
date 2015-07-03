@@ -14,6 +14,8 @@
 #include "../task/Task.h"
 #include "../../model/Model.h"
 #include "ControllerThread.h"
+#include "Logger.h"
+#include "TaskFactory.h"
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties
@@ -54,11 +56,15 @@ class Controller : public QObject {
 		 */
 		void clearQueue(void);
 
-
         /**
          * Initializes our Controller
          */
         void initialize(void);
+
+        /**
+         * Returns controller's current running state;
+         */
+        static bool isRunning();
 		
 	public slots:
 		/**
@@ -67,9 +73,39 @@ class Controller : public QObject {
         void finished(const QString &s);
 
         /**
+         * Handles the button click for moving left
+         */
+        void handleMoveLeftButtonClick(void);
+
+        /**
+         * Handles the button click for moving right
+         */
+        void handleMoveRightButtonClick(void);
+
+        /**
+         * Handles the button click for moving forward
+         */
+        void handleMoveForwardButtonClick(void);
+
+        /**
+         * Handles the button click for moving backward
+         */
+        void handleMoveBackwardButtonClick(void);
+
+        /**
+         * Handles the button click for sinking
+         */
+        void handleSinkButtonClick(void);
+
+        /**
+         * Handles the button click for rising
+         */
+        void handleRiseButtonClick(void);
+
+        /**
          * Cleans the queue; forces the last task to finish, then kills the sub
          */
-        //void killAll(void);
+        void killAll(void);
 
         /**
          * Displays the Current taskList
@@ -83,6 +119,8 @@ class Controller : public QObject {
         void beginCT(const QString &s);
 
 	private:
+        Logger* logger = new Logger("Controller");
+
         ControllerThread *cT;
 
 		/**
@@ -95,9 +133,10 @@ class Controller : public QObject {
          */
         QMutex mutex;
 
+
         std::vector<Model*> models;
 
-        bool running;
+        static bool running;
 };
 
 #endif /* CONTROLLER_H_ */

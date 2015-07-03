@@ -1,5 +1,5 @@
 /*
- * BaseTaskFactory.cpp
+ * TaskFactory.cpp
  *
  *  Created on: Mar 28, 2015
  *      Author: ed
@@ -8,21 +8,26 @@
 #include "TaskFactory.h"
 
 TaskFactory::TaskFactory() {
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
 
 }
+
 /*
 BaseTask* TaskFactory::newTask(const std::string input){
-	BaseTask* newTask;
+    BaseTask* newTask;
 
-	switch (input)
+    switch (input)
 
-	default:
+    default:
 
-	return newTask;
+    return newTask;
 }
 */
-TaskFactory::~TaskFactory() {
-	// TODO Auto-generated destructor stub
+
+MoveLeftTask* TaskFactory::createMoveLeftTask(std::vector<Model*> models) {
+    return new MoveLeftTask(models);
 }
 
+TaskFactory::~TaskFactory() {
+    // TODO Auto-generated destructor stub
+}

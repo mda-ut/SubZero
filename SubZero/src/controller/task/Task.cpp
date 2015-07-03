@@ -12,5 +12,3 @@ Task::~Task() {
         delete taskList[i];
     }
 }
-
-

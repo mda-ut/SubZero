@@ -9,26 +9,28 @@
 #define TASKFACTORY_H_
 
 #include "Task.h"
+#include "MoveLeftTask.h"
 #include <string>
 
 class TaskFactory {
 public:
-	/**
-	 * Contructor
-	 */
-	TaskFactory();
+    /**
+     * Contructor
+     */
+    TaskFactory();
 
-	/**
-	 * given a string, dynamically create new Tasts
-	 * @param input the name of the new task
-	 */
-
+    /**
+     * given a string, dynamically create new Tasks
+     * @param input the name of the new task
+     */
     static Task* newTask(const std::string input);
 
-	/**
-	 * Destructor
-	 */
-	virtual ~TaskFactory();
+    static MoveLeftTask* createMoveLeftTask(std::vector<Model*> models);
+
+    /**
+     * Destructor
+     */
+    virtual ~TaskFactory();
 
 };
 
