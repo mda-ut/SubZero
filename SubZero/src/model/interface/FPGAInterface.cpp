@@ -29,7 +29,6 @@ void FPGAInterface::poll() {
     //Need to adjust code for accel rather than speed
     Data* new_data = new FPGAData("raw", depth, 0, heading);
     storeToBuffer(new_data);
-    logger->trace("Decoded and stored data to buffer");
 }
 
 FPGAData* FPGAInterface::decode(std::string* data) {

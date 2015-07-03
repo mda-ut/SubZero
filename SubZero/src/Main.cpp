@@ -28,9 +28,22 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         settings = new PropertyReader(argv[1]);
     } else {
-        settings = new PropertyReader("../SubZero/src/settings/settings.txt");
+        settings = new PropertyReader("../SubZero/SubZero/src/settings/settings.txt");
     }
     settings->load();
+    std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");
+    if (loggingLevel == "TRACE") {
+        Logger::setLoggingLevel(Logger::Level::TRACE);
+    } else if (loggingLevel == "INFO") {
+        Logger::setLoggingLevel(Logger::Level::INFO);
+    } else if (loggingLevel == "DEBUG") {
+        Logger::setLoggingLevel(Logger::Level::DEBUG);
+    } else if (loggingLevel == "WARN") {
+        Logger::setLoggingLevel(Logger::Level::WARN);
+    } else if (loggingLevel == "ERROR") {
+        Logger::setLoggingLevel(Logger::Level::ERROR);
+    }
+
     Menu* newMenu = new Menu(settings);
     newMenu->show();
 
