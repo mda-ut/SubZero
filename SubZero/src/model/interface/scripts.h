@@ -16,7 +16,7 @@ Victor Zhang - Sept 2013
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include "Logger.h"
 #include "fpga_ui.h"
 
 #ifdef __cplusplus
@@ -29,6 +29,7 @@ void init_fpga();
 }
 #endif
 
+static volatile int signal_quit = 0;
 inline void int_handler(int signal)
 {
   // ignore SIGCHLD
@@ -41,8 +42,9 @@ inline void int_handler(int signal)
   if (killed) {
     raise(SIGKILL);
   }
-
+  printf("Ctrl+C detected.  Exiting...");
   killed = true;
+  signal_quit = 1;
 
   // If the power is already off, just kill child and exit
   if (!get_power()) {

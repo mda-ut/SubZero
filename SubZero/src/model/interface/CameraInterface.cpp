@@ -7,6 +7,7 @@
 
 #include "CameraInterface.h"
 #include <string>
+#include "scripts.h"
 
 
 /* ==========================================================================
@@ -21,17 +22,8 @@
  * Poll raw data from the camera.
  * @return	data polled
  */
-volatile int quit_signal = 0;
-#ifdef __unix__
-#include <signal.h>
-extern "C" void quit_signal_handler(int signum) {
-    if (quit_signal != 0) {
-        exit(0);
-    }
-    quit_signal = 1;
-    printf("Will quit at next camera frame (repeat to kill now)\n");
-}
-#endif
+
+
 
 void CameraInterface::poll() {
     cv::Mat raw;
@@ -39,18 +31,17 @@ void CameraInterface::poll() {
     // New version of OpenCV
     if (!camStream.isOpened()) {
         logger->debug("Camera stream is not opened");
-    } else {
+    } else if (!signal_quit){
         readSuccess = camStream.read(raw);
-    }
-    if (quit_signal) {
-        logger->trace("Ctrl+C detected.  Exiting...");
-        exit(0);
     }
     if (readSuccess) {
         Data* decoded = decode(raw);
         storeToBuffer(decoded);
     } else {
         logger->error("Camera stream failed to read image");
+    }
+    if (signal_quit) {
+        return;
     }
 }
 
@@ -87,11 +78,6 @@ CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position
 void CameraInterface::init() {
     // thread for reading and polling camera input
     logger->info("Initializing");
-
-    #ifdef __unix__
-        signal(SIGINT,quit_signal_handler);
-    #endif
-
     logger->info("Opening video capture stream at position " + std::to_string(position));
     if (!camStream.open(position)){
         logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
