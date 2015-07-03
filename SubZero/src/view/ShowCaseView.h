@@ -31,6 +31,7 @@ public:
 
     QLabel* depthReading;
     QLabel* yawReading;
+    QLabel* accelReading;
 
     virtual void update(int ID);
     void initialize_VC_Connection(Controller *controller);
