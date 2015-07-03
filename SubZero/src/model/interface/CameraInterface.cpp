@@ -31,9 +31,10 @@ void CameraInterface::poll() {
     // New version of OpenCV
     if (!camStream.isOpened()) {
         logger->debug("Camera stream is not opened");
-    } else if (!signal_quit){
+    } else if (signal_quit == 0){
         readSuccess = camStream.read(raw);
     }
+    logger->debug(std::to_string(signal_quit));
     if (readSuccess) {
         Data* decoded = decode(raw);
         storeToBuffer(decoded);
@@ -41,6 +42,11 @@ void CameraInterface::poll() {
         logger->error("Camera stream failed to read image");
     }
     if (signal_quit) {
+        logger->trace("quit signal detected");
+        if (!fpga_initialized) {
+            //don't need to wait for fpga, quit now
+            exit(0);
+        }
         return;
     }
 }

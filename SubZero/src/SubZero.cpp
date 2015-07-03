@@ -6,9 +6,11 @@
  */
 
 #include "SubZero.h"
+#include "scripts.h"
 #include <QCoreApplication>
 
 int SubZero::ctr = 0;
+volatile int signal_quit = 0;
 
 SubZero::SubZero(std::vector<Model *> models_, View *view_, Controller *controller_) {
     models = models_;
@@ -20,12 +22,12 @@ SubZero::~SubZero() {
     for (auto& model : models) {
         delete model;
     }
-    delete controller;
     delete view;
-
+    delete controller;
 }
 
 void SubZero::init() {
+    init_signal_handler();
     for (auto& model : models) {
         model->initialize();
     }
@@ -35,8 +37,7 @@ void SubZero::init() {
 }
 
 void SubZero::run() {
-
-    while(ctr < 5) {
+    while(controller->isRunning()) {
         for (auto& model : models) {
             model->dataTransfer();
             //ctr++;

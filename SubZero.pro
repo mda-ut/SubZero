@@ -89,7 +89,8 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/view/Menu.h \
     SubZero/src/view/ShowCaseView.h \
     SubZero/src/view/View.h \
-    SubZero/src/controller/task/QuickTaskAdder.h
+    SubZero/src/controller/task/QuickTaskAdder.h \
+    SubZero/src/controller/task/MoveLeftTask.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -144,4 +145,5 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/view/Menu.cpp \
     SubZero/src/view/ShowCaseView.cpp \
     SubZero/src/view/View.cpp \
-    SubZero/src/controller/task/QuickTaskAdder.cpp
+    SubZero/src/controller/task/QuickTaskAdder.cpp \
+    SubZero/src/controller/task/MoveLeftTask.cpp
