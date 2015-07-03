@@ -30,7 +30,10 @@ INCLUDEPATH += . \
                SubZero/test/util/filter \
                SubZero/test/util/data \
                SubZero/src/model/state \
+               SubZero/src/settings \
                /usr/local/include/opencv
+
+OTHER_FILES += SubZero/src/settings/settings.txt
 
 # Input
 HEADERS += SubZero/src/SubZero.h \

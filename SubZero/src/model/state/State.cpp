@@ -19,7 +19,7 @@ State::State(int stateID_, int framesStored) {
 }
 
 State::~State() {
-
+    delete logger;
 }
 
 void State::init(){

@@ -92,8 +92,11 @@ void CameraInterface::init() {
         signal(SIGINT,quit_signal_handler);
     #endif
 
-    logger->info("Opening Camera Stream at position " + std::to_string(position));
-    camStream.open(position);
+    logger->info("Opening video capture stream at position " + std::to_string(position));
+    if (!camStream.open(position)){
+        logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
+        exit(0);
+    }
     //camStream.set(CV_CAP_PROP_CONVERT_RGB, true);
     executing = true;
     logger->info("Starting thread");
