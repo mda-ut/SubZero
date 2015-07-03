@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include "../controller/controllers/Controller.h"
-#include "quicktaskadder.h"
+#include "QuickTaskAdder.h"
 
 //#include <QAction> // for actions later on (systemActions)
 

@@ -11,6 +11,7 @@
 
 Controller::Controller(){
     taskList = new QQueue <class Task* >;
+    running = false;
 }
 
 Controller::Controller(std::vector<Model*> models_){
@@ -22,9 +23,10 @@ void Controller::initialize(void) {
     cT = new ControllerThread(taskList, &mutex);
     cT->moveToThread(&queueThread);
     connect(this, &Controller::beginCT, cT, &ControllerThread::executeTasks);
-    connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
+    connect(cT, &ControllerThread::resultReady, this, &Controller::finished);
     connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
     queueThread.start();
+    running = true;
     emit beginCT("Begin handling Commands");
 }
 
@@ -41,7 +43,7 @@ Controller::~Controller(){
     delete taskList;
 }
 
-void Controller::cTHandleResults(const QString &s){
+void Controller::finished(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
 }
 

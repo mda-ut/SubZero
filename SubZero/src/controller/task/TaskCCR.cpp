@@ -26,10 +26,7 @@ TaskCCR::TaskCCR()
 
 TaskCCR::~TaskCCR()
 {
-    int i = 0;
-    for( ; i < taskList.size() ; i++){
-        delete taskList[i];
-    }
+
 }
 
 void TaskCCR::execute(){
