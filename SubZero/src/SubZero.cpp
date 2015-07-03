@@ -38,10 +38,8 @@ void SubZero::run() {
 
     while(ctr < 5) {
         for (auto& model : models) {
-            if(model->dataTransfer()) {
-                model->notifyObserver();
-                //ctr++;
-            }
+            model->dataTransfer();
+            //ctr++;
         }
         QCoreApplication::processEvents();
     }

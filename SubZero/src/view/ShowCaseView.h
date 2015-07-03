@@ -29,6 +29,9 @@ public:
     QPushButton *menuButton;
     QPushButton *exitButton;
 
+    QLabel* depthReading;
+    QLabel* yawReading;
+
     virtual void update(int ID);
     void initialize_VC_Connection(Controller *controller);
 

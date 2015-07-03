@@ -21,6 +21,7 @@ ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
 }
 
 void ShowCaseView::update(int ID) {
+    // Update Cameras
     switch (ID) {
     case FRONTCAM: {
         ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
@@ -37,6 +38,11 @@ void ShowCaseView::update(int ID) {
     case FPGA:
         break;
     }
+    // Update Depth and Yaw readings
+    std::string temp = "Depth: " + std::to_string(0);
+    depthReading->setText(temp.c_str());
+    temp = "Yaw: " + std::to_string(0);
+    yawReading->setText(temp.c_str());
     repaint();
 }
 
@@ -85,6 +91,8 @@ void ShowCaseView::initializeShowCaseView() {
     menuButton = new QPushButton("Menu");
     exitButton = new QPushButton("Exit");
 
+    depthReading = new QLabel("Depth:");
+    yawReading = new QLabel("Yaw:");
 
     // Show Case View layouts
 
@@ -109,6 +117,11 @@ void ShowCaseView::initializeShowCaseView() {
     verticalLayout->addWidget(systemActions);
     verticalLayout->addWidget(menuButton);
     verticalLayout->addWidget(exitButton);
+    verticalLayout->addSpacing(20);
+
+    verticalLayout->addWidget(depthReading);
+    verticalLayout->addWidget(yawReading);
+
     verticalLayout->addSpacing(200);//Spacing size of 200 pixels
 
     mainLayout->addSpacing(800);

@@ -28,9 +28,9 @@ std::vector<Data*> CameraModel::constructDataSet() {
     Data* rawImageData = getDataFromBuffer();
     if (rawImageData != nullptr) {
         imageDataSet.push_back(rawImageData);
-        for(std::vector<FilterManager*>::iterator it = filterManagerList.begin(); it != filterManagerList.end(); ++it) {
+        for(auto& fm : filterManagerList) {
             Data* deepCopyImage = new ImgData(*(dynamic_cast<ImgData*>(rawImageData))); // Check if the operator overload for = is right. Don't know yet
-            (*it)->applyFilterChain(deepCopyImage);
+            fm->applyFilterChain(deepCopyImage);
             imageDataSet.push_back(deepCopyImage);
         }
     }

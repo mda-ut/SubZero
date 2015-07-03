@@ -26,26 +26,32 @@ Data* FPGAModel::getDataFromBuffer() {
 
 std::vector<Data*> FPGAModel::constructDataSet() {
     std::vector<Data*> fpgaDataSet;
-    //Data* rawFPGAData = this->getDataFromBuffer();
-    Data* rawFPGAData = interface->getDataFromBuffer<FPGAData>();
-    fpgaDataSet.push_back(rawFPGAData);
-    for(auto& fm : filterManagerList){
-        Data* deepCopyFPGA = new FPGAData(*((FPGAData*)rawFPGAData)); // Check if the operator overload for = is right. Don't know don't know yet
-        fm->applyFilterChain(deepCopyFPGA);
-        fpgaDataSet.push_back(deepCopyFPGA);
+    Data* rawFPGAData = getDataFromBuffer();
+    if (rawFPGAData != nullptr) {
+        fpgaDataSet.push_back(rawFPGAData);
+        for(auto& fm : filterManagerList) {
+            Data* deepCopyFPGA = new FPGAData(*(dynamic_cast<FPGAData*>(rawFPGAData))); // Check if the operator overload for = is right. Don't know don't know yet
+            fm->applyFilterChain(deepCopyFPGA);
+            fpgaDataSet.push_back(deepCopyFPGA);
+        }
     }
     return fpgaDataSet;
 }
 
 void FPGAModel::storeToState(std::vector<Data*> dataSet) {
     std::vector<FPGAData*> newData;
-    for(std::vector<Data*>::iterator it = dataSet.begin(); it != dataSet.end(); ++it){
-        newData.push_back((FPGAData*)(*it));
+    for(auto& data : dataSet) {
+        newData.push_back(dynamic_cast<FPGAData*>(data));
     }
-    ((FPGAState*) &(this->state))->setState(newData);
+    dynamic_cast<FPGAState*>(state)->setState(newData);
+    notifyObserver();
 }
 
 bool FPGAModel::dataTransfer() {
-    storeToState(constructDataSet());
-    return true;
+    auto fpgaDataSet = constructDataSet();
+    if (!fpgaDataSet.empty()) {
+        storeToState(fpgaDataSet);
+        return true;
+    }
+    return false;
 }
