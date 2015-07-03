@@ -34,7 +34,7 @@ bool Logger::initialize(Level level, bool writeToConsole, bool writeToFile, Time
 
 	if (writeToFile) {
 		char buffer[80];
-		strftime(buffer, 80, "%d-%m-%Y_%I:%M:%S.log", timer->getCurrentTime());
+        strftime(buffer, 80, "%I:%M:%S_%d-%m-%Y.log", timer->getCurrentTime());
 
 		std::string logName(buffer);
 
