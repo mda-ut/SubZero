@@ -45,7 +45,7 @@ public:
      */
     cv::Mat getNextFrame();
 
-    cv::Mat getNextCameraFrame();
+    //cv::Mat getNextCameraFrame();
 
 private:
     cv::VideoCapture cap;

@@ -12,7 +12,7 @@ VideoTesting::VideoTesting(const std::string fileName){
 }
 
 VideoTesting::VideoTesting(int deviceID) {
-    cap.open(deviceID);
+    //cap.open(deviceID);
 }
 
 //================get next frame from camera=====================================
@@ -23,11 +23,12 @@ cv::Mat getNextCameraFrame(){
     //delete frame;
     return temp;
 }
+/*
 cv::Mat VideoTesting::getNextCameraFrame(){
     cv::Mat frame;
     cap.read(frame);
     return frame;
-}
+}*/
 //================HSV filter==========================================
 cv::Mat HSVFilter(cv::Mat mat, int lowH, int highH, int lowS, int highS, int lowV, int highV){
     //cv::Mat* mat = data->getImg();
@@ -153,18 +154,23 @@ void VideoTesting::run(){
     cv::namedWindow("HSV Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Line Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Canny", CV_WINDOW_AUTOSIZE);
-    /*cv::moveWindow("Orginal", 1400, 50);           //reading from photo
+    int Type = 0;
+    if (Type == 0){
+    cv::moveWindow("Orginal", 1400, 50);           //reading from photo
     cv::moveWindow("HSV Filtered", 1000, 50);
     cv::moveWindow("Line Filtered", 600, 50);
-    cv::moveWindow("Canny", 100, 50);*/
+    cv::moveWindow("Canny", 100, 50);}
+    else if (Type == 1){
     cv::moveWindow("Orginal", 1200, 50);           //reading from camera
     cv::moveWindow("HSV Filtered", 1200, 500);
     cv::moveWindow("Line Filtered", 600, 50);
-    cv::moveWindow("Canny", 600, 500);
-    /*cv::moveWindow("Orginal", 1400, 100);         //reading from video
+    cv::moveWindow("Canny", 600, 500);}
+    else if (Type == 2){
+    cv::moveWindow("Orginal", 1400, 100);         //reading from video
     cv::moveWindow("HSV Filtered", 1400, 500);
     cv::moveWindow("Line Filtered", 800, 100);
-    cv::moveWindow("Canny", 800, 500);*/
+    cv::moveWindow("Canny", 800, 500);}
+
     cv::Mat frame;
     cv::Mat filtered;
     cv::Mat filtered2;
@@ -192,13 +198,17 @@ void VideoTesting::run(){
     LineFilter lf;
     ShapeFilter sf(1, 5);
     BlurFilter bf(2, 0.4f);
-    //frame = cv::imread("Circle.jpg");       //img
+    BlurFilter bf2(1, 0.4f);
+    if (Type == 0)
+        frame = cv::imread("rect.jpg");       //img
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){
         //contour = cv::Mat::zeros(frame.size(), CV_8UC3);
-        //frame = this->getNextFrame(); //video
-        frame = getNextCameraFrame(); //webcam
+        if (Type == 2)
+            frame = this->getNextFrame(); //video
+        if (Type == 1)
+            frame = getNextCameraFrame(); //webcam
         contour = frame.clone();
         if(frame.cols == 0)break;       //exit when there is no next fraame
 
@@ -207,6 +217,7 @@ void VideoTesting::run(){
         filtered = HSVFilter(frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
         //filtered = blur(filtered,max);
         filtered = bf.filter(filtered2);
+        filtered = bf2.filter(filtered);
         lineFiltered = lf.filter(filtered, 0);
         //lineFiltered = Moments(filtered);
 
@@ -235,6 +246,12 @@ void VideoTesting::run(){
             }
         }
 
+        //gets the mass center; testing purposes only
+        auto t = sf.findMassCenter(filtered);
+        for (cv::Point2f p: t){
+            cv::circle(lineFiltered, p, 2, cv::Scalar(0,0,255));
+        }
+
         imshow("Orginal", frame);
         imshow("HSV Filtered", filtered);
         imshow("Line Filtered", lineFiltered);
@@ -249,7 +266,7 @@ void VideoTesting::run(){
         delete lineFiltered;*/
     }
     cvReleaseCapture(&capture);
-    cap.release();
+    //cap.release();
     std::cout << "End of video feed" << std::endl;
 }
 

@@ -9,7 +9,7 @@ ShapeFilter::ShapeFilter(int shape, int amount)
 }
 
 //debug purposes
-bool debug = true;
+bool debug = false;
 void print(int i){
     if (debug)
         std::cout<<i;
@@ -64,9 +64,9 @@ bool ShapeFilter::findCirc(cv::Mat img){
     this->center.clear();
 
     int thresh = 100;
-    /// Detect edges using canny
+    // Detect edges using canny
     Canny(img, canny, thresh, thresh*2, 3 );
-    /// Find contours
+    // Find contours
     findContours( canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
     int circlesFound = 0;
@@ -264,4 +264,38 @@ void ShapeFilter::setShape(int shape){
 
 std::vector<cv::RotatedRect> ShapeFilter::getRect(){
     return rektangles;
+}
+
+std::vector<cv::Point2f> ShapeFilter::findMassCenter(cv::Mat img){
+    //getting the contours
+    cv::Mat canny;
+    std::vector<std::vector<cv::Point> > contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::Canny(img, canny, 50, 20, 3);
+    cv::findContours(canny, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+
+    double max = 0;
+    double area = 0;
+    int index = 0;
+
+    std::vector<cv::Moments> mu(contours.size() );
+    for( int i = 0; i < contours.size(); i++ )
+    {
+        mu[i] = cv::moments( contours[i], false );
+        area = cv::contourArea(contours[i]);
+        if (area > max){
+            max = area;
+            index = i;
+        }
+    }
+
+    //  Get the mass centers:
+    std::vector<cv::Point2f> mc( contours.size() );
+    for( int i = 0; i < contours.size(); i++ )
+    {mc[i] = cv::Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );}
+
+    std::vector<cv::Point2f> result;
+    if (max > 0)
+        result.push_back(mc[index]);
+    return result;
 }

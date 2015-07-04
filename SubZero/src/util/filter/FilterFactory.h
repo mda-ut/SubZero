@@ -11,6 +11,7 @@
 #include "NullImgFilter.h"
 #include "NullFPGAFilter.h"
 #include "RGBFilter.h"
+#include "HSVFilter.h"
 
 /**
  * This class holds static functions that can create all the filters
@@ -58,6 +59,8 @@ public:
 	 * @return 		filter object pointer
 	 */
 	static Filter* createRGBFilter(int highlight[],int midtone[],int shadow[]);
+
+    static Filter* createHSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int highhV);
 };
 
 #endif /* FILTERFACTORY_H_ */

@@ -7,12 +7,12 @@
 
 //using namespace cv;
 HSVFilter::HSVFilter(){
-    this->setID("HSV");
+    this->setID("hsv");
 }
 
 HSVFilter::HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int highV){
     this->setValues(lowH, highH, lowS, highS, lowV, highV);
-    this->setID("HSV");
+    this->setID("hsv");
 }
 
 int HSVFilter::filter(Data *data){

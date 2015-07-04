@@ -42,6 +42,11 @@ public:
 
     bool findRect(cv::Mat img);
     bool findCirc(cv::Mat img);
+    /**
+     * Returns the center of the biggest mass
+     * Refractor elsewhere later
+     */
+    std::vector<cv::Point2f> findMassCenter(cv::Mat img);
 
     /**
      * Gets a vector of centers
