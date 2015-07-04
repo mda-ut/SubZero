@@ -14,10 +14,14 @@ SpeedTask::SpeedTask(Model* fpgaModel, int targetSpeed) {
     this->targetSpeed = targetSpeed;
 }
 
+void SpeedTask::setTargetSpeed(int newSpeed) {
+    targetSpeed = newSpeed;
+}
+
 void SpeedTask::execute() {
     if (fpgaModel != 0) {
-        logger->info("Setting speed to " + std::to_string(targetSpeed));
         fpgaModel->sendCommand(SPEED, targetSpeed);
+        logger->info("Speed set to " + std::to_string(targetSpeed));
     } else {
         logger->warn("Model is null");
     }

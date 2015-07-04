@@ -103,8 +103,8 @@ void ShowCaseView::initializeShowCaseView() {
 
     specialActions = new QLabel("Special Actions");
     surfaceButton = new QPushButton("Surface");
-    fireTorpedoButton = new QPushButton("Fire Torpedo");
-    fireGrabberButton = new QPushButton("Fire Grabber");
+    gateButton = new QPushButton("Gate Task");
+    pathButton = new QPushButton("Path Task");
 
     systemActions = new QLabel("System Actions");
     menuButton = new QPushButton("Menu");
@@ -143,8 +143,8 @@ void ShowCaseView::initializeShowCaseView() {
 
     verticalLayout->addWidget(specialActions);
     verticalLayout->addWidget(surfaceButton);
-    verticalLayout->addWidget(fireTorpedoButton);
-    verticalLayout->addWidget(fireGrabberButton);
+    verticalLayout->addWidget(gateButton);
+    verticalLayout->addWidget(pathButton);
     verticalLayout->addSpacing(10);//Spacing size of 20 pixels
 
     verticalLayout->addWidget(systemActions);
@@ -216,6 +216,8 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller) {
     connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
     connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
     connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
+    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
+    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
     connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
 }
 

@@ -118,6 +118,10 @@ class Controller : public QObject {
          */
         void handleRiseButtonClick(void);
 
+        void handleGateTaskClick();
+
+        void handlePathTaskClick();
+
         /**
          * Cleans the queue; forces the last task to finish, then kills the sub
          */

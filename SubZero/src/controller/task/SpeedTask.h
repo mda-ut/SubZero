@@ -30,6 +30,7 @@ public:
      */
     virtual ~SpeedTask();
 
+    void setTargetSpeed(int newSpeed);
 };
 
 #endif /* SUBZERO_SRC_CONTROLLER_TASK_SPEEDTASK_H_ */

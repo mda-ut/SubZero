@@ -15,15 +15,15 @@ class TurnTask : public Task {
 private:
     Logger* logger = new Logger("TurnTask");
     Model* fpgaModel;
-    int* currentYawTarget;
-    int delta;
+    int* currentTargetYaw;
+    int targetYaw;
 
 public:
 	/**
 	 * Contructor
 	 */
     TurnTask();
-    TurnTask(Model* fpgaModel, int& currentYawTarget, int delta);
+    TurnTask(Model* fpgaModel, int& currentTargetYaw);
 
     void execute();
 
@@ -32,6 +32,9 @@ public:
 	 */
     virtual ~TurnTask();
 
+    void setYawDelta(int delta);
+
+    void setYawAbsolute(int newTargetYaw);
 };
 
 #endif /* SUBZERO_SRC_CONTROLLER_TASK_TURNTASK_H_ */

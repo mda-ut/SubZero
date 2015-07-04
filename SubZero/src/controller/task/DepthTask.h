@@ -15,14 +15,14 @@ class DepthTask : public Task {
 private:
     Logger* logger = new Logger("DepthTask");
     Model* fpgaModel;
-    int* currentDepthTarget;
-    int delta;
+    int* currentTargetDepth;
+    int targetDepth;
 
 public:
     /**
      * Contructor
      */
-    DepthTask(Model* fpgaModel, int& currentDepthTarget, int delta);
+    DepthTask(Model* fpgaModel, int& currentTargetDepth, int delta = 50);
 
     void execute();
 
@@ -31,6 +31,8 @@ public:
      */
     virtual ~DepthTask();
 
+    void setDepthDelta(int Delta);
+    void setDepthAbsolute(int newDepth);
 };
 
 #endif /* SUBZERO_SRC_CONTROLLER_TASK_DEPTHTASK_H_ */

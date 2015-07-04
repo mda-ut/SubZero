@@ -12,10 +12,18 @@ TurnTask::TurnTask() {
 	// TODO Auto-generated constructor stub
 }
 
-TurnTask::TurnTask(Model* fpgaModel, int& currentYawTarget, int delta) {
+TurnTask::TurnTask(Model* fpgaModel, int& currentTargetYaw, int delta) {
     this->fpgaModel = fpgaModel;
-    this->currentYawTarget = &currentYawTarget;
-    this->delta = delta;
+    this->currentTargetYaw = &currentTargetYaw;
+    targetYaw = currentTargetYaw + delta;
+}
+
+void TurnTask::setYawDelta(int delta) {
+    setYawAbsolute(*currentYawTarget + delta);
+}
+
+void TurnTask::setYawAbsolute(int newTargetYaw) {
+    targetYaw = newTargetYaw;
 }
 
 void TurnTask::execute() {
@@ -30,12 +38,14 @@ void TurnTask::execute() {
          }
 
         fpgaModel->sendCommand(YAW, *currentYawTarget);
+        logger->info("Target yaw set to " + std::to_string(*currentYawTarget));
 	} else {
 		logger->warn("Model is null");
 	}
 }
 
 TurnTask::~TurnTask() {
-	delete logger;
+    delete logger;
 }
+
 
