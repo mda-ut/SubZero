@@ -16,8 +16,9 @@ public:
      * Post processing filter to filter for shapes
      * @param shape = id of the shape you want to filter
      *              1 = rectangle
+     * @param amount = number of shapes to look for (1-N)
      */
-    ShapeFilter(int shape);
+    ShapeFilter(int shape, int amount);
 
     /**
      * Filters and looks for shape
@@ -37,15 +38,41 @@ public:
      * Gets the bounding box of the rectangle found
      * @return RotatedRect of the rectangle
      */
-    cv::RotatedRect getRect();
+    std::vector<cv::RotatedRect> getRect();
 
     bool findRect(cv::Mat img);
+    bool findCirc(cv::Mat img);
+    /**
+     * Returns the center of the biggest mass
+     * Refractor elsewhere later
+     */
+    std::vector<cv::Point2f> findMassCenter(cv::Mat img);
+
+    /**
+     * Gets a vector of centers
+     * The returned vector is guaranteed to be the same size as the one from getRad()
+     * The index of both vectors refer to the same circle
+     * @return
+     */
+    std::vector<cv::Point2f> getCenter();
+
+    /**
+     * Gets a vector of radius'
+     * The returned vector is guaranteed to be the same size as the one from getCcenter()
+     * @return
+     */
+    std::vector<float> getRad();
+
 private:
     int shape;              //shape to look for
-    cv::RotatedRect rektangle;  //bounding box of rectangle
+    int max;
+    //rectangles
+    std::vector<cv::RotatedRect> rektangles;
+    //cv::RotatedRect rektangle;  //bounding box of rectangle
 
-    //std::vector<std::vector<cv::Point> > *contours;
-    //std::vector<cv::Vec4i> hierarchy;
+    //circles
+    std::vector<float> radius;
+    std::vector<cv::Point2f> center;
 
 };
 

@@ -7,12 +7,12 @@
 
 //using namespace cv;
 HSVFilter::HSVFilter(){
-    this->setID("HSV");
+    this->setID("hsv");
 }
 
 HSVFilter::HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int highV){
     this->setValues(lowH, highH, lowS, highS, lowV, highV);
-    this->setID("HSV");
+    this->setID("hsv");
 }
 
 int HSVFilter::filter(Data *data){
@@ -38,7 +38,7 @@ int HSVFilter::filter(Data *data){
 
 cv::Mat HSVFilter::filter(cv::Mat mat){
     cv::Mat imgHSV;
-    cv::Mat imgThresh = mat.clone();
+    cv::Mat imgThresh = cv::Mat(mat.clone());
 
     cv::cvtColor(mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 

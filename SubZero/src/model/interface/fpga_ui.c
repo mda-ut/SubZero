@@ -1,5 +1,5 @@
 #include "fpga_ui.h"
-#include <curses.h>
+//#include <curses.h>
 
 #include <assert.h>
 #include <math.h>
