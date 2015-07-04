@@ -7,9 +7,8 @@
 
 #ifndef CAMERASTATE_H_
 #define CAMERASTATE_H_
-#include "../../Observable.h"
 #include "State.h"
-#include "../../util/data/ImgData.h"
+#include "ImgData.h"
 
 
 /**

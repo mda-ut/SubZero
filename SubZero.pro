@@ -53,10 +53,7 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/src/controller/controllers/Controller.h \
            SubZero/src/controller/controllers/ControllerThread.h \
            SubZero/src/controller/task/Task.h \
-           SubZero/src/controller/task/TaskCCR.h \
            SubZero/src/controller/task/TaskFactory.h \
-           SubZero/src/controller/task/TaskHelloWorld.h \
-           SubZero/src/controller/task/TaskHeyTonight.h \
            SubZero/src/model/interface/CameraInterface.h \
            SubZero/src/model/interface/FPGAInterface.h \
            SubZero/src/model/interface/HwInterface.h \
@@ -92,7 +89,9 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/controller/task/QuickTaskAdder.h \
     SubZero/src/controller/task/TurnTask.h \
     SubZero/src/controller/task/PowerTask.h \
-    SubZero/src/controller/task/MotorTask.h
+    SubZero/src/controller/task/MotorTask.h \
+    SubZero/src/controller/task/DepthTask.h \
+    SubZero/src/controller/task/SpeedTask.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -112,10 +111,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/controller/controllers/Controller.cpp \
            SubZero/src/controller/controllers/ControllerThread.cpp \
            SubZero/src/controller/task/Task.cpp \
-           SubZero/src/controller/task/TaskCCR.cpp \
            SubZero/src/controller/task/TaskFactory.cpp \
-           SubZero/src/controller/task/TaskHelloWorld.cpp \
-           SubZero/src/controller/task/TaskHeyTonight.cpp \
            SubZero/src/model/interface/CameraInterface.cpp \
            SubZero/src/model/interface/FPGAInterface.cpp \
            SubZero/src/model/interface/HwInterface.cpp \
@@ -150,4 +146,6 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/controller/task/QuickTaskAdder.cpp \
     SubZero/src/controller/task/TurnTask.cpp \
     SubZero/src/controller/task/PowerTask.cpp \
-    SubZero/src/controller/task/MotorTask.cpp
+    SubZero/src/controller/task/MotorTask.cpp \
+    SubZero/src/controller/task/DepthTask.cpp \
+    SubZero/src/controller/task/SpeedTask.cpp

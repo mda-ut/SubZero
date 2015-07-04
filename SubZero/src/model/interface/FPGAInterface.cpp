@@ -23,13 +23,12 @@
 void FPGAInterface::poll() {
     mutex.lock();
     //TODO Add error checking on values from FPGA
+    int power = get_power();
     int depth = get_depth();
-    int heading = get_yaw();
-    int accel_x, accel_y, accel_z;
+    int yaw = get_yaw();
     mutex.unlock();
-    //get_accel(&accel_x, &accel_y, &accel_z);
-    //Need to adjust code for accel rather than speed
-    Data* new_data = new FPGAData("raw", depth, 0, heading);
+
+    Data* new_data = new FPGAData("raw", power, yaw, depth);
     storeToBuffer(new_data);
 }
 

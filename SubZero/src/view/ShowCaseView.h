@@ -15,7 +15,9 @@ class ShowCaseView : public View
 public:
     ShowCaseView();
     ShowCaseView(std::vector<State*> states_);
+    virtual ~ShowCaseView();
 
+    QLabel* powerStatus;
     QPushButton *powerButton;
     QPushButton *motorButton;
 
@@ -27,6 +29,7 @@ public:
     QPushButton *backwardButton;
     QPushButton *sinkButton;
     QPushButton *riseButton;
+    QPushButton *stopButton;
 
     QLabel* specialActions;
     QPushButton *surfaceButton;
@@ -39,13 +42,16 @@ public:
 
     QLabel* depthReading;
     QLabel* yawReading;
-    QLabel* accelReading;
+
+    QLabel* targetDepthLabel;
+    QLabel* targetYawLabel;
 
     virtual void update(int ID);
     void initialize_VC_Connection(Controller *controller);
 
-
 private:
+    Logger* logger = new Logger("ShowCaseView");
+
     virtual void initializeShowCaseView();
 
 };

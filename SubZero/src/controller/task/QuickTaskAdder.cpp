@@ -19,23 +19,6 @@ QuickTaskAdder::QuickTaskAdder()
 
 }
 
-void QuickTaskAdder::addTaskCCR()
-{
-    TaskCCR *task = new TaskCCR;
-    controller->addTaskToQueue(task);
-}
-
-void QuickTaskAdder::addTaskHelloWorld()
-{
-    TaskHelloWorld *task = new TaskHelloWorld;
-    controller->addTaskToQueue(task);
-}
-
-void QuickTaskAdder::addTaskHeyTonight()
-{
-    TaskHeyTonight *task = new TaskHeyTonight;
-    controller->addTaskToQueue(task);
-}
 
 void QuickTaskAdder::initializeQuickTaskAdder(Controller *controllerOriginal)
 {

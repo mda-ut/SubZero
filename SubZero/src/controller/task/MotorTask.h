@@ -15,16 +15,13 @@ class MotorTask : public Task {
 private:
     Logger* logger = new Logger("MotorTask");
     Model* fpgaModel;
-    bool powerOn;
-    int* targetYaw;
-    int* targetDepth;
 
 public:
     /**
      * Contructor
      */
     MotorTask();
-    MotorTask(Model* fpgaModel, bool powerOn, int& targetYaw, int& targetDepth);
+    MotorTask(Model* fpgaModel);
 
     void execute();
 

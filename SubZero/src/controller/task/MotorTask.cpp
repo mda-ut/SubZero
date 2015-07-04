@@ -12,23 +12,20 @@ MotorTask::MotorTask() {
     // TODO Auto-generated constructor stub
 }
 
-MotorTask::MotorTask(Model* fpgaModel, bool powerOn, int& targetYaw, int& targetDepth) {
+MotorTask::MotorTask(Model* fpgaModel){
     this->fpgaModel = fpgaModel;
-    this->powerOn = powerOn;
-    this->targetYaw = &targetYaw;
-    this->targetDepth = &targetDepth;
 }
 
 void MotorTask::execute() {
     if (fpgaModel != 0) {
+        FPGAData* currentPosition = dynamic_cast<FPGAData*>(fpgaModel->getState("raw"));
+        bool powerOn = currentPosition->getPower();
         if (powerOn) {
             logger->info("Turning motor on");
-            FPGAData* currentPosition = dynamic_cast<FPGAData*>(fpgaModel->getState("raw"));
-            *targetDepth = currentPosition->getDepth();
-            *targetYaw = currentPosition->getHeading();
-            fpgaModel->sendCommand(YAW, *targetYaw);
-            fpgaModel->sendCommand(DEPTH, *targetDepth);
-
+            int targetDepth = currentPosition->getDepth();
+            int targetYaw = currentPosition->getYaw();
+            fpgaModel->sendCommand(YAW, targetYaw);
+            fpgaModel->sendCommand(DEPTH, targetDepth);
             fpgaModel->sendCommand(MOTOR, 1);
         } else {
             logger->error("Power not on. Turn power on first.");

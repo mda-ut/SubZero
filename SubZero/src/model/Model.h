@@ -12,8 +12,8 @@
 #include <string>
 
 #include "interface/HwInterface.h"
-#include "../util/filter/FilterManager.h"
-#include "../util/filter/FilterFactory.h"
+#include "FilterManager.h"
+#include "FilterFactory.h"
 #include "State.h"
 
 

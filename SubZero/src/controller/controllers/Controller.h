@@ -11,7 +11,7 @@
 #include <QThread>
 #include <QMutex>
 #include <vector>
-#include "../task/Task.h"
+#include "Task.h"
 #include "Model.h"
 #include "View.h"
 #include "ControllerThread.h"
@@ -23,8 +23,6 @@ class Controller : public QObject {
     Q_OBJECT
 
 	public:	 
-    int targetYaw;
-    int targetDepth;//fix not public plz
         /**
          * General QThread for the constructor and destructor - see http://doc.qt.io/qt-5/qthread.html
          */
@@ -106,6 +104,11 @@ class Controller : public QObject {
         void handleMoveBackwardButtonClick(void);
 
         /**
+         * Handles the button click for stopping the sub
+         */
+        void handleStopButtonClick();
+
+        /**
          * Handles the button click for sinking
          */
         void handleSinkButtonClick(void);
@@ -124,8 +127,9 @@ class Controller : public QObject {
          * Displays the Current taskList
          */
         //void displayTaskList(void);
-		
-	signals:
+
+
+signals:
 		/**
 		 * Tells the ControllerThread to begin 
 		 */
@@ -151,7 +155,8 @@ class Controller : public QObject {
         View* view;
 
         static bool running;
-
+        int targetYaw;
+        int targetDepth;
 };
 
 #endif /* CONTROLLER_H_ */

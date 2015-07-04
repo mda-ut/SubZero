@@ -59,12 +59,12 @@ void Controller::handlePowerButtonToggled() {
 
     logger->info("Adding Power Task to queue");
     powerStatus = !powerStatus;
-    addTaskToQueue(TaskFactory::createPowerTask(models[FPGA], powerStatus, targetYaw, targetDepth));
+    addTaskToQueue(TaskFactory::createPowerTask(models[FPGA]));
 }
 
 void Controller::handleMotorButtonClick() {
     logger->info("Adding Motor Task to queue");
-    addTaskToQueue(TaskFactory::createMotorTask(models[FPGA],powerStatus, targetYaw, targetDepth));
+    addTaskToQueue(TaskFactory::createMotorTask(models[FPGA]));
 }
 
 void Controller::handleMoveLeftButtonClick() {
@@ -79,22 +79,27 @@ void Controller::handleMoveRightButtonClick() {
 
 void Controller::handleMoveForwardButtonClick() {
     logger->info("Adding Move Forward Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], 18*6));
 }
 
 void Controller::handleMoveBackwardButtonClick() {
     logger->info("Adding Move Backward Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], 18*6));
+}
+
+void Controller::handleStopButtonClick() {
+    logger->info("Adding Stop Task to queue");
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA],0));
 }
 
 void Controller::handleSinkButtonClick() {
     logger->info("Adding Sink Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA],targetDepth,15));
 }
 
 void Controller::handleRiseButtonClick() {
     logger->info("Adding Rise Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA],targetDepth,15));
 }
 
 void Controller::killAll() {

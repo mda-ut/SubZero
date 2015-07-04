@@ -3,9 +3,6 @@
 
 #include "../controller/controllers/Controller.h"
 #include "../controller/task/Task.h"
-#include "../controller/task/TaskCCR.h"
-#include "../controller/task/TaskHelloWorld.h"
-#include "../controller/task/TaskHeyTonight.h"
 #include <QObject>
 
 
@@ -16,9 +13,6 @@ public:
     QuickTaskAdder();
 
 public slots:
-    void addTaskCCR();
-    void addTaskHelloWorld();
-    void addTaskHeyTonight();
     void initializeQuickTaskAdder(Controller *controllerOriginal);
 
 private:
