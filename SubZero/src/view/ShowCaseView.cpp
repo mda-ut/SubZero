@@ -12,6 +12,7 @@ ShowCaseView::ShowCaseView():View() {
 
 ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
     initializeShowCaseView();
+    setFocusPolicy(Qt::ClickFocus);
 }
 
 ShowCaseView::~ShowCaseView() {
@@ -161,6 +162,47 @@ void ShowCaseView::initializeShowCaseView() {
     mainLayout->addSpacing(1050);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
+}
+
+void ShowCaseView::keyPressEvent(QKeyEvent* event) {
+    switch(event->key()) {
+    case Qt::Key_AsciiCircum:
+        powerButton->click();
+        break;
+    case Qt::Key_Percent:
+        motorButton->click();
+        break;
+    case Qt::Key_W:
+        forwardButton->click();
+        break;
+    case Qt::Key_A:
+        leftButton->click();
+        break;
+    case Qt::Key_S:
+        backwardButton->click();
+        break;
+    case Qt::Key_D:
+        rightButton->click();
+        break;
+    case Qt::Key_R:
+        riseButton->click();
+        break;
+    case Qt::Key_F:
+        sinkButton->click();
+        break;
+    case Qt::Key_E:
+        stopButton->click();
+        break;
+    case Qt::Key_1:
+        //gateButton->click();
+        break;
+    case Qt::Key_2:
+        //pathButton->click();
+        break;
+    case Qt::Key_Q:
+        exitButton->click();
+        break;
+    }
 }
 
 void ShowCaseView::initialize_VC_Connection(Controller *controller) {
