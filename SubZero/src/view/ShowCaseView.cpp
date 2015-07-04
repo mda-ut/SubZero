@@ -35,14 +35,21 @@ void ShowCaseView::update(int ID) {
         //std::cout << "make down" << std::endl;
         break;
     }
-    case FPGA:
+    case FPGA: {
+        // Update Depth and Yaw readings
+        FPGAData* newData = dynamic_cast<FPGAData*>(states[2]->getState("raw"));
+        double depth = newData->getDepth();
+        double yaw = newData->getHeading();
+        double speed = newData->getSpeed();
+        std::string temp = "Depth: " + std::to_string(depth);
+        depthReading->setText(temp.c_str());
+        temp = "Yaw: " + std::to_string(yaw);
+        yawReading->setText(temp.c_str());
+        temp = "Accel x: " + std::to_string(speed);
+        accelReading->setText(temp.c_str());
         break;
     }
-    // Update Depth and Yaw readings
-    std::string temp = "Depth: " + std::to_string(0);
-    depthReading->setText(temp.c_str());
-    temp = "Yaw: " + std::to_string(0);
-    yawReading->setText(temp.c_str());
+    }
     repaint();
 }
 
@@ -100,6 +107,7 @@ void ShowCaseView::initializeShowCaseView() {
 
     depthReading = new QLabel("Depth:");
     yawReading = new QLabel("Yaw:");
+    accelReading = new QLabel("Accel: ");
 
     // Show Case View layouts
 
@@ -135,6 +143,7 @@ void ShowCaseView::initializeShowCaseView() {
 
     verticalLayout->addWidget(depthReading);
     verticalLayout->addWidget(yawReading);
+    verticalLayout->addWidget(accelReading);
 
     verticalLayout->addSpacing(200);//Spacing size of 200 pixels
 

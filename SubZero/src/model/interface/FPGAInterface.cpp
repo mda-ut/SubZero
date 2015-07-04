@@ -27,7 +27,7 @@ void FPGAInterface::poll() {
     int accel_x, accel_y, accel_z;
     get_accel(&accel_x, &accel_y, &accel_z);
     //Need to adjust code for accel rather than speed
-    Data* new_data = new FPGAData("raw", depth, 0, heading);
+    Data* new_data = new FPGAData("raw", depth, accel_x, heading);
     storeToBuffer(new_data);
 }
 

@@ -74,7 +74,6 @@ int FPGAState::setState(std::vector<FPGAData*> d){
     }
     this->stateData.push_back(d);
     inUse = false;
-    logger->info("New data set");
     return 0;
 }
 
