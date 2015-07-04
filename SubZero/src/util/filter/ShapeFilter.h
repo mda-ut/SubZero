@@ -3,6 +3,7 @@
 #include "Filter.h"
 #include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
+#include "Logger.h"
 
 /**
  * Post processing filter to look for shapes
@@ -73,6 +74,11 @@ private:
     //circles
     std::vector<float> radius;
     std::vector<cv::Point2f> center;
+
+    Logger* logger = new Logger("ShapeFilter");
+    bool debug = true;
+    void print(int i);
+    void println(std::string s);
 
 };
 

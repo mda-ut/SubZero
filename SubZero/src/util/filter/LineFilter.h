@@ -9,6 +9,7 @@
 #include "Filter.h"
 #include <opencv2/imgproc.hpp>
 #include <iostream>
+#include "Logger.h"
 
 /**
  * The Line filter filters the image to look for lines
@@ -28,6 +29,7 @@ public:
      * Filters an image for lines
      */
     LineFilter();
+    ~LineFilter();
 
     /* =====================================================
      * Filtering
@@ -68,6 +70,13 @@ private:
     //mode to use for filtering
     int mode;
     std::vector<std::vector<float> > linesEq;
+
+    Logger* logger = new Logger("LineFilter");
+    bool debug = true;
+    void println(std::string s);
+    void println(float f);
+    void print(std::string s);
+    void print(float f);
 };
 
 #endif // LINEFILTER_H

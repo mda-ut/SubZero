@@ -12,6 +12,7 @@
 class PathTask : public Task {
 public:
     PathTask();
+    ~PathTask();
     PathTask(CameraModel* cameraModel, TurnTask* turnTask, SpeedTask* speedTask);
 
     void execute();
@@ -27,8 +28,12 @@ private:
     bool horzInSight;
     bool done;
     float inlineThresh;
+    int imgWidth, imgHeight;
 
     void moveTo(cv::Point2f pos);
+
+    bool debug = true;
+    void println(std::string s);
 };
 
 #endif // PATHTASK_H
