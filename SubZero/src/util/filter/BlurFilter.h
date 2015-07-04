@@ -39,7 +39,7 @@ public:
      * Used for internal testing
      * Does the same thing as filter using _data_
      */
-    cv::Mat* filter(cv::Mat* img);
+    cv::Mat filter(cv::Mat img);
 
     /**
      * Sets which blur to use for filter

@@ -1,15 +1,15 @@
 #include "ShapeFilter.h"
 
 
-ShapeFilter::ShapeFilter(int shape)
+ShapeFilter::ShapeFilter(int shape, int amount)
 {
-    rektangle = 0;
     setShape(shape);
+    this->max = amount;
     //contours = new std::vector<std::vector<cv::Point> >;
 }
 
 //debug purposes
-bool debug = false;
+bool debug = true;
 void print(int i){
     if (debug)
         std::cout<<i;
@@ -31,7 +31,7 @@ int ShapeFilter::filter(Data *data){
 
    //beging filtering process
     if (shape == 1){    //rectangle
-        return this->findRect(imgData->getImg());   //lazy to copy+paste everything
+        return this->findRect(*(imgData->getImg()));   //lazy to copy+paste everything
     }
     //ending filtering process
 
@@ -40,17 +40,149 @@ int ShapeFilter::filter(Data *data){
     return 0;
 }
 
-bool ShapeFilter::findRect(cv::Mat* img){
+double MEAN2(double a, double b){
+    return ((fabs((a) + (b)))/2.0);
+}
+
+std::vector<float> ShapeFilter::getRad(){
+    return this->radius;
+}
+
+std::vector<cv::Point2f> ShapeFilter::getCenter(){
+    return this->center;
+}
+
+bool ShapeFilter::findCirc(cv::Mat img){
     //getting the contours
     cv::Mat canny;
-    std::vector<std::vector<cv::Point> > *contours
-            = new std::vector<std::vector<cv::Point> >;
+    std::vector<std::vector<cv::Point> > contours;
     std::vector<cv::Vec4i> hierarchy;
-    cv::Canny(*img, canny, 50, 20, 3);
-    cv::findContours(canny, *contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+
+    float radius;
+    cv::Point2f center;
+    this->radius.clear();
+    this->center.clear();
+
+    int thresh = 100;
+    /// Detect edges using canny
+    Canny(img, canny, thresh, thresh*2, 3 );
+    /// Find contours
+    findContours( canny, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+
+    int circlesFound = 0;
+    //constants
+    unsigned int minPoints = 6;
+    double minArea = 500;
+    float minRad = 400;
+
+    for (std::vector<cv::Point> co: contours){
+        if (co.size() < minPoints){
+            println("Circle Not enough Points");
+            continue;
+        }
+
+        double area = cv::contourArea(co);
+        if (area < minArea) {
+            println ("Circle not enough area area");
+            continue;
+        }
+
+        /*
+        /// Get the moments
+        std::vector<cv::Moments> mu(co.size() );
+        for( int i = 0; i < co.size(); i++ ){
+            mu[i] = moments( co[i], false );
+        }
+
+        ///  Get the mass centers:
+        std::vector<cv::Point2f> mc( contours.size() );
+        for( int i = 0; i < contours.size(); i++ )
+        { mc[i] = cv::Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 ); }
+*/
+
+        cv::Moments cvmoments = moments(co, false);
+        double nu11 = cvmoments.nu11;
+        double nu20 = cvmoments.nu02;
+        double nu02 = cvmoments.nu20;
+        double nu21 = cvmoments.nu21;
+        double nu12 = cvmoments.nu12;
+        double nu03 = cvmoments.nu03;
+        double nu30 = cvmoments.nu30;
+
+        double r03 = fabs(nu30 / nu03);
+        r03 = (r03 > 1) ? r03 : 1.0/r03;
+        double r12 = fabs(nu12 / nu21);
+        r12 = (r12 > 1) ? r12 : 1.0/r12;
+        double r02 = fabs(nu02 / nu20);
+        r02 = (r02 > 1) ? r02 : 1.0/r02;
+
+        double r11 = fabs( MEAN2(nu02,nu20) / nu11);
+        double R = MEAN2(nu20,nu02) / std::max((MEAN2(nu21,nu12)), (MEAN2(nu30,nu03)));
+        bool pass = true;
+        pass = (r03 <= 25.0) && (r12 <= 12.0) && (r02 <= 12.0) && (r11 > 2.5) && (R > 25);
+
+        if (!pass){
+            println("Circle failed math test");
+            continue;
+        }
+
+        // get min enclosing circle and radius
+        //CvPoint2D32f centroid32f;
+
+        //cv::minEnclosingCircle(co, &centroid32f, &radius);
+        cv::minEnclosingCircle(co, center, radius);
+
+        if (radius > minRad || radius < 0) {
+            println("Circle radius too small");
+            continue;
+        }
+
+        // do checks on area and perimeter
+        double area_ratio = area / (CV_PI*radius*radius);
+        //double perimeter_ratio = perimeter / (2*CV_PI*radius);
+        if (area_ratio < 0.7) {
+            println("Circle fail Area");
+            continue;
+        }
+
+        bool repeat = false;
+        //check if circle is found already
+        for (unsigned int i = 0; i < this->center.size(); i++){
+            cv::Point2f c = this->center[i];
+            if (std::abs(c.x-center.x) < 20 && std::abs(c.y - center.y) < 20){
+                repeat = true;
+                break;
+            }
+        }
+
+        if (!repeat){
+            //check if i found the number of circles requested
+            if (this->center.size() < max){
+                println("Found circle");
+                this->radius.push_back(radius);
+                this->center.push_back(center);
+                circlesFound++;
+            }else{
+                println("Already found enough circles");
+            }
+        }else{
+            println("Already found this circle");
+        }
+    }
+    return circlesFound != 0;
+}
+
+bool ShapeFilter::findRect(cv::Mat img){
+    //getting the contours
+    cv::Mat canny;
+    std::vector<std::vector<cv::Point> > contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::Canny(img, canny, 50, 20, 3);
+    cv::findContours(canny, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
     //searching for rectangles
-    int boxesFound = 0;         //constants
+    int boxesFound = 0;
+    //constants
     unsigned int minPoints = 6;
     double minArea = 500;
     double maxArea = 500000;
@@ -59,22 +191,23 @@ bool ShapeFilter::findRect(cv::Mat* img){
     double areaMin = 0.6;
     double perimMin = 0.75;
     double perimMax = 1.2;
+    rektangles.clear();
 
-    for (std::vector<cv::Point> co: *contours){
+    for (std::vector<cv::Point> co: contours){
         //error checking
         if (co.size() < minPoints){
-            println("Not enough Points");
+            println("Rect Not enough Points");
             continue;
         }
         double area = cv::contourArea(co);
         if (area < minArea){
             print(area);
-            println(" Not enough Area");
+            println(" Rect Not enough Area");
             continue;
         }
         if (area > maxArea){
             print(area);
-            println(" Too much Area");
+            println(" Rect Too much Area");
             continue;
         }
 
@@ -90,34 +223,37 @@ bool ShapeFilter::findRect(cv::Mat* img){
 
         float lw_ratio = length/width;
         if (lw_ratio < lwMin){
-            println("LW ratio too small");
+            println("Rect LW ratio too small");
             continue;
         }
         if (lw_ratio > lwMax){
-            println("LW ratio too big");
+            println("Rect LW ratio too big");
             continue;
         }
         double perimneter = cv::arcLength(co, 1);
         double perim_ratio = perimneter/ (2*length+2*width);
         double area_ratio = area/(length*width);
         if (area_ratio < areaMin){
-            println("area ratio too small");
+            println("Rect area ratio too small");
             continue;
         }
         if (perim_ratio > perimMax){
-            println("area ratio too small");
+            println("Rect area ratio too small");
             continue;
         }
         if (perim_ratio < perimMin){
-            println("area ratio too small");
+            println("Rect area ratio too small");
             continue;
         }
 
 
-        delete rektangle;   //prevent memory leaks, hope it dosnt crash
-        rektangle = new cv::RotatedRect(rect);
-        println("FOUND");
-        boxesFound++;
+        if (rektangles.size() < max){
+            cv::RotatedRect temp = cv::RotatedRect(rect);
+            rektangles.push_back(temp);
+
+            println("RECT FOUND");
+            boxesFound++;
+        }
     }
     return boxesFound != 0;
 }
@@ -127,6 +263,6 @@ void ShapeFilter::setShape(int shape){
     if (shape == 0) this->setID("rect");
 }
 
-cv::RotatedRect* ShapeFilter::getRect(){
-    return rektangle;
+std::vector<cv::RotatedRect> ShapeFilter::getRect(){
+    return rektangles;
 }
