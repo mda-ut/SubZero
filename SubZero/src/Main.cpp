@@ -18,7 +18,7 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) {/*
     QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
     Logger logger("Main");
@@ -42,8 +42,11 @@ int main(int argc, char** argv) {
         Logger::setLoggingLevel(Logger::Level::WARN);
     } else if (loggingLevel == "ERROR") {
         Logger::setLoggingLevel(Logger::Level::ERROR);
-    }
+    }*/
 
+    VideoTesting vt(0);
+    vt.run();
+/*
     Menu* newMenu = new Menu(settings);
     newMenu->show();
 
@@ -76,8 +79,11 @@ int main(int argc, char** argv) {
         }
     }
 */
+    /*
     int error = app.exec();
     //delete settings;
     return error;
+    */
+    return 0;
 }
 
