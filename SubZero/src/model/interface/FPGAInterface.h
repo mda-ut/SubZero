@@ -11,6 +11,7 @@
 #include <thread>
 #include <iostream>
 #include <string>
+#include <QMutex>
 #include "HwInterface.h"
 #include "../../util/data/Data.h"
 #include "../../util/data/FPGAData.h"
@@ -39,6 +40,8 @@ private:
     Logger* logger = new Logger("FPGAInterface");
 
     PropertyReader* settings;
+
+    QMutex mutex;
 
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)

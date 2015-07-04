@@ -11,7 +11,9 @@
 #include "Task.h"
 #include "TurnTask.h"
 #include "PowerTask.h"
+#include "MotorTask.h"
 #include <string>
+
 
 class TaskFactory {
 public:
@@ -28,7 +30,9 @@ public:
 
     static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 
-    static PowerTask* createPowerTask(Model* fpgaModel, bool powerOn);
+    static PowerTask* createPowerTask(Model* fpgaModel, bool powerOn, int& targetYaw, int& targetDepth);
+
+    static MotorTask* createMotorTask(Model* fpgaModel, bool powerOn, int& targetYaw, int& targetDepth);
 
     /**
      * Destructor

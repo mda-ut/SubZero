@@ -16,13 +16,15 @@ private:
     Logger* logger = new Logger("PowerTask");
     Model* fpgaModel;
     bool powerOn;
+    int* targetYaw;
+    int* targetDepth;
 
 public:
     /**
      * Contructor
      */
     PowerTask();
-    PowerTask(Model* fpgaModel, bool powerOn);
+    PowerTask(Model* fpgaModel, bool powerOn, int& targetYaw, int& targetDepth);
 
     void execute();
 

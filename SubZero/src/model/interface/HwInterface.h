@@ -18,7 +18,8 @@ enum Attributes {
     POWER,
     DEPTH,
     YAW, // relative to the direction the sub is heading
-    SPEED
+    SPEED,
+    MOTOR
 };
 
 /**

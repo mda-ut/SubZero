@@ -23,6 +23,8 @@ class Controller : public QObject {
     Q_OBJECT
 
 	public:	 
+    int targetYaw;
+    int targetDepth;//fix not public plz
         /**
          * General QThread for the constructor and destructor - see http://doc.qt.io/qt-5/qthread.html
          */
@@ -77,6 +79,11 @@ class Controller : public QObject {
          * Handles the button click for toggling power
          */
         void handlePowerButtonToggled(void);
+
+        /**
+         * Handles the button click for startup sequence
+         */
+        void handleMotorButtonClick(void);
 
         /**
          * Handles the button click for moving left
@@ -144,8 +151,7 @@ class Controller : public QObject {
         View* view;
 
         static bool running;
-        int targetYaw;
-        int targetDepth;
+
 };
 
 #endif /* CONTROLLER_H_ */

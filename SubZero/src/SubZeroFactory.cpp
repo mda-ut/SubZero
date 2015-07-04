@@ -57,7 +57,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
         HwInterface* frontCamInt = new CameraInterface(camBufferSize,camPollFrequency,frontCamPos);
         HwInterface* downCamInt = new CameraInterface(camBufferSize,camPollFrequency,downCamPos);
-        HwInterface* fpgaInt = new FPGAInterface(fpgaBufferSize, fpgaPollFrequency);
+        HwInterface* fpgaInt = new FPGAInterface(fpgaBufferSize, fpgaPollFrequency, settings);
 
         models.push_back(new CameraModel(states[0], frontCamInt));
         models.push_back(new CameraModel(states[1], downCamInt));

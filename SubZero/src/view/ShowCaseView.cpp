@@ -86,6 +86,7 @@ void ShowCaseView::initializeShowCaseView() {
 
     // Show Case View WIdget Initialization
     powerButton = new QPushButton("Power: Off");
+    motorButton = new QPushButton("Turn Motors On");
 
     movement = new QLabel("Movement");
     leftButton = new QPushButton("Veer Left");
@@ -119,6 +120,7 @@ void ShowCaseView::initializeShowCaseView() {
     //What to do? : set other BoxLayouts and add spacing?
 
     verticalLayout->addWidget(powerButton);
+    verticalLayout->addWidget(motorButton);
     verticalLayout->addSpacing(20);
 
     verticalLayout->addWidget(movement);
@@ -163,6 +165,7 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller) {
     qta->initializeQuickTaskAdder(controller);
 
     connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
+    connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
     connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
     connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
     connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));

@@ -12,9 +12,11 @@ PowerTask::PowerTask() {
     // TODO Auto-generated constructor stub
 }
 
-PowerTask::PowerTask(Model* fpgaModel, bool powerOn) {
+PowerTask::PowerTask(Model* fpgaModel, bool powerOn, int& targetYaw, int& targetDepth) {
     this->fpgaModel = fpgaModel;
     this->powerOn = powerOn;
+    this->targetYaw = &targetYaw;
+    this->targetDepth = &targetDepth;
 }
 
 void PowerTask::execute() {
