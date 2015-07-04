@@ -17,30 +17,30 @@ int BlurFilter::filter(Data *data){
     }
 
     cv::Mat src = imgData->getImg();
-    cv::Mat dst = filter(src);
+    cv::Mat dst = this->filter(src);
     imgData->setImg(dst);
 
     return 0;
 }
 
-cv::Mat BlurFilter::filter(cv::Mat src){
-    cv::Mat dst = src.clone();
-    //all parameter other than max is set to the default from the opencv blur tutorial
+cv::Mat BlurFilter::filter(cv::Mat img){
+    cv::Mat dst = cv::Mat(img.clone());
+    //all paraeter other than max is set to the default from the opencv blur tutorial
     if (mode == 0){
         int max = roundToOdd(BLURMAX*intensity);
-        blur(src, dst, cv::Size(max,max), cv::Point(-1,-1));
+        blur(img, dst, cv::Size(max,max), cv::Point(-1,-1));
     }else if (mode == 1){
         int max = roundToOdd(GAUSMAX*intensity);
-        GaussianBlur(src, dst, cv::Size(max, max), 0,0);
+        GaussianBlur(img, dst, cv::Size(max, max), 0,0);
     }else if (mode == 2){
         int max = roundToOdd(MEDIMAX*intensity);
-        medianBlur(src, dst, max);
+        medianBlur(img, dst, max);
     }else if (mode == 3){
         int max = roundToOdd(BILAMAX*intensity);
-        bilateralFilter(src, dst, max, max*2, max/2);
+        bilateralFilter(img, dst, max, max*2, max/2);
     }else {     //default blur is normal blur
         int max = roundToOdd(BLURMAX*intensity);
-        blur(src, dst, cv::Size(max,max), cv::Point(-1,-1));
+        blur(img, dst, cv::Size(max,max), cv::Point(-1,-1));
     }
     return dst;
 }
