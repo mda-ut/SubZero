@@ -32,7 +32,7 @@ public:
      */
     static Task* newTask(const std::string input);
 
-    static GateTask* createGateTask(Model* fpgaModel, int& targetDepth);
+    static GateTask* createGateTask(Model* fpgaModel, int& targetDepth, int& targetYaw);
 
     static PathTask* createPathTask(Model* fpgaModel, int& targetYaw);
 

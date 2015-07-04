@@ -28,9 +28,9 @@ SubZero::~SubZero() {
 
 void SubZero::init() {
     init_signal_handler();
-    for (auto& model : models) {
-        model->initialize();
-    }
+    models[2]->initialize();//start fpga connection first, most likely to crash
+    models[0]->initialize();
+    models[1]->initialize();
     controller->initialize();
     view->initialize_VC_Connection(controller);//Connect the controller to the view
     view->show();

@@ -10,13 +10,16 @@
 
 #include "Task.h"
 #include "DepthTask.h"
+#include "TurnTask.h"
 #include "SpeedTask.h"
 #include "Logger.h"
 
 class GateTask : public Task {
 private:
     Logger* logger = new Logger("GateTask");
+    Model* fpgaModel;
     DepthTask* depthTask;
+    TurnTask* turnTask;
     SpeedTask* speedTask;
 
 public:
@@ -24,7 +27,7 @@ public:
      * Contructor
      */
     GateTask();
-    GateTask(DepthTask* depthTask, SpeedTask* speedTask);
+    GateTask(Model* fpgaModel, DepthTask* depthTask, TurnTask* turnTask, SpeedTask* speedTask);
 
     void execute();
 
