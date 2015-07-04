@@ -12,45 +12,29 @@
  * ==========================================================================
  */
 
-FPGAData::FPGAData(std::string dataID, int depth, int speed, int heading) : Data(dataID) {
-	this->depth = depth;
-	this->speed = speed;
-	this->heading = heading;
+FPGAData::FPGAData(std::string dataID, int power, int yaw, int depth) : Data(dataID) {
+    this->power = power;
+    this->yaw = yaw;
+    this->depth = depth;
 }
 
 FPGAData::~FPGAData() {
 }
 
-/* ==========================================================================
- * FRIEND FUNCS
- * ==========================================================================
- */
-
-void FPGAData::setDepth(int newDepth) {
-    depth = newDepth;
-}
-
-void FPGAData::setSpeed(int newSpeed) {
-    speed = newSpeed;
-}
-
-void FPGAData::setHeading(int newHeading) {
-    heading = newHeading;
-}
 
 /* ==========================================================================
  * FPGA MANIPULATION FUNCS
  * ==========================================================================
  */
 
+int FPGAData::getPower() {
+    return power;
+}
+
+int FPGAData::getYaw() {
+    return yaw;
+}
+
 int FPGAData::getDepth() {
     return depth;
-}
-
-int FPGAData::getSpeed() {
-    return speed;
-}
-
-int FPGAData::getHeading() {
-    return heading;
 }

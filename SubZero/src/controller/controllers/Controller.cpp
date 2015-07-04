@@ -18,6 +18,8 @@ Controller::Controller(){
 Controller::Controller(std::vector<Model*> models, View* view){
     this->models = models;
     this->view = view;
+    targetDepth = 250;
+    targetYaw = 0;
     taskList = new QQueue <class Task* >;
 }
 
@@ -52,41 +54,52 @@ bool Controller::isRunning() {
 void Controller::finished(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
 }
+static bool powerStatus = false;
 void Controller::handlePowerButtonToggled() {
-    static bool powerStatus = false;
+
     logger->info("Adding Power Task to queue");
     powerStatus = !powerStatus;
-    addTaskToQueue(TaskFactory::createPowerTask(models[FPGA], powerStatus));
+    addTaskToQueue(TaskFactory::createPowerTask(models[FPGA]));
+}
+
+void Controller::handleMotorButtonClick() {
+    logger->info("Adding Motor Task to queue");
+    addTaskToQueue(TaskFactory::createMotorTask(models[FPGA]));
 }
 
 void Controller::handleMoveLeftButtonClick() {
     logger->info("Adding Move Left Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,-15));
 }
 
 void Controller::handleMoveRightButtonClick() {
     logger->info("Adding Move Right Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,-15));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
 }
 
 void Controller::handleMoveForwardButtonClick() {
     logger->info("Adding Move Forward Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], 18*6));
 }
 
 void Controller::handleMoveBackwardButtonClick() {
     logger->info("Adding Move Backward Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], 18*6));
+}
+
+void Controller::handleStopButtonClick() {
+    logger->info("Adding Stop Task to queue");
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA],0));
 }
 
 void Controller::handleSinkButtonClick() {
     logger->info("Adding Sink Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA],targetDepth,15));
 }
 
 void Controller::handleRiseButtonClick() {
     logger->info("Adding Rise Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA],targetDepth,15));
 }
 
 void Controller::killAll() {
@@ -97,7 +110,12 @@ void Controller::killAll() {
 
 void Controller::addTaskToQueue(Task *newTask)
 {
+    logger->trace("Requesting mutex lock to add task");
     mutex.lock();
+    logger->trace("Lock request successful");
     taskList->enqueue(newTask);
+    logger->trace("Enqueued new task");
     mutex.unlock();
+    logger->trace("Unlocking mutex");
+
 }

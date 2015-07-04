@@ -9,9 +9,13 @@
 #define TASKFACTORY_H_
 
 #include "Task.h"
-#include "TurnTask.h"
 #include "PowerTask.h"
+#include "MotorTask.h"
+#include "TurnTask.h"
+#include "DepthTask.h"
+#include "SpeedTask.h"
 #include <string>
+
 
 class TaskFactory {
 public:
@@ -28,7 +32,13 @@ public:
 
     static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 
-    static PowerTask* createPowerTask(Model* fpgaModel, bool powerOn);
+    static DepthTask* createDepthTask(Model* fpgaModel, int& targetDepth, int delta);
+
+    static SpeedTask* createSpeedTask(Model* fpgaModel, int targetSpeed);
+
+    static PowerTask* createPowerTask(Model* fpgaModel);
+
+    static MotorTask* createMotorTask(Model* fpgaModel);
 
     /**
      * Destructor

@@ -29,35 +29,6 @@ class FPGAData: public Data {
 private:
 
 	/* ==========================================================================
-	 * FRIEND FUNCS
-	 * ==========================================================================
-	 */
-
-	/**
-	 * Setter for the depth. If a previous value exists, it will
-	 * be replaced.
-	 *
-	 * @param newDepth	double value of depth.
-	 */
-    void setDepth(int newDepth);
-
-	/**
-	 * Setter for the speed. If a previous value exists, it will
-	 * be replaced.
-	 *
-	 * @param newRoll	double value of speed.
-	 */
-    void setSpeed(int newSpeed);
-
-	/**
-	 * Setter for heading. If a previous value exists, it will
-	 * be replaced.
-	 *
-	 * @param newHeading	double value of heading.
-	 */
-    void setHeading(int newHeading);
-
-	/* ==========================================================================
 	 * CLASS VARS
 	 * ==========================================================================
 	 */
@@ -65,8 +36,7 @@ private:
 	/*
 	 * Depth, speed, heading vars.
 	 */
-    int depth, speed, heading;
-
+    int power, yaw, depth;
 public:
 
 	/* ==========================================================================
@@ -77,11 +47,11 @@ public:
 	/**
 	 * Constructor for FPGAData.
 	 *
-	 * @param depth
-	 * @param speed
-	 * @param heading
+     * @param power
+     * @param yaw
+     * @param depth
 	 */
-    FPGAData(std::string dataID, int depth, int speed, int heading);
+    FPGAData(std::string dataID, int power, int yaw, int depth);
 
 	/**
 	 * Destructor stub.
@@ -89,30 +59,30 @@ public:
 	virtual ~FPGAData();
 
 	/* ==========================================================================
-	 * FPGA MANIPULATION FUNCS
+     * FPGA GETTER FUNCS
 	 * ==========================================================================
 	 */
 
 	/**
-	 * Getter for the depth.
+     * Getter for the power status.
 	 *
-	 * @return 	double value of depth.
+     * @return 	int vale. 1 if power on, 0 if power off
 	 */
-    int getDepth();
+    int getPower();
 
 	/**
-	 * Getter for the speed.
+     * Getter for the yaw
 	 *
-	 * @return 	double value of speed.
+     * @return 	int value of yaw, in degrees
 	 */
-    int getSpeed();
+    int getYaw();
 
     /**
-	 * Getter for heading. Heading refers to? Ask Electronics
+     * Getter for depth
 	 *
-	 * @return 	double value of heading.
+     * @return 	int value of depth, in "cm"
 	 */
-    int getHeading();
+    int getDepth();
 
 };
 

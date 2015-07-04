@@ -6,18 +6,16 @@
 #include <QLinearGradient>
 #include <QSignalMapper>
 
-#include "../controller/task/Task.h"
-#include "../controller/task/TaskCCR.h"
-#include "../controller/task/TaskHelloWorld.h"
-#include "../controller/task/TaskHeyTonight.h"
-
-
 ShowCaseView::ShowCaseView():View() {
     initializeShowCaseView();
 }
 
 ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
     initializeShowCaseView();
+}
+
+ShowCaseView::~ShowCaseView() {
+    delete logger;
 }
 
 void ShowCaseView::update(int ID) {
@@ -38,15 +36,19 @@ void ShowCaseView::update(int ID) {
     case FPGA: {
         // Update Depth and Yaw readings
         FPGAData* newData = dynamic_cast<FPGAData*>(states[2]->getState("raw"));
-        double depth = newData->getDepth();
-        double yaw = newData->getHeading();
-        double speed = newData->getSpeed();
+        int power = newData->getPower();
+        int depth = newData->getDepth();
+        int yaw = newData->getYaw();
+
+        if (power) {
+            powerStatus->setText("Power: On");
+        } else {
+            powerStatus->setText("Power: Off");
+        }
         std::string temp = "Depth: " + std::to_string(depth);
         depthReading->setText(temp.c_str());
         temp = "Yaw: " + std::to_string(yaw);
         yawReading->setText(temp.c_str());
-        temp = "Accel x: " + std::to_string(speed);
-        accelReading->setText(temp.c_str());
         break;
     }
     }
@@ -56,36 +58,37 @@ void ShowCaseView::update(int ID) {
 void ShowCaseView::initializeShowCaseView() {
     frontCameraImage = QImage(":/img/MDA.jpg");
 
-   //Creating an image that holds a gradient of blue
+    //Creating an image that holds a gradient of blue
 
-        //Create an image to be painted on
-   QImage sub(400,500,QImage::Format_RGB32);
+    //Create an image to be painted on
+    QImage sub(525,700,QImage::Format_RGB32);
 
-        //Setup the painter to paint/draw on the image
-   QPainter subImgPainter;
-   subImgPainter.begin(&sub); //Paint on that image
+    //Setup the painter to paint/draw on the image
+    QPainter subImgPainter;
+    subImgPainter.begin(&sub); //Paint on that image
 
-        //Create the gradient
-   QLinearGradient blueGradient(0,0,800,600);
+    //Create the gradient
+    QLinearGradient blueGradient(0,0,800,600);
 
-        //Set the starting color and end colors
-   blueGradient.setColorAt(0.0,QColor(62,58,200));// 0.0 is start position as a qreal
-   blueGradient.setColorAt(1.0,QColor(175,80,255)); //1.0 is end position as a qreal
+    //Set the starting color and end colors
+    blueGradient.setColorAt(0.0,QColor(62,58,200));// 0.0 is start position as a qreal
+    blueGradient.setColorAt(1.0,QColor(175,80,255)); //1.0 is end position as a qreal
 
-        //Create a brush from the gradient (to paint with)
-   QBrush blueGradientBrush(blueGradient);
+    //Create a brush from the gradient (to paint with)
+    QBrush blueGradientBrush(blueGradient);
 
-        //Use the brush
-   subImgPainter.fillRect(sub.rect(), blueGradientBrush);
-   subImgPainter.end();
-
-
+    //Use the brush
+    subImgPainter.fillRect(sub.rect(), blueGradientBrush);
+    subImgPainter.end();
 
     downCameraImage = sub;
 
 
     // Show Case View WIdget Initialization
-    powerButton = new QPushButton("Power: Off");
+    powerStatus = new QLabel("Power: Off");
+    powerButton = new QPushButton("Turn Power On/Off");
+    powerButton->setCheckable(true);
+    motorButton = new QPushButton("Turn Motors On");
 
     movement = new QLabel("Movement");
     leftButton = new QPushButton("Veer Left");
@@ -95,6 +98,7 @@ void ShowCaseView::initializeShowCaseView() {
     backwardButton = new QPushButton("Move Backward");
     sinkButton = new QPushButton("Sink");
     riseButton = new QPushButton("Rise");
+    stopButton = new QPushButton("Stop");
 
     specialActions = new QLabel("Special Actions");
     surfaceButton = new QPushButton("Surface");
@@ -107,70 +111,69 @@ void ShowCaseView::initializeShowCaseView() {
 
     depthReading = new QLabel("Depth:");
     yawReading = new QLabel("Yaw:");
-    accelReading = new QLabel("Accel: ");
+
+    targetDepthLabel = new QLabel("Target:");
+    targetYawLabel = new QLabel("Target:");
 
     // Show Case View layouts
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
     QHBoxLayout *mainLayout = new QHBoxLayout();
+    QGridLayout *readingsLayout = new QGridLayout();
 
     //Show Case view Widget Positioning
     //Down want to add rects from view to layout
     //What to do? : set other BoxLayouts and add spacing?
 
+    verticalLayout->addWidget(powerStatus);
     verticalLayout->addWidget(powerButton);
-    verticalLayout->addSpacing(20);
+    verticalLayout->addWidget(motorButton);
+    verticalLayout->addSpacing(10);
 
     verticalLayout->addWidget(movement);
     verticalLayout->addWidget(leftButton);
     verticalLayout->addWidget(rightButton);
-    verticalLayout->addWidget(forwardButton);
-    verticalLayout->addWidget(backwardButton);
     verticalLayout->addWidget(sinkButton);
     verticalLayout->addWidget(riseButton);
-    verticalLayout->addSpacing(20);//Spacing size of 20 pixels
+    verticalLayout->addWidget(forwardButton);
+    verticalLayout->addWidget(backwardButton);
+    verticalLayout->addWidget(stopButton);
+    verticalLayout->addSpacing(10);//Spacing size of 20 pixels
 
     verticalLayout->addWidget(specialActions);
     verticalLayout->addWidget(surfaceButton);
     verticalLayout->addWidget(fireTorpedoButton);
     verticalLayout->addWidget(fireGrabberButton);
-    verticalLayout->addSpacing(20);//Spacing size of 20 pixels
+    verticalLayout->addSpacing(10);//Spacing size of 20 pixels
 
     verticalLayout->addWidget(systemActions);
     verticalLayout->addWidget(menuButton);
     verticalLayout->addWidget(exitButton);
-    verticalLayout->addSpacing(20);
+    verticalLayout->addSpacing(10);
 
-    verticalLayout->addWidget(depthReading);
-    verticalLayout->addWidget(yawReading);
-    verticalLayout->addWidget(accelReading);
+    readingsLayout->addWidget(yawReading, 0, 0, Qt::AlignLeft);
+    readingsLayout->addWidget(targetYawLabel, 0, 1, Qt::AlignLeft);
+    readingsLayout->addWidget(depthReading, 1, 0, Qt::AlignLeft);
+    readingsLayout->addWidget(targetDepthLabel, 1, 1, Qt::AlignLeft);
+    verticalLayout->addLayout(readingsLayout);
 
-    verticalLayout->addSpacing(200);//Spacing size of 200 pixels
 
-    mainLayout->addSpacing(800);
+    mainLayout->addSpacing(1050);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
 }
 
-
 void ShowCaseView::initialize_VC_Connection(Controller *controller) {
-    //Test code to check view and controller connection capabilities
-    //Links the 1st 3 buttons of view to controller's first tasks. TaskCCR, TaskHeyTonight, TaskHelloWorld
-
-    //Create holder functions since having trouble with task* - QObject * conversions
-
-    QuickTaskAdder *qta = new QuickTaskAdder();
-    qta->initializeQuickTaskAdder(controller);
 
     connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
+    connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
     connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
     connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
-    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
-    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
     connect(sinkButton, SIGNAL(clicked()), controller, SLOT(handleSinkButtonClick()));
     connect(riseButton, SIGNAL(clicked()), controller, SLOT(handleRiseButtonClick()));
+    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
+    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
+    connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
     connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
-
-
 }
 

@@ -8,18 +8,15 @@
 #include "PowerTask.h"
 #include "FPGAInterface.h"
 
-PowerTask::PowerTask() {
-    // TODO Auto-generated constructor stub
-}
-
-PowerTask::PowerTask(Model* fpgaModel, bool powerOn) {
+PowerTask::PowerTask(Model* fpgaModel) {
     this->fpgaModel = fpgaModel;
-    this->powerOn = powerOn;
 }
 
 void PowerTask::execute() {
     if (fpgaModel != 0) {
-        if (powerOn) {
+        FPGAData* fpga = dynamic_cast<FPGAData*>(fpgaModel->getState("raw"));
+        int power = fpga->getPower();
+        if (!power) {
             logger->info("Turning power on");
             fpgaModel->sendCommand(POWER, 1);
         } else {

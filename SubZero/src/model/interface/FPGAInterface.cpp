@@ -21,13 +21,14 @@
  */
 
 void FPGAInterface::poll() {
+    mutex.lock();
     //TODO Add error checking on values from FPGA
+    int power = get_power();
     int depth = get_depth();
-    int heading = get_yaw();
-    int accel_x, accel_y, accel_z;
-    get_accel(&accel_x, &accel_y, &accel_z);
-    //Need to adjust code for accel rather than speed
-    Data* new_data = new FPGAData("raw", depth, accel_x, heading);
+    int yaw = get_yaw();
+    mutex.unlock();
+
+    Data* new_data = new FPGAData("raw", power, yaw, depth);
     storeToBuffer(new_data);
 }
 
@@ -65,13 +66,13 @@ FPGAData* FPGAInterface::decode(std::string* data) {
 
 void FPGAInterface::set(Attributes attr, int value) {
     logger->trace("Setting " + std::to_string(attr) + " to " + std::to_string(value));
-    std::cout << attr << ":" << value << std::endl;
+    mutex.lock();
     switch(attr) {
     case POWER:
         if (value == 0) {
             power_off();
         } else if (value == 1) {
-            startup_sequence();
+            power_on();
         } else {
             logger->warn("Invalid power value of " + std::to_string(value));
         }
@@ -85,10 +86,14 @@ void FPGAInterface::set(Attributes attr, int value) {
     case SPEED:
         dyn_set_target_speed(value);
         break;
+    case MOTOR:
+        startup_sequence();
+        break;
     default:
         logger->warn("Invalid FPGA attribute of " + std::to_string(attr));
         break;
     }
+    mutex.unlock();
 
 
 }
@@ -150,6 +155,9 @@ void FPGAInterface::init() {
 FPGAInterface::~FPGAInterface() {
     // join readThread with main
     executing = false;
+    for(auto& t: readThreads) {
+        t.join();
+    }
     logger->info("Safely closing FPGA connection");
     exit_safe();
 

@@ -11,7 +11,7 @@
 #include <QThread>
 #include <QMutex>
 #include <vector>
-#include "../task/Task.h"
+#include "Task.h"
 #include "Model.h"
 #include "View.h"
 #include "ControllerThread.h"
@@ -79,6 +79,11 @@ class Controller : public QObject {
         void handlePowerButtonToggled(void);
 
         /**
+         * Handles the button click for startup sequence
+         */
+        void handleMotorButtonClick(void);
+
+        /**
          * Handles the button click for moving left
          */
         void handleMoveLeftButtonClick(void);
@@ -99,6 +104,11 @@ class Controller : public QObject {
         void handleMoveBackwardButtonClick(void);
 
         /**
+         * Handles the button click for stopping the sub
+         */
+        void handleStopButtonClick();
+
+        /**
          * Handles the button click for sinking
          */
         void handleSinkButtonClick(void);
@@ -117,8 +127,9 @@ class Controller : public QObject {
          * Displays the Current taskList
          */
         //void displayTaskList(void);
-		
-	signals:
+
+
+signals:
 		/**
 		 * Tells the ControllerThread to begin 
 		 */

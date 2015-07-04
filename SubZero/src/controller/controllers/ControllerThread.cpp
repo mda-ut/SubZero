@@ -14,7 +14,7 @@ ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
 }
 
 ControllerThread::~ControllerThread() {
-
+    delete logger;
 }
 
 void ControllerThread::executeTasks(const QString &parameter) {
@@ -23,6 +23,7 @@ void ControllerThread::executeTasks(const QString &parameter) {
         mutex->lock();
         if(!taskList->isEmpty()){
             Task *temp = taskList->dequeue();
+            logger->trace("Executing new task");
             temp->execute();
             delete temp;
         }

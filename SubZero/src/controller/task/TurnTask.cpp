@@ -21,7 +21,14 @@ TurnTask::TurnTask(Model* fpgaModel, int& currentYawTarget, int delta) {
 void TurnTask::execute() {
     if (fpgaModel != 0) {
 		logger->info("Moving left");
+
         *currentYawTarget += delta;
+        if (*currentYawTarget >= 180) {
+           *currentYawTarget -= 360;
+         } else if (*currentYawTarget < -180) {
+           *currentYawTarget += 360;
+         }
+
         fpgaModel->sendCommand(YAW, *currentYawTarget);
 	} else {
 		logger->warn("Model is null");

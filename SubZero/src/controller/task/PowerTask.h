@@ -15,14 +15,12 @@ class PowerTask : public Task {
 private:
     Logger* logger = new Logger("PowerTask");
     Model* fpgaModel;
-    bool powerOn;
 
 public:
     /**
      * Contructor
      */
-    PowerTask();
-    PowerTask(Model* fpgaModel, bool powerOn);
+    PowerTask(Model* fpgaModel);
 
     void execute();
 
