@@ -154,7 +154,7 @@ void VideoTesting::run(){
     cv::namedWindow("HSV Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Line Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Canny", CV_WINDOW_AUTOSIZE);
-    int Type = 0;
+    int Type = 1;
     if (Type == 0){
     cv::moveWindow("Orginal", 1400, 50);           //reading from photo
     cv::moveWindow("HSV Filtered", 1000, 50);

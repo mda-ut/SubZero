@@ -82,7 +82,7 @@ int LineFilter::filter(Data *data){
 }
 
 float yDiff = 40, xDiff = 40, diff = 40;
-float maxSlope = 35;
+float maxSlope = 25;
 float maxDiff = 30;
 cv::Mat LineFilter::filter(cv::Mat src, int mode){
     cv::Mat dst;
@@ -100,7 +100,7 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
         float x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
         //draws the lines detected
-        printf("-----------\n");
+        //printf("-----------\n");
         for( size_t i = 0; i < lines.size(); i++ ){
             float rho = lines[i][0], theta = lines[i][1];
             cv::Point pt1, pt2;
@@ -185,44 +185,53 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
                 }
                 //check if m is almost vertical
                 else if (std::abs(M) > maxSlope && lines[0] == INFINITY){
-                    std::cout<<"almost vert ";
-                    std::cout<<std::abs(lines[2] - ((x1+x2)/2))<<std::endl;
+                    //std::cout<<"almost vert ";
+                    //std::cout<<std::abs(lines[2] - ((x1+x2)/2))<<std::endl;
                     if (std::abs(lines[2] - ((x1+x2)/2) ) < maxDiff){
                         repeat = true;
                         break;
                     }
                 }
                 else if (M == INFINITY && std::abs(lines[0])> maxSlope){
-                    std::cout<<"almost vert II ";
-                    std::cout<<std::abs(lines[2] - ((x1+x2)/2))<<std::endl;
+                    //std::cout<<"almost vert II ";
+                    //std::cout<<std::abs(lines[2] - ((x1+x2)/2))<<std::endl;
                     if (std::abs(lines[2] - ((x1+x2)/2) ) < maxDiff){
                         repeat = true;
                         break;
                     }
                 }
-                //check if m and b are too similar or not
-                else if (std::abs(lines[0] - M) < maxDiff &&
-                         std::abs(lines[1]-B) < maxDiff){
-                    repeat = true;
-                    break;
+                //check if m is too similar or not, b is too different to check
+                else if (std::abs(lines[0] - M) < maxDiff){
+                    if (M > 15){ //vertical lines
+                        //check if the intersection point is near the average x
+                        if (std::abs((B-lines[1])/(lines[0]-M))-(x1+x2)/2 < maxDiff){
+                            repeat = true;
+                            break;
+                        }
+                    }else{      //horziontal lines
+                        if (std::abs((B-lines[1])/(lines[0]-M))*M - (y1+y2)/2 < maxDiff){
+                            repeat = true;
+                            break;
+                        }
+                    }
                 }
             }
 
             if (!repeat){
                 eq.push_back(M);
                 eq.push_back(B);
-                std::cout<<M<<" "<<B<<" " << ((x1+x2)/2) << " ";
+                //std::cout<<M<<" "<<B<<" " << ((x1+x2)/2) << " ";
                 if (std::abs(M) < 5){  //aprox horizontal line
                     eq.push_back(y2);   //give it the y value
-                    std::cout<<y2;
-                    printf(" horz line");
+                    //std::cout<<y2;
+                    //printf(" horz line");
                 }
                 if (std::abs(M) > maxSlope){ //vertical line
                     eq.push_back(x2);   //x value
-                    std::cout<<x2;
-                    printf(" vertal line");
+                    //std::cout<<x2;
+                    //printf(" vertal line");
                 }
-                std::cout<<std::endl;
+                //std::cout<<std::endl;
 
                 linesEq.push_back(eq);
                 line(cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);       //drawing the line
