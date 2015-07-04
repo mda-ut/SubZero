@@ -2,24 +2,33 @@
 #define PATHTASK_H
 
 #include "Task.h"
-#include "CameraState.h"
+#include "TurnTask.h"
+#include "SpeedTask.h"
+#include "CameraModel.h"
 #include "LineFilter.h"
 #include "ShapeFilter.h"
+#include "Logger.h"
 
-#define PI 3.14159
-
-class PathTask: Task
-{
+class PathTask : public Task {
 public:
     PathTask();
+    PathTask(CameraModel* cameraModel, TurnTask* turnTask, SpeedTask* speedTask);
 
-    void allign(std::vector<std::vector<float>> lines);
+    void execute();
 
-    void execute(CameraState* s);
 private:
-    bool startPath = false;     //first vertical line (start of rect)
-    bool finPath = false;       //last vertical line (end of rect)
-    bool horzInSight = false;
+    Logger* logger = new Logger("PathTask");
+
+    CameraModel* cameraModel;
+    TurnTask* turnTask;
+    SpeedTask* speedTask;
+    bool startPath;     //first vertical line (start of rect)
+    bool finPath;       //last vertical line (end of rect)
+    bool horzInSight;
+    bool done;
+    float inlineThresh;
+
+    void moveTo(cv::Point2f pos);
 };
 
 #endif // PATHTASK_H
