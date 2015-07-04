@@ -33,8 +33,8 @@ public:
 
     QLabel* specialActions;
     QPushButton *surfaceButton;
-    QPushButton *fireTorpedoButton;
-    QPushButton *fireGrabberButton;
+    QPushButton *gateButton;
+    QPushButton *pathButton;
 
     QLabel* systemActions;
     QPushButton *menuButton;

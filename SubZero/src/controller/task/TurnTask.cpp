@@ -30,6 +30,7 @@ void TurnTask::execute() {
          }
 
         fpgaModel->sendCommand(YAW, *currentYawTarget);
+        logger->info("Target yaw set to " + std::to_string(*currentYawTarget));
 	} else {
 		logger->warn("Model is null");
 	}

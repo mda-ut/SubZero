@@ -7,10 +7,17 @@
 
 #include "TaskFactory.h"
 #include "SpeedTask.h"
+#include "GateTask.h"
 
 TaskFactory::TaskFactory() {
     // TODO Auto-generated constructor stub
 
+}
+
+GateTask* TaskFactory::createGateTask(Model *fpgaModel, int& targetDepth, int targetSpeed) {
+    DepthTask* depthTask = TaskFactory::createDepthTask(fpgaModel, targetDepth, 100);
+    SpeedTask* speedTask = TaskFactory::createSpeedTask(fpgaModel, targetSpeed);
+    return new GateTask(depthTask, speedTask);
 }
 
 TurnTask* TaskFactory::createTurnTask(Model* fpgaModel, int& targetYaw, int delta) {

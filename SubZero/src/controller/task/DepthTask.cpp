@@ -21,6 +21,7 @@ void DepthTask::execute() {
 
         *currentDepthTarget += delta;
         fpgaModel->sendCommand(DEPTH, *currentDepthTarget);
+        logger->info("Target depth set to " + std::to_string(*currentDepthTarget));
     } else {
         logger->warn("Model is null");
     }

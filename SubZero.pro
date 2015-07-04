@@ -91,7 +91,8 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/controller/task/PowerTask.h \
     SubZero/src/controller/task/MotorTask.h \
     SubZero/src/controller/task/DepthTask.h \
-    SubZero/src/controller/task/SpeedTask.h
+    SubZero/src/controller/task/SpeedTask.h \
+    SubZero/src/controller/task/GateTask.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -148,4 +149,5 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/controller/task/PowerTask.cpp \
     SubZero/src/controller/task/MotorTask.cpp \
     SubZero/src/controller/task/DepthTask.cpp \
-    SubZero/src/controller/task/SpeedTask.cpp
+    SubZero/src/controller/task/SpeedTask.cpp \
+    SubZero/src/controller/task/GateTask.cpp

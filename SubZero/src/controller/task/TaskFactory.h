@@ -30,6 +30,8 @@ public:
      */
     static Task* newTask(const std::string input);
 
+    static GateTask* createGateTask(Model* fpgaModel, int targetDepth, int targetSpeed);
+
     static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 
     static DepthTask* createDepthTask(Model* fpgaModel, int& targetDepth, int delta);
