@@ -14,6 +14,10 @@ SpeedTask::SpeedTask(Model* fpgaModel, int targetSpeed) {
     this->targetSpeed = targetSpeed;
 }
 
+void SpeedTask::setTargetSpeed(int newSpeed) {
+    targetSpeed = newSpeed;
+}
+
 void SpeedTask::execute() {
     if (fpgaModel != 0) {
         fpgaModel->sendCommand(SPEED, targetSpeed);

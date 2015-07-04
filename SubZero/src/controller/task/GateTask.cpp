@@ -6,6 +6,7 @@
  */
 
 #include "GateTask.h"
+#include "Timer.h"
 
 GateTask::GateTask() {
     // TODO Auto-generated constructor stub
@@ -17,11 +18,24 @@ GateTask::GateTask(DepthTask* depthTask, SpeedTask* speedTask) {
 }
 
 void GateTask::execute() {
-    //TODO: Wait a few seconds to direct SubZero
+    Timer timer;
+    timer.start();
+    depthTask->setDepthAbsolute(POOL_SURFACE_HEIGHT);
     depthTask->execute();
-    //TODO: Wait a second to regain stability
+    while (timer.getTimeElapsed() < 5) {
+        //wait for diver to align sub
+    }
+    depthTask->setDepthDelta(100);
+    depthTask->execute();
+    timer.start();
+    while (timer.getTimeElapsed() < 5) {
+        //wait for sub to stabilize
+    }
+    speedTask->setTargetSpeed(30);
     speedTask->execute();
-    //TODO: Stop SubZero after a few seconds
+    while (timer.getTimeElapsed() < 12) {
+        //moving...
+    }
     logger->info("Gate Task complete");
 }
 

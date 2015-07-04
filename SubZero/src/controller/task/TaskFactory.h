@@ -14,6 +14,8 @@
 #include "TurnTask.h"
 #include "DepthTask.h"
 #include "SpeedTask.h"
+#include "GateTask.h"
+#include "PathTask.h"
 #include <string>
 
 
@@ -30,7 +32,9 @@ public:
      */
     static Task* newTask(const std::string input);
 
-    static GateTask* createGateTask(Model* fpgaModel, int targetDepth, int targetSpeed);
+    static GateTask* createGateTask(Model* fpgaModel, int& targetDepth);
+
+    static PathTask* createPathTask(Model* fpgaModel, int& targetYaw);
 
     static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 
