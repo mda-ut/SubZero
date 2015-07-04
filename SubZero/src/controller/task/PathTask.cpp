@@ -22,6 +22,15 @@ PathTask::PathTask(CameraModel* cameraModel, TurnTask *turnTask, SpeedTask *spee
     inlineThresh = 75;
 }
 
+PathTask::~PathTask(){
+    delete logger;
+}
+
+void PathTask::println(std::string s){
+    if (debug)
+        logger->info(s);
+}
+
 bool moving = false;
 void move(float amount) {
 //    speedTask->setTargetSpeed(amount);
@@ -46,12 +55,15 @@ void PathTask::moveTo(cv::Point2f pos) {
     if (std::abs(pos.x) < inlineThresh) {
         float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
         if (pos.y > 0) {
+            println("MoveTo moving forward");
             move(30);
         } else {
+            println("MoveTo moving backwards");
             move(-30);
         }
     } else {
-        rotate(atan2(pos.x, pos.y) * 180 / M_PI);
+        println("MoveTo rotating");
+        rotate(atan2(pos.x-imgWidth/2, pos.y-imgHeight/2) * 180 / M_PI);
         move(30);
     }
 }
@@ -61,8 +73,8 @@ void PathTask::execute() {
     HSVFilter hsvf(0, 155, 0, 255, 0, 255);
     LineFilter lf;
     ShapeFilter sf(1, 1);
-    int imgHeight = data->getImg().size().height;
-    int imgWidth = data->getImg().size().width;
+    imgHeight = data->getImg().size().height;
+    imgWidth = data->getImg().size().width;
 
     bool foundOrange = false;
     bool lookAround = false;
@@ -86,12 +98,14 @@ void PathTask::execute() {
             //if sees lines, then move to step 2
             if (lf.filter(data)) {
                 foundOrange = true;
+                println("Found lines from orange");
                 continue;
             }
 
             //look and turn to orange
             std::vector<cv::Point2f> massCenters = sf.findMassCenter(data->getImg());
             if (massCenters.size() > 0) {
+                println("found orange");
                 moveTo(massCenters.at(0));
             }else{
                 //if dont see orange, move forwards
@@ -147,6 +161,7 @@ void PathTask::execute() {
                 stage = 0;
             }
 */
+            println("moving forwards, step 3");
             move(30);
             timeOut++;
             // 0 = found lines; 0 = false
@@ -160,6 +175,7 @@ void PathTask::execute() {
             }
             if (timeOut > 30*5){
                 done = true;
+                println("Failed to find path");
                 //FAILED TO LOOK FOR PATH
             }
         } else {
@@ -195,6 +211,7 @@ void PathTask::execute() {
             // executed once 2 parallel lines are found
             allignment: {
                 if (std::abs(align[0][0]) < 20) {   //horz line
+                    println("rotating 90°");
                     rotate(90);         // rotate 90 degrees
                 }else if(align[0][0] > 99) {      // 999 = big slope value = vert line
                     // if the average of the 2 x positions are within a threshold, move forward
@@ -202,10 +219,11 @@ void PathTask::execute() {
                     if (std::abs(avg) < inlineThresh) {
                         //the sub is aligned with the path
                         //move(50);
+                        println("Done");
                         done = true;
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position
-                        rotate (atan2(avg, imgHeight/4*3) * 180/M_PI);
+                        rotate (atan2(avg-imgWidth/2, imgHeight/4*3) * 180/M_PI);
                         move(30);
                         /*
                         if (avg < imgWidth/2) {  //TODO: Figure out left side value
@@ -225,7 +243,7 @@ void PathTask::execute() {
                     else                    //negative slope, allign to the left side
                         x = imgWidth/4;
                     float y = align[0][0] * x + avgB;
-                    rotate(atan2(x, y) * 180 / M_PI);
+                    rotate(atan2(x, y-imgHeight/2) * 180 / M_PI);
                 }
                 foundLine = true;
             }

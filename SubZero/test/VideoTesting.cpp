@@ -197,7 +197,7 @@ void VideoTesting::run(){
     //HSVFilter hf(25, 179, 0, 255, 0,255);
     LineFilter lf;
     ShapeFilter sf(1, 5);
-    BlurFilter bf(2, 0.4f);
+    BlurFilter bf(2, 0.2f);
     BlurFilter bf2(1, 0.4f);
     if (Type == 0)
         frame = cv::imread("rect.jpg");       //img

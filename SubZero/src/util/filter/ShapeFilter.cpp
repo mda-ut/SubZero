@@ -8,16 +8,16 @@ ShapeFilter::ShapeFilter(int shape, int amount)
     //contours = new std::vector<std::vector<cv::Point> >;
 }
 
-//debug purposes
-bool debug = false;
-void print(int i){
+void ShapeFilter::print(int i){
     if (debug)
-        std::cout<<i;
+        //std::cout<<i;
+        logger->info(std::to_string(i));
 }
 
-void println(std::string s){
+void ShapeFilter::println(std::string s){
     if (debug)
-        std::cout<< s << std::endl;
+        //std::cout<< s << std::endl;
+        logger->info(s);
 }
 
 int ShapeFilter::filter(Data *data){
