@@ -9,7 +9,8 @@
 #define TASKFACTORY_H_
 
 #include "Task.h"
-#include "MoveLeftTask.h"
+#include "TurnTask.h"
+#include "PowerTask.h"
 #include <string>
 
 class TaskFactory {
@@ -25,7 +26,9 @@ public:
      */
     static Task* newTask(const std::string input);
 
-    static MoveLeftTask* createMoveLeftTask(std::vector<Model*> models);
+    static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
+
+    static PowerTask* createPowerTask(Model* fpgaModel, bool powerOn);
 
     /**
      * Destructor

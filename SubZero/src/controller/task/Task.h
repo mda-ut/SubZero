@@ -23,7 +23,6 @@ class Task {
 
     protected:
        std::vector<Task*> taskList;
-       std::vector<Model*> models;
 };
 
 #endif /* TASK_H_ */

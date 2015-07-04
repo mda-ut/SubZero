@@ -78,13 +78,15 @@ public:
 
 /* **************** Data Management **************** */
 
-    virtual void sendCommand(std::string cmd)=0;
+    virtual void sendCommand(Attributes attr, int value)=0;
 
     virtual Data* getDataFromBuffer()=0;
 
     virtual std::vector<Data*> constructDataSet()=0;
 
     virtual void storeToState(std::vector<Data*> dataSet)=0;
+
+    virtual Data* getState(std::string data_ID) = 0;
 
     virtual bool dataTransfer()=0;
 

@@ -12,7 +12,8 @@
 #include <QMutex>
 #include <vector>
 #include "../task/Task.h"
-#include "../../model/Model.h"
+#include "Model.h"
+#include "View.h"
 #include "ControllerThread.h"
 #include "Logger.h"
 #include "TaskFactory.h"
@@ -37,7 +38,7 @@ class Controller : public QObject {
 		*
         * @param model - the vector containing the models
 		*/
-        Controller(std::vector <Model*> models_);
+        Controller(std::vector <Model*> models, View* view);
 
 		/**
 		 * Destructor
@@ -71,6 +72,11 @@ class Controller : public QObject {
 		 * Handles the results from the ControllerThread
 		 */
         void finished(const QString &s);
+
+        /**
+         * Handles the button click for toggling power
+         */
+        void handlePowerButtonToggled(void);
 
         /**
          * Handles the button click for moving left
@@ -135,8 +141,11 @@ class Controller : public QObject {
 
 
         std::vector<Model*> models;
+        View* view;
 
         static bool running;
+        int targetYaw;
+        int targetDepth;
 };
 
 #endif /* CONTROLLER_H_ */

@@ -15,8 +15,8 @@ FPGAModel::~FPGAModel() {
     delete logger;
 }
 
-void FPGAModel::sendCommand(std::string cmd) {
-// Emma go!!
+void FPGAModel::sendCommand(Attributes attr, int value) {
+    dynamic_cast<FPGAInterface*>(interface)->set(attr, value);
 }
 
 Data* FPGAModel::getDataFromBuffer() {
@@ -45,6 +45,10 @@ void FPGAModel::storeToState(std::vector<Data*> dataSet) {
     }
     dynamic_cast<FPGAState*>(state)->setState(newData);
     notifyObserver();
+}
+
+Data* FPGAModel::getState(std::string data_ID) {
+    return state->getState(data_ID);
 }
 
 bool FPGAModel::dataTransfer() {

@@ -78,6 +78,8 @@ void ShowCaseView::initializeShowCaseView() {
 
 
     // Show Case View WIdget Initialization
+    powerButton = new QPushButton("Power: Off");
+
     movement = new QLabel("Movement");
     leftButton = new QPushButton("Veer Left");
     rightButton = new QPushButton("Veer right");
@@ -107,6 +109,9 @@ void ShowCaseView::initializeShowCaseView() {
     //Show Case view Widget Positioning
     //Down want to add rects from view to layout
     //What to do? : set other BoxLayouts and add spacing?
+
+    verticalLayout->addWidget(powerButton);
+    verticalLayout->addSpacing(20);
 
     verticalLayout->addWidget(movement);
     verticalLayout->addWidget(leftButton);
@@ -148,6 +153,7 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller) {
     QuickTaskAdder *qta = new QuickTaskAdder();
     qta->initializeQuickTaskAdder(controller);
 
+    connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
     connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
     connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
     connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));

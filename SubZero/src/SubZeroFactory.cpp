@@ -63,7 +63,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
         //models.push_back(new CameraModel(states[1], downCamInt));
         //models.push_back(new FPGAModel(states[2], fpgaInt));
 
-        controller = new Controller(models);
+        controller = new Controller(models, view);
 
         break;
     }

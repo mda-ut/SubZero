@@ -14,13 +14,7 @@
 #include "HwInterface.h"
 #include "../../util/data/Data.h"
 #include "../../util/data/FPGAData.h"
-
-enum Attributes {
-    POWER,
-    DEPTH,
-    YAW, // relative to the direction the sub is heading
-    SPEED
-};
+#include "PropertyReader.h"
 
 /**
  * A concrete child of HwInterface that deals specifically with the FPGA.
@@ -43,6 +37,8 @@ class FPGAInterface : public HwInterface {
 private:
 
     Logger* logger = new Logger("FPGAInterface");
+
+    PropertyReader* settings;
 
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
@@ -96,7 +92,7 @@ public:
      * @param	bufferSize	buffer size for the interface
      * @param	pollFrequency	frequency of polling (polls per second)
      */
-    FPGAInterface(int bufferSize, int pollFrequency);
+    FPGAInterface(int bufferSize, int pollFrequency, PropertyReader* settings);
 
     virtual void init();
 

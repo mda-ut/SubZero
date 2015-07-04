@@ -15,8 +15,9 @@ Controller::Controller(){
     taskList = new QQueue <class Task* >;
 }
 
-Controller::Controller(std::vector<Model*> models_){
-    models = models_;
+Controller::Controller(std::vector<Model*> models, View* view){
+    this->models = models;
+    this->view = view;
     taskList = new QQueue <class Task* >;
 }
 
@@ -51,35 +52,41 @@ bool Controller::isRunning() {
 void Controller::finished(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
 }
+void Controller::handlePowerButtonToggled() {
+    static bool powerStatus = false;
+    logger->info("Adding Power Task to queue");
+    powerStatus = !powerStatus;
+    addTaskToQueue(TaskFactory::createPowerTask(models[FPGA], powerStatus));
+}
 
 void Controller::handleMoveLeftButtonClick() {
     logger->info("Adding Move Left Task to queue");
-    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
 }
 
 void Controller::handleMoveRightButtonClick() {
     logger->info("Adding Move Right Task to queue");
-    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,-15));
 }
 
 void Controller::handleMoveForwardButtonClick() {
     logger->info("Adding Move Forward Task to queue");
-    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
 }
 
 void Controller::handleMoveBackwardButtonClick() {
     logger->info("Adding Move Backward Task to queue");
-    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
 }
 
 void Controller::handleSinkButtonClick() {
     logger->info("Adding Sink Task to queue");
-    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
 }
 
 void Controller::handleRiseButtonClick() {
     logger->info("Adding Rise Task to queue");
-    addTaskToQueue(TaskFactory::createMoveLeftTask(models));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
 }
 
 void Controller::killAll() {

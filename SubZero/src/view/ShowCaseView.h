@@ -16,6 +16,8 @@ public:
     ShowCaseView();
     ShowCaseView(std::vector<State*> states_);
 
+    QPushButton *powerButton;
+
     QLabel* movement;
     QPushButton *leftButton;
     QPushButton *rightButton;

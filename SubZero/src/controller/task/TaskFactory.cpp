@@ -24,8 +24,12 @@ BaseTask* TaskFactory::newTask(const std::string input){
 }
 */
 
-MoveLeftTask* TaskFactory::createMoveLeftTask(std::vector<Model*> models) {
-    return new MoveLeftTask(models);
+TurnTask* TaskFactory::createTurnTask(Model* fpgaModel, int& targetYaw, int delta) {
+    return new TurnTask(fpgaModel, targetYaw, delta);
+}
+
+PowerTask* TaskFactory::createPowerTask(Model* fpgaModel, bool powerOn) {
+    return new PowerTask(fpgaModel, powerOn);
 }
 
 TaskFactory::~TaskFactory() {

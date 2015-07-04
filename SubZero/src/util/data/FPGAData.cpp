@@ -12,7 +12,7 @@
  * ==========================================================================
  */
 
-FPGAData::FPGAData(std::string dataID, double depth, double speed, double heading) : Data(dataID) {
+FPGAData::FPGAData(std::string dataID, int depth, int speed, int heading) : Data(dataID) {
 	this->depth = depth;
 	this->speed = speed;
 	this->heading = heading;
@@ -26,16 +26,16 @@ FPGAData::~FPGAData() {
  * ==========================================================================
  */
 
-void FPGAData::setDepth(double newDepth) {
-	this->depth = newDepth;
+void FPGAData::setDepth(int newDepth) {
+    depth = newDepth;
 }
 
-void FPGAData::setSpeed(double newSpeed) {
-	this->speed = newSpeed;
+void FPGAData::setSpeed(int newSpeed) {
+    speed = newSpeed;
 }
 
-void FPGAData::setHeading(double newHeading) {
-	this->heading = newHeading;
+void FPGAData::setHeading(int newHeading) {
+    heading = newHeading;
 }
 
 /* ==========================================================================
@@ -43,30 +43,14 @@ void FPGAData::setHeading(double newHeading) {
  * ==========================================================================
  */
 
-double FPGAData::getDepth() {
-	return this->depth;
+int FPGAData::getDepth() {
+    return depth;
 }
 
-double FPGAData::getSpeed() {
-	return this->speed;
+int FPGAData::getSpeed() {
+    return speed;
 }
 
-double FPGAData::getHeading() {
-	return this->heading;
+int FPGAData::getHeading() {
+    return heading;
 }
-
-/* ==========================================================================
- * OPERATOR OVERLOAD
- * ==========================================================================
- */
-/*
-FPGAData FPGAData::operator=(FPGAData rhs) {
-	return new FPGAData(rhs);
-}
-
-FPGAData::FPGAData(const FPGAData obj) : Data(obj) {
-	this->depth = obj->depth;
-	this->speed = obj->speed;
-	this->heading = obj->heading;
-}
-*/

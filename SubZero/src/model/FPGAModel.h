@@ -39,7 +39,7 @@ public:
      * This sends command to the FPGA to control the sub.
      * @param	cmd		string command sent by Controller
      */
-    void sendCommand(std::string cmd);
+    void sendCommand(Attributes attr, int value);
 
     /**
      * This gets the newest Data* from the CameraInterface buffer.
@@ -58,6 +58,13 @@ public:
      * @param	dataSet	vector containing data pointers of raw and filtered FPGA data
      */
     void storeToState(std::vector<Data*> dataSet);
+
+    /**
+     * Return the model's current state
+     * @return
+     */
+    Data* getState(std::string data_ID);
+
 
     /**
      * This automate the process of getting FPGA data from buffer, pack raw and filtered data together and store into state.

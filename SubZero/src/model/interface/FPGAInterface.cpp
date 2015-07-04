@@ -22,8 +22,8 @@
 
 void FPGAInterface::poll() {
     //TODO Add error checking on values from FPGA
-    double depth = (double) get_depth();
-    double heading = (double) get_yaw();
+    int depth = get_depth();
+    int heading = get_yaw();
     int accel_x, accel_y, accel_z;
     get_accel(&accel_x, &accel_y, &accel_z);
     //Need to adjust code for accel rather than speed
@@ -44,10 +44,10 @@ FPGAData* FPGAInterface::decode(std::string* data) {
     // speed = attributes[1]
     // heading = attributes[2]
     // is it possible to not hardcode this?
-    double depth = std::stod (attributes[0], &size);
-    double speed = std::stod (attributes[1], &size);
-    double heading = std::stod (attributes[2], &size);
-    // Note: for stod (string to double conversion)
+    int depth = std::stod (attributes[0], &size);
+    int speed = std::stod (attributes[1], &size);
+    int heading = std::stod (attributes[2], &size);
+    // Note: for stod (string to int conversion)
     //       need to compile with -std=c++11
 
     FPGAData* decoded = new FPGAData("raw", depth, speed, heading);
@@ -71,7 +71,7 @@ void FPGAInterface::set(Attributes attr, int value) {
         if (value == 0) {
             power_off();
         } else if (value == 1) {
-            power_on();
+            startup_sequence();
         } else {
             logger->warn("Invalid power value of " + std::to_string(value));
         }
@@ -86,6 +86,7 @@ void FPGAInterface::set(Attributes attr, int value) {
         dyn_set_target_speed(value);
         break;
     default:
+        logger->warn("Invalid FPGA attribute of " + std::to_string(attr));
         break;
     }
 
@@ -103,12 +104,10 @@ void FPGAInterface::send(std::string* data) {
  */
 
 
-FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency) {
-
+FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency, PropertyReader* settings) {
     this->bufferSize = bufferSize;
     this->pollFrequency = pollFrequency;
-
-
+    this->settings = settings;
 }
 
 void FPGAInterface::init() {
@@ -116,6 +115,32 @@ void FPGAInterface::init() {
     init_fpga();
     set_verbose(0);
     executing = true;
+
+    double P, I, D, Alpha;
+    P = std::stod(settings->getProperty("DEPTH_P"));
+    I = std::stod(settings->getProperty("DEPTH_I"));
+    D = std::stod(settings->getProperty("DEPTH_D"));
+    Alpha = std::stod(settings->getProperty("DEPTH_ALPHA"));
+    set_pid_depth(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("PITCH_P"));
+    I = std::stod(settings->getProperty("PITCH_I"));
+    D = std::stod(settings->getProperty("PITCH_D"));
+    Alpha = std::stod(settings->getProperty("PITCH_ALPHA"));
+    set_pid_pitch(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("ROLL_P"));
+    I = std::stod(settings->getProperty("ROLL_I"));
+    D = std::stod(settings->getProperty("ROLL_D"));
+    Alpha = std::stod(settings->getProperty("ROLL_ALPHA"));
+    set_pid_roll(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("YAW_P"));
+    I = std::stod(settings->getProperty("YAW_I"));
+    D = std::stod(settings->getProperty("YAW_D"));
+    Alpha = std::stod(settings->getProperty("YAW_ALPHA"));
+    set_pid_yaw(P, I, D, Alpha);
+
     // thread for reading and polling FPGA input
     // main thread will listen for commands to be sent to FPGA
     logger->info("Started a new thread to read and poll FPGA input");

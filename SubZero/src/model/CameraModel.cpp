@@ -14,8 +14,8 @@ CameraModel::CameraModel(State*inputState, HwInterface *inputInterface) : Model(
 CameraModel::~CameraModel() {
 }
 
-void CameraModel::sendCommand(std::string cmd) {
-// Emma go!!
+void CameraModel::sendCommand(Attributes attr, int value) {
+    logger->warn("Camera has no commands to send");
 }
 
 Data* CameraModel::getDataFromBuffer() {
@@ -44,6 +44,10 @@ void CameraModel::storeToState(std::vector<Data*> dataSet) {
     }
     dynamic_cast<CameraState*>(state)->setState(newData);
     notifyObserver();
+}
+
+Data* CameraModel::getState(std::string data_ID) {
+    return state->getState(data_ID);
 }
 
 bool CameraModel::dataTransfer() {

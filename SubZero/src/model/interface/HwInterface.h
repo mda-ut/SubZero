@@ -14,7 +14,12 @@
 #include <iostream>
 #include "Logger.h"
 
-
+enum Attributes {
+    POWER,
+    DEPTH,
+    YAW, // relative to the direction the sub is heading
+    SPEED
+};
 
 /**
  * HwInterface is an abstract class responsible for all the I/O interfacing with

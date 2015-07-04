@@ -90,7 +90,8 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/view/ShowCaseView.h \
     SubZero/src/view/View.h \
     SubZero/src/controller/task/QuickTaskAdder.h \
-    SubZero/src/controller/task/MoveLeftTask.h
+    SubZero/src/controller/task/TurnTask.h \
+    SubZero/src/controller/task/PowerTask.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -146,4 +147,5 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/view/ShowCaseView.cpp \
     SubZero/src/view/View.cpp \
     SubZero/src/controller/task/QuickTaskAdder.cpp \
-    SubZero/src/controller/task/MoveLeftTask.cpp
+    SubZero/src/controller/task/TurnTask.cpp \
+    SubZero/src/controller/task/PowerTask.cpp
