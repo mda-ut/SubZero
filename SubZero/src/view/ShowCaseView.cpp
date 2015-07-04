@@ -194,10 +194,10 @@ void ShowCaseView::keyPressEvent(QKeyEvent* event) {
         stopButton->click();
         break;
     case Qt::Key_1:
-        //gateButton->click();
+        gateButton->click();
         break;
     case Qt::Key_2:
-        //pathButton->click();
+        pathButton->click();
         break;
     case Qt::Key_Q:
         exitButton->click();

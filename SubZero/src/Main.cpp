@@ -11,14 +11,11 @@
 #include "controller/controllers/Controller.h"
 #include <QApplication>
 #include <iostream>
-#include "../test/VideoTesting.h"
-#include "../test/CollectionTEST.h"
-#include "model/state/StateTester.h"
 #include "PropertyReader.h"
 
 using namespace std;
 
-int main(int argc, char** argv) {/*
+int main(int argc, char** argv) {
     QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
     Logger logger("Main");
@@ -42,14 +39,13 @@ int main(int argc, char** argv) {/*
         Logger::setLoggingLevel(Logger::Level::WARN);
     } else if (loggingLevel == "ERROR") {
         Logger::setLoggingLevel(Logger::Level::ERROR);
-    }*/
+    }
 
-    VideoTesting vt(0);
-    vt.run();
-/*
     Menu* newMenu = new Menu(settings);
     newMenu->show();
-
+    /*
+        VideoTesting vt(0);
+        vt.run();
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
 //    vt.run();
@@ -84,6 +80,6 @@ int main(int argc, char** argv) {/*
     //delete settings;
     return error;
     */
-    return 0;
+    return app.exec();
 }
 

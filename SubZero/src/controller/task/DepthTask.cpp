@@ -12,11 +12,11 @@
 DepthTask::DepthTask(Model* fpgaModel, int& currentTargetDepth, int delta) {
     this->fpgaModel = fpgaModel;
     this->currentTargetDepth = &currentTargetDepth;
-    targetDepth = currentDepthTarget + delta;
+    targetDepth = currentTargetDepth + delta;
 }
 
 void DepthTask::setDepthDelta(int delta) {
-    setDepthAbsolute(*currentDepthTarget + delta);
+    setDepthAbsolute(*currentTargetDepth + delta);
 }
 
 void DepthTask::setDepthAbsolute(int newTargetDepth) {
@@ -28,10 +28,10 @@ void DepthTask::execute() {
     if (fpgaModel != 0) {
         logger->info("Moving left");
 
-        fpgaModel->sendCommand(DEPTH, *currentDepthTarget);
-        *currentDepthTarget = targetDepth;
+        fpgaModel->sendCommand(DEPTH, targetDepth);
+        *currentTargetDepth = targetDepth;
 
-        logger->info("Target depth set to " + std::to_string(*currentDepthTarget));
+        logger->info("Target depth set to " + std::to_string(targetDepth));
     } else {
         logger->warn("Model is null");
     }

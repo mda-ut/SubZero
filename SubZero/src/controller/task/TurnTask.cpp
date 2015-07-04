@@ -19,7 +19,7 @@ TurnTask::TurnTask(Model* fpgaModel, int& currentTargetYaw, int delta) {
 }
 
 void TurnTask::setYawDelta(int delta) {
-    setYawAbsolute(*currentYawTarget + delta);
+    setYawAbsolute(*currentTargetYaw + delta);
 }
 
 void TurnTask::setYawAbsolute(int newTargetYaw) {
@@ -30,15 +30,15 @@ void TurnTask::execute() {
     if (fpgaModel != 0) {
 		logger->info("Moving left");
 
-        *currentYawTarget += delta;
-        if (*currentYawTarget >= 180) {
-           *currentYawTarget -= 360;
-         } else if (*currentYawTarget < -180) {
-           *currentYawTarget += 360;
+        if (targetYaw >= 180) {
+           targetYaw -= 360;
+         } else if (targetYaw < -180) {
+           targetYaw += 360;
          }
 
-        fpgaModel->sendCommand(YAW, *currentYawTarget);
-        logger->info("Target yaw set to " + std::to_string(*currentYawTarget));
+        fpgaModel->sendCommand(YAW, targetYaw);
+        *currentTargetYaw = targetYaw;
+        logger->info("Target yaw set to " + std::to_string(targetYaw));
 	} else {
 		logger->warn("Model is null");
 	}

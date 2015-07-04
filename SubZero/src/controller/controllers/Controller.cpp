@@ -104,12 +104,12 @@ void Controller::handleRiseButtonClick() {
 
 void Controller::handleGateTaskClick() {
     logger->info("Adding Gate Task to queue");
-    addTaskToQueue(TaskFactory::createGateTask(models[FPGA], targetDepth, 30));
+    addTaskToQueue(TaskFactory::createGateTask(models[FPGA], targetDepth));
 }
 
 void Controller::handlePathTaskClick() {
     logger->info("Adding Path Task to queue");
-    addTaskToQueue(TaskFactory::createPathTask(models[FPGA], targetYaw, 30));
+    addTaskToQueue(TaskFactory::createPathTask(models[FPGA], targetYaw));
 }
 
 void Controller::killAll() {

@@ -23,7 +23,7 @@ public:
 	 * Contructor
 	 */
     TurnTask();
-    TurnTask(Model* fpgaModel, int& currentTargetYaw);
+    TurnTask(Model* fpgaModel, int& currentTargetYaw, int delta = 15);
 
     void execute();
 
