@@ -1,5 +1,5 @@
 /*
- * BaseTaskFactory.cpp
+ * TaskFactory.cpp
  *
  *  Created on: Mar 28, 2015
  *      Author: ed
@@ -8,21 +8,30 @@
 #include "TaskFactory.h"
 
 TaskFactory::TaskFactory() {
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
 
 }
+
 /*
 BaseTask* TaskFactory::newTask(const std::string input){
-	BaseTask* newTask;
+    BaseTask* newTask;
 
-	switch (input)
+    switch (input)
 
-	default:
+    default:
 
-	return newTask;
+    return newTask;
 }
 */
-TaskFactory::~TaskFactory() {
-	// TODO Auto-generated destructor stub
+
+TurnTask* TaskFactory::createTurnTask(Model* fpgaModel, int& targetYaw, int delta) {
+    return new TurnTask(fpgaModel, targetYaw, delta);
 }
 
+PowerTask* TaskFactory::createPowerTask(Model* fpgaModel, bool powerOn) {
+    return new PowerTask(fpgaModel, powerOn);
+}
+
+TaskFactory::~TaskFactory() {
+    // TODO Auto-generated destructor stub
+}

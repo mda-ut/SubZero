@@ -16,26 +16,29 @@
 
 class RGBFilterTEST {
 public:
-	static int runUnits();
+    int runUnits();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR AND DESTRUCTOR
 	 * ==========================================================================
 	 */
-	static int T_Constructor();
+    int T_Constructor();
 
 	/* ==========================================================================
 	 * FILTER ACTION
 	 * ==========================================================================
 	 */
-	static int T_filter();
-	static int T_setValues();
+    int T_filter();
+    int T_setValues();
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD
 	 * ==========================================================================
 	 */
-	static int T_opEqual();
+    int T_opEqual();
+
+private:
+    Logger* logger = new Logger("RGBFiterTEST");
 
 };
 

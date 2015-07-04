@@ -10,6 +10,11 @@ VideoTesting::VideoTesting(const std::string fileName){
     cap.set(CV_CAP_PROP_POS_FRAMES,count-1); //Set index to last frame
     this->cap = cap;
 }
+
+VideoTesting::VideoTesting(int deviceID) {
+    cap.open(deviceID);
+}
+
 //================get next frame from camera=====================================
 CvCapture* capture = cvCaptureFromCAM(0);  //Capture using any camera connected to your system
 cv::Mat getNextCameraFrame(){
@@ -18,12 +23,17 @@ cv::Mat getNextCameraFrame(){
     //delete frame;
     return temp;
 }
+cv::Mat VideoTesting::getNextCameraFrame(){
+    cv::Mat frame;
+    cap.read(frame);
+    return frame;
+}
 //================HSV filter==========================================
 cv::Mat HSVFilter(cv::Mat mat, int lowH, int highH, int lowS, int highS, int lowV, int highV){
     //cv::Mat* mat = data->getImg();
     cv::Mat imgHSV;
-    cv::Mat imgThresh = cv::Mat(mat.clone());
-
+    //cv::Mat imgThresh = cv::Mat(mat.clone());
+    cv::Mat imgThresh = mat.clone();
     cv::cvtColor(mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
     cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV),
@@ -123,6 +133,18 @@ cv::Mat Moments(cv::Mat img){
     }
     return drawing;
 }
+//============blur filter============================================
+cv::Mat blur(cv::Mat src, int max){
+    //cv::Mat* dst = new cv::Mat(src->clone());
+    cv::Mat dst(cv::Mat::zeros(src.size(), CV_8UC3));
+    max = max*2+1;
+
+    GaussianBlur(src, dst, cv::Size(max, max), 0,0);
+    //blur(*src, *dst, cv::Size(3,3), cv::Point(-1,-1));
+    //medianBlur(*src, *dst, max);
+    //bilateralFilter(*src, *dst, max, max*2, max/2);
+    return dst;
+}
 
 //==============================================================
 void VideoTesting::run(){
@@ -170,24 +192,23 @@ void VideoTesting::run(){
     LineFilter lf;
     ShapeFilter sf(1, 5);
     BlurFilter bf(2, 0.4f);
-    frame = cv::imread("Circle.jpg");       //img
+    //frame = cv::imread("Circle.jpg");       //img
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){
         //contour = cv::Mat::zeros(frame.size(), CV_8UC3);
         //frame = this->getNextFrame(); //video
-        //frame = getNextCameraFrame(); //webcam
+        frame = getNextCameraFrame(); //webcam
         contour = frame.clone();
         if(frame.cols == 0)break;       //exit when there is no next fraame
 
         //filtered = hf.filter(&frame);
         filtered2 = HSVFilter(frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
+        filtered = HSVFilter(frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
         //filtered = blur(filtered,max);
         filtered = bf.filter(filtered2);
         lineFiltered = lf.filter(filtered, 0);
         //lineFiltered = Moments(filtered);
-
-
 
         //draw rectangle
         if (sf.findRect(filtered)){
@@ -213,7 +234,6 @@ void VideoTesting::run(){
                 cv::circle(lineFiltered, cent[i], 2, cv::Scalar(0,255,0));
             }
         }
-
 
         imshow("Orginal", frame);
         imshow("HSV Filtered", filtered);

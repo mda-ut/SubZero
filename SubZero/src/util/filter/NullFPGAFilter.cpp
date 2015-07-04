@@ -49,10 +49,11 @@ void NullFPGAFilter::setValues() {
  * ==========================================================================
  */
 
-
+/*
 NullFPGAFilter* NullFPGAFilter::operator =(NullFPGAFilter* rhs) {
 	return new NullFPGAFilter(rhs);
 }
 
 NullFPGAFilter::NullFPGAFilter(NullFPGAFilter* obj) : Filter(obj) {
 }
+*/

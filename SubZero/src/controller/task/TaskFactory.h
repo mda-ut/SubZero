@@ -1,35 +1,39 @@
 /*
- * BaseTaskFactory.h
+ * TaskFactory.h
  *
  *  Created on: Mar 28, 2015
  *      Author: ed
  */
 
-#ifndef BASETASKFACTORY_H_
-#define BASETASKFACTORY_H_
+#ifndef TASKFACTORY_H_
+#define TASKFACTORY_H_
 
-#include "BaseTask.h"
+#include "Task.h"
+#include "TurnTask.h"
+#include "PowerTask.h"
 #include <string>
 
 class TaskFactory {
 public:
-	/**
-	 * Contructor
-	 */
-	TaskFactory();
+    /**
+     * Contructor
+     */
+    TaskFactory();
 
-	/**
-	 * given a string, dynamically create new Tasts
-	 * @param input the name of the new task
-	 */
+    /**
+     * given a string, dynamically create new Tasks
+     * @param input the name of the new task
+     */
+    static Task* newTask(const std::string input);
 
-	static BaseTask* newTask(const std::string input);
+    static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 
+    static PowerTask* createPowerTask(Model* fpgaModel, bool powerOn);
 
-	/**
-	 * Destructor
-	 */
-	virtual ~TaskFactory();
+    /**
+     * Destructor
+     */
+    virtual ~TaskFactory();
 
 };
 

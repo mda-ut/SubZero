@@ -30,6 +30,12 @@ public:
     VideoTesting(const std::string fileName);
 
     /**
+     * VideoTesting is for opening video files and running test with them
+     * @param deviceID = name of the camera to open, default is 0
+     */
+    VideoTesting(int deviceID = 0);
+
+    /**
      * Runs the video file at 30 fps
      */
     void run();
@@ -38,6 +44,8 @@ public:
      * @return the next frame in the video
      */
     cv::Mat getNextFrame();
+
+    cv::Mat getNextCameraFrame();
 
 private:
     cv::VideoCapture cap;

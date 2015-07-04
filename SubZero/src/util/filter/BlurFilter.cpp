@@ -15,25 +15,9 @@ int BlurFilter::filter(Data *data){
         this->track(data,this->filterID,1,1);
         return 1;
     }
-    cv::Mat* dst = new cv::Mat(*(imgData->getImg()));
 
-    //all paraeter other than max is set to the default from the opencv blur tutorial
-    if (mode == 0){
-        int max = roundToOdd(BLURMAX*intensity);
-        blur(*(imgData->getImg()), *dst, cv::Size(max,max), cv::Point(-1,-1));
-    }else if (mode == 1){
-        int max = roundToOdd(GAUSMAX*intensity);
-        GaussianBlur(*(imgData->getImg()), *dst, cv::Size(max, max), 0,0);
-    }else if (mode == 2){
-        int max = roundToOdd(MEDIMAX*intensity);
-        medianBlur(*(imgData->getImg()), *dst, max);
-    }else if (mode == 3){
-        int max = roundToOdd(BILAMAX*intensity);
-        bilateralFilter(*(imgData->getImg()), *dst, max, max*2, max/2);
-    }else {     //default blur is normal blur
-        int max = roundToOdd(BLURMAX*intensity);
-        blur(*(imgData->getImg()), *dst, cv::Size(max,max), cv::Point(-1,-1));
-    }
+    cv::Mat src = imgData->getImg();
+    cv::Mat dst = this->filter(src);
     imgData->setImg(dst);
 
     return 0;

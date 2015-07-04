@@ -69,9 +69,6 @@ private:
     std::vector<float> radius;
     std::vector<cv::Point2f> center;
 
-    //std::vector<std::vector<cv::Point> > *contours;
-    //std::vector<cv::Vec4i> hierarchy;
-
 };
 
 #endif // SHAPEFILTER_H

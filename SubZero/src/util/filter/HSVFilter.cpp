@@ -25,24 +25,8 @@ int HSVFilter::filter(Data *data){
     }
 
     //begin filtering squence
-    cv::Mat* mat = imgData->getImg();
-    cv::Mat imgHSV;
-    cv::Mat* imgThresh = new cv::Mat(mat->clone());
-
-    cv::cvtColor(*mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
-
-    cv::inRange(imgHSV, cv::Scalar(this->lowH, this->lowS, this->lowV),
-            cv::Scalar(this->highH, this->highS, this->highV), *imgThresh); //Threshold the image
-
-    //morphological opening (remove small objects from the foreground)
-    cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
-    cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
-
-    //morphological closing (fill small holes in the foreground)
-    cv::dilate(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
-    cv::erode(*imgThresh, *imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
-
-    //ending filtering sequence
+    cv::Mat mat = imgData->getImg();
+    cv::Mat imgThresh = filter(mat);
 
     //setting the image to replace the old oe
     imgData->setImg(imgThresh);

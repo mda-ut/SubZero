@@ -31,7 +31,7 @@ int ShapeFilter::filter(Data *data){
 
    //beging filtering process
     if (shape == 1){    //rectangle
-        return this->findRect(*(imgData->getImg()));   //lazy to copy+paste everything
+        return this->findRect((imgData->getImg()));   //lazy to copy+paste everything
     }
     //ending filtering process
 
@@ -230,8 +230,8 @@ bool ShapeFilter::findRect(cv::Mat img){
             println("Rect LW ratio too big");
             continue;
         }
-        double perimneter = cv::arcLength(co, 1);
-        double perim_ratio = perimneter/ (2*length+2*width);
+        double perimeter = cv::arcLength(co, 1);
+        double perim_ratio = perimeter/ (2*length+2*width);
         double area_ratio = area/(length*width);
         if (area_ratio < areaMin){
             println("Rect area ratio too small");
@@ -245,7 +245,6 @@ bool ShapeFilter::findRect(cv::Mat img){
             println("Rect area ratio too small");
             continue;
         }
-
 
         if (rektangles.size() < max){
             cv::RotatedRect temp = cv::RotatedRect(rect);

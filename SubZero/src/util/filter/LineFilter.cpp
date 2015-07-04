@@ -21,10 +21,11 @@ int LineFilter::filter(Data *data){
     }
 
     //begin filter sequence
+    cv::Mat src = imgData->getImg();
     cv::Mat dst;
-    cv::Mat *cdst = new cv::Mat(imgData->getImg()->clone());
-    Canny(*imgData->getImg(), dst, 50, 200, 3);
-    cvtColor(dst, *cdst, CV_GRAY2BGR);
+    cv::Mat cdst = src.clone();
+    Canny(src, dst, 50, 200, 3);
+    cvtColor(dst, cdst, CV_GRAY2BGR);
 
     std::vector<cv::Vec2f> lines;
     //detects lines
@@ -52,6 +53,8 @@ int LineFilter::filter(Data *data){
         //line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);     //drawing the line
     }
 
+    //should i set imgData to something?? -Carl
+
     //track and return
     this->track(imgData, this->filterID, 0,0);
     return 0;
@@ -59,7 +62,8 @@ int LineFilter::filter(Data *data){
 
 cv::Mat LineFilter::filter(cv::Mat src, int mode){
     cv::Mat dst;
-    cv::Mat cdst = cv::Mat(src.clone());
+    //cv::Mat cdst = cv::Mat(src.clone());
+    cv::Mat cdst = src.clone();
     Canny(src, dst, 50, 200, 3);
     cvtColor(dst, cdst, CV_GRAY2BGR);
 

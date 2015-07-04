@@ -39,7 +39,7 @@ private:
 	 *
 	 * @param newDepth	double value of depth.
 	 */
-	void setDepth(double newDepth);
+    void setDepth(int newDepth);
 
 	/**
 	 * Setter for the speed. If a previous value exists, it will
@@ -47,7 +47,7 @@ private:
 	 *
 	 * @param newRoll	double value of speed.
 	 */
-	void setSpeed(double newSpeed);
+    void setSpeed(int newSpeed);
 
 	/**
 	 * Setter for heading. If a previous value exists, it will
@@ -55,7 +55,7 @@ private:
 	 *
 	 * @param newHeading	double value of heading.
 	 */
-	void setHeading(double newHeading);
+    void setHeading(int newHeading);
 
 	/* ==========================================================================
 	 * CLASS VARS
@@ -65,7 +65,7 @@ private:
 	/*
 	 * Depth, speed, heading vars.
 	 */
-	double depth, speed, heading;
+    int depth, speed, heading;
 
 public:
 
@@ -81,7 +81,7 @@ public:
 	 * @param speed
 	 * @param heading
 	 */
-	FPGAData(std::string dataID, double depth, double speed, double heading);
+    FPGAData(std::string dataID, int depth, int speed, int heading);
 
 	/**
 	 * Destructor stub.
@@ -98,42 +98,22 @@ public:
 	 *
 	 * @return 	double value of depth.
 	 */
-	double getDepth();
+    int getDepth();
 
 	/**
 	 * Getter for the speed.
 	 *
 	 * @return 	double value of speed.
 	 */
-	double getSpeed();
+    int getSpeed();
 
-	/*
+    /**
 	 * Getter for heading. Heading refers to? Ask Electronics
 	 *
 	 * @return 	double value of heading.
 	 */
-	double getHeading();
+    int getHeading();
 
-	/* ==========================================================================
-	 * OPERATOR OVERLOAD
-	 * ==========================================================================
-	 */
-
-	/**
-	 * The = operator overload that will complete a deep copy of the
-	 * right hand side operator and return it.
-	 *
-	 * @param rhs	the right hand side of the equal operator, the parent copy
-	 * @return		address to a new ImgData
-	 */
-	FPGAData* operator=(FPGAData* rhs);
-
-	/**
-	 * Copy constructor
-	 *
-	 * @param obj	the object referenced by constructor
-	 */
-	FPGAData(const FPGAData* obj);
 };
 
 #endif /* FPGADATA_H_ */

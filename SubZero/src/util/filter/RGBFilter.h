@@ -120,7 +120,7 @@ public:
 	 * @param rhs	the filter obj on the right hand side of the = operator
 	 * @return 		pointer to the new deep copy of rhs
 	 */
-	RGBFilter* operator=(RGBFilter* rhs);
+    //RGBFilter* operator=(RGBFilter* rhs);
 
 
 	/**
@@ -128,7 +128,7 @@ public:
 	 *
 	 * @param obj	the reference of the new copy
 	 */
-	RGBFilter(RGBFilter* obj);
+    //RGBFilter(RGBFilter* obj);
 
 };
 
