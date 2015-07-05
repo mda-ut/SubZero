@@ -69,12 +69,12 @@ void Controller::handleMotorButtonClick() {
 
 void Controller::handleMoveLeftButtonClick() {
     logger->info("Adding Move Left Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,-15));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA], targetYaw, -15));
 }
 
 void Controller::handleMoveRightButtonClick() {
     logger->info("Adding Move Right Task to queue");
-    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA],targetYaw,15));
+    addTaskToQueue(TaskFactory::createTurnTask(models[FPGA], targetYaw, 15));
 }
 
 void Controller::handleMoveForwardButtonClick() {
@@ -84,22 +84,32 @@ void Controller::handleMoveForwardButtonClick() {
 
 void Controller::handleMoveBackwardButtonClick() {
     logger->info("Adding Move Backward Task to queue");
-    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], 18*6));
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], -18*6));
 }
 
 void Controller::handleStopButtonClick() {
     logger->info("Adding Stop Task to queue");
-    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA],0));
+    addTaskToQueue(TaskFactory::createSpeedTask(models[FPGA], 0));
 }
 
 void Controller::handleSinkButtonClick() {
     logger->info("Adding Sink Task to queue");
-    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA],targetDepth,15));
+    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA], targetDepth, 50));
 }
 
 void Controller::handleRiseButtonClick() {
     logger->info("Adding Rise Task to queue");
-    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA],targetDepth,15));
+    addTaskToQueue(TaskFactory::createDepthTask(models[FPGA], targetDepth, -50));
+}
+
+void Controller::handleGateTaskClick() {
+    logger->info("Adding Gate Task to queue");
+    addTaskToQueue(TaskFactory::createGateTask(models[FPGA], targetDepth, targetYaw));
+}
+
+void Controller::handlePathTaskClick() {
+    logger->info("Adding Path Task to queue");
+    addTaskToQueue(TaskFactory::createPathTask(models[FPGA], targetYaw));
 }
 
 void Controller::killAll() {

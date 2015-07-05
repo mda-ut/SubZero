@@ -11,9 +11,6 @@
 #include "controller/controllers/Controller.h"
 #include <QApplication>
 #include <iostream>
-#include "../test/VideoTesting.h"
-#include "../test/CollectionTEST.h"
-#include "model/state/StateTester.h"
 #include "PropertyReader.h"
 
 using namespace std;
@@ -72,7 +69,9 @@ int main(int argc, char** argv) {
 
     Menu* newMenu = new Menu(settings);
     newMenu->show();
-
+    /*
+        VideoTesting vt(0);
+        vt.run();
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
 //    vt.run();

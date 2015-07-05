@@ -33,8 +33,8 @@ public:
 
     QLabel* specialActions;
     QPushButton *surfaceButton;
-    QPushButton *fireTorpedoButton;
-    QPushButton *fireGrabberButton;
+    QPushButton *gateButton;
+    QPushButton *pathButton;
 
     QLabel* systemActions;
     QPushButton *menuButton;
@@ -48,6 +48,9 @@ public:
 
     virtual void update(int ID);
     void initialize_VC_Connection(Controller *controller);
+
+protected:
+    void keyPressEvent(QKeyEvent* event);
 
 private:
     Logger* logger = new Logger("ShowCaseView");

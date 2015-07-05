@@ -12,6 +12,7 @@ ShowCaseView::ShowCaseView():View() {
 
 ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
     initializeShowCaseView();
+    setFocusPolicy(Qt::ClickFocus);
 }
 
 ShowCaseView::~ShowCaseView() {
@@ -102,8 +103,8 @@ void ShowCaseView::initializeShowCaseView() {
 
     specialActions = new QLabel("Special Actions");
     surfaceButton = new QPushButton("Surface");
-    fireTorpedoButton = new QPushButton("Fire Torpedo");
-    fireGrabberButton = new QPushButton("Fire Grabber");
+    gateButton = new QPushButton("Gate Task");
+    pathButton = new QPushButton("Path Task");
 
     systemActions = new QLabel("System Actions");
     menuButton = new QPushButton("Menu");
@@ -142,8 +143,8 @@ void ShowCaseView::initializeShowCaseView() {
 
     verticalLayout->addWidget(specialActions);
     verticalLayout->addWidget(surfaceButton);
-    verticalLayout->addWidget(fireTorpedoButton);
-    verticalLayout->addWidget(fireGrabberButton);
+    verticalLayout->addWidget(gateButton);
+    verticalLayout->addWidget(pathButton);
     verticalLayout->addSpacing(10);//Spacing size of 20 pixels
 
     verticalLayout->addWidget(systemActions);
@@ -163,6 +164,47 @@ void ShowCaseView::initializeShowCaseView() {
     this->setLayout(mainLayout);
 }
 
+void ShowCaseView::keyPressEvent(QKeyEvent* event) {
+    switch(event->key()) {
+    case Qt::Key_AsciiCircum:
+        powerButton->click();
+        break;
+    case Qt::Key_Percent:
+        motorButton->click();
+        break;
+    case Qt::Key_W:
+        forwardButton->click();
+        break;
+    case Qt::Key_A:
+        leftButton->click();
+        break;
+    case Qt::Key_S:
+        backwardButton->click();
+        break;
+    case Qt::Key_D:
+        rightButton->click();
+        break;
+    case Qt::Key_R:
+        riseButton->click();
+        break;
+    case Qt::Key_F:
+        sinkButton->click();
+        break;
+    case Qt::Key_E:
+        stopButton->click();
+        break;
+    case Qt::Key_1:
+        gateButton->click();
+        break;
+    case Qt::Key_2:
+        pathButton->click();
+        break;
+    case Qt::Key_Q:
+        exitButton->click();
+        break;
+    }
+}
+
 void ShowCaseView::initialize_VC_Connection(Controller *controller) {
 
     connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
@@ -174,6 +216,8 @@ void ShowCaseView::initialize_VC_Connection(Controller *controller) {
     connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
     connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
     connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
+    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
+    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
     connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
 }
 

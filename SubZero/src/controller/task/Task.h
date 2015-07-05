@@ -12,7 +12,7 @@
 #include <vector>
 #include "Model.h"
 
-#define TASKLISTLENGTH 10
+#define POOL_SURFACE_HEIGHT 300
 
 class Task {
     public:
