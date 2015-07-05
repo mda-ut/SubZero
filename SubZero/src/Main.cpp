@@ -18,7 +18,7 @@
 
 using namespace std;
 
-int main(int argc, char** argv) {/*
+int main(int argc, char** argv) {
     QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
     Logger logger("Main");
@@ -30,7 +30,10 @@ int main(int argc, char** argv) {/*
     } else {
         settings = new PropertyReader("../SubZero/src/settings/settings.txt");
     }
+    // Load properties
     settings->load();
+
+    // Set logging level
     std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");
     if (loggingLevel == "TRACE") {
         Logger::setLoggingLevel(Logger::Level::TRACE);
@@ -42,11 +45,31 @@ int main(int argc, char** argv) {/*
         Logger::setLoggingLevel(Logger::Level::WARN);
     } else if (loggingLevel == "ERROR") {
         Logger::setLoggingLevel(Logger::Level::ERROR);
-    }*/
+    }
 
-    VideoTesting vt(0);
-    vt.run();
-/*
+    // Set default HSV Filter values
+    if (!settings->getProperty("LOW_HUE").empty()) {
+        HSVFilter::defaultLowH = std::stoi(settings->getProperty("LOW_HUE"));
+    }
+    if (!settings->getProperty("HIGH_HUE").empty()) {
+        HSVFilter::defaultHighH = std::stoi(settings->getProperty("HIGH_HUE"));
+    }
+    if (!settings->getProperty("LOW_SATURATION").empty()) {
+        HSVFilter::defaultLowS = std::stoi(settings->getProperty("LOW_SATURATION"));
+    }
+    if (!settings->getProperty("HIGH_SATURATION").empty()) {
+        HSVFilter::defaultHighS = std::stoi(settings->getProperty("HIGH_SATURATION"));
+    }
+    if (!settings->getProperty("LOW_VALUE").empty()) {
+        HSVFilter::defaultLowV = std::stoi(settings->getProperty("LOW_VALUE"));
+    }
+    if (!settings->getProperty("HIGH_VALUE").empty()) {
+        HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
+    }
+
+//    VideoTesting vt(0);
+//    vt.run();
+
     Menu* newMenu = new Menu(settings);
     newMenu->show();
 
@@ -84,6 +107,6 @@ int main(int argc, char** argv) {/*
     //delete settings;
     return error;
     */
-    return 0;
+    return app.exec();
 }
 

@@ -22,7 +22,7 @@ public:
      * ==================================================
      */
     /**
-     * Empty HSV filter. Set up the filter values by the set___ functions
+     * Creates an HSV Filter using the default HSV static variables. Set up the filter values by the set___ functions
      */
     HSVFilter();
 
@@ -104,6 +104,12 @@ public:
      */
     void setV(int low, int high);
 
+    static int defaultLowH;
+    static int defaultHighH;
+    static int defaultLowS;
+    static int defaultHighS;
+    static int defaultLowV;
+    static int defaultHighV;
 
 private:
     //values to be used when filtering
