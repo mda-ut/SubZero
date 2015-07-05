@@ -1,0 +1,335 @@
+Info: Starting: Create HDL design files for synthesis
+Info: ip-generate --project-directory=/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/ --output-directory=/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/ --file-set=QUARTUS_SYNTH --report-file=html:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.html --report-file=sopcinfo:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.sopcinfo --report-file=cmp:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.cmp --report-file=qip:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/DE0_Nano_SOPC.qip --report-file=svd --report-file=regmap:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/DE0_Nano_SOPC.regmap --report-file=debuginfo:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/DE0_Nano_SOPC.debuginfo --system-info=DEVICE_FAMILY="Cyclone IV E" --system-info=DEVICE=EP4CE22F17C6 --system-info=DEVICE_SPEEDGRADE=6 --component-file=/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.qsys --language=VERILOG
+Progress: Loading top_level/DE0_Nano_SOPC.qsys
+Progress: Reading input file
+Progress: Adding clk_50 [clock_source 13.1]
+Progress: Parameterizing module clk_50
+Progress: Adding key [altera_avalon_pio 13.1]
+Progress: Parameterizing module key
+Progress: Adding sw [altera_avalon_pio 13.1]
+Progress: Parameterizing module sw
+Progress: Adding led [altera_avalon_pio 13.1]
+Progress: Parameterizing module led
+Progress: Adding i2c_scl [altera_avalon_pio 13.1]
+Progress: Parameterizing module i2c_scl
+Progress: Adding i2c_sda [altera_avalon_pio 13.1]
+Progress: Parameterizing module i2c_sda
+Progress: Adding sdram [altera_avalon_new_sdram_controller 13.1]
+Progress: Parameterizing module sdram
+Progress: Adding altpll_sys [altpll 13.1]
+Progress: Parameterizing module altpll_sys
+Progress: Adding g_sensor_int [altera_avalon_pio 13.1]
+Progress: Parameterizing module g_sensor_int
+Progress: Adding epcs [altera_avalon_epcs_flash_controller 13.1]
+Progress: Parameterizing module epcs
+Progress: Adding jtag_uart [altera_avalon_jtag_uart 13.1]
+Progress: Parameterizing module jtag_uart
+Progress: Adding gsensor_spi [TERASIC_SPI_3WIRE 1.0]
+Progress: Parameterizing module gsensor_spi
+Progress: Adding select_i2c_clk [altera_avalon_pio 13.1]
+Progress: Parameterizing module select_i2c_clk
+Progress: Adding motor_controller_0 [motor_controller 1.0]
+Progress: Parameterizing module motor_controller_0
+Progress: Adding controller_interrupt_counter [altera_avalon_timer 13.1]
+Progress: Parameterizing module controller_interrupt_counter
+Progress: Adding power_management_slave_0 [power_management_slave 1.0]
+Progress: Parameterizing module power_management_slave_0
+Progress: Adding imu_controller_0 [imu_controller 1.0]
+Progress: Parameterizing module imu_controller_0
+Progress: Adding RS232_0 [RS232 1.0]
+Progress: Parameterizing module RS232_0
+Progress: Adding clock_crossing_io [altera_avalon_mm_clock_crossing_bridge 13.1]
+Progress: Parameterizing module clock_crossing_io
+Progress: Adding clock_crossing_io2 [altera_avalon_mm_clock_crossing_bridge 13.1]
+Progress: Parameterizing module clock_crossing_io2
+Progress: Adding cpu [altera_nios2_qsys 13.1]
+Progress: Parameterizing module cpu
+Progress: Adding sysid [altera_avalon_sysid_qsys 13.1]
+Progress: Parameterizing module sysid
+Progress: Adding c0 [altera_clock_bridge 13.1]
+Progress: Parameterizing module c0
+Progress: Adding c2 [altera_clock_bridge 13.1]
+Progress: Parameterizing module c2
+Progress: Adding c4 [altera_clock_bridge 13.1]
+Progress: Parameterizing module c4
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: DE0_Nano_SOPC.key: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.sw: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.i2c_sda: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.g_sensor_int: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.epcs: Dedicated AS interface is not supported, signals are exported to top level design.
+Warning: DE0_Nano_SOPC.motor_controller_0.clock_sink: Interface has no signals
+Info: DE0_Nano_SOPC.cpu: CPUID control register value is 0. Please manually assign CPUID if creating multiple Nios II system
+Info: DE0_Nano_SOPC.sysid: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: DE0_Nano_SOPC.sysid: Time stamp will be automatically updated when this component is generated.
+Info: DE0_Nano_SOPC: Generating DE0_Nano_SOPC "DE0_Nano_SOPC" for QUARTUS_SYNTH
+Info: pipeline_bridge_swap_transform: After transform: 25 modules, 104 connections
+Info: No custom instruction connections, skipping transform 
+Info: merlin_initial_interconnect_transform: After transform: 12 modules, 46 connections
+Info: merlin_translator_transform: After transform: 25 modules, 98 connections
+Info: merlin_domain_transform: After transform: 57 modules, 296 connections
+Info: merlin_router_transform: After transform: 70 modules, 348 connections
+Info: merlin_burst_transform: After transform: 71 modules, 352 connections
+Info: merlin_network_to_switch_transform: After transform: 96 modules, 417 connections
+Info: merlin_width_transform: After transform: 98 modules, 425 connections
+Info: Inserting clock-crossing logic between cmd_xbar_demux_001.src2 and cmd_xbar_mux_002.sink0
+Info: Inserting clock-crossing logic between cmd_xbar_demux_001.src4 and cmd_xbar_mux_004.sink0
+Info: Inserting clock-crossing logic between cmd_xbar_demux_001.src5 and cmd_xbar_mux_005.sink0
+Info: Inserting clock-crossing logic between cmd_xbar_demux_001.src6 and cmd_xbar_mux_006.sink0
+Info: Inserting clock-crossing logic between cmd_xbar_demux_001.src7 and cmd_xbar_mux_007.sink0
+Info: Inserting clock-crossing logic between cmd_xbar_demux_001.src8 and cmd_xbar_mux_008.sink0
+Info: Inserting clock-crossing logic between rsp_xbar_demux_002.src0 and rsp_xbar_mux_001.sink2
+Info: Inserting clock-crossing logic between rsp_xbar_demux_004.src0 and rsp_xbar_mux_001.sink4
+Info: Inserting clock-crossing logic between rsp_xbar_demux_005.src0 and rsp_xbar_mux_001.sink5
+Info: Inserting clock-crossing logic between rsp_xbar_demux_006.src0 and rsp_xbar_mux_001.sink6
+Info: Inserting clock-crossing logic between rsp_xbar_demux_007.src0 and rsp_xbar_mux_001.sink7
+Info: Inserting clock-crossing logic between rsp_xbar_demux_008.src0 and rsp_xbar_mux_001.sink8
+Info: com_altera_sopcmodel_transforms_avalon_ClockCrossingTransform: After transform: 110 modules, 509 connections
+Info: merlin_clock_and_reset_bridge_transform: After transform: 116 modules, 636 connections
+Info: merlin_hierarchy_transform: After transform: 26 modules, 113 connections
+Info: merlin_initial_interconnect_transform: After transform: 10 modules, 27 connections
+Info: merlin_translator_transform: After transform: 17 modules, 55 connections
+Info: merlin_domain_transform: After transform: 31 modules, 148 connections
+Info: merlin_router_transform: After transform: 38 modules, 176 connections
+Info: merlin_traffic_limiter_transform: After transform: 39 modules, 181 connections
+Info: merlin_network_to_switch_transform: After transform: 52 modules, 214 connections
+Info: limiter_update_transform: After transform: 52 modules, 215 connections
+Info: merlin_clock_and_reset_bridge_transform: After transform: 54 modules, 266 connections
+Info: merlin_hierarchy_transform: After transform: 27 modules, 117 connections
+Info: merlin_initial_interconnect_transform: After transform: 7 modules, 19 connections
+Info: merlin_translator_transform: After transform: 12 modules, 39 connections
+Info: merlin_domain_transform: After transform: 22 modules, 104 connections
+Info: merlin_router_transform: After transform: 27 modules, 124 connections
+Info: merlin_traffic_limiter_transform: After transform: 28 modules, 129 connections
+Info: merlin_network_to_switch_transform: After transform: 37 modules, 152 connections
+Info: limiter_update_transform: After transform: 37 modules, 153 connections
+Info: merlin_clock_and_reset_bridge_transform: After transform: 39 modules, 190 connections
+Info: merlin_hierarchy_transform: After transform: 28 modules, 121 connections
+Info: merlin_mm_transform: After transform: 28 modules, 121 connections
+Info: merlin_interrupt_mapper_transform: After transform: 29 modules, 125 connections
+Info: merlin_interrupt_sync_transform: After transform: 36 modules, 174 connections
+Info: reset_adaptation_transform: After transform: 42 modules, 173 connections
+Warning: DE0_Nano_SOPC: "No matching role found for clk_50:clk:clk_out (clk)"
+Warning: DE0_Nano_SOPC: "No matching role found for epcs:epcs_control_port:endofpacket (endofpacket)"
+Warning: DE0_Nano_SOPC: "No matching role found for epcs:epcs_control_port:dataavailable (dataavailable)"
+Warning: DE0_Nano_SOPC: "No matching role found for epcs:epcs_control_port:readyfordata (readyfordata)"
+Info: key: Starting RTL generation for module 'DE0_Nano_SOPC_key'
+Info: key:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_key --dir=/tmp/alt6613_9119292030374014123.dir/0002_key_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0002_key_gen//DE0_Nano_SOPC_key_component_configuration.pl  --do_build_sim=0  ]
+Info: key: Done RTL generation for module 'DE0_Nano_SOPC_key'
+Info: key: "DE0_Nano_SOPC" instantiated altera_avalon_pio "key"
+Info: sw: Starting RTL generation for module 'DE0_Nano_SOPC_sw'
+Info: sw:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_sw --dir=/tmp/alt6613_9119292030374014123.dir/0003_sw_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0003_sw_gen//DE0_Nano_SOPC_sw_component_configuration.pl  --do_build_sim=0  ]
+Info: sw: Done RTL generation for module 'DE0_Nano_SOPC_sw'
+Info: sw: "DE0_Nano_SOPC" instantiated altera_avalon_pio "sw"
+Info: led: Starting RTL generation for module 'DE0_Nano_SOPC_led'
+Info: led:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_led --dir=/tmp/alt6613_9119292030374014123.dir/0004_led_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0004_led_gen//DE0_Nano_SOPC_led_component_configuration.pl  --do_build_sim=0  ]
+Info: led: Done RTL generation for module 'DE0_Nano_SOPC_led'
+Info: led: "DE0_Nano_SOPC" instantiated altera_avalon_pio "led"
+Info: i2c_scl: Starting RTL generation for module 'DE0_Nano_SOPC_i2c_scl'
+Info: i2c_scl:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_i2c_scl --dir=/tmp/alt6613_9119292030374014123.dir/0005_i2c_scl_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0005_i2c_scl_gen//DE0_Nano_SOPC_i2c_scl_component_configuration.pl  --do_build_sim=0  ]
+Info: i2c_scl: Done RTL generation for module 'DE0_Nano_SOPC_i2c_scl'
+Info: i2c_scl: "DE0_Nano_SOPC" instantiated altera_avalon_pio "i2c_scl"
+Info: i2c_sda: Starting RTL generation for module 'DE0_Nano_SOPC_i2c_sda'
+Info: i2c_sda:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_i2c_sda --dir=/tmp/alt6613_9119292030374014123.dir/0006_i2c_sda_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0006_i2c_sda_gen//DE0_Nano_SOPC_i2c_sda_component_configuration.pl  --do_build_sim=0  ]
+Info: i2c_sda: Done RTL generation for module 'DE0_Nano_SOPC_i2c_sda'
+Info: i2c_sda: "DE0_Nano_SOPC" instantiated altera_avalon_pio "i2c_sda"
+Info: sdram: Starting RTL generation for module 'DE0_Nano_SOPC_sdram'
+Info: sdram:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=DE0_Nano_SOPC_sdram --dir=/tmp/alt6613_9119292030374014123.dir/0007_sdram_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0007_sdram_gen//DE0_Nano_SOPC_sdram_component_configuration.pl  --do_build_sim=0  ]
+Info: sdram: Done RTL generation for module 'DE0_Nano_SOPC_sdram'
+Info: sdram: "DE0_Nano_SOPC" instantiated altera_avalon_new_sdram_controller "sdram"
+Info: altpll_sys: "DE0_Nano_SOPC" instantiated altpll "altpll_sys"
+Info: g_sensor_int: Starting RTL generation for module 'DE0_Nano_SOPC_g_sensor_int'
+Info: g_sensor_int:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_g_sensor_int --dir=/tmp/alt6613_9119292030374014123.dir/0010_g_sensor_int_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0010_g_sensor_int_gen//DE0_Nano_SOPC_g_sensor_int_component_configuration.pl  --do_build_sim=0  ]
+Info: g_sensor_int: Done RTL generation for module 'DE0_Nano_SOPC_g_sensor_int'
+Info: g_sensor_int: "DE0_Nano_SOPC" instantiated altera_avalon_pio "g_sensor_int"
+Info: epcs: Starting RTL generation for module 'DE0_Nano_SOPC_epcs'
+Info: epcs:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_epcs_flash_controller -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_epcs_flash_controller/generate_rtl.pl --name=DE0_Nano_SOPC_epcs --dir=/tmp/alt6613_9119292030374014123.dir/0011_epcs_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0011_epcs_gen//DE0_Nano_SOPC_epcs_component_configuration.pl  --do_build_sim=0  ]
+Info: epcs: Done RTL generation for module 'DE0_Nano_SOPC_epcs'
+Info: epcs: "DE0_Nano_SOPC" instantiated altera_avalon_epcs_flash_controller "epcs"
+Info: jtag_uart: Starting RTL generation for module 'DE0_Nano_SOPC_jtag_uart'
+Info: jtag_uart:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=DE0_Nano_SOPC_jtag_uart --dir=/tmp/alt6613_9119292030374014123.dir/0012_jtag_uart_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0012_jtag_uart_gen//DE0_Nano_SOPC_jtag_uart_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart: Done RTL generation for module 'DE0_Nano_SOPC_jtag_uart'
+Info: jtag_uart: "DE0_Nano_SOPC" instantiated altera_avalon_jtag_uart "jtag_uart"
+Info: gsensor_spi: "DE0_Nano_SOPC" instantiated TERASIC_SPI_3WIRE "gsensor_spi"
+Info: select_i2c_clk: Starting RTL generation for module 'DE0_Nano_SOPC_select_i2c_clk'
+Info: select_i2c_clk:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_pio/generate_rtl.pl --name=DE0_Nano_SOPC_select_i2c_clk --dir=/tmp/alt6613_9119292030374014123.dir/0013_select_i2c_clk_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0013_select_i2c_clk_gen//DE0_Nano_SOPC_select_i2c_clk_component_configuration.pl  --do_build_sim=0  ]
+Info: select_i2c_clk: Done RTL generation for module 'DE0_Nano_SOPC_select_i2c_clk'
+Info: select_i2c_clk: "DE0_Nano_SOPC" instantiated altera_avalon_pio "select_i2c_clk"
+Info: motor_controller_0: "DE0_Nano_SOPC" instantiated motor_controller "motor_controller_0"
+Info: controller_interrupt_counter: Starting RTL generation for module 'DE0_Nano_SOPC_controller_interrupt_counter'
+Info: controller_interrupt_counter:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux//perl/bin/perl -I /home/uoftmda/altera/13.1/quartus/linux//perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/common -I /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- /home/uoftmda/altera/13.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=DE0_Nano_SOPC_controller_interrupt_counter --dir=/tmp/alt6613_9119292030374014123.dir/0015_controller_interrupt_counter_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0015_controller_interrupt_counter_gen//DE0_Nano_SOPC_controller_interrupt_counter_component_configuration.pl  --do_build_sim=0  ]
+Info: controller_interrupt_counter: Done RTL generation for module 'DE0_Nano_SOPC_controller_interrupt_counter'
+Info: controller_interrupt_counter: "DE0_Nano_SOPC" instantiated altera_avalon_timer "controller_interrupt_counter"
+Info: power_management_slave_0: "DE0_Nano_SOPC" instantiated power_management_slave "power_management_slave_0"
+Info: imu_controller_0: "DE0_Nano_SOPC" instantiated imu_controller "imu_controller_0"
+Warning: RS232_0: Parameter BAUD_COUNTER_WIDTH has hdl_parameter = false but parameter exists on the HDL
+Warning: RS232_0: Parameter BAUD_TICK_INCREMENT has hdl_parameter = false but parameter exists on the HDL
+Warning: RS232_0: Parameter BAUD_TICK_COUNT has hdl_parameter = false but parameter exists on the HDL
+Warning: RS232_0: Parameter HALF_BAUD_TICK_COUNT has hdl_parameter = false but parameter exists on the HDL
+Warning: RS232_0: Parameter TOTAL_DATA_WIDTH has hdl_parameter = false but parameter exists on the HDL
+Warning: RS232_0: Parameter DATA_WIDTH has hdl_parameter = false but parameter exists on the HDL
+Warning: RS232_0: Parameter ODD_PARITY has hdl_parameter = false but parameter exists on the HDL
+Info: RS232_0: "DE0_Nano_SOPC" instantiated RS232 "RS232_0"
+Info: clock_crossing_io: "DE0_Nano_SOPC" instantiated altera_avalon_mm_clock_crossing_bridge "clock_crossing_io"
+Info: cpu: Starting RTL generation for module 'DE0_Nano_SOPC_cpu'
+Info: cpu:   Generation command is [exec /home/uoftmda/altera/13.1/quartus/linux/eperlcmd -I /home/uoftmda/altera/13.1/quartus/linux/perl/lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/europa -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin/perl_lib -I /home/uoftmda/altera/13.1/quartus/sopc_builder/bin -I /home/uoftmda/altera/13.1/quartus/../ip/altera/nios2_ip/altera_nios2/cpu_lib -I /home/uoftmda/altera/13.1/quartus/../ip/altera/nios2_ip/altera_nios2/nios_lib -I /home/uoftmda/altera/13.1/quartus/../ip/altera/nios2_ip/altera_nios2 -I /home/uoftmda/altera/13.1/quartus/../ip/altera/nios2_ip/altera_nios2 -- /home/uoftmda/altera/13.1/quartus/../ip/altera/nios2_ip/altera_nios2/generate_rtl.epl --name=DE0_Nano_SOPC_cpu --dir=/tmp/alt6613_9119292030374014123.dir/0019_cpu_gen/ --quartus_dir=/home/uoftmda/altera/13.1/quartus --verilog --config=/tmp/alt6613_9119292030374014123.dir/0019_cpu_gen//DE0_Nano_SOPC_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info: cpu: # 2015.06.27 00:38:55 (*) Starting Nios II generation
+Info: cpu: # 2015.06.27 00:38:55 (*)   Checking for plaintext license.
+Info: cpu: # 2015.06.27 00:38:58 (*)   Couldn't query license setup in Quartus directory /home/uoftmda/altera/13.1/quartus
+Info: cpu: # 2015.06.27 00:38:58 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
+Info: cpu: # 2015.06.27 00:38:58 (*)   LM_LICENSE_FILE environment variable is empty
+Info: cpu: # 2015.06.27 00:38:58 (*)   Plaintext license not found.
+Info: cpu: # 2015.06.27 00:38:58 (*)   No license required to generate encrypted Nios II/e.
+Info: cpu: # 2015.06.27 00:38:58 (*)   Elaborating CPU configuration settings
+Info: cpu: # 2015.06.27 00:38:58 (*)   Creating all objects for CPU
+Info: cpu: # 2015.06.27 00:39:03 (*)   Generating RTL from CPU objects
+Info: cpu: # 2015.06.27 00:39:03 (*)   Creating plain-text RTL
+Info: cpu: # 2015.06.27 00:39:09 (*) Done Nios II generation
+Info: cpu: Done RTL generation for module 'DE0_Nano_SOPC_cpu'
+Info: cpu: "DE0_Nano_SOPC" instantiated altera_nios2_qsys "cpu"
+Info: sysid: "DE0_Nano_SOPC" instantiated altera_avalon_sysid_qsys "sysid"
+Info: pipeline_bridge_swap_transform: After transform: 104 modules, 356 connections
+Info: No custom instruction connections, skipping transform 
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 104 modules, 356 connections
+Info: mm_interconnect_0: "DE0_Nano_SOPC" instantiated altera_merlin_interconnect_wrapper "mm_interconnect_0"
+Info: pipeline_bridge_swap_transform: After transform: 44 modules, 146 connections
+Info: No custom instruction connections, skipping transform 
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 44 modules, 146 connections
+Info: mm_interconnect_1: "DE0_Nano_SOPC" instantiated altera_merlin_interconnect_wrapper "mm_interconnect_1"
+Info: pipeline_bridge_swap_transform: After transform: 32 modules, 104 connections
+Info: No custom instruction connections, skipping transform 
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 32 modules, 104 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 32 modules, 104 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 32 modules, 104 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 32 modules, 104 connections
+Info: merlin_initial_interconnect_transform: After transform: 0 modules, 0 connections
+Info: No Avalon connections, skipping transform 
+Info: merlin_hierarchy_transform: After transform: 32 modules, 104 connections
+Info: mm_interconnect_2: "DE0_Nano_SOPC" instantiated altera_merlin_interconnect_wrapper "mm_interconnect_2"
+Info: irq_mapper: "DE0_Nano_SOPC" instantiated altera_irq_mapper "irq_mapper"
+Info: irq_synchronizer: "DE0_Nano_SOPC" instantiated altera_irq_clock_crosser "irq_synchronizer"
+Info: rst_controller: "DE0_Nano_SOPC" instantiated altera_reset_controller "rst_controller"
+Info: cpu_instruction_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "cpu_instruction_master_translator"
+Info: cpu_jtag_debug_module_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "cpu_jtag_debug_module_translator"
+Info: cpu_instruction_master_translator_avalon_universal_master_0_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "cpu_instruction_master_translator_avalon_universal_master_0_agent"
+Info: cpu_jtag_debug_module_translator_avalon_universal_slave_0_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "cpu_jtag_debug_module_translator_avalon_universal_slave_0_agent"
+Info: cpu_jtag_debug_module_translator_avalon_universal_slave_0_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "cpu_jtag_debug_module_translator_avalon_universal_slave_0_agent_rsp_fifo"
+Info: addr_router: "mm_interconnect_0" instantiated altera_merlin_router "addr_router"
+Info: addr_router_001: "mm_interconnect_0" instantiated altera_merlin_router "addr_router_001"
+Info: id_router: "mm_interconnect_0" instantiated altera_merlin_router "id_router"
+Info: id_router_001: "mm_interconnect_0" instantiated altera_merlin_router "id_router_001"
+Info: id_router_002: "mm_interconnect_0" instantiated altera_merlin_router "id_router_002"
+Info: id_router_003: "mm_interconnect_0" instantiated altera_merlin_router "id_router_003"
+Info: id_router_007: "mm_interconnect_0" instantiated altera_merlin_router "id_router_007"
+Info: burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "burst_adapter"
+Info: cmd_xbar_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_xbar_demux"
+Info: cmd_xbar_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_xbar_demux_001"
+Info: cmd_xbar_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_xbar_mux"
+Info: cmd_xbar_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_xbar_mux_002"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: cmd_xbar_mux_003: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_xbar_mux_003"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: cmd_xbar_mux_007: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_xbar_mux_007"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_xbar_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_xbar_demux_002"
+Info: rsp_xbar_demux_003: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_xbar_demux_003"
+Info: rsp_xbar_demux_007: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_xbar_demux_007"
+Info: rsp_xbar_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_xbar_mux"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_xbar_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_xbar_mux_001"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "width_adapter"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: crosser: "mm_interconnect_0" instantiated altera_avalon_st_handshake_clock_crosser "crosser"
+Info: addr_router: "mm_interconnect_1" instantiated altera_merlin_router "addr_router"
+Info: id_router: "mm_interconnect_1" instantiated altera_merlin_router "id_router"
+Info: limiter: "mm_interconnect_1" instantiated altera_merlin_traffic_limiter "limiter"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: cmd_xbar_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "cmd_xbar_demux"
+Info: cmd_xbar_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "cmd_xbar_mux"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_xbar_demux: "mm_interconnect_1" instantiated altera_merlin_demultiplexer "rsp_xbar_demux"
+Info: rsp_xbar_mux: "mm_interconnect_1" instantiated altera_merlin_multiplexer "rsp_xbar_mux"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: addr_router: "mm_interconnect_2" instantiated altera_merlin_router "addr_router"
+Info: id_router: "mm_interconnect_2" instantiated altera_merlin_router "id_router"
+Info: cmd_xbar_demux: "mm_interconnect_2" instantiated altera_merlin_demultiplexer "cmd_xbar_demux"
+Info: cmd_xbar_mux: "mm_interconnect_2" instantiated altera_merlin_multiplexer "cmd_xbar_mux"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_xbar_demux: "mm_interconnect_2" instantiated altera_merlin_demultiplexer "rsp_xbar_demux"
+Info: rsp_xbar_mux: "mm_interconnect_2" instantiated altera_merlin_multiplexer "rsp_xbar_mux"
+Info: Reusing file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: DE0_Nano_SOPC: Done "DE0_Nano_SOPC" with 66 modules, 99 files, 2092168 bytes
+Info: ip-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
