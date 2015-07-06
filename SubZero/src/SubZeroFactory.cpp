@@ -59,7 +59,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, PropertyReader* settings) 
         //HwInterface* fpgaInt = new FPGAInterface(fpgaBufferSize, fpgaPollFrequency);
 
         models.push_back(new CameraModel(states[0], frontCamInt));
-        models.push_back(new CameraModel(states[1], downCamInt));
+//        models.push_back(new CameraModel(states[1], downCamInt));
         //models.push_back(new FPGAModel(states[2], fpgaInt));
 
         controller = new Controller(models);

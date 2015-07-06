@@ -8,9 +8,9 @@
 #ifndef SUBZERO_H_
 #define SUBZERO_H_
 
-#include <Model.h>
-#include <View.h>
-#include <Controller.h>
+#include "model/Model.h"
+#include "view/View.h"
+#include "controller/controllers/Controller.h"
 #include <vector>
 
 class SubZero {

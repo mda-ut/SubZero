@@ -1,3 +1,4 @@
+
 /*
  * CameraInterface.cpp
  *
@@ -93,3 +94,4 @@ CameraInterface::~CameraInterface() {
 
     camStream.release();
 }
+

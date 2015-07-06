@@ -23,7 +23,7 @@ public:
 	 * @param value		integer number.
 	 * @return			the string representation of value.
 	 */
-	static std::string intToStr(int value);
+    static std::string intToStr(int value, int pad=0);
 };
 
 #endif /* SRC_UTIL_STRINGTOOLS_H_ */

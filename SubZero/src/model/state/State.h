@@ -1,11 +1,11 @@
 #ifndef STATE_H_
 #define STATE_H_
-#include "Observable.h"
-#include "Data.h"
+#include "../../Observable.h"
+#include "../../util/data/Data.h"
 #include <string>
 #include <list>
 #include <set>
-#include "View.h"
+#include "../../view/View.h"
 
 enum StateType{
     FRONTCAM,

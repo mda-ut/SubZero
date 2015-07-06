@@ -8,7 +8,7 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
-#include "../task/BaseTask.h"
+//#include "../task/BaseTask.h"
 
 class Command {
 //public:

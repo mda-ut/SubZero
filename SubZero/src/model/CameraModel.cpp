@@ -18,7 +18,7 @@ void CameraModel::sendCommand(std::string cmd){
 }
 
 Data* CameraModel::getDataFromBuffer(){
-    Data* rawImageData = interface->getDataFromBuffer<ImgData>();
+    Data* rawImageData = interface->getDataFromBuffer/*<ImgData>*/();
 	return rawImageData;
 }
 

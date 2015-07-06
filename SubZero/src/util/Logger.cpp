@@ -10,7 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <qdir.h>
-#include "util/Util.h"
+#include "Util.h"
 
 bool Logger::writeToConsole = true;
 bool Logger::writeToFile = false;

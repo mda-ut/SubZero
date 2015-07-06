@@ -1,11 +1,11 @@
 #ifndef QUICKTASKADDER_H
 #define QUICKTASKADDER_H
 
-#include "../controller/controllers/Controller.h"
-#include "../controller/task/Task.h"
-#include "../controller/task/TaskCCR.h"
-#include "../controller/task/TaskHelloWorld.h"
-#include "../controller/task/TaskHeyTonight.h"
+#include "../controllers/Controller.h"
+#include "Task.h"
+#include "TaskCCR.h"
+#include "TaskHelloWorld.h"
+#include "TaskHeyTonight.h"
 #include <QObject>
 
 

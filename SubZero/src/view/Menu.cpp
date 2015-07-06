@@ -15,7 +15,7 @@
 //#include "guiview.h"
 //#include "simview.h"
 //#include "autview.h"
-#include "SubZeroFactory.h"
+#include "../SubZeroFactory.h"
 /**
  * Menu for insantiating views
  */

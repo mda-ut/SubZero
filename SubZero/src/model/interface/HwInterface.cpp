@@ -60,16 +60,29 @@ void HwInterface::in() {
  */
 
 
-/*
+
 Data* HwInterface::getDataFromBuffer() {
     Data* data = nullptr;
     if (!(this->decodedBuffer.empty())) {
         data = this->decodedBuffer.back();
-    } else {
-        std::cout << "Nothing in buffer"<<std::endl;
-    }
+    } /*else {
+//        std::cout << "Nothing in buffer"<<std::endl;
+
+    }*/
     return data;
-}*/
+}
+
+template<class dataType> dataType* HwInterface::getDataFromBuffer(){
+    dataType* data = nullptr;
+    if (!(this->decodedBuffer.empty())) {
+        data = dynamic_cast<dataType*>(decodedBuffer.back());
+        std::cout <<"new data"<<std::endl;
+        return new dataType(*data);
+    } else {
+        //std::cout << "Nothing in buffer"<<std::endl;
+        return data;
+    }
+}
 
 int HwInterface::getPollFrequency() {
     return this->pollFrequency;
@@ -111,3 +124,6 @@ HwInterface::~HwInterface() {
     // join readThread with main
 
 }
+
+
+

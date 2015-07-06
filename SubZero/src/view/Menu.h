@@ -9,7 +9,7 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QObject>
-#include "PropertyReader.h"
+#include "../util/PropertyReader.h"
 
 
 

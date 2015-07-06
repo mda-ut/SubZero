@@ -9,8 +9,8 @@
 #define SUBZEROFACTORY_H_
 
 #include "SubZero.h"
-#include "PropertyReader.h"
-#include "Logger.h"
+#include "util/PropertyReader.h"
+#include "util/Logger.h"
 
 //jon says to move inside class
 enum SubType {GUI, SIM, AUT};

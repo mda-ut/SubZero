@@ -9,6 +9,7 @@
 #define RGBFILTER_H_
 
 #include "Filter.h"
+#include "../PropertyReader.h"
 #include <vector>
 #include <math.h>
 
@@ -43,6 +44,11 @@ private:
 	 * 0 for no divide, 1 for dividing into 3 zones.
 	 */
 	int mode;
+
+    /*
+     * "constant" max rgb color value.
+     */
+    int mxColour;
 
 public:
 	/* ==========================================================================

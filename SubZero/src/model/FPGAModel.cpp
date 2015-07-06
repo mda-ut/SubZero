@@ -18,14 +18,14 @@ void FPGAModel::sendCommand(std::string cmd){
 }
 
 Data* FPGAModel::getDataFromBuffer(){
-    Data* rawFPGAData = interface->getDataFromBuffer<FPGAData>();
+    Data* rawFPGAData = interface->getDataFromBuffer/*<FPGAData>*/();
 	return rawFPGAData;
 }
 
 std::vector<Data*> FPGAModel::constructDataSet(){
 	std::vector<Data*> fpgaDataSet;
     //Data* rawFPGAData = this->getDataFromBuffer();
-    Data* rawFPGAData = interface->getDataFromBuffer<FPGAData>();
+    Data* rawFPGAData = interface->getDataFromBuffer/*<FPGAData>*/();
 	fpgaDataSet.push_back(rawFPGAData);
     for(auto& fm : filterManagerList){
         Data* deepCopyFPGA = new FPGAData(*((FPGAData*)rawFPGAData)); // Check if the operator overload for = is right. Don't know don't know yet

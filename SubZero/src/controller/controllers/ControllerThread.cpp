@@ -6,7 +6,7 @@
  */
 
 #include "ControllerThread.h"
-#include "SubZero.h"
+#include "../../SubZero.h"
 
 ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
     taskList = tL;
