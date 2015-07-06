@@ -9,12 +9,28 @@
 
 void PropertyReader::loadLine(std::string inputLine) {
     std::size_t delimiterPosition = inputLine.find("=");    //TODO: Replace string literal with a member variable
-    //TODO: Find a way to trim white space
-    std::string propertyName = inputLine.substr(0, delimiterPosition - 1);
-    std::string value = inputLine.substr (delimiterPosition + 2);
-    // Map the property name to the value
-    values[propertyName] = value;
-    logger->info("Mapped " + value + " to " + propertyName);
+    if (delimiterPosition == std::string::npos) {
+        logger->warn("No \"=\" found in line: " + inputLine);
+    } else if (delimiterPosition < 2) {
+        logger->error("Invalid property name found in line: " + inputLine);
+    } else if (delimiterPosition > inputLine.length() - 1) {
+        logger->error("Invalid property value found in line: " + inputLine);
+    } else {
+        //TODO: Find a way to trim white space
+        // Check for two spaces around "="
+        if (inputLine[delimiterPosition - 1] != ' ') {
+            logger->warn("Missing space before \"=\" in line: " + inputLine);
+        }
+        if (inputLine[delimiterPosition + 1] != ' ') {
+            logger->warn("Missing space after \"=\" in line: " + inputLine);
+        }
+        // Right now force format of variableName = value
+        std::string propertyName = inputLine.substr(0, delimiterPosition - 1);
+        std::string value = inputLine.substr (delimiterPosition + 2);
+        // Map the property name to the value
+        values[propertyName] = value;
+        logger->info("Mapped " + value + " to " + propertyName);
+    }
 }
 
 void PropertyReader::load() {
@@ -41,8 +57,12 @@ void PropertyReader::load() {
     while (ifstream) {
         std::string inputLine;
         getline(ifstream, inputLine);
-        //TODO: Ignore comments and blank lines
+        if (inputLine.find("#") == 0) {
+            // Ignore comments
+            continue;
+        }
         if (inputLine == "") {
+            // Ignore blank lines
             continue;
         }
         loadLine(inputLine);

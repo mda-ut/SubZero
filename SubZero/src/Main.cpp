@@ -12,6 +12,7 @@
 #include <QApplication>
 #include <iostream>
 #include "PropertyReader.h"
+#include "VideoTesting.h"
 
 using namespace std;
 
@@ -64,11 +65,11 @@ int main(int argc, char** argv) {
         HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
     }
 
-//    VideoTesting vt(0);
-//    vt.run();
+    VideoTesting vt(0);
+    vt.run();
 
-    Menu* newMenu = new Menu(settings);
-    newMenu->show();
+    //Menu* newMenu = new Menu(settings);
+    //newMenu->show();
     /*
         VideoTesting vt(0);
         vt.run();
@@ -106,6 +107,7 @@ int main(int argc, char** argv) {
     //delete settings;
     return error;
     */
-    return app.exec();
+    //return app.exec();
+    return 0;
 }
 
