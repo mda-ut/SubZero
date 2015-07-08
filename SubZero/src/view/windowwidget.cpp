@@ -2,7 +2,7 @@
 #include <QScreen>
 #include <QSize>
 
-WindowWidget::WindowWidget()
+WindowWidget::WindowWidget(QWidget *parent): QWidget(parent)
 {
 
 }
@@ -31,6 +31,7 @@ void WindowWidget::initialize()
 
     container = new QWidget();
     container = createWindowContainer(window);
+    container->setParent(this);//Allows containter to be shown when this is
     container->setMinimumSize(minSize);// Can be as small as 100 pixels by 100 pixels
     container->setMaximumSize(maxSize);// can be as large as
 

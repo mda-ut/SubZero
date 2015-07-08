@@ -12,16 +12,16 @@
  */
 
 
-class WindowWidget: QWidget
+class WindowWidget: public QWidget
 {
     Q_OBJECT
 public:
-    explicit WindowWidget();
+    explicit WindowWidget(QWidget *parent = 0);
     void initialize();
     QWindow *getWindow();//getter for the QWindow
     QSurfaceFormat *getFormat();//getter for the windowformat
     QWidget *getContainer();//getter for the container in the widget
-    void showWindow();
+
 
 private:
     /**
