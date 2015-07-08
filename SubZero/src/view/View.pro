@@ -2,19 +2,23 @@ QT += core gui widgets 3dcore 3drenderer 3dinput
 
 
 SOURCES += \
-    guiview.cpp \
     Main.cpp \
     menu.cpp \
     observer.cpp \
     showcaseview.cpp \
     SubZero.cpp \
-    view.cpp
+    view.cpp \
+    simenv.cpp \
+    subsub.cpp \
+    windowwidget.cpp
 
 
 HEADERS += \
-    guiview.h \
     menu.h \
     observer.h \
     showcaseview.h \
     SubZero.h \
-    view.h
+    view.h \
+    simenv.h \
+    subsub.h \
+    windowwidget.h
