@@ -9,7 +9,7 @@
 #define SUBZEROFACTORY_H_
 
 #include "SubZero.h"
-#include "PropertyReader.h"
+#include "Properties.h"
 #include "Logger.h"
 
 //jon says to move inside class
@@ -23,7 +23,7 @@ public:
 	SubZeroFactory();
 	virtual ~SubZeroFactory();
 
-    SubZero* makeSubZero(SubType subType, PropertyReader* settings);
+    SubZero* makeSubZero(SubType subType, Properties* settings);
 
 
 };

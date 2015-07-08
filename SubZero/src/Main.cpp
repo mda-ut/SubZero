@@ -11,6 +11,7 @@
 #include "controller/controllers/Controller.h"
 #include <QApplication>
 #include <iostream>
+#include "Properties.h"
 #include "PropertyReader.h"
 
 using namespace std;
@@ -21,13 +22,14 @@ int main(int argc, char** argv) {
     Logger logger("Main");
     Logger::initialize(Logger::Level::INFO,true, true, logTimer);
     logger.trace("Logger initialized.");
-    PropertyReader* settings;
+    PropertyReader* propReader;
+    Properties* settings;
     if (argc > 1) {
-        settings = new PropertyReader(argv[1]);
+        propReader = new PropertyReader(argv[1]);
     } else {
-        settings = new PropertyReader("../SubZero/src/settings/settings.txt");
+        propReader = new PropertyReader("../SubZero/src/settings/settings.txt");
     }
-    settings->load();
+    settings = propReader->load();
     std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");
     if (loggingLevel == "TRACE") {
         Logger::setLoggingLevel(Logger::Level::TRACE);

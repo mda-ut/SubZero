@@ -21,7 +21,7 @@
  */
 
 
-Menu::Menu(PropertyReader* settings_)
+Menu::Menu(Properties* settings_)
 {
     settings = settings_;
     initializeMenu();

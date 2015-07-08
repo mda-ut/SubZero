@@ -14,6 +14,7 @@
 #include <map>
 
 #include <Logger.h>
+#include "Properties.h"
 
 /**
  * @brief The PropertyReader class is analogous to the Java Properties class.  Properties are loaded from a file and each property is delimited by a new line.  Each line has the following format:
@@ -28,9 +29,13 @@ private:
 protected:
     std::ifstream ifstream;
     std::string filePath;
-    std::map<std::string, std::string> values;
 
-    void loadLine(std::string inputLine);
+    /**
+     * @brief loadLine Parses the line and attempts to extract out a property-value pair.  This function can be overridden by inheriting classes.
+     * @param inputLine String to be parsed
+     * @return a std::pair<String, String> to be mapped into the Properties class, and returns NULL if no pair could be extracted
+     */
+    std::pair<std::string, std::string> loadLine(std::string inputLine);
 
 public:
     /**
@@ -39,19 +44,13 @@ public:
      */
     PropertyReader(std::string filePath);
 
-	virtual ~PropertyReader();
+    virtual ~PropertyReader();
 
     /**
      * @brief load Opens the properties file and loads the values
+     * @return A new Properties instance containing the loaded properties
      */
-    void load();
-
-    /**
-     * @brief getProperty Returns the value corresponding to the property name
-     * @param propertyName Case sensitive property name found in the properties file
-     * @return Returns the corresponding value as a std::string and returns an empty string if property cannot be found
-     */
-	std::string getProperty(std::string propertyName);
+    Properties* load();
 
     /**
      * @brief setFilePath Sets the file path to the properties file
