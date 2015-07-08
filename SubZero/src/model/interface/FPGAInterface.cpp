@@ -109,7 +109,7 @@ void FPGAInterface::send(std::string* data) {
  */
 
 
-FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency, PropertyReader* settings) {
+FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency, Properties* settings) {
     this->bufferSize = bufferSize;
     this->pollFrequency = pollFrequency;
     this->settings = settings;

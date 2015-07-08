@@ -95,7 +95,9 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/test/util/data/FPGADataTEST.h \
            SubZero/test/util/data/ImgDataTEST.h \
            SubZero/test/util/filter/FilterManagerTEST.h \
-           SubZero/test/util/filter/RGBFilterTEST.h
+           SubZero/test/util/filter/RGBFilterTEST.h \
+           SubZero/src/util/Properties.h
+
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
            SubZero/src/SubZeroFactory.cpp \
@@ -154,4 +156,5 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/test/util/data/FPGADataTEST.cpp \
            SubZero/test/util/data/ImgDataTEST.cpp \
            SubZero/test/util/filter/FilterManagerTEST.cpp \
-           SubZero/test/util/filter/RGBFilterTEST.cpp
+           SubZero/test/util/filter/RGBFilterTEST.cpp \
+           SubZero/src/util/Properties.cpp

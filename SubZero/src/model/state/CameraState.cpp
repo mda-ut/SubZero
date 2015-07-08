@@ -12,6 +12,7 @@
 CameraState::CameraState(int stateID) : State(stateID) {
 
 }
+
 CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored) {
 
 }

@@ -9,7 +9,7 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QObject>
-#include "PropertyReader.h"
+#include "Properties.h"
 
 
 
@@ -17,7 +17,7 @@ class Menu : public QWidget
 {
     Q_OBJECT
 public:
-    Menu(PropertyReader* settings_);
+    Menu(Properties* settings_);
     virtual ~Menu();
     void paintEvent(QPaintEvent *event);
 
@@ -34,7 +34,7 @@ public:
 
     QGridLayout *mainLayout;
 
-    PropertyReader* settings;
+    Properties* settings;
 
 private:
     void initializeMenu();

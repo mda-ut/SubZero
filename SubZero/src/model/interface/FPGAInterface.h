@@ -15,7 +15,7 @@
 #include "HwInterface.h"
 #include "../../util/data/Data.h"
 #include "../../util/data/FPGAData.h"
-#include "PropertyReader.h"
+#include "Properties.h"
 
 /**
  * A concrete child of HwInterface that deals specifically with the FPGA.
@@ -39,7 +39,7 @@ private:
 
     Logger* logger = new Logger("FPGAInterface");
 
-    PropertyReader* settings;
+    Properties* settings;
 
     QMutex mutex;
 
@@ -95,7 +95,7 @@ public:
      * @param	bufferSize	buffer size for the interface
      * @param	pollFrequency	frequency of polling (polls per second)
      */
-    FPGAInterface(int bufferSize, int pollFrequency, PropertyReader* settings);
+    FPGAInterface(int bufferSize, int pollFrequency, Properties* settings);
 
     virtual void init();
 

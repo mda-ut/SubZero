@@ -1,0 +1,5 @@
+PLL_Name	DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_altpll_sys:altpll_sys_inst|DE0_Nano_SOPC_altpll_sys_altpll_1hu2:sd1|pll7
+PLLJITTER	30
+PLLSPEmax	84
+PLLSPEmin	-53
+
