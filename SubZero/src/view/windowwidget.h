@@ -16,7 +16,7 @@ class WindowWidget: public QWidget
 {
     Q_OBJECT
 public:
-    explicit WindowWidget(QWidget *parent = 0);
+    WindowWidget(QWidget *parent = 0);
     void initialize();
     QWindow *getWindow();//getter for the QWindow
     QSurfaceFormat *getFormat();//getter for the windowformat
