@@ -41,14 +41,14 @@ public:
      * @param i = how many frames ago was the FPGA data was stored (zero indexed; newest frame = 0)
      * @return returns the pointer to a deep copied FPGA data
      */
-    FPGAData* getState (std::string id, int i);
+    virtual FPGAData* getState (std::string id, int i);
 
     /**
      * Returns a deep copy of the newest FPGA data specified with the _ID_
      * @param id = id of the FPGA data that is needed
      * @return returns the pointer to a deep copied FPGA data
      */
-    FPGAData* getState (std::string id);
+    virtual FPGAData* getState (std::string id);
 
     /**
      * Sets the FPGA state

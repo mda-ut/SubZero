@@ -9,7 +9,9 @@
 #define CAMERAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "../../util/data/ImgData.h"
+#include "State.h"
+#include "CameraState.h"
+#include "ImgData.h"
 #include "opencv2/opencv.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -87,7 +89,7 @@ public:
      * @param 	pollFrequencey specifies how frequent video stream is pulled
      * @param	position	camera position
      */
-    CameraInterface(int bufferSize, int pollFrequency, int position);
+    CameraInterface(State* state, int bufferSize, int pollFrequency, int position);
 
     virtual void init();
 

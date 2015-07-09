@@ -5,6 +5,7 @@
 #include <QBrush>
 #include <QLinearGradient>
 #include <QSignalMapper>
+#include <QCoreApplication>
 
 ShowCaseView::ShowCaseView():View() {
     initializeShowCaseView();
@@ -21,39 +22,41 @@ ShowCaseView::~ShowCaseView() {
 
 void ShowCaseView::update(int ID) {
     // Update Cameras
+    logger->trace("Received update from " + std::to_string(ID));
     switch (ID) {
-    case FRONTCAM: {
-        ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
-        makeQImage(newImg->img, frontCameraImage);
-        //std::cout << "make front" << std::endl;
-        break;
-    }
-    case DOWNCAM: {
-        ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
-        makeQImage(newImg->img, downCameraImage);
-        //std::cout << "make down" << std::endl;
-        break;
-    }
-    case FPGA: {
-        // Update Depth and Yaw readings
-        FPGAData* newData = dynamic_cast<FPGAData*>(states[2]->getState("raw"));
-        int power = newData->getPower();
-        int depth = newData->getDepth();
-        int yaw = newData->getYaw();
-
-        if (power) {
-            powerStatus->setText("Power: On");
-        } else {
-            powerStatus->setText("Power: Off");
+        case FRONTCAM: {
+            ImgData* newImg = dynamic_cast<CameraState*>(states[0])->getState("raw");
+            makeQImage(newImg->img, frontCameraImage);
+            logger->trace("Updating front cam image");
+            break;
         }
-        std::string temp = "Depth: " + std::to_string(depth);
-        depthReading->setText(temp.c_str());
-        temp = "Yaw: " + std::to_string(yaw);
-        yawReading->setText(temp.c_str());
-        break;
+        case DOWNCAM: {
+            ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
+            makeQImage(newImg->img, downCameraImage);
+            //std::cout << "make down" << std::endl;
+            break;
+        }
+        case FPGA: {
+            // Update Depth and Yaw readings
+            FPGAData* newData = dynamic_cast<FPGAData*>(states[2]->getState("raw"));
+            int power = newData->getPower();
+            int depth = newData->getDepth();
+            int yaw = newData->getYaw();
+
+            if (power) {
+                powerStatus->setText("Power: On");
+            } else {
+                powerStatus->setText("Power: Off");
+            }
+            std::string temp = "Depth: " + std::to_string(depth);
+            depthReading->setText(temp.c_str());
+            temp = "Yaw: " + std::to_string(yaw);
+            yawReading->setText(temp.c_str());
+            break;
+        }
     }
-    }
-    repaint();
+    QWidget::update();
+    QCoreApplication::processEvents();
 }
 
 void ShowCaseView::initializeShowCaseView() {

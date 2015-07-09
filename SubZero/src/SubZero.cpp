@@ -38,12 +38,5 @@ void SubZero::init() {
 }
 
 void SubZero::run() {
-    while(controller->isRunning()) {
-        for (auto& model : models) {
-            model->dataTransfer();
-            //ctr++;
-        }
-        QCoreApplication::processEvents();
-    }
-    view->close();
+
 }

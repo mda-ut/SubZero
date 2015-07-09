@@ -164,6 +164,5 @@ void Menu::makeGuiView()
     SubZero* guiSub = subFactory.makeSubZero(GUI, settings);
     guiSub->init();
     this->close();
-    guiSub->run();
-    delete guiSub;
+
 }

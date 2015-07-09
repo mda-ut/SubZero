@@ -35,8 +35,10 @@ void CameraInterface::poll() {
         readSuccess = camStream.read(raw);
     }
     if (readSuccess) {
-        Data* decoded = decode(raw);
-        storeToBuffer(decoded);
+        logger->trace("Read successful");
+        ImgData* decoded = decode(raw);
+        std::vector<ImgData*> data_vec(1, decoded);
+        dynamic_cast<CameraState*>(state)->setState(data_vec);
     } else {
         logger->error("Camera stream failed to read image");
     }
@@ -76,7 +78,7 @@ int CameraInterface::getPosition() {
  */
 
 
-CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position) : HwInterface(bufferSize, pollFrequency) {
+CameraInterface::CameraInterface(State* state, int bufferSize, int pollFrequency, int position) : HwInterface(state, bufferSize, pollFrequency) {
     this->position = position;
 }
 

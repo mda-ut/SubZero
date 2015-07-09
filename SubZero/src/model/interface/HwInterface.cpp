@@ -95,8 +95,8 @@ HwInterface::HwInterface() {
 
 }
 
-HwInterface::HwInterface(int bufferSize, int pollFrequency) {
-
+HwInterface::HwInterface(State* state, int bufferSize, int pollFrequency) {
+    this->state = state;
     this->bufferSize = bufferSize;
     this->pollFrequency = pollFrequency;
 }

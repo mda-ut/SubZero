@@ -28,10 +28,13 @@ void FPGAInterface::poll() {
     int yaw = get_yaw();
     mutex.unlock();
 
-    Data* new_data = new FPGAData("raw", power, yaw, depth);
-    storeToBuffer(new_data);
+    FPGAData* new_data = new FPGAData("raw", power, yaw, depth);
+    //fix this later
+    std::vector<FPGAData*> data_vec(1, new_data);
+    dynamic_cast<FPGAState*>(state)->setState(data_vec);
 }
 
+//this function is unused
 FPGAData* FPGAInterface::decode(std::string* data) {
 
     std::istringstream iss(*data);
@@ -109,9 +112,8 @@ void FPGAInterface::send(std::string* data) {
  */
 
 
-FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency, Properties* settings) {
-    this->bufferSize = bufferSize;
-    this->pollFrequency = pollFrequency;
+FPGAInterface::FPGAInterface(State* state, int bufferSize, int pollFrequency, Properties* settings)
+    : HwInterface(state, bufferSize, pollFrequency){
     this->settings = settings;
 }
 

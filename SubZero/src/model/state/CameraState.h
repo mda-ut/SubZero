@@ -42,7 +42,7 @@ public:
      * @param i = how many frames ago was the image stored (zero indexed; newest frame = 0)
      * @return returns the pointer to the deep copied image data
      */
-    ImgData* getState (std::string id, int i);
+    virtual ImgData* getState (std::string id, int i);
 
     /**
      * Returns a deep copy of the latest image specified with the _ID_
@@ -50,7 +50,7 @@ public:
      * @param ID = id of the image that is needed
      * @return returns the pointer to a deep copied image data
      */
-    ImgData* getState (std::string id);
+    virtual ImgData* getState (std::string id);
 
     /**
      * Sets the state

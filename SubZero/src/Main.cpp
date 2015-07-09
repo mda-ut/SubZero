@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
     Logger logger("Main");
-    Logger::initialize(Logger::Level::INFO,true, true, logTimer);
+    Logger::initialize(Logger::Level::TRACE,true, true, logTimer);
     logger.trace("Logger initialized.");
     PropertyReader* propReader;
     Properties* settings;

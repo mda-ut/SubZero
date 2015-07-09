@@ -6,6 +6,7 @@
  */
 
 #include "FPGAState.h"
+#include <QMutexLocker>
 
 FPGAState::FPGAState(int stateID) : State(stateID) {
 
@@ -29,11 +30,7 @@ FPGAData* FPGAState::getState(std::string id) {
 }
 
 FPGAData* FPGAState::getState(std::string id, int i) {
-    if (inUse) {
-        logger->info("State '" + id + "' is in use and cannot be read");
-        return 0;
-    }
-    inUse = true;
+    QMutexLocker locker(&mutex);
 
     if (i >= (int)stateData.size() || i < 0) {
         logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
@@ -43,13 +40,10 @@ FPGAData* FPGAState::getState(std::string id, int i) {
     std::list<std::vector<FPGAData*> >::reverse_iterator it = stateData.rbegin();
     std::advance(it, i);		//advance the list to the ith position
 
-
-    unsigned int n = 0;
-    for (n = 0; n < it->size(); n++) {
-        FPGAData* data = it->at(n);
+    //for each fpga pointer within the i'th vector
+    for (auto& data : *it) {
         if (data->getID().compare(id) == 0) {
-            FPGAData *t = new FPGAData(*data);
-            inUse = false;
+            FPGAData *t = new FPGAData(*data); //shallow copy or deep copy...
             return t;
         }
     }
@@ -59,28 +53,25 @@ FPGAData* FPGAState::getState(std::string id, int i) {
 }
 
 int FPGAState::setState(std::vector<FPGAData*> d){
-    if (inUse) {
-        logger->info("State is in use and cannot be set");
-        return 1;
-    }
-    inUse = true;
+    QMutexLocker locker(&mutex);
 
     if ((int)this->stateData.size() > this->maxLength){
         std::vector<FPGAData*> temp = this->stateData.front();
-        for (unsigned int i= 0; i < temp.size(); i++){
-            delete temp[i];
+        for (auto& data : temp){
+            delete data;
         }
         this->stateData.pop_front();
     }
     this->stateData.push_back(d);
-    inUse = false;
+    locker.unlock();
+    notifyViewers();
     return 0;
 }
 
 FPGAData* FPGAState::getRaw() {
-    return this->getState("RAW");
+    return this->getState("raw");
 }
 
 FPGAData* FPGAState::getRaw(int i) {
-    return this->getState("RAW", i);
+    return this->getState("raw", i);
 }

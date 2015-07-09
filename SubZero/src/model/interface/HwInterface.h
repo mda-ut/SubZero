@@ -13,6 +13,7 @@
 #include <thread>
 #include <iostream>
 #include "Logger.h"
+#include "State.h"
 
 enum Attributes {
     POWER,
@@ -76,8 +77,9 @@ protected:
      */
     int pollFrequency;
 
-    bool executing;
+    State* state;
 
+    bool executing;
 
     std::vector<std::thread> readThreads; // needs c++11
 
@@ -206,7 +208,7 @@ public:
      * @param	pollFrequency	number of polls per second
      */
     HwInterface();
-    HwInterface(int bufferSize, int pollFrequency);
+    HwInterface(State* state, int bufferSize, int pollFrequency);
 
     virtual void init() = 0;
 
