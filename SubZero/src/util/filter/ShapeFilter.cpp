@@ -32,6 +32,8 @@ int ShapeFilter::filter(Data *data){
    //beging filtering process
     if (shape == 1){    //rectangle
         return this->findRect((imgData->getImg()));   //lazy to copy+paste everything
+    }else if (shape == 2){  //circle
+        return this->findCirc(imgData->getImg());
     }
     //ending filtering process
 
