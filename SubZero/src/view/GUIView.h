@@ -1,0 +1,74 @@
+#ifndef GUIVIEW_H
+#define GUIVIEW_H
+
+#include <QWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QRect>
+#include <QImage>
+#include <QPainter>
+#include <QPaintEvent>
+#include <cv.h>
+#include <highgui.h>
+#include <vector>
+
+#include "Logger.h"
+#include "Controller.h"
+
+class GUIView : public View {
+public:
+    GUIView();
+    GUIView(Controller* controller);
+    ~GUIView();
+
+    virtual void update(int id);
+    virtual void initialize();
+
+protected:
+    void paintEvent(QPaintEvent* event);
+    void keyPressEvent(QKeyEvent* event);
+
+private:
+    Logger* logger = new Logger("GUIView");
+
+    Controller* controller;
+
+    QRect frontCameraRect;
+    QRect downCameraRect;
+    QImage frontCameraImage;
+    QImage downCameraImage;
+
+    QLabel* powerStatus;
+    QPushButton *powerButton;
+    QPushButton *motorButton;
+
+    QLabel* movement;
+    QPushButton *leftButton;
+    QPushButton *rightButton;
+
+    QPushButton *forwardButton;
+    QPushButton *backwardButton;
+    QPushButton *sinkButton;
+    QPushButton *riseButton;
+    QPushButton *stopButton;
+
+    QLabel* specialActions;
+    QPushButton *surfaceButton;
+    QPushButton *gateButton;
+    QPushButton *pathButton;
+
+    QLabel* systemActions;
+    QPushButton *menuButton;
+    QPushButton *exitButton;
+
+    QLabel* depthReading;
+    QLabel* yawReading;
+
+    QLabel* targetDepthLabel;
+    QLabel* targetYawLabel;
+
+    void makeQImage(cv::Mat imgData, QImage& imgHolder);
+};
+
+#endif // GUIVIEW_H

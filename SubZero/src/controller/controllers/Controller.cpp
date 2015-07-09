@@ -7,6 +7,7 @@
 
 #include "Controller.h"
 #include "ControllerThread.h"
+#include "GUIView.h"
 #include <iostream>
 
 bool Controller::running = false;
@@ -24,6 +25,7 @@ Controller::Controller(std::vector<Model*> models, View* view){
 }
 
 void Controller::initialize(void) {
+    logger->info("Initializing Controller");
     cT = new ControllerThread(taskList, &mutex);
     cT->moveToThread(&queueThread);
     connect(this, &Controller::beginCT, cT, &ControllerThread::executeTasks);
@@ -51,8 +53,18 @@ bool Controller::isRunning() {
     return running;
 }
 
+void Controller::setStage(Stage *stage) {
+    this->stage = stage;
+}
+
 void Controller::finished(const QString &s){
     std::cout << "Bye Bye Beautiful!!" << std::endl;
+}
+
+void Controller::switchToGUIView() {
+    //TODO: Delete this somehow and create a new Controller for the GUI View
+    stage->setViewContent(new GUIView(this));
+    running = false;
 }
 static bool powerStatus = false;
 void Controller::handlePowerButtonToggled() {

@@ -9,7 +9,10 @@
 
 //#include <QAction> // for actions later on (systemActions)
 
-
+/**
+ * @deprecated
+ * @brief The ShowCaseView class
+ */
 class ShowCaseView : public View
 {
 public:
@@ -54,6 +57,9 @@ protected:
 
 private:
     Logger* logger = new Logger("ShowCaseView");
+
+    QImage frontCameraImage;
+    QImage downCameraImage;
 
     virtual void initializeShowCaseView();
 

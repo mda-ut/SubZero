@@ -1,62 +1,50 @@
-#include "ShowCaseView.h"
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QImage>
-#include <QBrush>
-#include <QLinearGradient>
-#include <QSignalMapper>
+#include "GUIView.h"
 
-ShowCaseView::ShowCaseView():View() {
-    initializeShowCaseView();
+GUIView::GUIView() {
+
 }
 
-ShowCaseView::ShowCaseView(std::vector<State *> states_) : View(states_) {
-    initializeShowCaseView();
-    setFocusPolicy(Qt::ClickFocus);
+GUIView::GUIView(Controller* controller) : View() {
+    this->controller = controller;
 }
 
-ShowCaseView::~ShowCaseView() {
-    delete logger;
-}
-
-void ShowCaseView::update(int ID) {
+void GUIView::update(int id) {
     // Update Cameras
-    switch (ID) {
-    case FRONTCAM: {
-        ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
-//        makeQImage(newImg->img, frontCameraImage);
-        //std::cout << "make front" << std::endl;
-        break;
-    }
-    case DOWNCAM: {
-        ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
-//        makeQImage(newImg->img, downCameraImage);
-        //std::cout << "make down" << std::endl;
-        break;
-    }
-    case FPGA: {
-        // Update Depth and Yaw readings
-        FPGAData* newData = dynamic_cast<FPGAData*>(states[2]->getState("raw"));
-        int power = newData->getPower();
-        int depth = newData->getDepth();
-        int yaw = newData->getYaw();
-
-        if (power) {
-            powerStatus->setText("Power: On");
-        } else {
-            powerStatus->setText("Power: Off");
+    switch (id) {
+        case FRONTCAM: {
+            ImgData* newImg = dynamic_cast<ImgData*>(states[0]->getState("raw"));
+            makeQImage(newImg->img, frontCameraImage);
+            //std::cout << "make front" << std::endl;
+            break;
         }
-        std::string temp = "Depth: " + std::to_string(depth);
-        depthReading->setText(temp.c_str());
-        temp = "Yaw: " + std::to_string(yaw);
-        yawReading->setText(temp.c_str());
-        break;
+        case DOWNCAM: {
+            ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
+            makeQImage(newImg->img, downCameraImage);
+            //std::cout << "make down" << std::endl;
+            break;
+        }
+        case FPGA: {
+            // Update Depth and Yaw readings
+            FPGAData* newData = dynamic_cast<FPGAData*>(states[2]->getState("raw"));
+            int power = newData->getPower();
+            int depth = newData->getDepth();
+            int yaw = newData->getYaw();
+
+            if (power) {
+                powerStatus->setText("Power: On");
+            } else {
+                powerStatus->setText("Power: Off");
+            }
+            std::string temp = "Depth: " + std::to_string(depth);
+            depthReading->setText(temp.c_str());
+            temp = "Yaw: " + std::to_string(yaw);
+            yawReading->setText(temp.c_str());
+            break;
+        }
     }
-    }
-    repaint();
 }
 
-void ShowCaseView::initializeShowCaseView() {
+void GUIView::initialize() {
     frontCameraImage = QImage(":/img/MDA.jpg");
 
     //Creating an image that holds a gradient of blue
@@ -65,8 +53,8 @@ void ShowCaseView::initializeShowCaseView() {
     QImage sub(525,700,QImage::Format_RGB32);
 
     //Setup the painter to paint/draw on the image
-//    QPainter subImgPainter;
-//    subImgPainter.begin(&sub); //Paint on that image
+    QPainter subImgPainter;
+    subImgPainter.begin(&sub); //Paint on that image
 
     //Create the gradient
     QLinearGradient blueGradient(0,0,800,600);
@@ -79,13 +67,12 @@ void ShowCaseView::initializeShowCaseView() {
     QBrush blueGradientBrush(blueGradient);
 
     //Use the brush
-//    subImgPainter.fillRect(sub.rect(), blueGradientBrush);
-//    subImgPainter.end();
+    subImgPainter.fillRect(sub.rect(), blueGradientBrush);
+    subImgPainter.end();
 
     downCameraImage = sub;
 
-
-    // Show Case View WIdget Initialization
+    // Show Case View Widget initialization
     powerStatus = new QLabel("Power: Off");
     powerButton = new QPushButton("Turn Power On/Off");
     powerButton->setCheckable(true);
@@ -117,9 +104,8 @@ void ShowCaseView::initializeShowCaseView() {
     targetYawLabel = new QLabel("Target:");
 
     // Show Case View layouts
-
     QVBoxLayout *verticalLayout = new QVBoxLayout();
-    QHBoxLayout *mainLayout = new QHBoxLayout();
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
     QGridLayout *readingsLayout = new QGridLayout();
 
     //Show Case view Widget Positioning
@@ -139,13 +125,13 @@ void ShowCaseView::initializeShowCaseView() {
     verticalLayout->addWidget(forwardButton);
     verticalLayout->addWidget(backwardButton);
     verticalLayout->addWidget(stopButton);
-    verticalLayout->addSpacing(10);//Spacing size of 20 pixels
+    verticalLayout->addSpacing(10); //Spacing size of 20 pixels
 
     verticalLayout->addWidget(specialActions);
     verticalLayout->addWidget(surfaceButton);
     verticalLayout->addWidget(gateButton);
     verticalLayout->addWidget(pathButton);
-    verticalLayout->addSpacing(10);//Spacing size of 20 pixels
+    verticalLayout->addSpacing(10); //Spacing size of 20 pixels
 
     verticalLayout->addWidget(systemActions);
     verticalLayout->addWidget(menuButton);
@@ -162,9 +148,24 @@ void ShowCaseView::initializeShowCaseView() {
     mainLayout->addSpacing(1050);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
+
+    // Setup connections
+    controller->initialize();
+//    connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
+//    connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
+//    connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
+//    connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
+//    connect(sinkButton, SIGNAL(clicked()), controller, SLOT(handleSinkButtonClick()));
+//    connect(riseButton, SIGNAL(clicked()), controller, SLOT(handleRiseButtonClick()));
+//    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
+//    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
+//    connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
+//    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
+//    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
+//    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
 }
 
-void ShowCaseView::keyPressEvent(QKeyEvent* event) {
+void GUIView::keyPressEvent(QKeyEvent* event) {
     switch(event->key()) {
     case Qt::Key_AsciiCircum:
         powerButton->click();
@@ -205,19 +206,24 @@ void ShowCaseView::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-void ShowCaseView::initialize_VC_Connection(Controller *controller) {
-
-    connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
-    connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
-    connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
-    connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
-    connect(sinkButton, SIGNAL(clicked()), controller, SLOT(handleSinkButtonClick()));
-    connect(riseButton, SIGNAL(clicked()), controller, SLOT(handleRiseButtonClick()));
-    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
-    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
-    connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
-    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
-    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
-    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
+void GUIView::makeQImage(cv::Mat imgData, QImage& imgHolder) {
+    imgHolder = QImage((uchar*)imgData.data, imgData.cols, imgData.rows, imgData.step, QImage::Format_RGB888);
 }
 
+void GUIView::paintEvent(QPaintEvent *event) {
+
+    QPainter painter;
+    painter.begin(this);
+    // Setup background
+    QBrush background(Qt::white);
+    painter.fillRect(event->rect(), background);
+
+    // Draw Camera Images
+    painter.drawImage(frontCameraRect, frontCameraImage, frontCameraRect);
+    painter.drawImage(downCameraRect, downCameraImage, downCameraRect);
+    painter.end();
+}
+
+GUIView::~GUIView() {
+    delete logger;
+}

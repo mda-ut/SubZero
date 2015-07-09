@@ -114,7 +114,10 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/test/util/data/ImgDataTEST.h \
            SubZero/test/util/filter/FilterManagerTEST.h \
            SubZero/test/util/filter/RGBFilterTEST.h \
-           SubZero/src/util/Properties.h
+           SubZero/src/util/Properties.h \
+    SubZero/src/view/Stage.h \
+    SubZero/src/view/MenuView.h \
+    SubZero/src/view/GUIView.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -174,4 +177,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/test/util/data/ImgDataTEST.cpp \
            SubZero/test/util/filter/FilterManagerTEST.cpp \
            SubZero/test/util/filter/RGBFilterTEST.cpp \
-           SubZero/src/util/Properties.cpp
+           SubZero/src/util/Properties.cpp \
+    SubZero/src/view/Stage.cpp \
+    SubZero/src/view/MenuView.cpp \
+    SubZero/src/view/GUIView.cpp

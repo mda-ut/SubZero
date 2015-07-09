@@ -7,10 +7,10 @@
 
 #include "util/Logger.h"
 #include <string>
-#include "view/Menu.h"
-#include "controller/controllers/Controller.h"
+#include "Stage.h"
+#include "MenuView.h"
+#include "GUIView.h"
 #include <QApplication>
-#include <iostream>
 #include "Properties.h"
 #include "PropertyReader.h"
 
@@ -31,7 +31,9 @@ int main(int argc, char** argv) {
     }
     settings = propReader->load();
     std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");
-    if (loggingLevel == "TRACE") {
+    if (loggingLevel == "OFF") {
+        Logger::setLoggingLevel(Logger::Level::OFF);
+    } else if (loggingLevel == "TRACE") {
         Logger::setLoggingLevel(Logger::Level::TRACE);
     } else if (loggingLevel == "INFO") {
         Logger::setLoggingLevel(Logger::Level::INFO);
@@ -43,45 +45,31 @@ int main(int argc, char** argv) {
         Logger::setLoggingLevel(Logger::Level::ERROR);
     }
 
-    Menu* newMenu = new Menu(settings);
-    newMenu->show();
-    /*
-        VideoTesting vt(0);
-        vt.run();
-//    newMenu.paintEvent();
-//    VideoTesting vt("videofile");
-//    vt.run();
-//    CollectionTEST::runDataAndFilterManagerCollection();
-//    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
+    std::string mode = settings->getProperty("MODE");
 
-//    StateTester::run();
-//    FPGAInterface newInterface(20, 1);
-//    Logger::close();
-//    delete logTimer;
-/*
-    CameraInterface newCam(20, 25, FRONT);
-    CameraInterface downCam(20, 25, DOWN);
-    newCam.init();
-    downCam.init();
-    while(1) {
-        ImgData* newCamData = dynamic_cast<ImgData*>(newCam.getDataFromBuffer());
-        ImgData* downCamData = dynamic_cast<ImgData*>(downCam.getDataFromBuffer());
-
-        if(newCamData!=0 && downCamData !=0) {
-            ImgData camDataCopy(*newCamData);
-            ImgData downDataCopy(*downCamData);
-
-            //Logger::trace("showing image " + camDataCopy.getID());
-            camDataCopy.showImg("current");
-            downDataCopy.showImg("down");
-        }
+    if (mode == "MENU") {
+        Stage* mainStage = new Stage();
+        // Temporary declaration to test
+        Controller* controller = new Controller();
+        controller->setStage(mainStage);
+        mainStage->initialize();
+        mainStage->setViewContent(new MenuView(controller));
+        mainStage->show();
+    } else if (mode == "GUI") {
+        Stage* mainStage = new Stage();
+        // Temporary declaration to test
+        Controller* controller = new Controller();
+        controller->setStage(mainStage);
+        mainStage->initialize();
+        mainStage->setViewContent(new GUIView(controller));
+        mainStage->show();
+    } else if (mode == "SIMULATOR") {
+        //TODO: Make Simulator View
+    } else if (mode == "AUTONOMOUS") {
+        //TODO: Make autonomous run without any GUI
+        return 0;
     }
-*/
-    /*
-    int error = app.exec();
-    //delete settings;
-    return error;
-    */
+
     return app.exec();
 }
 

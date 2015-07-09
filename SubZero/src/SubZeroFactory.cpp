@@ -47,7 +47,7 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
         states.push_back(new CameraState(FRONTCAM));
 //        states.push_back(new CameraState(DOWNCAM));
 //        states.push_back(new FPGAState(FPGA));
-        view = new ShowCaseView(states);
+//        view = new ShowCaseView(states);
 
         for (auto& state : states) {
             state->addViewer(view);

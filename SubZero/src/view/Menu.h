@@ -12,7 +12,10 @@
 #include "Properties.h"
 
 
-
+/**
+ * @deprecated
+ * @brief The Menu class
+ */
 class Menu : public QWidget
 {
     Q_OBJECT

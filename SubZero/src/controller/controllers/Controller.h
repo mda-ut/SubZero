@@ -14,6 +14,7 @@
 #include "Task.h"
 #include "Model.h"
 #include "View.h"
+#include "Stage.h"
 #include "ControllerThread.h"
 #include "Logger.h"
 #include "TaskFactory.h"
@@ -66,6 +67,8 @@ class Controller : public QObject {
          * Returns controller's current running state;
          */
         static bool isRunning();
+
+        void setStage(Stage* stage);
 		
 	public slots:
 		/**
@@ -74,47 +77,52 @@ class Controller : public QObject {
         void finished(const QString &s);
 
         /**
-         * Handles the button click for toggling power
+         * @brief switchToGUIView
+         */
+        void switchToGUIView(void);
+
+        /**
+         * @brief Handles the button click for toggling power
          */
         void handlePowerButtonToggled(void);
 
         /**
-         * Handles the button click for startup sequence
+         * @brief Handles the button click for startup sequence
          */
         void handleMotorButtonClick(void);
 
         /**
-         * Handles the button click for moving left
+         * @brief Handles the button click for moving left
          */
         void handleMoveLeftButtonClick(void);
 
         /**
-         * Handles the button click for moving right
+         * @brief Handles the button click for moving right
          */
         void handleMoveRightButtonClick(void);
 
         /**
-         * Handles the button click for moving forward
+         * @brief Handles the button click for moving forward
          */
         void handleMoveForwardButtonClick(void);
 
         /**
-         * Handles the button click for moving backward
+         * @brief Handles the button click for moving backward
          */
         void handleMoveBackwardButtonClick(void);
 
         /**
-         * Handles the button click for stopping the sub
+         * @brief Handles the button click for stopping the sub
          */
         void handleStopButtonClick();
 
         /**
-         * Handles the button click for sinking
+         * @brief Handles the button click for sinking
          */
         void handleSinkButtonClick(void);
 
         /**
-         * Handles the button click for rising
+         * @brief Handles the button click for rising
          */
         void handleRiseButtonClick(void);
 
@@ -133,7 +141,7 @@ class Controller : public QObject {
         //void displayTaskList(void);
 
 
-signals:
+    signals:
 		/**
 		 * Tells the ControllerThread to begin 
 		 */
@@ -142,6 +150,7 @@ signals:
 	private:
         Logger* logger = new Logger("Controller");
 
+        Stage* stage;
         ControllerThread *cT;
 
 		/**

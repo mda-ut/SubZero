@@ -33,8 +33,8 @@ void SubZero::init() {
     models[0]->initialize();
 //    models[1]->initialize();
     controller->initialize();
-    view->initialize_VC_Connection(controller);//Connect the controller to the view
-    view->show();
+//    view->initialize_VC_Connection(controller);//Connect the controller to the view
+//    view->show();
 }
 
 void SubZero::run() {
