@@ -17,6 +17,7 @@ public:
      * Post processing filter to filter for shapes
      * @param shape = id of the shape you want to filter
      *              1 = rectangle
+     *              2 = circle
      * @param amount = number of shapes to look for (1-N)
      */
     ShapeFilter(int shape, int amount);
@@ -43,11 +44,21 @@ public:
 
     bool findRect(cv::Mat img);
     bool findCirc(cv::Mat img);
+
     /**
      * Returns the center of the biggest mass
-     * Refractor elsewhere later
+     * Although it returns a vector, there will only be one elemnt in it
+     * This is to simplify null checking
+     * @return a vector of one Point2f; the center of the biggest mass
      */
-    std::vector<cv::Point2f> findMassCenter(cv::Mat img);
+    static std::vector<cv::Point2f> findMassCenter(cv::Mat img);
+    /**
+     * Returns the center of the biggest mass
+     * Although it returns a vector, there will only be one elemnt in it
+     * This is to simplify null checking
+     * @return a vector of one Point2f; the center of the biggest mass
+     */
+    static std::vector<cv::Point2f> findMassCenter(Data* data);
 
     /**
      * Gets a vector of centers
