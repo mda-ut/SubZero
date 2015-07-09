@@ -52,17 +52,15 @@ int main(int argc, char** argv) {
         // Temporary declaration to test
         Controller* controller = new Controller();
         controller->setStage(mainStage);
-        mainStage->initialize();
         mainStage->setViewContent(new MenuView(controller));
-        mainStage->show();
+        mainStage->initialize();
     } else if (mode == "GUI") {
         Stage* mainStage = new Stage();
         // Temporary declaration to test
         Controller* controller = new Controller();
         controller->setStage(mainStage);
-        mainStage->initialize();
         mainStage->setViewContent(new GUIView(controller));
-        mainStage->show();
+        mainStage->initialize();
     } else if (mode == "SIMULATOR") {
         //TODO: Make Simulator View
     } else if (mode == "AUTONOMOUS") {

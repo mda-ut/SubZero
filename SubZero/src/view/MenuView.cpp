@@ -111,6 +111,14 @@ void MenuView::initialize() {
     connect(guiButton, SIGNAL(clicked()), controller, SLOT(switchToGUIView()));
 }
 
+QSize MenuView::sizeHint() const {
+    return QSize(800,600);
+}
+
+QSize MenuView::minimumSizeHint() const {
+    return QSize(800,600);
+}
+
 void MenuView::paintEvent(QPaintEvent *event) {
 
     QImage background(":/img/MDA.jpg");

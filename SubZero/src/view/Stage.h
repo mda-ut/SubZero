@@ -2,6 +2,8 @@
 #define STAGE_H
 
 #include <QWidget>
+#include <QSize>
+#include <QBoxLayout>
 #include "Logger.h"
 #include "View.h"
 
@@ -13,6 +15,7 @@ private:
     Logger* logger = new Logger("Stage");
 
     View* currentView;
+    QBoxLayout* stageLayout;
 
 public:
     explicit Stage(QWidget *parent = 0);
@@ -28,6 +31,9 @@ public:
      * @param view the new View to display on the Stage
      */
     void setViewContent(View* view);
+
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
 
 signals:
 

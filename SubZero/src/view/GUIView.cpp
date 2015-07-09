@@ -45,6 +45,12 @@ void GUIView::update(int id) {
 }
 
 void GUIView::initialize() {
+    setFixedSize(1250, 700);
+    setWindowTitle("GUIView");
+
+    frontCameraRect.setRect(0,0,525,700);
+    downCameraRect.setRect(525,0,525,700);
+
     frontCameraImage = QImage(":/img/MDA.jpg");
 
     //Creating an image that holds a gradient of blue
@@ -162,7 +168,15 @@ void GUIView::initialize() {
 //    connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
 //    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
 //    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
-//    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
+    //    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
+}
+
+QSize GUIView::sizeHint() const {
+    return QSize(1250,700);
+}
+
+QSize GUIView::minimumSizeHint() const {
+    return QSize(1250,700);
 }
 
 void GUIView::keyPressEvent(QKeyEvent* event) {

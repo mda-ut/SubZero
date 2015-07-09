@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QPaintEvent>
+#include <QSize>
 #include <cv.h>
 #include <highgui.h>
 
@@ -21,6 +22,9 @@ public:
 
     virtual void update(int id);
     virtual void initialize();
+    virtual QSize sizeHint() const;
+    virtual QSize minimumSizeHint() const;
+
 
 protected:
     void paintEvent(QPaintEvent* event);
