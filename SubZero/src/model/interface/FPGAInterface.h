@@ -13,9 +13,6 @@
 #include <string>
 #include <QMutex>
 #include "HwInterface.h"
-#include "FPGAState.h"
-#include "State.h"
-#include "Data.h"
 #include "FPGAData.h"
 #include "Properties.h"
 
@@ -56,14 +53,8 @@ private:
     /**
      * Poll raw data from FPGA.
      */
-    virtual void poll();
+    virtual FPGAData* poll();
 
-    /**
-     * Decode the data.
-     * @param	data	data to be decoded
-     * @return	decoded data in a FPGAData format
-     */
-    virtual FPGAData* decode(std::string* data);
 
 public:
 
@@ -81,11 +72,6 @@ public:
      */
     void set(Attributes attr, int value);
 
-    /**
-     * Send the data.
-     * @param	data	data to be sent
-     */
-    virtual void send(std::string* data);
 
     /* ==========================================================================
      * 							CONSTRUCTOR AND DESTRUCTOR
@@ -94,10 +80,8 @@ public:
 
     /**
      * Constructor for FPGA Interface
-     * @param	bufferSize	buffer size for the interface
-     * @param	pollFrequency	frequency of polling (polls per second)
      */
-    FPGAInterface(State* state, int bufferSize, int pollFrequency, Properties* settings);
+    FPGAInterface(Properties* settings);
 
     virtual void init();
 

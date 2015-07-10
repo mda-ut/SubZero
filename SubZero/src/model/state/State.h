@@ -2,12 +2,11 @@
 #define STATE_H_
 #include "Data.h"
 #include <string>
-#include <list>
-#include <set>
 #include <QMutex>
 #include <QMutexLocker>
 
 #include "Logger.h"
+#include <set>
 
 class View;
 
@@ -26,13 +25,10 @@ protected:
     //boolean to signal if a new frame has started
     bool frameStarted;
 
-    //boolean to signal if the state is currently in use
-    bool inUse;
-
     //the length of the linked list
     //The amount of frames that the state will hold
     //ZERO INDEXED
-    int maxLength;
+    uint64_t bufferSize;
 
     int stateID;
     std::set<View*> viewers;
@@ -49,23 +45,20 @@ protected:
      * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
      * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
      */
-    virtual Data* getRaw(int i) = 0;
+    virtual Data* getRaw(uint64_t i) = 0;
 
 public:
 
-    State(int stateID);	//constructor
     /**
-     * Construct a state with a limit of frames _framesStored_ (Zero indexed)
-     * ie, frameStored = 10, this State will store 11 frames
+     * Construct a state with a limit of frames _bufferSize_ (Zero indexed)
      */
-    State(int stateID, int framesStored);
+    State(int stateID, uint64_t bufferSize);
 
     virtual ~State();	//deconstructor
 
+    void init();
     void addViewer(View* view);
     void notifyViewers();
-
-    void init();
 
     /**
      * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
@@ -73,7 +66,7 @@ public:
      * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
      * @return returns the pointer to a deep copied State
      */
-    virtual Data* getState (std::string ID, int i) = 0;
+    virtual Data* getState (std::string ID, uint64_t i) = 0;
 
     /**
      * Returns a deep copy of the latest State specified with the _ID_

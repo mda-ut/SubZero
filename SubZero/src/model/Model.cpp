@@ -6,6 +6,7 @@
  */
 
 #include "Model.h"
+#include "Timer.h"
 
 
 /* ========================================================================== *
@@ -23,8 +24,25 @@ void Model::storeToFMList(FilterManager* newFM) {
     logger->info("Filter Manager " + newFM->getFMID() + " added");
 }
 
-void Model::notifyObserver() {
-    state->notifyViewers();
+void Model::in() {
+    Timer timer;
+    timer.start();
+    double pollPeriod = 1 / pollFrequency;
+    while(executing) {
+        while (timer.getTimeElapsed() < pollPeriod); //do nothing, should we put this thread to sleep?
+        timer.start(); //restart timer
+        dataTransfer();
+    }
+}
+
+void Model::dataTransfer() {
+    Data* new_data = interface->poll();
+    std::vector<Data*> new_dataSet = constructDataSet(new_data);
+    if (!new_dataSet.empty()) {
+        storeToState(new_dataSet);
+    } else {
+        logger->info("Failed to transfer data");
+    }
 }
 
 
@@ -32,9 +50,10 @@ void Model::notifyObserver() {
                 public functions
  * ========================================================================== */
 
-Model::Model(State* inputState, HwInterface* inputHwInterface) {
+Model::Model(State* inputState, HwInterface* inputHwInterface, int frequency) {
     state = inputState;
     interface = inputHwInterface;
+    pollFrequency = frequency;
 }
 
 Model::~Model() {
@@ -49,6 +68,9 @@ Model::~Model() {
 
 void Model::initialize() {
     interface->init();
+    executing = true;
+    readThreads.push_back(std::thread(&Model::in, this));
+    logger->info("Thread started");
 }
 
 State *Model::getState() {

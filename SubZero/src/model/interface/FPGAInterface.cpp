@@ -6,9 +6,7 @@
  */
 
 #include "FPGAInterface.h"
-#include <sstream>
 #include <string>
-#include <iterator>
 #include "scripts.h"
 
 
@@ -20,7 +18,7 @@
  * using the functions below.
  */
 
-void FPGAInterface::poll() {
+FPGAData* FPGAInterface::poll() {
     mutex.lock();
     //TODO Add error checking on values from FPGA
     int power = get_power();
@@ -28,35 +26,7 @@ void FPGAInterface::poll() {
     int yaw = get_yaw();
     mutex.unlock();
 
-    FPGAData* new_data = new FPGAData("raw", power, yaw, depth);
-    //fix this later
-    std::vector<FPGAData*> data_vec(1, new_data);
-    dynamic_cast<FPGAState*>(state)->setState(data_vec);
-}
-
-//this function is unused
-FPGAData* FPGAInterface::decode(std::string* data) {
-
-    std::istringstream iss(*data);
-    std::istream_iterator<std::string> begin(iss), end;
-    std::vector<std::string> attributes(begin, end);
-
-    std::string::size_type size;
-
-    // Right now we only have three attributes from FPGA
-    // depth = attributes[0]
-    // speed = attributes[1]
-    // heading = attributes[2]
-    // is it possible to not hardcode this?
-    int depth = std::stod (attributes[0], &size);
-    int speed = std::stod (attributes[1], &size);
-    int heading = std::stod (attributes[2], &size);
-    // Note: for stod (string to int conversion)
-    //       need to compile with -std=c++11
-
-    FPGAData* decoded = new FPGAData("raw", depth, speed, heading);
-
-    return decoded;
+    return new FPGAData("raw", power, yaw, depth);
 }
 
 
@@ -97,13 +67,6 @@ void FPGAInterface::set(Attributes attr, int value) {
         break;
     }
     mutex.unlock();
-
-
-}
-
-// for method 2: using libusb
-void FPGAInterface::send(std::string* data) {
-
 }
 
 /* ==========================================================================
@@ -112,8 +75,7 @@ void FPGAInterface::send(std::string* data) {
  */
 
 
-FPGAInterface::FPGAInterface(State* state, int bufferSize, int pollFrequency, Properties* settings)
-    : HwInterface(state, bufferSize, pollFrequency){
+FPGAInterface::FPGAInterface(Properties* settings) {
     this->settings = settings;
 }
 
@@ -121,7 +83,6 @@ void FPGAInterface::init() {
     logger->info("Initializing FPGA connection");
     init_fpga();
     set_verbose(0);
-    executing = true;
 
     double P, I, D, Alpha;
     P = std::stod(settings->getProperty("DEPTH_P"));
@@ -148,20 +109,10 @@ void FPGAInterface::init() {
     Alpha = std::stod(settings->getProperty("YAW_ALPHA"));
     set_pid_yaw(P, I, D, Alpha);
 
-    // thread for reading and polling FPGA input
-    // main thread will listen for commands to be sent to FPGA
-    logger->info("Started a new thread to read and poll FPGA input");
-    readThreads.push_back(std::thread(&FPGAInterface::in, this));
 }
 
 FPGAInterface::~FPGAInterface() {
-    // join readThread with main
-    executing = false;
-    for(auto& t: readThreads) {
-        t.join();
-    }
     logger->info("Safely closing FPGA connection");
     exit_safe();
-
     delete logger;
 }

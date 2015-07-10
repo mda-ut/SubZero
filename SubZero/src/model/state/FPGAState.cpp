@@ -8,10 +8,8 @@
 #include "FPGAState.h"
 #include <QMutexLocker>
 
-FPGAState::FPGAState(int stateID) : State(stateID) {
 
-}
-FPGAState::FPGAState(int stateID, int framesStored) : State(stateID, framesStored) {
+FPGAState::FPGAState(int stateID, uint64_t bufferSize) : State(stateID, bufferSize) {
 
 }
 
@@ -21,7 +19,6 @@ FPGAState::~FPGAState() {
             delete data;
         }
     }
-
     delete logger;
 }
 
@@ -29,10 +26,10 @@ FPGAData* FPGAState::getState(std::string id) {
     return getState(id, 0);
 }
 
-FPGAData* FPGAState::getState(std::string id, int i) {
+FPGAData* FPGAState::getState(std::string id, uint64_t i) {
     QMutexLocker locker(&mutex);
 
-    if (i >= (int)stateData.size() || i < 0) {
+    if (i >= stateData.size() || i < 0) {
         logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
         return 0;
     }
@@ -43,7 +40,7 @@ FPGAData* FPGAState::getState(std::string id, int i) {
     //for each fpga pointer within the i'th vector
     for (auto& data : *it) {
         if (data->getID().compare(id) == 0) {
-            FPGAData *t = new FPGAData(*data); //shallow copy or deep copy...
+            FPGAData *t = data; //shallow copy or deep copy... currently just shallow
             return t;
         }
     }
@@ -55,7 +52,7 @@ FPGAData* FPGAState::getState(std::string id, int i) {
 int FPGAState::setState(std::vector<FPGAData*> d){
     QMutexLocker locker(&mutex);
 
-    if ((int)this->stateData.size() > this->maxLength){
+    if (this->stateData.size() > this->bufferSize){
         std::vector<FPGAData*> temp = this->stateData.front();
         for (auto& data : temp){
             delete data;
@@ -72,6 +69,6 @@ FPGAData* FPGAState::getRaw() {
     return this->getState("raw");
 }
 
-FPGAData* FPGAState::getRaw(int i) {
+FPGAData* FPGAState::getRaw(uint64_t i) {
     return this->getState("raw", i);
 }

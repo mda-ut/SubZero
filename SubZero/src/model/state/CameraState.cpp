@@ -10,11 +10,7 @@
 #include <iostream>
 #include <QMutexLocker>
 
-CameraState::CameraState(int stateID) : State(stateID) {
-
-}
-
-CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored) {
+CameraState::CameraState(int stateID, uint64_t bufferSize) : State(stateID, bufferSize) {
 
 }
 
@@ -31,10 +27,10 @@ ImgData* CameraState::getState(std::string id) {
     return getState(id, 0);
 }
 
-ImgData* CameraState::getState(std::string id, int i) {
+ImgData* CameraState::getState(std::string id, uint64_t i) {
     QMutexLocker locker(&mutex);
 
-    if (i >= (int)stateData.size() || i < 0) {
+    if (i >= stateData.size() || i < 0) {
         logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
         return 0;
     }
@@ -45,7 +41,6 @@ ImgData* CameraState::getState(std::string id, int i) {
     for (auto& data : *it) {
         if (data->getID().compare(id) == 0) {
             ImgData *t = data; //shallow copy quick fix
-            inUse = false;
             return t;
         }
     }
@@ -56,7 +51,7 @@ ImgData* CameraState::getState(std::string id, int i) {
 int CameraState::setState(std::vector<ImgData*> d) {
     QMutexLocker locker(&mutex);
     logger->trace("Setting new camera state date");
-    if ((int)this->stateData.size() > this->maxLength){
+    if (this->stateData.size() > this->bufferSize){
         std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
         for (auto& data : temp){
             delete data;
@@ -74,6 +69,6 @@ ImgData* CameraState::getRaw() {
     return this->getState("RAW");
 }
 
-ImgData* CameraState::getRaw(int i) {
+ImgData* CameraState::getRaw(uint64_t i) {
     return this->getState("RAW", i);
 }

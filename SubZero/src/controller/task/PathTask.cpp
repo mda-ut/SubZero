@@ -69,7 +69,7 @@ void PathTask::moveTo(cv::Point2f pos) {
 }
 
 void PathTask::execute() {
-    ImgData* data = dynamic_cast<ImgData*>(cameraModel->getState("raw"));
+    ImgData* data = dynamic_cast<ImgData*>(cameraModel->getStateData("raw"));
     HSVFilter hsvf(0, 155, 0, 255, 0, 255);
     LineFilter lf;
     ShapeFilter sf(1, 1);

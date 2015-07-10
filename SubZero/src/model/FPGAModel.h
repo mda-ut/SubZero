@@ -29,7 +29,7 @@ public:
      * @param	inputState		an observable pointer that is expected to be a FPGAState pointer
      * @param	inputInterface	a HwInterface pointer that is expected to be a FPGAInterface pointer
      */
-    FPGAModel(State* inputState, HwInterface* inputInterface);
+    FPGAModel(State* inputState, HwInterface* inputInterface, int frequency);
 
     virtual ~FPGAModel();
 
@@ -39,38 +39,25 @@ public:
      * This sends command to the FPGA to control the sub.
      * @param	cmd		string command sent by Controller
      */
-    void sendCommand(Attributes attr, int value);
-
-    /**
-     * This gets the newest Data* from the CameraInterface buffer.
-     * @return	pointer to the newest data
-     */
-    Data* getDataFromBuffer();
+    virtual void sendCommand(Attributes attr, int value);
 
     /**
      * This package all the filtered FPGA data of the same instance into a vector.
      * @return	vector of pointers to raw and filtered data
      */
-    std::vector<Data*> constructDataSet();
+    virtual std::vector<Data*> constructDataSet(Data* rawData);
 
     /**
      * This stores the vector of data pointer to FPGAState.
      * @param	dataSet	vector containing data pointers of raw and filtered FPGA data
      */
-    void storeToState(std::vector<Data*> dataSet);
+    virtual void storeToState(std::vector<Data*> dataSet);
 
     /**
      * Return the model's current state
      * @return
      */
-    Data* getState(std::string data_ID);
-
-
-    /**
-     * This automate the process of getting FPGA data from buffer, pack raw and filtered data together and store into state.
-     */
-    bool dataTransfer();
-
+    virtual Data* getStateData(std::string data_ID);
 };
 
 

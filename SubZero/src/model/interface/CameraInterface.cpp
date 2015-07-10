@@ -22,23 +22,19 @@
  * Poll raw data from the camera.
  * @return	data polled
  */
-
-
-
-void CameraInterface::poll() {
+ImgData* CameraInterface::poll() {
+    ImgData* new_data;
     cv::Mat raw;
     bool readSuccess = false;
     // New version of OpenCV
     if (!camStream.isOpened()) {
         logger->debug("Camera stream is not opened");
-    } else if (signal_quit == 0){
+    } else if (!signal_quit){
         readSuccess = camStream.read(raw);
     }
     if (readSuccess) {
         logger->trace("Read successful");
-        ImgData* decoded = decode(raw);
-        std::vector<ImgData*> data_vec(1, decoded);
-        dynamic_cast<CameraState*>(state)->setState(data_vec);
+        new_data = decode(raw);
     } else {
         logger->error("Camera stream failed to read image");
     }
@@ -48,8 +44,8 @@ void CameraInterface::poll() {
             // Don't need to wait for fpga, quit now
             exit(0);
         }
-        return;
     }
+    return new_data;
 }
 
 /**
@@ -78,7 +74,7 @@ int CameraInterface::getPosition() {
  */
 
 
-CameraInterface::CameraInterface(State* state, int bufferSize, int pollFrequency, int position) : HwInterface(state, bufferSize, pollFrequency) {
+CameraInterface::CameraInterface(int position) {
     this->position = position;
 }
 
@@ -90,24 +86,9 @@ void CameraInterface::init() {
         logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
         exit(0);
     }
-    //camStream.set(CV_CAP_PROP_CONVERT_RGB, true);
-    executing = true;
-    logger->info("Starting thread");
-    readThreads.push_back(std::thread(&CameraInterface::in, this));
 }
 
 CameraInterface::~CameraInterface() {
-    executing = false;
-    for(auto& t: readThreads) {
-        t.join();
-    }
     camStream.release();
-
-    // clears the queue
-    while (!decodedBuffer.empty()) {
-        delete decodedBuffer.front();
-        decodedBuffer.pop();
-    }
-
     delete logger;
 }

@@ -40,6 +40,7 @@ void Controller::initialize(void) {
 Controller::~Controller() {
     stop();
     delete taskList;
+    delete logger;
 }
 
 bool Controller::isRunning() {

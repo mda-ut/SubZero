@@ -8,14 +8,10 @@
 #include "State.h"
 #include "View.h"
 
-State::State(int stateID_) {
-    stateID = stateID_;
-    init();
-}
-
-State::State(int stateID_, int framesStored) {
-    stateID = stateID_;
-    maxLength = framesStored;
+State::State(int stateID, uint64_t bufferSize) {
+    this->stateID = stateID;
+    this->bufferSize = bufferSize;
+    frameStarted = false;
     init();
 }
 
@@ -24,9 +20,7 @@ State::~State() {
 }
 
 void State::init(){
-    this->frameStarted = false;
-    this->maxLength = 15;
-    this->inUse = false;
+
 }
 
 void State::addViewer(View* viewer) {
