@@ -9,6 +9,7 @@
 #define SUBZEROFACTORY_H_
 
 #include "SubZero.h"
+#include "Stage.h"
 #include "Properties.h"
 #include "Logger.h"
 

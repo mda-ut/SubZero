@@ -5,7 +5,8 @@
 #include <QSize>
 #include <QBoxLayout>
 #include "Logger.h"
-#include "View.h"
+#include "SubZero.h"
+#include "SubZeroFactory.h"
 
 class Stage : public QWidget {
 
@@ -14,11 +15,12 @@ class Stage : public QWidget {
 private:
     Logger* logger = new Logger("Stage");
 
-    View* currentView;
+    SubZeroFactory* subZeroFactory;
+    SubZero* subZero;
     QBoxLayout* stageLayout;
 
 public:
-    explicit Stage(QWidget *parent = 0);
+    explicit Stage(QWidget *parent = 0, SubZero* subZero);
     ~Stage();
 
     /**
@@ -30,7 +32,7 @@ public:
      * @brief setViewContent Changes the current View to the new specified View by deleting the previous View and stopping its Controller.  It's connections are also disconnected
      * @param view the new View to display on the Stage
      */
-    void setViewContent(View* view);
+    void setViewContent(std::string type);
 
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
@@ -38,6 +40,15 @@ public:
 signals:
 
 public slots:
+    /**
+     * @brief switchToGUIView
+     */
+    void switchToGUIView(void);
+
+    /**
+     * @brief switchToGUIView
+     */
+    void switchToMenuView(void);
 
 };
 

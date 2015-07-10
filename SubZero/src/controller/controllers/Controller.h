@@ -39,7 +39,7 @@ class Controller : public QObject {
 		*
         * @param model - the vector containing the models
 		*/
-        Controller(std::vector <Model*> models, View* view);
+        Controller(std::vector <Model*> models);
 
 		/**
 		 * Destructor
@@ -75,16 +75,6 @@ class Controller : public QObject {
 		 * Handles the results from the ControllerThread
 		 */
         void finished(const QString &s);
-
-        /**
-         * @brief switchToGUIView
-         */
-        void switchToGUIView(void);
-
-        /**
-         * @brief switchToGUIView
-         */
-        void switchToMenuView(void);
 
         /**
          * @brief Handles the button click for toggling power

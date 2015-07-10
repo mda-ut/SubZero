@@ -15,12 +15,14 @@
 #include <vector>
 
 #include "Logger.h"
+#include "State.h"
 #include "Controller.h"
+#include "Stage.h"
 
 class GUIView : public View {
 public:
     GUIView();
-    GUIView(Controller* controller);
+    GUIView(Stage* stage, Controller* controller, std::vector<State*> states);
     ~GUIView();
 
     virtual void update(int id);

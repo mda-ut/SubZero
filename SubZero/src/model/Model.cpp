@@ -51,6 +51,10 @@ void Model::initialize() {
     interface->init();
 }
 
+State *Model::getState() {
+    return state;
+}
+
 /* -------------------------------------------------------------------------- *
                 Filter/Filter Chain Management
  * -------------------------------------------------------------------------- */

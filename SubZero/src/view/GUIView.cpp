@@ -4,8 +4,8 @@ GUIView::GUIView() {
 
 }
 
-GUIView::GUIView(Controller* controller) : View() {
-    this->controller = controller;
+GUIView::GUIView(Stage* stage, Controller* controller, std::vector<State*> states)
+    : View(stage, controller, states){
 }
 
 void GUIView::update(int id) {
@@ -156,7 +156,6 @@ void GUIView::initialize() {
     this->setLayout(mainLayout);
 
     // Setup connections
-    controller->initialize();
     connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
     connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
     connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
@@ -168,8 +167,8 @@ void GUIView::initialize() {
     connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
     connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
     connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
-    connect(menuButton, SIGNAL(clicked()), controller, SLOT(switchToMenuView()));
-    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
+    connect(menuButton, SIGNAL(clicked()), stage, SLOT(switchToMenuView()));
+    connect(exitButton, SIGNAL(clicked()), stage, SLOT(exit()));
 }
 
 QSize GUIView::sizeHint() const {
