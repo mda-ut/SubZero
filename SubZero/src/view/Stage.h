@@ -50,6 +50,11 @@ public slots:
      */
     void switchToMenuView(void);
 
+    /**
+     * Cleans the queue; forces the last task to finish, then kills the sub
+     */
+    void killAll(void);
+
 };
 
 #endif // STAGE_H

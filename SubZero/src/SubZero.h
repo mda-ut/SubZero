@@ -8,22 +8,29 @@
 #ifndef SUBZERO_H_
 #define SUBZERO_H_
 
-#include <Model.h>
-#include <View.h>
-#include <Controller.h>
+#include "Model.h"
+#include "View.h"
+#include "Controller.h"
+#include "Stage.h"
 #include <vector>
 
 class SubZero {
 private:
+    Stage* stage;
     std::vector<Model*> models;
     View* view;
     Controller* controller;
+
 public:
-    static int ctr;
     SubZero(std::vector<Model*> models_, View* view_, Controller* controller_);
 	virtual ~SubZero();
-    void init();
-    void run();
+
+    void initialize();
+
+    View* getView();
+
+    void setStage(Stage* stage);
+
 };
 
 #endif /* SUBZERO_H_ */
