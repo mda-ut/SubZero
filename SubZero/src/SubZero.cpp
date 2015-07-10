@@ -36,6 +36,3 @@ View *SubZero::getView() {
     return view;
 }
 
-void SubZero::setStage(Stage *stage) {
-    this->stage = stage;
-}

@@ -12,16 +12,19 @@
 #include "FPGAModel.h"
 #include "FPGAInterface.h"
 #include "FPGAState.h"
-#include "ShowCaseView.h"
+#include "MenuView.h"
+#include "GUIView.h"
 #include "Controller.h"
 #include <vector>
 #include <iostream>
 
-SubZeroFactory::SubZeroFactory() {
+SubZeroFactory::SubZeroFactory(Properties* settings) {
+    this->settings = settings;
     stage = nullptr;
 }
 
 SubZeroFactory::~SubZeroFactory() {
+    delete settings;
     delete logger;
 }
 
@@ -29,7 +32,7 @@ void SubZeroFactory::setStage(Stage* newStage) {
     stage = newStage;
 }
 
-SubZero* SubZeroFactory::makeSubZero(std::string subType, Properties* settings) {
+SubZero* SubZeroFactory::makeSubZero(std::string subType) {
     std::vector<Model*> models;
     std::vector<State*> states;
     View* view;
@@ -41,11 +44,10 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType, Properties* settings) 
     int fpgaBufferSize = std::stoi(settings->getProperty("FPGA_BUFFER_SIZE"));
     int fpgaPollFrequency = std::stoi(settings->getProperty("FPGA_POLL_FREQUENCY"));
 
-    switch (subType) {
-    case "MENU": {
+    if (subType == "MENU") {
+        controller = new Controller(models);
         view = new MenuView(stage);
-    }
-    case "GUI": {
+    } else if (subType == "GUI") {
         logger->trace("Creating GUI sub");
 
         states.push_back(new CameraState(FRONTCAM));
@@ -69,18 +71,12 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType, Properties* settings) 
         for (auto& state : states) {
             state->addViewer(view);
         }
-
-        break;
-    }
-    case "SIM":
+    } else if (subType == "SIMULATOR") {
         logger->trace("Creating simulation sub");
-		break;
-    case "AUT":
+    } else if (subType == "AUTONOMOUS") {
         logger->trace("Creating autonomous sub");
-        break;
-	default:
+    } else {
         logger->error("Unrecognized sub type " + subType);
-        break;
 	}
 
     SubZero* sub = new SubZero(models, view, controller);

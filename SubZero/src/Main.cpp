@@ -5,15 +5,14 @@
  *      Author: mda
  */
 
-#include "util/Logger.h"
-#include <string>
-#include "Stage.h"
-#include "MenuView.h"
-#include "GUIView.h"
 #include <QApplication>
+#include <string>
+#include "util/Logger.h"
+#include "scripts.h"
 #include "Properties.h"
 #include "PropertyReader.h"
-#include "scripts.h"
+#include "SubZeroFactory.h"
+#include "Stage.h"
 
 using namespace std;
 
@@ -50,23 +49,14 @@ int main(int argc, char** argv) {
 
     init_signal_handler();
 
-    if (mode == "MENU") {
-        Stage* mainStage = new Stage();
-        // Temporary declaration to test
-        Controller* controller = new Controller();
-        controller->setStage(mainStage);
-        mainStage->setViewContent(new MenuView(controller));
-        mainStage->initialize();
-    } else if (mode == "GUI") {
-        Stage* mainStage = new Stage();
-        // Temporary declaration to test
-        Controller* controller = new Controller();
-        controller->setStage(mainStage);
-        mainStage->setViewContent(new GUIView(controller));
-        mainStage->initialize();
-    } else if (mode == "SIMULATOR") {
-        //TODO: Make Simulator View
-    } else if (mode == "AUTONOMOUS") {
+    SubZeroFactory* subZeroFactory = new SubZeroFactory(settings);
+    Stage* mainStage = new Stage(NULL, subZeroFactory);
+
+    mainStage->setViewContent(mode);
+    mainStage->initialize();
+
+
+    if (mode == "AUTONOMOUS") {
         //TODO: Make autonomous run without any GUI
         return 0;
     }

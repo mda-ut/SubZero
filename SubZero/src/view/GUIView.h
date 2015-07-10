@@ -15,9 +15,7 @@
 #include <vector>
 
 #include "Logger.h"
-#include "State.h"
-#include "Controller.h"
-#include "Stage.h"
+#include "View.h"
 
 class GUIView : public View {
 public:
@@ -36,8 +34,6 @@ protected:
 
 private:
     Logger* logger = new Logger("GUIView");
-
-    Controller* controller;
 
     QRect frontCameraRect;
     QRect downCameraRect;

@@ -9,6 +9,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include "Stage.h"
 
 MenuView::MenuView() {
 
@@ -107,8 +108,6 @@ void MenuView::initialize() {
     autonomousButton->setFlat(true);
 
     connect(guiButton, SIGNAL(clicked()), stage, SLOT(switchToGUIView()));
-    connect(simulatorButton, SIGNAL(clicked()), stage, SLOT(switchToSimulatorView()));
-    connect(autonomousButton, SIGNAL(clicked()), stage, SLOT(switchToAutonomousView()));
 
 }
 

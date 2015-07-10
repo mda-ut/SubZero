@@ -9,14 +9,12 @@
 #define SUBZERO_H_
 
 #include "Model.h"
-#include "View.h"
 #include "Controller.h"
-#include "Stage.h"
+#include "View.h"
 #include <vector>
 
 class SubZero {
 private:
-    Stage* stage;
     std::vector<Model*> models;
     View* view;
     Controller* controller;
@@ -28,8 +26,6 @@ public:
     void initialize();
 
     View* getView();
-
-    void setStage(Stage* stage);
 
 };
 

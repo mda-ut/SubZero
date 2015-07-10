@@ -13,11 +13,11 @@
 #include <vector>
 #include "Task.h"
 #include "Model.h"
-#include "View.h"
-#include "Stage.h"
 #include "ControllerThread.h"
 #include "Logger.h"
 #include "TaskFactory.h"
+
+class View;
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties

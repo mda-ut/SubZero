@@ -20,7 +20,7 @@ private:
     QBoxLayout* stageLayout;
 
 public:
-    explicit Stage(QWidget *parent = 0, SubZero* subZero);
+    explicit Stage(QWidget *parent = 0, SubZeroFactory* subZeroFactory = nullptr);
     ~Stage();
 
     /**
@@ -53,7 +53,7 @@ public slots:
     /**
      * Cleans the queue; forces the last task to finish, then kills the sub
      */
-    void killAll(void);
+    void exit(void);
 
 };
 

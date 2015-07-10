@@ -3,13 +3,11 @@
 
 #include <QWidget>
 #include <QPaintEvent>
-//#include "observer.h"    //Need a concrete observer class
 #include <vector>
+#include "State.h"
 #include "Controller.h"
-#include "Stage.h"
 
-class State;
-class Controller;
+class Stage;
 
 class View : public QWidget {
 

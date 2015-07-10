@@ -4,8 +4,9 @@
 #include <string>
 #include <list>
 #include <set>
-#include "View.h"
 #include "Logger.h"
+
+class View;
 
 enum StateType {
     FRONTCAM,

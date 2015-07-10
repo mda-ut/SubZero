@@ -1,4 +1,5 @@
 #include "GUIView.h"
+#include "Stage.h"
 
 GUIView::GUIView() {
 

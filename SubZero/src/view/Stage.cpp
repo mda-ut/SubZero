@@ -2,13 +2,13 @@
 
 Stage::Stage(QWidget *parent, SubZeroFactory* subZeroFactory) : QWidget(parent) {
     this->subZeroFactory = subZeroFactory;
+    subZeroFactory->setStage(this);
     subZero = nullptr;
     stageLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     stageLayout->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 void Stage::initialize() {
-    subZeroFactory->setStage(this);
     this->setLayout(stageLayout);
     this->show();
 }
@@ -21,7 +21,7 @@ void Stage::setViewContent(std::string type) {
         // Delete and disconnects all associated QWidgets and their respective signals and slots
         delete subZero;
     }
-    subZero = subZeroFactory->createSubZero(type);
+    subZero = subZeroFactory->makeSubZero(type);
     subZero->initialize();
     stageLayout->addWidget(subZero->getView());
     logger->info("New View initialized");
@@ -36,11 +36,11 @@ QSize Stage::minimumSizeHint() const {
 }
 
 void Stage::switchToGUIView() {
-    stage->setViewContent("GUI");
+    setViewContent("GUI");
 }
 
 void Stage::switchToMenuView() {
-    stage->setViewContent("STAGE");
+    setViewContent("MENU");
 }
 
 void Stage::exit() {

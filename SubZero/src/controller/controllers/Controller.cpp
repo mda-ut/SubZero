@@ -46,7 +46,7 @@ bool Controller::isRunning() {
     return running;
 }
 
-void Controller::setView(Stage *view) {
+void Controller::setView(View *view) {
     this->view = view;
 }
 

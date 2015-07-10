@@ -9,15 +9,15 @@
 #include <cv.h>
 #include <highgui.h>
 
-#include "Stage.h"
 #include "Logger.h"
 #include "Properties.h"
+#include "View.h"
 
 class MenuView : public View {
 
 public:
     MenuView();
-    MenuView(Controller* controller);
+    MenuView(Stage* stage);
     ~MenuView();
 
     virtual void update(int id);
@@ -31,8 +31,6 @@ protected:
 
 private:
     Logger* logger = new Logger("MenuView");
-
-    Stage* stage;
 
     QSize buttonSize;
     QFont menuItemFont;
