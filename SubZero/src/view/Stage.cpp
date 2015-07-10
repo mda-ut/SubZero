@@ -22,7 +22,7 @@ void Stage::setViewContent(std::string type) {
         delete subZero;
     }
     subZero = subZeroFactory->createSubZero(type);
-    subZero->getView()->initialize();
+    subZero->initialize();
     stageLayout->addWidget(subZero->getView());
     logger->info("New View initialized");
 }

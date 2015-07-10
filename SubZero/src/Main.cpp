@@ -13,6 +13,7 @@
 #include <QApplication>
 #include "Properties.h"
 #include "PropertyReader.h"
+#include "scripts.h"
 
 using namespace std;
 
@@ -46,6 +47,8 @@ int main(int argc, char** argv) {
     }
 
     std::string mode = settings->getProperty("MODE");
+
+    init_signal_handler();
 
     if (mode == "MENU") {
         Stage* mainStage = new Stage();
