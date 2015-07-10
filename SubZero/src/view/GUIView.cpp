@@ -157,18 +157,19 @@ void GUIView::initialize() {
 
     // Setup connections
     controller->initialize();
-//    connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
-//    connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
-//    connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
-//    connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
-//    connect(sinkButton, SIGNAL(clicked()), controller, SLOT(handleSinkButtonClick()));
-//    connect(riseButton, SIGNAL(clicked()), controller, SLOT(handleRiseButtonClick()));
-//    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
-//    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
-//    connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
-//    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
-//    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
-    //    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
+    connect(powerButton, SIGNAL(clicked()), controller, SLOT(handlePowerButtonToggled()));
+    connect(motorButton, SIGNAL(clicked()), controller, SLOT(handleMotorButtonClick()));
+    connect(leftButton, SIGNAL(clicked()), controller, SLOT(handleMoveLeftButtonClick()));
+    connect(rightButton, SIGNAL(clicked()), controller, SLOT(handleMoveRightButtonClick()));
+    connect(sinkButton, SIGNAL(clicked()), controller, SLOT(handleSinkButtonClick()));
+    connect(riseButton, SIGNAL(clicked()), controller, SLOT(handleRiseButtonClick()));
+    connect(forwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveForwardButtonClick()));
+    connect(backwardButton, SIGNAL(clicked()), controller, SLOT(handleMoveBackwardButtonClick()));
+    connect(stopButton, SIGNAL(clicked()), controller, SLOT(handleStopButtonClick()));
+    connect(gateButton, SIGNAL(clicked()), controller, SLOT(handleGateTaskClick()));
+    connect(pathButton, SIGNAL(clicked()), controller, SLOT(handlePathTaskClick()));
+    connect(menuButton, SIGNAL(clicked()), controller, SLOT(switchToMenuView()));
+    connect(exitButton, SIGNAL(clicked()), controller, SLOT(killAll()));
 }
 
 QSize GUIView::sizeHint() const {

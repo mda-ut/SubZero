@@ -3,6 +3,7 @@
 Stage::Stage(QWidget *parent) : QWidget(parent) {
     currentView = nullptr;
     stageLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+    stageLayout->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 void Stage::initialize() {

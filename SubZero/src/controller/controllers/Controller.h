@@ -82,6 +82,11 @@ class Controller : public QObject {
         void switchToGUIView(void);
 
         /**
+         * @brief switchToGUIView
+         */
+        void switchToMenuView(void);
+
+        /**
          * @brief Handles the button click for toggling power
          */
         void handlePowerButtonToggled(void);
@@ -146,6 +151,9 @@ class Controller : public QObject {
 		 * Tells the ControllerThread to begin 
 		 */
         void beginCT(const QString &s);
+
+    protected:
+        void stop();
 
 	private:
         Logger* logger = new Logger("Controller");

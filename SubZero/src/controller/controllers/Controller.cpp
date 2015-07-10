@@ -8,6 +8,7 @@
 #include "Controller.h"
 #include "ControllerThread.h"
 #include "GUIView.h"
+#include "MenuView.h"
 #include <iostream>
 
 bool Controller::running = false;
@@ -37,15 +38,8 @@ void Controller::initialize(void) {
 }
 
     //Destructor to free pointers
-Controller::~Controller(){
-    if(queueThread.isRunning()){
-        queueThread.quit();
-        queueThread.wait();
-    }
-    while(!taskList->isEmpty()){
-        Task *temp = taskList->dequeue();
-        delete temp;
-    }
+Controller::~Controller() {
+    stop();
     delete taskList;
 }
 
@@ -58,14 +52,21 @@ void Controller::setStage(Stage *stage) {
 }
 
 void Controller::finished(const QString &s){
-    std::cout << "Bye Bye Beautiful!!" << std::endl;
+    logger->info("Controller Thread finished");
 }
 
 void Controller::switchToGUIView() {
     //TODO: Delete this somehow and create a new Controller for the GUI View
+    stop();
     stage->setViewContent(new GUIView(this));
-    running = false;
 }
+
+void Controller::switchToMenuView() {
+    //TODO: Delete this somehow and create a new Controller for the Menu View
+    stop();
+    stage->setViewContent(new MenuView(this));
+}
+
 static bool powerStatus = false;
 void Controller::handlePowerButtonToggled() {
 
@@ -126,7 +127,19 @@ void Controller::handlePathTaskClick() {
 
 void Controller::killAll() {
     logger->info("Exiting...");
+    stop();
+}
+
+void Controller::stop() {
     running = false;
+    if(queueThread.isRunning()) {
+        queueThread.quit();
+        queueThread.wait();
+    }
+    while(!taskList->isEmpty()) {
+        Task *temp = taskList->dequeue();
+        delete temp;
+    }
 }
 
 
