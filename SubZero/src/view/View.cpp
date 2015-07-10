@@ -3,12 +3,11 @@
 #include <opencv2/imgproc.hpp>
 
 View::View() {
-//    initializeView();
+
 }
 
 View::View(std::vector<State *> states_) {
     states = states_;
-//    initializeView();
 }
 
 View::~View() {

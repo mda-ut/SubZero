@@ -24,7 +24,6 @@ public:
     virtual ~Menu();
     void paintEvent(QPaintEvent *event);
 
-
     QSize buttonRectSize;
     QFont menuItemFont;
     QPoint temp;

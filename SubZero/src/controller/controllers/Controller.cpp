@@ -13,13 +13,12 @@
 
 bool Controller::running = false;
 
-Controller::Controller(){
+Controller::Controller() {
     taskList = new QQueue <class Task* >;
 }
 
-Controller::Controller(std::vector<Model*> models, View* view){
+Controller::Controller(std::vector<Model*> models){
     this->models = models;
-    this->view = view;
     targetDepth = 250;
     targetYaw = 0;
     taskList = new QQueue <class Task* >;
@@ -51,20 +50,12 @@ void Controller::setStage(Stage *stage) {
     this->stage = stage;
 }
 
+std::vector<Model *> Controller::getModels() {
+    return models;
+}
+
 void Controller::finished(const QString &s){
     logger->info("Controller Thread finished");
-}
-
-void Controller::switchToGUIView() {
-    //TODO: Delete this somehow and create a new Controller for the GUI View
-    stop();
-    stage->setViewContent(new GUIView(this));
-}
-
-void Controller::switchToMenuView() {
-    //TODO: Delete this somehow and create a new Controller for the Menu View
-    stop();
-    stage->setViewContent(new MenuView(this));
 }
 
 static bool powerStatus = false;
