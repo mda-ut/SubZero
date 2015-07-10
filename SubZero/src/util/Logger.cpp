@@ -62,7 +62,7 @@ bool Logger::initialize(Level level, bool writeToConsole, bool writeToFile, Time
 void Logger::trace(std::string msg) {
     if (Level::TRACE >= Logger::level) {
         char buffer[100];
-        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tTRACE\t";
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tTRACE\t";
         strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
         std::string finalMsg(buffer);
@@ -74,7 +74,7 @@ void Logger::trace(std::string msg) {
 void Logger::info(std::string msg) {
     if (Level::INFO >= Logger::level) {
         char buffer[100];
-        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tINFO\t";
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tINFO\t";
         strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
         std::string finalMsg(buffer);
@@ -86,7 +86,7 @@ void Logger::info(std::string msg) {
 void Logger::debug(std::string msg) {
     if (Level::DEBUG >= Logger::level) {
         char buffer[100];
-        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tDEBUG\t";
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tDEBUG\t";
         strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
         std::string finalMsg(buffer);
@@ -98,7 +98,7 @@ void Logger::debug(std::string msg) {
 void Logger::warn(std::string msg) {
     if (Level::WARN >= Logger::level) {
         char buffer[100];
-        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tWARN\t";
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tWARN\t";
         strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
         std::string finalMsg(buffer);
@@ -110,7 +110,7 @@ void Logger::warn(std::string msg) {
 void Logger::error(std::string msg) {
     if (Level::ERROR >= Logger::level) {
         char buffer[100];
-        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\tERROR\t";
+        std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tERROR\t";
         strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
 
         std::string finalMsg(buffer);

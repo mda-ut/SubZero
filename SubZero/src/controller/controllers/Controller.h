@@ -13,10 +13,11 @@
 #include <vector>
 #include "Task.h"
 #include "Model.h"
-#include "View.h"
 #include "ControllerThread.h"
 #include "Logger.h"
 #include "TaskFactory.h"
+
+class View;
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties
@@ -38,7 +39,7 @@ class Controller : public QObject {
 		*
         * @param model - the vector containing the models
 		*/
-        Controller(std::vector <Model*> models, View* view);
+        Controller(std::vector <Model*> models);
 
 		/**
 		 * Destructor
@@ -66,6 +67,8 @@ class Controller : public QObject {
          * Returns controller's current running state;
          */
         static bool isRunning();
+
+        void setView(View* view);
 		
 	public slots:
 		/**
@@ -74,47 +77,47 @@ class Controller : public QObject {
         void finished(const QString &s);
 
         /**
-         * Handles the button click for toggling power
+         * @brief Handles the button click for toggling power
          */
         void handlePowerButtonToggled(void);
 
         /**
-         * Handles the button click for startup sequence
+         * @brief Handles the button click for startup sequence
          */
         void handleMotorButtonClick(void);
 
         /**
-         * Handles the button click for moving left
+         * @brief Handles the button click for moving left
          */
         void handleMoveLeftButtonClick(void);
 
         /**
-         * Handles the button click for moving right
+         * @brief Handles the button click for moving right
          */
         void handleMoveRightButtonClick(void);
 
         /**
-         * Handles the button click for moving forward
+         * @brief Handles the button click for moving forward
          */
         void handleMoveForwardButtonClick(void);
 
         /**
-         * Handles the button click for moving backward
+         * @brief Handles the button click for moving backward
          */
         void handleMoveBackwardButtonClick(void);
 
         /**
-         * Handles the button click for stopping the sub
+         * @brief Handles the button click for stopping the sub
          */
         void handleStopButtonClick();
 
         /**
-         * Handles the button click for sinking
+         * @brief Handles the button click for sinking
          */
         void handleSinkButtonClick(void);
 
         /**
-         * Handles the button click for rising
+         * @brief Handles the button click for rising
          */
         void handleRiseButtonClick(void);
 
@@ -123,21 +126,19 @@ class Controller : public QObject {
         void handlePathTaskClick();
 
         /**
-         * Cleans the queue; forces the last task to finish, then kills the sub
-         */
-        void killAll(void);
-
-        /**
          * Displays the Current taskList
          */
         //void displayTaskList(void);
 
 
-signals:
+    signals:
 		/**
 		 * Tells the ControllerThread to begin 
 		 */
         void beginCT(const QString &s);
+
+    protected:
+        void stop();
 
 	private:
         Logger* logger = new Logger("Controller");

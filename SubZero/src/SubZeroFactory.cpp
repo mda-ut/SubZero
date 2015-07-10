@@ -12,22 +12,27 @@
 #include "FPGAModel.h"
 #include "FPGAInterface.h"
 #include "FPGAState.h"
-#include "ShowCaseView.h"
+#include "MenuView.h"
+#include "GUIView.h"
 #include "Controller.h"
 #include <vector>
 #include <iostream>
 
-SubZeroFactory::SubZeroFactory() {
-	// TODO Auto-generated constructor stub
-
+SubZeroFactory::SubZeroFactory(Properties* settings) {
+    this->settings = settings;
+    stage = nullptr;
 }
 
 SubZeroFactory::~SubZeroFactory() {
-	// TODO Auto-generated destructor stub
+    delete settings;
     delete logger;
 }
 
-SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
+void SubZeroFactory::setStage(Stage* newStage) {
+    stage = newStage;
+}
+
+SubZero* SubZeroFactory::makeSubZero(std::string subType) {
     std::vector<Model*> models;
     std::vector<State*> states;
     View* view;
@@ -39,19 +44,15 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
     int fpgaBufferSize = std::stoi(settings->getProperty("FPGA_BUFFER_SIZE"));
     int fpgaPollFrequency = std::stoi(settings->getProperty("FPGA_POLL_FREQUENCY"));
 
-    switch (subType) {
-    case GUI: {
-		//TODO SubZero has models, which needs States, FMs, and Interfaces, which need filters? and observers? which needs View, which needs Controller, which needs Model?
-		std::cout << "guisub" << std::endl;
+    if (subType == "MENU") {
+        controller = new Controller(models);
+        view = new MenuView(stage);
+    } else if (subType == "GUI") {
+        logger->trace("Creating GUI sub");
 
         states.push_back(new CameraState(FRONTCAM));
 //        states.push_back(new CameraState(DOWNCAM));
 //        states.push_back(new FPGAState(FPGA));
-        view = new ShowCaseView(states);
-
-        for (auto& state : states) {
-            state->addViewer(view);
-        }
 
         int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
@@ -63,19 +64,19 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
 //        models.push_back(new CameraModel(states[1], downCamInt));
 //        models.push_back(new FPGAModel(states[2], fpgaInt));
 
-        controller = new Controller(models, view);
+        controller = new Controller(models);
+        view = new GUIView(stage, controller, states);
+        controller->setView(view);
 
-        break;
-    }
-	case SIM:
-		std::cout << "simsub" << std::endl;
-		break;
-	case AUT:
-		std::cout << "autsub" << std::endl;
-		break;
-	default:
-		std::cout << "unrecognized sub type: " << subType << std::endl;
-        break;
+        for (auto& state : states) {
+            state->addViewer(view);
+        }
+    } else if (subType == "SIMULATOR") {
+        logger->trace("Creating simulation sub");
+    } else if (subType == "AUTONOMOUS") {
+        logger->trace("Creating autonomous sub");
+    } else {
+        logger->error("Unrecognized sub type " + subType);
 	}
 
     SubZero* sub = new SubZero(models, view, controller);

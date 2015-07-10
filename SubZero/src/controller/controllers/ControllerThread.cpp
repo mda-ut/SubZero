@@ -19,6 +19,7 @@ ControllerThread::~ControllerThread() {
 
 void ControllerThread::executeTasks(const QString &parameter) {
     QString result = "Done";
+    logger->info("Starting Controller Thread execution loop");
     while (Controller::isRunning()){
         mutex->lock();
         if(!taskList->isEmpty()){

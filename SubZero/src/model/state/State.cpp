@@ -6,6 +6,7 @@
  *      Author: James
  */
 #include "State.h"
+#include "View.h"
 
 State::State(int stateID_) {
     stateID = stateID_;

@@ -6,8 +6,10 @@
 #include <set>
 #include <QMutex>
 #include <QMutexLocker>
-#include "View.h"
+
 #include "Logger.h"
+
+class View;
 
 enum StateType {
     FRONTCAM,

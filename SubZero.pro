@@ -69,8 +69,6 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/src/util/StringTools.h \
            SubZero/src/util/Timer.h \
            SubZero/src/util/Util.h \
-           SubZero/src/view/Menu.h \
-           SubZero/src/view/ShowCaseView.h \
            SubZero/src/view/View.h \
            SubZero/test/util/IDHasherTEST.h \
            SubZero/src/controller/controllers/Controller.h \
@@ -114,7 +112,10 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/test/util/data/ImgDataTEST.h \
            SubZero/test/util/filter/FilterManagerTEST.h \
            SubZero/test/util/filter/RGBFilterTEST.h \
-           SubZero/src/util/Properties.h
+           SubZero/src/util/Properties.h \
+    SubZero/src/view/Stage.h \
+    SubZero/src/view/MenuView.h \
+    SubZero/src/view/GUIView.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -130,8 +131,6 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/util/StringTools.cpp \
            SubZero/src/util/Timer.cpp \
            SubZero/src/util/Util.cpp \
-           SubZero/src/view/Menu.cpp \
-           SubZero/src/view/ShowCaseView.cpp \
            SubZero/src/view/View.cpp \
            SubZero/test/util/IDHasherTEST.cpp \
            SubZero/src/controller/controllers/Controller.cpp \
@@ -174,4 +173,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/test/util/data/ImgDataTEST.cpp \
            SubZero/test/util/filter/FilterManagerTEST.cpp \
            SubZero/test/util/filter/RGBFilterTEST.cpp \
-           SubZero/src/util/Properties.cpp
+           SubZero/src/util/Properties.cpp \
+    SubZero/src/view/Stage.cpp \
+    SubZero/src/view/MenuView.cpp \
+    SubZero/src/view/GUIView.cpp
