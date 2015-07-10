@@ -17,9 +17,8 @@ Controller::Controller(){
     taskList = new QQueue <class Task* >;
 }
 
-Controller::Controller(std::vector<Model*> models, View* view){
+Controller::Controller(std::vector<Model*> models){
     this->models = models;
-    this->view = view;
     targetDepth = 250;
     targetYaw = 0;
     taskList = new QQueue <class Task* >;
@@ -47,8 +46,8 @@ bool Controller::isRunning() {
     return running;
 }
 
-void Controller::setStage(Stage *stage) {
-    this->stage = stage;
+void Controller::setView(Stage *view) {
+    this->view = view;
 }
 
 void Controller::finished(const QString &s){

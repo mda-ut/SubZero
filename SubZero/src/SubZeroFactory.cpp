@@ -18,16 +18,18 @@
 #include <iostream>
 
 SubZeroFactory::SubZeroFactory() {
-	// TODO Auto-generated constructor stub
-
+    stage = nullptr;
 }
 
 SubZeroFactory::~SubZeroFactory() {
-	// TODO Auto-generated destructor stub
     delete logger;
 }
 
-SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
+void SubZeroFactory::setStage(Stage* newStage) {
+    stage = newStage;
+}
+
+SubZero* SubZeroFactory::makeSubZero(std::string subType, Properties* settings) {
     std::vector<Model*> models;
     std::vector<State*> states;
     View* view;
@@ -40,18 +42,15 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
     int fpgaPollFrequency = std::stoi(settings->getProperty("FPGA_POLL_FREQUENCY"));
 
     switch (subType) {
-    case GUI: {
-		//TODO SubZero has models, which needs States, FMs, and Interfaces, which need filters? and observers? which needs View, which needs Controller, which needs Model?
-		std::cout << "guisub" << std::endl;
+    case "MENU": {
+        view = new MenuView(stage);
+    }
+    case "GUI": {
+        logger->trace("Creating GUI sub");
 
         states.push_back(new CameraState(FRONTCAM));
 //        states.push_back(new CameraState(DOWNCAM));
 //        states.push_back(new FPGAState(FPGA));
-//        view = new ShowCaseView(states);
-
-        for (auto& state : states) {
-            state->addViewer(view);
-        }
 
         int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
@@ -63,18 +62,24 @@ SubZero* SubZeroFactory::makeSubZero(SubType subType, Properties* settings) {
 //        models.push_back(new CameraModel(states[1], downCamInt));
 //        models.push_back(new FPGAModel(states[2], fpgaInt));
 
-        controller = new Controller(models, view);
+        controller = new Controller(models);
+        view = new GUIView(stage, controller, states);
+        controller->setView(view);
+
+        for (auto& state : states) {
+            state->addViewer(view);
+        }
 
         break;
     }
-	case SIM:
-		std::cout << "simsub" << std::endl;
+    case "SIM":
+        logger->trace("Creating simulation sub");
 		break;
-	case AUT:
-		std::cout << "autsub" << std::endl;
-		break;
+    case "AUT":
+        logger->trace("Creating autonomous sub");
+        break;
 	default:
-		std::cout << "unrecognized sub type: " << subType << std::endl;
+        logger->error("Unrecognized sub type " + subType);
         break;
 	}
 

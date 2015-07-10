@@ -18,12 +18,15 @@ enum SubType {GUI, SIM, AUT};
 class SubZeroFactory {
 private:
     Logger* logger =  new Logger("SubZeroFactory");
+    Stage* stage;
 
 public:
 	SubZeroFactory();
 	virtual ~SubZeroFactory();
+    void setStage(Stage* newStage);
 
     SubZero* makeSubZero(SubType subType, Properties* settings);
+
 
 
 };

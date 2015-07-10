@@ -14,8 +14,8 @@ MenuView::MenuView() {
 
 }
 
-MenuView::MenuView(Controller* controller) : View() {
-    this->controller = controller;
+MenuView::MenuView(Stage* stage) : View() {
+    this->stage = stage;
 }
 
 void MenuView::update(int id) {
@@ -106,9 +106,10 @@ void MenuView::initialize() {
     simulatorButton->setFlat(true);
     autonomousButton->setFlat(true);
 
-    // Make Controller connections
-    controller->initialize();
-    connect(guiButton, SIGNAL(clicked()), controller, SLOT(switchToGUIView()));
+    connect(guiButton, SIGNAL(clicked()), stage, SLOT(switchToGUIView()));
+    connect(simulatorButton, SIGNAL(clicked()), stage, SLOT(switchToSimulatorView()));
+    connect(autonomousButton, SIGNAL(clicked()), stage, SLOT(switchToAutonomousView()));
+
 }
 
 QSize MenuView::sizeHint() const {

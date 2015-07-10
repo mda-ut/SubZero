@@ -9,7 +9,7 @@
 #include <cv.h>
 #include <highgui.h>
 
-#include "Controller.h"
+#include "Stage.h"
 #include "Logger.h"
 #include "Properties.h"
 
@@ -32,7 +32,7 @@ protected:
 private:
     Logger* logger = new Logger("MenuView");
 
-    Controller* controller;
+    Stage* stage;
 
     QSize buttonSize;
     QFont menuItemFont;

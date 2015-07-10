@@ -68,7 +68,7 @@ class Controller : public QObject {
          */
         static bool isRunning();
 
-        void setStage(Stage* stage);
+        void setView(View* view);
 		
 	public slots:
 		/**
@@ -158,7 +158,6 @@ class Controller : public QObject {
 	private:
         Logger* logger = new Logger("Controller");
 
-        Stage* stage;
         ControllerThread *cT;
 
 		/**
