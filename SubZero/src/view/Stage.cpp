@@ -9,6 +9,7 @@ Stage::Stage(QWidget *parent, SubZeroFactory* subZeroFactory) : QWidget(parent) 
 }
 
 void Stage::initialize() {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     this->setLayout(stageLayout);
     this->show();
 }
@@ -44,7 +45,7 @@ void Stage::switchToMenuView() {
 }
 
 void Stage::exit() {
-    this->close();
+    close();
 }
 
 Stage::~Stage() {
