@@ -128,11 +128,6 @@ class Controller : public QObject {
         void handlePathTaskClick();
 
         /**
-         * Cleans the queue; forces the last task to finish, then kills the sub
-         */
-        void killAll(void);
-
-        /**
          * Displays the Current taskList
          */
         //void displayTaskList(void);

@@ -116,11 +116,6 @@ void Controller::handlePathTaskClick() {
     addTaskToQueue(TaskFactory::createPathTask(models[FPGA], targetYaw));
 }
 
-void Controller::killAll() {
-    logger->info("Exiting...");
-    stop();
-}
-
 void Controller::stop() {
     running = false;
     if(queueThread.isRunning()) {
