@@ -18,7 +18,7 @@
 class CameraState : public State {
 
 private:
-    Logger* logger = new Logger("CameraState");
+    Logger* logger;
 
     //all of this class' variables are inherited from its parent (State.h)
 protected:
@@ -52,12 +52,16 @@ public:
      */
     ImgData* getState (std::string id);
 
+    ImgData* getShallowState(std::string id);
+    ImgData* getShallowState(std::string id, int i);
+
     /**
      * Sets the state
      * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
      * @param d = Pointer to image data to be set for this frame
      * @return an int indicating whether a operation was successful
      */
+    ///NO LONGER USED, USE SETSTATE WITH THE VECTOR INSTEAD
     //int setState(ImgData* d);
 
     /**

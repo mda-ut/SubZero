@@ -18,15 +18,18 @@ public:
     void execute();
 
 private:
-    Logger* logger = new Logger("PathTask");
+    Logger* logger;
 
     CameraModel* cameraModel;
     TurnTask* turnTask;
     SpeedTask* speedTask;
-    bool startPath;     //first vertical line (start of rect)
-    bool finPath;       //last vertical line (end of rect)
+
+    bool startPath;     //first vertical line (start of rect), NOT USED
+    bool finPath;       //last vertical line (end of rect), NOT USED
     bool horzInSight;
     bool done;
+
+    //distance in pixles considered to be in line with the sub
     float inlineThresh;
     int imgWidth, imgHeight;
 

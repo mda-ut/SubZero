@@ -8,10 +8,10 @@
 #include "FPGAState.h"
 
 FPGAState::FPGAState(int stateID) : State(stateID) {
-
+    logger = new Logger("FPGAState");
 }
 FPGAState::FPGAState(int stateID, int framesStored) : State(stateID, framesStored) {
-
+    logger = new Logger("FPGAState");
 }
 
 FPGAState::~FPGAState() {
@@ -21,6 +21,7 @@ FPGAState::~FPGAState() {
         }
     }
 
+    logger->close();
     delete logger;
 }
 

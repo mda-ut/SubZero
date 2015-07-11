@@ -8,6 +8,7 @@ PathTask::PathTask() {
     done = false;
     horzInSight = false;
     inlineThresh = 75;
+    logger = new Logger("PathTask");
 }
 
 PathTask::PathTask(CameraModel* cameraModel, TurnTask *turnTask, SpeedTask *speedTask) {
@@ -20,9 +21,11 @@ PathTask::PathTask(CameraModel* cameraModel, TurnTask *turnTask, SpeedTask *spee
     done = false;
     horzInSight = false;
     inlineThresh = 75;
+    logger = new Logger("PathTask");
 }
 
 PathTask::~PathTask(){
+    logger->close();
     delete logger;
 }
 
@@ -39,7 +42,7 @@ void move(float amount) {
     moving = true;
 }
 void stop(){
-    moving = stop;
+    moving = false;
     //    // Stop
     //    speedTask->setTargetSpeed(0);
     //    speedTask->execute();
@@ -52,9 +55,9 @@ void rotate(float angle) {
 
 void PathTask::moveTo(cv::Point2f pos) {
     // pretty much in line
-    if (std::abs(pos.x) < inlineThresh) {
+    if (std::abs(pos.x-imgWidth/2) < inlineThresh) {
         float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
-        if (pos.y > 0) {
+        if (pos.y - imgHeight/2 > 0) {
             println("MoveTo moving forward");
             move(30);
         } else {
@@ -70,8 +73,10 @@ void PathTask::moveTo(cv::Point2f pos) {
 
 void PathTask::execute() {
     ImgData* data = dynamic_cast<ImgData*>(cameraModel->getState("raw"));
+    ///TODO INSERT HSV VALUES HERE
     HSVFilter hsvf(0, 155, 0, 255, 0, 255);
     LineFilter lf;
+    //looking for 1 rectangle
     ShapeFilter sf(1, 1);
     imgHeight = data->getImg().size().height;
     imgWidth = data->getImg().size().width;

@@ -8,22 +8,22 @@
 #include "State.h"
 
 State::State(int stateID_) {
-    stateID = stateID_;
     init();
+    stateID = stateID_;
 }
 
 State::State(int stateID_, int framesStored) {
+    init();
     stateID = stateID_;
     maxLength = framesStored;
-    init();
 }
 
 State::~State() {
+    logger->close();
     delete logger;
 }
 
 void State::init(){
-    this->frameStarted = false;
     this->maxLength = 15;
     this->inUse = false;
 }

@@ -17,7 +17,7 @@
 class FPGAState : public State {
 
 private:
-    Logger* logger = new Logger("FPGAState");
+    Logger* logger;
 
     //all of this class' variables are inherited from its parent (State.h)
 protected:

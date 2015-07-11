@@ -10,22 +10,21 @@
 #include <iostream>
 
 CameraState::CameraState(int stateID) : State(stateID) {
-
+    logger = new Logger("CameraState");
 }
 
 CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored) {
-
+    logger = new Logger("CameraState");
 }
 
 CameraState::~CameraState(){
-
     //carl and zack's fix
     for(auto& vector: stateData){
         for (auto& data: vector){
             delete data;
         }
     }
-
+    logger->close();
     delete logger;
 }
 
@@ -47,7 +46,8 @@ ImgData* CameraState::getState(std::string id, int i) {
     for (n = 0; n < it->size(); n++) {
         ImgData* data = it->at(n);
         if (data->getID().compare(id) == 0) {
-            ImgData *t = data; //shallow copy quick fix
+            //ImgData *t = data; //shallow copy quick fix
+            ImgData *t = new ImgData(*data);
             inUse = false;
             return t;
         }

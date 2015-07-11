@@ -71,7 +71,7 @@ private:
     int mode;
     std::vector<std::vector<float> > linesEq;
 
-    Logger* logger = new Logger("LineFilter");
+    Logger* logger;
     bool debug = true;
     void println(std::string s);
     void println(float f);

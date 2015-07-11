@@ -6,6 +6,11 @@ ShapeFilter::ShapeFilter(int shape, int amount)
     setShape(shape);
     this->max = amount;
     //contours = new std::vector<std::vector<cv::Point> >;
+    logger = new Logger("ShapeFilter");
+}
+ShapeFilter::~Filter(){
+    logger->close();
+    delete logger;
 }
 
 void ShapeFilter::print(int i){

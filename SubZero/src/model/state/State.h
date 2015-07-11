@@ -16,7 +16,7 @@ enum StateType {
 class State {
 
 private:
-    Logger* logger = new Logger("State");
+    Logger* logger;
 
 protected:
     //boolean to signal if a new frame has started
@@ -38,40 +38,6 @@ protected:
 
     //Initialize the class
 
-    /**
-     * Sets the state
-     * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-     * @param d = Pointer to state data to be set for this frame
-     * @return an int indicating whether the operation was successful
-     *  	- 0 = successful
-     *  	- 1 = called this function before startFrame is called
-     */
-    //int setState(Data* d);
-
-    /**
-     * Same thing as setState, except it takes an entire vector of data instead of 1 data
-     * Sets the state
-     * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-     * @param d = vector of State data to be set for this frame
-     * @return an int indicating whether the operation was successful
-     *  	- 0 = successful
-     *  	- 1 = called this function before startFrame is called
-     */
-    //virtual int setState(std::vector<Data*> d) = 0;
-
-    /**
-     * Gets a pointer to a deep copy of the newest raw State
-     * @return data = pointer to the deep copy of the raw State
-     */
-    virtual Data* getRaw() = 0;
-
-    /**
-     * Gets a pointer to the deep copy of the raw State _i_ frames before
-     * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
-     * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
-     */
-    virtual Data* getRaw(int i) = 0;
-
 public:
 
     State(int stateID);	//constructor
@@ -87,6 +53,42 @@ public:
     void notifyViewers();
 
     void init();
+
+    /**
+     * Sets the state
+     * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+     * @param d = Pointer to state data to be set for this frame
+     * @return an int indicating whether the operation was successful
+     *  	- 0 = successful
+     *  	- 1 = called this function before startFrame is called
+     */
+    /// NO LONGER USED
+    //int setState(Data* d);
+
+    /**
+     * Same thing as setState, except it takes an entire vector of data instead of 1 data
+     * Sets the state
+     * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
+     * @param d = vector of State data to be set for this frame
+     * @return an int indicating whether the operation was successful
+     *  	- 0 = successful
+     *  	- 1 = called this function before startFrame is called
+     */
+    ///NO LONGER IMPLEMENTED IN STATE; IMPLEMEENTED IN STATE'S CHILDS
+    //virtual int setState(std::vector<Data*> d) = 0;
+
+    /**
+     * Gets a pointer to a deep copy of the newest raw State
+     * @return data = pointer to the deep copy of the raw State
+     */
+    virtual Data* getRaw() = 0;
+
+    /**
+     * Gets a pointer to the deep copy of the raw State _i_ frames before
+     * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
+     * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
+     */
+    virtual Data* getRaw(int i) = 0;
 
     /**
      * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
@@ -109,6 +111,7 @@ public:
      * Have to be called before you can call setState()
      * Only Model should be calling this function (might implement a check for that)
      */
+    ///NO LONGER USED
     //void startFrame();
 
     /**
@@ -117,6 +120,7 @@ public:
      * If called before startFrame, then it does nothing
      * Be careful when calling this, since you cannot change the frame after it has ended
      */
+    ///NO LONGER USED
     //void endFrame();
 
 };

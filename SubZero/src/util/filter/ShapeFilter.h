@@ -22,6 +22,8 @@ public:
      */
     ShapeFilter(int shape, int amount);
 
+    ~ShapeFilter();
+
     /**
      * Filters and looks for shape
      * Works best when passed in an binary image (black/white)
@@ -78,15 +80,16 @@ public:
 private:
     int shape;              //shape to look for
     int max;
-    //rectangles
+
+    ///rectangles
     std::vector<cv::RotatedRect> rektangles;
     //cv::RotatedRect rektangle;  //bounding box of rectangle
 
-    //circles
+    ///circles
     std::vector<float> radius;
     std::vector<cv::Point2f> center;
 
-    Logger* logger = new Logger("ShapeFilter");
+    Logger* logger;
     bool debug = true;
     void print(int i);
     void println(std::string s);

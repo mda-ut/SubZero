@@ -9,9 +9,11 @@
 LineFilter::LineFilter()
 {
     this->setID("line");
+    logger = new Logger("LineFilter");
 }
 
 LineFilter::~LineFilter(){
+    logger->close();
     delete logger;
 }
 
@@ -206,46 +208,6 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
             y2 = pt2.y;
             //equation of line
             std::vector<float> eq;
-
-            /*
-            //general equation of a line, Ax + By = C
-            float A = 0, B = 0, C = 0;
-            if (std::abs(x2-x1) < xDiff){  //vertical line
-                A = x2;
-                printf("Vert ");
-            }else if (std::abs(y2-y1) < yDiff){  //horzontal line
-                B = y2;
-                printf("Horz ");
-            }else{
-                float m = (y2-y1) / (x2-x1);
-                b = y2- m*x2;
-                a = -b/m;
-
-                A = b;
-                B = a;
-                C = a*b;
-            }
-            bool repeat = false;
-            //checks if existing line already exists
-            for (std::vector<float> eqs: linesEq){
-                if (std::abs(eqs[0]-A) < diff &&
-                        std::abs(eqs[1]-B) < diff &&
-                        std::abs(eqs[2]-C) < diff){
-                    //very similar lines
-                    repeat = true;
-                }
-            }
-
-            if (!repeat){
-                std::cout<< A  <<" "<< B <<" "<< C << std::endl;
-                eq.push_back(A);    //A = delta y
-                eq.push_back(B);    //B = delta x
-                eq.push_back(C);    //C = b * delta x
-
-                linesEq.push_back(eq);
-                line(cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);       //drawing the line
-            }*/
-
 
             //y = mx+b
             //B MIGHT BE USELSES, NEED FURTHER TESTING
