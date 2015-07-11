@@ -8,7 +8,7 @@ ShapeFilter::ShapeFilter(int shape, int amount)
     //contours = new std::vector<std::vector<cv::Point> >;
     logger = new Logger("ShapeFilter");
 }
-ShapeFilter::~Filter(){
+ShapeFilter::~ShapeFilter(){
     logger->close();
     delete logger;
 }
