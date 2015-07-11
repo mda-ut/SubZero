@@ -82,7 +82,7 @@ void BuoyTask::execute(){
                     rise (cent.y - imgHeight/2);
                 }
             }else{
-                rotate(atan2(0, cent.x-imgWidth/2));
+                rotate(atan2(0, cent.x-imgWidth/2) * 180 / M_PI);
             }
         }else{
             //CIRCLES NOT FOUND

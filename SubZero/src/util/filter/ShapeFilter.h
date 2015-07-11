@@ -44,7 +44,22 @@ public:
      */
     std::vector<cv::RotatedRect> getRect();
 
+    /**
+     * Bypassing usage of states; for testing purposes
+     * Finds rectangles
+     * You can get the rectangles found by calling getRect()
+     * @param img to filter
+     * @return true if rectangle is found
+     */
     bool findRect(cv::Mat img);
+
+    /**
+     * Bypassing usage of states; for testing purposes
+     * Finds circles
+     * Need to call getCenter() and getRad() to get circle info
+     * @param img to filter
+     * @return true if circle is found
+     */
     bool findCirc(cv::Mat img);
 
     /**
@@ -66,14 +81,14 @@ public:
      * Gets a vector of centers
      * The returned vector is guaranteed to be the same size as the one from getRad()
      * The index of both vectors refer to the same circle
-     * @return
+     * @return a vector of points of centers of found circles
      */
     std::vector<cv::Point2f> getCenter();
 
     /**
      * Gets a vector of radius'
      * The returned vector is guaranteed to be the same size as the one from getCcenter()
-     * @return
+     * @return a vector of radiuses of found circles
      */
     std::vector<float> getRad();
 
@@ -82,8 +97,7 @@ private:
     int max;
 
     ///rectangles
-    std::vector<cv::RotatedRect> rektangles;
-    //cv::RotatedRect rektangle;  //bounding box of rectangle
+    std::vector<cv::RotatedRect> rektangles;    //bounding box
 
     ///circles
     std::vector<float> radius;

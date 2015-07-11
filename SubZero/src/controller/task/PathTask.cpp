@@ -56,7 +56,7 @@ void rotate(float angle) {
 void PathTask::moveTo(cv::Point2f pos) {
     // pretty much in line
     if (std::abs(pos.x-imgWidth/2) < inlineThresh) {
-        float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
+        //float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
         if (pos.y - imgHeight/2 > 0) {
             println("MoveTo moving forward");
             move(30);
