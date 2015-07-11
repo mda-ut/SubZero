@@ -66,7 +66,7 @@ void PathTask::moveTo(cv::Point2f pos) {
         }
     } else {
         println("MoveTo rotating");
-        rotate(atan2(pos.x-imgWidth/2, pos.y-imgHeight/2) * 180 / M_PI);
+        rotate(atan2(pos.y-imgHeight/2, pos.x-imgWidth/2) * 180 / M_PI);
         move(30);
     }
 }
@@ -228,7 +228,7 @@ void PathTask::execute() {
                         done = true;
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position
-                        rotate (atan2(avg-imgWidth/2, imgHeight/4*3) * 180/M_PI);
+                        rotate (atan2(imgHeight/4*3, avg-imgWidth/2) * 180/M_PI);
                         move(30);
                         /*
                         if (avg < imgWidth/2) {  //TODO: Figure out left side value
@@ -248,7 +248,7 @@ void PathTask::execute() {
                     else                    //negative slope, allign to the left side
                         x = imgWidth/4;
                     float y = align[0][0] * x + avgB;
-                    rotate(atan2(x, y-imgHeight/2) * 180 / M_PI);
+                    rotate(atan2(y-imgHeight/2, x) * 180 / M_PI);
                 }
                 foundLine = true;
             }

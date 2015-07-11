@@ -21,6 +21,7 @@ void BuoyTask::execute(){
     ImgData* data = dynamic_cast<ImgData*>(camModel->getState("raw"));
     HSVFilter green (0, 155, 0, 255, 0,255);
     HSVFilter red (0 ,155,0,255,0,255);
+    //only look for 1 circle
     ShapeFilter sf (2, 1);
     float imgWidth = data->getImg().size().width;
     float imgHeight = data->getImg().size().height;
@@ -42,8 +43,13 @@ void BuoyTask::execute(){
             green.filter(data);
         else if (!hitRed)
             red.filter(data);
+        else if (hitGreen && hitRed){
+            done = true;
+            continue;
+        }
 
         //after hitting a color, move the sub back to look for the other one
+        //TODO: CALIBRATE THIS STEP
         if (retreat > 0){
             move(-40);
             retreat -= 1;
