@@ -33,37 +33,21 @@ int atoi_safe_sim (char *str) {
     return atoi (str);
 }
 
+/* ============================================================================
+ * FUNCTIONS TO PIGGYBACK SIMFISHY
+ * ============================================================================
+ * These functions are required for subzero to piggyback SIMfishy. Copy the
+ * parallel codes to update this class but DON'T DELETE OR CHANGE THESE FUNCS :D
+ *
+ * NOTE: when copying, check for all fprintf instances and replace them with
+ * write_and_flush_term_sim(); otherwise, there may be untold consequences...
+ */
+
 int cmpstr(char* str1,char* str2)
 {
     if (strcmp(str1,str2) == 0)
         return 1;
     return 0;
-}
-
-void cmd_error_sim () { printf ("**** Invalid command. Type \"help\" for command list\n"); }
-
-void kill_child_sim ()
-{
-    closeStream(0);
-    closeStream(1);
-    closeStream(2);
-//    close(p_stdin[0]);
-//    close(p_stdout[1]);
-//    if (child_pid > 0) {
-//       kill(child_pid, SIGTERM);
-//    }
-}
-
-void exit_safe_sim ()
-{
-//    power_off_sim();
-    kill_child_sim();
-
-    exit(0);
-}
-
-pid_t popen2_sim (char *proc, int *infp, int *outfp)
-{
 }
 
 void openStream (int stream)
@@ -82,7 +66,7 @@ void openStream (int stream)
     }
     if(stream == 2)
     {
-        logfp = fopen("loginfp.txt","w");
+        logfp = fopen("inlogfp.txt","w");
         if (logfp == 0)
             printf("logfp not open!");
     }
@@ -118,6 +102,7 @@ void write_and_flush_term_sim (char* cmd)
     long size = 0;
     char power_fail_msg[] = "power failed\n";
 
+    // clear and write to infp and also log it
     clearInfp();
     fprintf(infp,"%s",cmd);
     fprintf(logfp,"%s",cmd);
@@ -125,29 +110,72 @@ void write_and_flush_term_sim (char* cmd)
     fflush(infp);
 
     while (1) {
+
+        // update the outfp file..
+        fflush(outfp);
+
+        // updates the size of the outfp file.. when size is > 0, there is new output to read
         rewind(outfp);
         fseek(outfp,0,SEEK_END);
         size = ftell(outfp);
         rewind(outfp);
-//        printf("in write loop");
+
         if (size > 0)
         {
             fgets(buf,BUF_SIZE,outfp);
-            if (cmpstr(&buf[0],power_fail_msg)==1) {
+
+            // in event that SIMfishy is terminated before SubZero
+            if (strcmp(&buf[0],power_fail_msg)==0) {
                 clearInfp();
                 power = 0;
-                printf("%s", buf);
-                exit(0);
+                printf("%s\n", buf);
+                exit(0);  // parallel to fpga_ui.c code.. this will terminate SubZero.
                 break;
             }
-            if (cmpstr(&buf[0],cmd)==1) {
-                clearInfp();
-                printf("breaking out of write\n");
+
+            // in noremal even where a output to the outfp is recognized to be the cmd input to infp
+            if (strcmp(&buf[0],cmd)==0) {
+                clearInfp(); // this clear step tells SIMfishy that there is no cmd anymore&& is vital since after each cmd read, SIMfishy will wait for infp to be cleared before reading the next cmd
                 break;
             }
         }
     }
 }
+
+void kill_child_sim ()
+{
+    closeStream(0);
+    closeStream(1);
+    closeStream(2);
+//    close(p_stdin[0]);
+//    close(p_stdout[1]);
+//    if (child_pid > 0) {
+//       kill(child_pid, SIGTERM);
+//    }
+}
+
+pid_t popen2_sim (char *proc, int *infp, int *outfp)
+{
+}
+
+/* ===============================================================================
+ * END PIGGYBACK CODES
+ * ===============================================================================
+ */
+
+
+
+void cmd_error_sim () { printf ("**** Invalid command. Type \"help\" for command list\n"); }
+
+
+void exit_safe_sim ()
+{
+//    power_off_sim();
+    kill_child_sim();
+
+    exit(0);
+}
+
 
 void help_sim () {
     cmd_ok_sim = 1;
@@ -292,8 +320,8 @@ void power_off_sim () {
 
     cmd_ok_sim = 1;
 
-    fprintf (infp, "sms a\n");
-    fprintf (infp, "sc 0\n");
+    write_and_flush_term_sim("sms a\n");
+    write_and_flush_term_sim("sc 0\n");
 
     // Make sure the power is off
     write_and_flush_term_sim ("p 0\n");
@@ -308,13 +336,10 @@ int get_power_sim() {
 
 void get_accel_sim (int *x, int *y, int *z) {
     write_and_flush_term_sim("gax\n");
-//    fscanf(outfp,"%d",x);
     assert(fscanf(outfp, "%d", x) != EOF);
     write_and_flush_term_sim("gay\n");
-//    fscanf(outfp,"%d",y);
     assert(fscanf(outfp, "%d", y) != EOF);
     write_and_flush_term_sim("gaz\n");
-//    fscanf(outfp,"%d",z);
     assert(fscanf(outfp, "%d", z) != EOF);
 }
 
