@@ -21,10 +21,11 @@ int LineFilter::filter(Data *data){
     }
 
     //begin filter sequence
+    cv::Mat src = imgData->getImg();
     cv::Mat dst;
-    cv::Mat *cdst = new cv::Mat(imgData->getImg()->clone());
-    Canny(*imgData->getImg(), dst, 50, 200, 3);
-    cvtColor(dst, *cdst, CV_GRAY2BGR);
+    cv::Mat cdst = src.clone();
+    Canny(src, dst, 50, 200, 3);
+    cvtColor(dst, cdst, CV_GRAY2BGR);
 
     std::vector<cv::Vec2f> lines;
     //detects lines
@@ -52,16 +53,18 @@ int LineFilter::filter(Data *data){
         //line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);     //drawing the line
     }
 
+    //should i set imgData to something?? -Carl
+
     //track and return
     this->track(imgData, this->filterID, 0,0);
     return 0;
 }
 
-cv::Mat* LineFilter::filter(cv::Mat *src, int mode){
+cv::Mat LineFilter::filter(cv::Mat src, int mode){
     cv::Mat dst;
-    cv::Mat *cdst = new cv::Mat(src->clone());
-    Canny(*src, dst, 50, 200, 3);
-    cvtColor(dst, *cdst, CV_GRAY2BGR);
+    cv::Mat cdst = src.clone();
+    Canny(src, dst, 50, 200, 3);
+    cvtColor(dst, cdst, CV_GRAY2BGR);
 
     if (mode == 0){
         std::vector<cv::Vec2f> lines;
@@ -87,7 +90,7 @@ cv::Mat* LineFilter::filter(cv::Mat *src, int mode){
             eq.push_back((float)pt1.y - eq[0]*(float(pt1.x)));
             linesEq.push_back(eq);
 
-            line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);       //drawing the line
+            line(cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);       //drawing the line
         }
     }
     else{
@@ -95,7 +98,7 @@ cv::Mat* LineFilter::filter(cv::Mat *src, int mode){
         HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
         for( size_t i = 0; i < lines.size(); i++ ){
             cv::Vec4i l = lines[i];
-            line(*cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
+            line(cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]),
                     cv::Scalar(0,0,255), 3, CV_AA);
         }
     }

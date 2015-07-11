@@ -7,13 +7,19 @@
 
 #include "FPGAState.h"
 
-FPGAState::FPGAState() : State(){
+FPGAState::FPGAState(int stateID) : State(stateID){
 }
-FPGAState::FPGAState(int framesStored) : State(framesStored){
+FPGAState::FPGAState(int stateID, int framesStored) : State(stateID, framesStored){
 }
 
 FPGAState::~FPGAState(){
-	unsigned int i;
+    for (auto& vector : stateData) {
+        for (auto& data : vector) {
+            delete data;
+        }
+    }
+
+    /*unsigned int i;
 	for (i = 0; i < stateData.size(); i++){
 		std::vector<FPGAData*> temp = stateData.front();
 		for (unsigned int n = 0; n < temp.size(); n++){
@@ -21,7 +27,7 @@ FPGAState::~FPGAState(){
 			temp.pop_back();
 		}
 		stateData.pop_front();
-	}
+    }*/
 	//delete stateData;
 }
 
@@ -35,9 +41,9 @@ FPGAData* FPGAState::getState(std::string ID){
 
 	unsigned int i;
 	for (i = 0; i < temp.size(); i++){
-		FPGAData* data = temp.at(i);
+        FPGAData* data = temp[i];
 		if (data->getID().compare(ID) == 0){
-			FPGAData *t = new FPGAData(data);
+            FPGAData *t = new FPGAData(*data);
 			inUse = false;
 			return t;
 		}
@@ -64,7 +70,7 @@ FPGAData* FPGAState::getState(std::string ID, int i){
 	for (n = 0; n < it->size(); n++){
 		FPGAData* data = it->at(n);
 		if (data->getID().compare(ID) == 0){
-			FPGAData *t = new FPGAData(data);
+            FPGAData *t = new FPGAData(*data);
 			inUse = false;
 			return t;
 		}

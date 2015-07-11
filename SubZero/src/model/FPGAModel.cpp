@@ -7,22 +7,29 @@
 
 #include "FPGAModel.h"
 
+FPGAModel::FPGAModel(State *inputState, HwInterface *inputInterface) : Model(inputState, inputInterface){
+}
+
+FPGAModel::~FPGAModel(){
+}
+
 void FPGAModel::sendCommand(std::string cmd){
 // Emma go!!
 }
 
 Data* FPGAModel::getDataFromBuffer(){
-	Data* rawFPGAData = ((FPGAInterface*)&(this->interface))->getDataFromBuffer();
+    Data* rawFPGAData = interface->getDataFromBuffer/*<FPGAData>*/();
 	return rawFPGAData;
 }
 
 std::vector<Data*> FPGAModel::constructDataSet(){
 	std::vector<Data*> fpgaDataSet;
-	Data* rawFPGAData = this->getDataFromBuffer();
+    //Data* rawFPGAData = this->getDataFromBuffer();
+    Data* rawFPGAData = interface->getDataFromBuffer/*<FPGAData>*/();
 	fpgaDataSet.push_back(rawFPGAData);
-	for(std::vector<FilterManager*>::iterator it = this->filterManagerList.begin();it!=filterManagerList.end();++it){
-		Data* deepCopyFPGA = rawFPGAData; // Check if the operator overload for = is right. Don't know don't know yet
-		(*it)->applyFilterChain(deepCopyFPGA);
+    for(auto& fm : filterManagerList){
+        Data* deepCopyFPGA = new FPGAData(*((FPGAData*)rawFPGAData)); // Check if the operator overload for = is right. Don't know don't know yet
+        fm->applyFilterChain(deepCopyFPGA);
 		fpgaDataSet.push_back(deepCopyFPGA);
 	}
 	return fpgaDataSet;
@@ -36,6 +43,7 @@ void FPGAModel::storeToState(std::vector<Data*> dataSet){
 	((FPGAState*) &(this->state))->setState(newData);
 }
 
-void FPGAModel::dataTransfer(){
+bool FPGAModel::dataTransfer(){
 	this->storeToState(constructDataSet());
+    return true;
 }

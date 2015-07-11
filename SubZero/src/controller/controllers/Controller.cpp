@@ -7,20 +7,47 @@
 
 #include "Controller.h"
 #include "ControllerThread.h"
-//
-//Controller::Controller(std::vector <Model*> model){
-//    ControllerThread *cT = new ControllerThread();
-//    cT->moveToThread(&queueThread);
-//	connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
-//	connect(this, &Controller::beginCT, cT, &ControllerThread::executeCommands);
-//	connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
-//	queueThread.start();
-//}
-//
-//    //Destructor to free pointers
-//Controller::~Controller(){
-//
-//}
-//
-//void Controller::cTHandleResults(const QString &){}
-//
+#include <iostream>
+
+Controller::Controller(){
+    taskList = new QQueue <class Task* >;
+}
+
+Controller::Controller(std::vector<Model*> models_){
+    models = models_;
+    taskList = new QQueue <class Task* >;
+}
+
+void Controller::initialize(void) {
+    cT = new ControllerThread(taskList, &mutex);
+    cT->moveToThread(&queueThread);
+    connect(this, &Controller::beginCT, cT, &ControllerThread::executeTasks);
+    connect(cT, &ControllerThread::resultReady, this, &Controller::cTHandleResults);
+    connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
+    queueThread.start();
+    emit beginCT("Begin handling Commands");
+}
+
+    //Destructor to free pointers
+Controller::~Controller(){
+    if(queueThread.isRunning()){
+        queueThread.quit();
+            queueThread.wait();
+    }
+    while(!taskList->isEmpty()){
+        Task *temp = taskList->dequeue();
+        delete temp;
+    }
+    delete taskList;
+}
+
+void Controller::cTHandleResults(const QString &s){
+    std::cout << "Bye Bye Beautiful!!" << std::endl;
+}
+
+void Controller::addTaskToQueue(Task *newTask)
+{
+    mutex.lock();
+    taskList->enqueue(newTask);
+    mutex.unlock();
+}

@@ -1,7 +1,7 @@
 #ifndef GUIVIEW_H
 #define GUIVIEW_H
 
-#include "view.h"
+#include "View.h"
 #include "observer.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>

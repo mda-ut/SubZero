@@ -10,6 +10,8 @@
 
 #include "../../util/data/Data.h"
 #include <queue>
+#include <thread>
+#include <iostream>
 
 
 /**
@@ -41,168 +43,162 @@ class HwInterface {
 
 protected:
 
-	/* ==========================================================================
-	 * 								CLASS VARIABLES
-	 * ==========================================================================
-	 */
+    /* ==========================================================================
+     * 								CLASS VARIABLES
+     * ==========================================================================
+     */
 
-	/**
-	 * Pointer to memory allocated for storing raw (but
-	 * decoded) data from hardware.
-	 */
-	std::queue<Data> decodedBuffer;
+    /**
+     * Pointer to memory allocated for storing raw (but
+     * decoded) data from hardware.
+     */
+    std::queue<Data*> decodedBuffer;
 
-	/**
-	 * Allocate only enough memory to keep a max of
-	 * this number of hardware inputs; discard all after that.
-	 */
-	int bufferSize;
+    /**
+     * Allocate only enough memory to keep a max of
+     * this number of hardware inputs; discard all after that.
+     */
+    int bufferSize;
 
-	/**
-	 * Poll data from hardware at this frequency (number of polls per second).
-	 * A.k.a. sampling rate.
-	 */
-	int pollFrequency;
+    /**
+     * Poll data from hardware at this frequency (number of polls per second).
+     * A.k.a. sampling rate.
+     */
+    int pollFrequency;
 
-	/**
-	 * Specifies the encoding and decoding policy to use.
-	 * Alternatively, we can implement encode(), decode() ... etc
-	 * differently for each hardwares when we branch out
-	 * from the parent class.
-	 */
-	int policy;
+    bool executing;
+
+    std::vector<std::thread> readThreads; // needs c++11
 
 
-	/*
-	 * ID of hardware this interface interacts with.
-	 * The hardware can be accessed (somehow) via this ID.
-	 */
-	int hardwareID;
+    /* ==========================================================================
+     * 				INTERACTING WITH DATA COMING IN (FROM HARDWARE)
+     * ==========================================================================
+     * This interface class will be automatically polling and managing
+     * the polling process privately within the interface at pollFrequency
+     * using the functions below.
+     * NOTE: In abstract parent HwInterface, these functions are just placeholders.
+     */
 
+    /**
+     * Poll raw data from the hardware.
+     */
+    virtual void poll()=0;
 
-	/* ==========================================================================
-	 * 				INTERACTING WITH DATA COMING IN (FROM HARDWARE)
-	 * ==========================================================================
-	 * This interface class will be automatically polling and managing
-	 * the polling process privately within the interface at pollFrequency
-	 * using the functions below.
-	 * NOTE: In abstract parent HwInterface, these functions are just placeholders.
-	 */
+    /**
+     * Decode the data.
+     * @param	data	data to be decoded
+     * @return	decoded data in a format defined in Data.h
+     */
+   // virtual Data* decode()=0;
 
-	/**
-	 * Poll raw data from the hardware.
-	 */
-	virtual void poll();
+    /* ==========================================================================
+     * 							MANAGING DATA BUFFER
+     * ==========================================================================
+     * The data buffer will be managed automatically and privately by this class.
+     * These functions are defined and implemented in the root parent class i.e. .
+     * HwInterface (this class).
+     */
 
-	/**
-	 * Decode the data.
-	 * @param	data	data to be decoded
-	 * @return	decoded data in a format defined in Data.h
-   	 */
-	virtual Data* decode();
+    /**
+     * Delete buffer from startIdx to endIdx
+     */
+    virtual void deleteFromBuffer();
 
-	/* ==========================================================================
-	 * 							MANAGING DATA BUFFER
-	 * ==========================================================================
-	 * The data buffer will be managed automatically and privately by this class.
-	 * These functions are defined and implemented in the root parent class i.e. .
-	 * HwInterface (this class).
-	 */
-
-	/**
-	 * Delete buffer from startIdx to endIdx
-	 */
-	virtual void deleteFromBuffer();
-
-	/**
-	  * Store decoded data to buffer.
-	  * @param	data	data to be stored to buffer.
-	  */
-	virtual void storeToBuffer(Data* data);
+    /**
+      * Store decoded data to buffer.
+      * @param	data	data to be stored to buffer.
+      */
+    virtual void storeToBuffer(Data* data);
 
 public:
 
-	/* ==========================================================================
-	 * 				INTERACTING WITH DATA GOING OUT (TO HARDWARE)
-	 * ==========================================================================
-	 * The interface provides functions for other classes of the software system
-	 * to send data/commands/messages to the hardware. These functions are to be
-	 * implemented by the children. Here they are just placeholders.
-	 */
+    /* ==========================================================================
+     * 				INTERACTING WITH DATA GOING OUT (TO HARDWARE)
+     * ==========================================================================
+     * The interface provides functions for other classes of the software system
+     * to send data/commands/messages to the hardware. These functions are to be
+     * implemented by the children. Here they are just placeholders.
+     */
 
-	/**
-	 * Encodes the data to be sent.
-	 * @param	data	data to be encoded
-	 * @return	encoded data
-	 */
-	virtual void encode();
+    virtual void in();
+    /**
+     * Encodes the data to be sent.
+     * @param	data	data to be encoded
+     * @return	encoded data
+     */
+ //   virtual void encode();
 
-	/**
-	 * Send the data.
-	 * @param	data	data to be sent
-   	 */
-	virtual void send();
-
-
-	/* ==========================================================================
-	 * 								GETTERS AND SETTERS
-	 * ==========================================================================
-	 */
-
-	/**
-	 * Return the most recent buffer data.
-	 * This function is defined and implemented by the parent class (HwInterface).
-	 * @return	Data*	the most recent data in buffer
-	 *
-	 */
-	virtual Data* getDataFromBuffer();
-
-	/**
-	 * Get the frequency of data polling (polls per second)
-	 * @return	polling frequency i.e. sampling rate
-	 */
-	virtual int getPollFrequency();
-
-	/**
-	 * Set the frequency of data polling (polls per second)
-	 * @param	frequency	set polling to this frequency
-	 */
-	virtual void setPollFrequency(int frequency);
-
-	/**
-	 * Get size of buffer.
-	 * @return	size of the buffer
-	 */
-	virtual int getBufferSize();
-
-	/**
-	 * Set size of buffer.
-	 * @param	bufferSize	reset buffer size to this
-	 */
-	virtual void setBufferSize(int bufferSize);
+    /**
+     * Send the data.
+     * @param	data	data to be sent
+     */
+  //  virtual void send();
 
 
-	/* ==========================================================================
-	 * 							CONSTRUCTOR AND DESTRUCTOR
-	 * ==========================================================================
-	 */
+    /* ==========================================================================
+     * 								GETTERS AND SETTERS
+     * ==========================================================================
+     */
 
-	/**
-	 * Constructor for Hardware Interface
-	 * @param	bufferSize	buffer size for the interface
-	 * @param	pollFrequency	number of polls per second
-	 */
-	HwInterface(int bufferSize, int pollFrequency);
+    /**
+     * Return the most recent buffer data.
+     * This function is defined and implemented by the parent class (HwInterface).
+     * @return	Data*	the most recent data in buffer
+     *
+     */
+    virtual Data* getDataFromBuffer();
 
-	/**
-	 * Destructor
-	 */
-	virtual ~HwInterface();
+    template<class dataType> dataType* getDataFromBuffer();
+    /**
+     * Get the frequency of data polling (polls per second)
+     * @return	polling frequency i.e. sampling rate
+     */
+    virtual int getPollFrequency();
+
+    /**
+     * Set the frequency of data polling (polls per second)
+     * @param	frequency	set polling to this frequency
+     */
+    virtual void setPollFrequency(int frequency);
+
+    /**
+     * Get size of buffer.
+     * @return	size of the buffer
+     */
+    virtual int getBufferSize();
+
+    /**
+     * Set size of buffer.
+     * @param	bufferSize	reset buffer size to this
+     */
+    virtual void setBufferSize(int bufferSize);
+
+
+    /* ==========================================================================
+     * 							CONSTRUCTOR AND DESTRUCTOR
+     * ==========================================================================
+     */
+
+    /**
+     * Constructor for Hardware Interface
+     * @param	bufferSize	buffer size for the interface
+     * @param	pollFrequency	number of polls per second
+     */
+    HwInterface();
+    HwInterface(int bufferSize, int pollFrequency);
+
+    virtual void init()=0;
+
+    /**
+     * Destructor
+     */
+    virtual ~HwInterface();
 
 };
 
 
-#endif 
+#endif
 
 
 /* HWINTERFACE_H_ */

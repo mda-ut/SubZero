@@ -9,17 +9,19 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QObject>
+#include "../util/PropertyReader.h"
+
+
 
 class Menu : public QWidget
 {
     Q_OBJECT
 public:
-    Menu();
+    Menu(PropertyReader* settings_);
     virtual ~Menu();
     void paintEvent(QPaintEvent *event);
 
 
-private:
     QSize buttonRectSize;
     QFont menuItemFont;
     QPoint temp;
@@ -32,13 +34,19 @@ private:
 
     QGridLayout *mainLayout;
 
+    PropertyReader* settings;
+
+private:
+    void initializeMenu();
 
 
 public slots:
+   void makeGuiView();
+  /*
   void makeGuiView();
   void makeSimView();
   void makeAutView();
+  */
 };
 
 #endif // MENU_H
-

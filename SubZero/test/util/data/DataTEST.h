@@ -17,32 +17,35 @@
 class DataTEST {
 
 public:
-	static int runUnits();
+    int runUnits();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
 	 * ==========================================================================
 	 */
 
-	static int T_Constructor();
-	static int T_Destructor();
+    int T_Constructor();
+    int T_Destructor();
 
 	/* ==========================================================================
 	 * PUBLIC FUNCS COMMON TO ALL CHILDREN
 	 * ==========================================================================
 	 */
 
-	static int T_getID();
-	static int T_getMsg();
-	static int T_setMsg();
+    int T_getID();
+    int T_getMsg();
+    int T_setMsg();
 
 	/* ==========================================================================
 	 * OPERATOR OVERLOAD
 	 * ==========================================================================
 	 */
 
-	static int T_opEqual();
-	static int T_cpConstructor();
+    int T_opEqual();
+    int T_cpConstructor();
+
+private:
+    Logger* logger = new Logger("DataTEST");
 
 };
 

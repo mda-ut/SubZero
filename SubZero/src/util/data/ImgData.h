@@ -28,11 +28,12 @@ class ImgData: public Data {
 
 private:
 
+    Logger* logger = new Logger("ImgData");
+
 	/* ==========================================================================
 	 * FRIEND FUNCS
 	 * ==========================================================================
 	 */
-
 	/*
 	 * Set function for changing the imgID
 	 *
@@ -55,7 +56,7 @@ public:
 	 * Pointer to the actual image object. Mat is the designated standard
 	 * image type.
 	 */
-	cv::Mat* img;
+    cv::Mat img;
 
 	/* ==========================================================================
 	 * CONSTRUCTOR & DESTRUCTOR
@@ -68,7 +69,7 @@ public:
 	 * @param ID of the new image
 	 * @param the actual image object pointer to be wrapped. Use openCVs Mat.
 	 */
-	ImgData(std::string dataID,cv::Mat* img);
+    ImgData(std::string dataID,cv::Mat img);
 
 	/**
 	 * Destructor stub.
@@ -87,7 +88,7 @@ public:
 	 *
 	 * @param newImg	the pointer to the new Mat obj to wrap
 	 */
-	void setImg(cv::Mat* newImg);
+    void setImg(cv::Mat newImg);
 
 	/**
 	 * Getter for img data, invoker must expect the standard image type,
@@ -97,7 +98,7 @@ public:
 	 *
 	 * @return standard image pointer.
 	 */
-	cv::Mat* getImg();
+    cv::Mat getImg();
 
 	/**
 	 * Getter for image height.
@@ -116,6 +117,7 @@ public:
 	/**
 	 * Attempts to show the Mat img in a new window.
 	 */
+
 	void showImg(std::string windowName="");
 
 	/**
@@ -135,14 +137,14 @@ public:
 	 * @param rhs	the right hand side of the equal operator, the parent copy
 	 * @return		address to a new ImgData
 	 */
-	ImgData* operator=(ImgData* rhs);
+    ImgData& operator=(const ImgData& rhs);
 
 	/**
 	 * Copy constructor
 	 *
 	 * @param obj	the object referenced in the construction
 	 */
-	ImgData(const ImgData* obj);
+    ImgData(const ImgData& obj);
 };
 
 #endif /* IMGDATA_H_ */

@@ -19,11 +19,15 @@
 #include "util/data/FPGADataTEST.h"
 
 #include "util/filter/RGBFilterTEST.h"
+#include "../src/util/Logger.h"
 
 class CollectionTEST {
 public:
-	static int runDataAndFilterManagerCollection();
-	static int runFilterCollection();
+    int runDataAndFilterManagerCollection();
+    int runFilterCollection();
+
+private:
+    Logger* logger = new Logger("CollectionTEST");
 };
 
 #endif /* TEST_COLLECTIONTEST_H_ */

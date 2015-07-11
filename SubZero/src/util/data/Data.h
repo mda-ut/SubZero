@@ -9,8 +9,7 @@
 #define DATA_H_
 
 #include <cv.h>
-#include <highgui.h>
-
+#include <opencv2/highgui.hpp>
 #include <string.h>
 #include "../StringTools.h"
 
@@ -52,7 +51,7 @@ protected:
 	 */
 	std::string msg;
 
-	/*
+    /**
 	 * Tracks the things that changed the data. Usually tracks which filters were applied to the image.
 	 */
 	std::string tracker;
@@ -156,14 +155,14 @@ public:
 	 * @param rhs	the right hand side of the equal operator, the parent copy
 	 * @return		address to a new Data
 	 */
-	Data* operator=(Data* rhs);
+    //Data* operator=(Data* rhs);
 
 	/**
 	 * Copy constructor
 	 *
 	 * @param obj	the object referenced in the construction
 	 */
-	Data(const Data* obj);
+    //Data(const Data* obj);
 };
 
 #endif /* DATA_H_ */

@@ -16,8 +16,11 @@
 
 class StateTester{
 public:
-	static void run();
+    void run();
 private:
+
+    Logger* logger = new Logger("StateTester");
+
 	ImgData* generateImgData(std::string id, std::string msg);
 	std::vector<ImgData*> generateImgVector(int i);
 	bool testImgBasics();

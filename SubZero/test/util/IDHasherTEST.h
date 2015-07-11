@@ -16,33 +16,36 @@
 class IDHasherTEST {
 public:
 
-	static int runUnits();
+    int runUnits();
 
 	/* ==========================================================================
 	 * CONSTRUCTOR AND DESTRUCTOR
 	 * ==========================================================================
 	 */
 
-	static int T_Constructor();
-	static int T_Destructor();
+    int T_Constructor();
+    int T_Destructor();
 
 	/* ==========================================================================
 	 * BASIC ADT METHODS
 	 * ==========================================================================
 	 */
 
-	static int T_get();
-	static int T_insByIndex();
-	static int T_insByID();
-	static int T_delByIndex();
-	static int T_delByID();
-	static int T_delAll();
+    int T_get();
+    int T_insByIndex();
+    int T_insByID();
+    int T_delByIndex();
+    int T_delByID();
+    int T_delAll();
 
 	/* ===========================================================================
 	 * SUPPLAMENTS
 	 * ===========================================================================
 	 */
-	static int T_getNodeIDList();
+    int T_getNodeIDList();
+
+private:
+    Logger* logger = new Logger("IDHasherTEST");
 };
 
 #endif /* TEST_UTIL_IDHASHERTEST_H_ */

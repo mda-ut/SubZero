@@ -7,13 +7,15 @@
  */
 #include "State.h"
 
-State::State() {
+State::State(int stateID_) {
+    stateID = stateID_;
 	init();
 }
 
-State::State(int framesStored) {
-	init();
+State::State(int stateID_, int framesStored) {
+    stateID = stateID_;
 	maxLength = framesStored;
+    init();
 }
 
 State::~State() {
@@ -23,6 +25,17 @@ void State::init(){
 	this->frameStarted = false;
 	this->maxLength = 15;
 	this->inUse = false;
+}
+
+void State::addViewer(View* viewer) {
+    viewers.insert(viewer);
+}
+
+
+void State::notifyViewers() {
+    for (auto& viewer : viewers) {
+        viewer->update(stateID);
+    }
 }
 /*
 Data* State::getState (std::string ID, int i){

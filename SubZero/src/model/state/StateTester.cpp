@@ -12,29 +12,29 @@
 #include "StateTester.h"
 
 ImgData* StateTester::generateImgData(std::string id, std::string msg){
-	cv::Mat *m = new cv::Mat(10, 10, 2);
+    cv::Mat m(10, 10, 2);
 	ImgData *d = new ImgData(id, m);
 	d->setMsg(msg);
 	return d;
 }
 
 std::vector<ImgData*> StateTester::generateImgVector(int i){
-	std::vector<ImgData*> vec;
+    std::vector<ImgData*> vec;
 	if (i == 1){
-		vec.push_back(generateImgData("First", "msg1"));
-		vec.push_back(generateImgData("Second", "msg2"));
-		vec.push_back(generateImgData("Third", "msg3"));
+        vec.push_back(generateImgData("First", "msg1"));
+        vec.push_back(generateImgData("Second", "msg2"));
+        vec.push_back(generateImgData("Third", "msg3"));
 	}else if (i == 2){
-		vec.push_back(generateImgData("1", "one"));
-		vec.push_back(generateImgData("2", "two"));
-		vec.push_back(generateImgData("3", "three"));
-		vec.push_back(generateImgData("4", "four"));
-		vec.push_back(generateImgData("5", "five"));
-		vec.push_back(generateImgData("6", "six"));
-		vec.push_back(generateImgData("7", "seven"));
-		vec.push_back(generateImgData("8", "eight"));
-		vec.push_back(generateImgData("9", "nine"));
-		vec.push_back(generateImgData("10", "ten"));
+        vec.push_back(generateImgData("1", "one"));
+        vec.push_back(generateImgData("2", "two"));
+        vec.push_back(generateImgData("3", "three"));
+        vec.push_back(generateImgData("4", "four"));
+        vec.push_back(generateImgData("5", "five"));
+        vec.push_back(generateImgData("6", "six"));
+        vec.push_back(generateImgData("7", "seven"));
+        vec.push_back(generateImgData("8", "eight"));
+        vec.push_back(generateImgData("9", "nine"));
+        vec.push_back(generateImgData("10", "ten"));
 	}
 	else{
 
@@ -49,15 +49,15 @@ FPGAData* StateTester::generateFPGAData(std::string id, std::string msg){
 	return d;
 }
 std::vector<FPGAData*> StateTester::generateFPGAVector(int i){
-	std::vector<FPGAData*> vec;
+    std::vector<FPGAData*> vec;
 	if (i == 1){
-		vec.push_back(generateFPGAData("First", "msg1"));
-		vec.push_back(generateFPGAData("Second", "msg2"));
+        vec.push_back(generateFPGAData("First", "msg1"));
+        vec.push_back(generateFPGAData("Second", "msg2"));
 	}else if (i == 2){
-		vec.push_back(generateFPGAData("1", "one"));
-		vec.push_back(generateFPGAData("2", "two"));
-		vec.push_back(generateFPGAData("3", "three"));
-		vec.push_back(generateFPGAData("4", "four"));
+        vec.push_back(generateFPGAData("1", "one"));
+        vec.push_back(generateFPGAData("2", "two"));
+        vec.push_back(generateFPGAData("3", "three"));
+        vec.push_back(generateFPGAData("4", "four"));
 	}
 	else{
 
@@ -71,9 +71,9 @@ std::vector<FPGAData*> StateTester::generateFPGAVector(int i){
  * Test the basic State; make sure it can be created and an image stored
  */
 bool StateTester::testImgBasics(){
-	CameraState cs;
+    CameraState cs(FRONTCAM);
 
-	cs.setState(generateImgVector(1));
+    cs.setState(generateImgVector(1));
 	return cs.getState("First")->getMsg().compare("msg1") == 0;
 }
 
@@ -82,10 +82,10 @@ bool StateTester::testImgBasics(){
  * Tests the above for both constructors
  */
 bool StateTester::testImgSize(){
-	CameraState CS;
-	CS.setState(generateImgVector(1));
+    CameraState CS(FRONTCAM);
+    CS.setState(generateImgVector(1));
 	for (int i = 0; i < 10; i++){
-		CS.setState(generateImgVector(2));
+        CS.setState(generateImgVector(2));
 	}
 	CS.getState("First", 10);
 	CS.getState("1", 9);
@@ -99,23 +99,23 @@ bool StateTester::testImgSize(){
 		cs.setState(generateImgVector(2));
 	}
 
-	//Logger::trace(cs.getState("First", 7)->getMsg());
+    //logger->trace(cs.getState("First", 7)->getMsg());
 	cs.setState(generateImgVector(2));
-	//Logger::trace(cs.getState("First", 8)->getMsg());
+    //logger->trace(cs.getState("First", 8)->getMsg());
 	cs.setState(generateImgVector(2));
 
 	return cs.getState("First", 9) == 0;
 }
 
 bool StateTester::testFPGABasics(){
-	FPGAState fs;
+    FPGAState fs(SIMFPGA);
 	fs.setState(generateFPGAVector(1));
 
 	return fs.getState("First")->getMsg().compare("msg1") == 0;
 }
 
 bool StateTester::testFPGASize(){
-	FPGAState FS;
+    FPGAState FS(SIMFPGA);
 	FS.setState(generateFPGAVector(1));
 	for (int i = 0; i < 10; i++){
 		FS.setState(generateFPGAVector(2));
@@ -135,9 +135,9 @@ bool StateTester::testFPGASize(){
 		fs.setState(generateFPGAVector(2));
 	}
 
-	//Logger::trace(fs.getState("First", 7)->getMsg());
+    //logger->trace(fs.getState("First", 7)->getMsg());
 	fs.setState(generateFPGAVector(2));
-	//Logger::trace(fs.getState("First", 8)->getMsg());
+    //logger->trace(fs.getState("First", 8)->getMsg());
 	fs.setState(generateFPGAVector(2));
 
 	return fs.getState("First", 9) == 0;
@@ -145,45 +145,45 @@ bool StateTester::testFPGASize(){
 
 void StateTester::run(){
 	StateTester st;
-	Logger::trace("===========Starting Image State Testing===========");
+    logger->trace("===========Starting Image State Testing===========");
 
 	//========================================================================
-	Logger::trace("-----Testing basics-----");
+    logger->trace("-----Testing basics-----");
 	if (st.testImgBasics())
-		Logger::trace("Basics passed");
+        logger->trace("Basics passed");
 	else
-		Logger::trace("Basics test FAILED");
+        logger->trace("Basics test FAILED");
 
 	//========================================================================
-	Logger::trace("-----Testing size-----");
+    logger->trace("-----Testing size-----");
 	if (st.testImgSize())
-		Logger::trace("Size passed");
+        logger->trace("Size passed");
 	else
-		Logger::trace("Size test FAILED");
+        logger->trace("Size test FAILED");
 
 
-	Logger::trace("============End Image State Testing===============");
+    logger->trace("============End Image State Testing===============");
 	//===============================================================================================
 	//									FPGA State testing
 	//===============================================================================================
-	Logger::trace("===========Starting FPGA State Testing===========");
+    logger->trace("===========Starting FPGA State Testing===========");
 
 	//========================================================================
-	Logger::trace("-----Testing basics-----");
+    logger->trace("-----Testing basics-----");
 	if (st.testFPGABasics())
-		Logger::trace("Basics passed");
+        logger->trace("Basics passed");
 	else
-		Logger::trace("Basics test FAILED");
+        logger->trace("Basics test FAILED");
 
 	//========================================================================
-	Logger::trace("-----Testing size-----");
+    logger->trace("-----Testing size-----");
 	if (st.testFPGASize())
-		Logger::trace("Size passed");
+        logger->trace("Size passed");
 	else
-		Logger::trace("Size test FAILED");
+        logger->trace("Size test FAILED");
 
 
-	Logger::trace("============End FPGA State Testing===============");
+    logger->trace("============End FPGA State Testing===============");
 
 }
 

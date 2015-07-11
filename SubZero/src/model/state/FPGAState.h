@@ -19,14 +19,14 @@ class FPGAState : public State {
 
 	//all of this class' variables are inherited from its parent (State.h)
 protected:
-	std::list<std::vector<FPGAData*> > stateData;
+    std::list<std::vector<FPGAData*>> stateData;
 
 public:
 	/**
 	 * constructor
 	 */
-	FPGAState();
-	FPGAState(int framesStored);
+    FPGAState(int stateID);
+    FPGAState(int stateID, int framesStored);
 
 	/**
 	 * destructor

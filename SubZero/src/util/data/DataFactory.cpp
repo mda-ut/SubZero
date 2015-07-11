@@ -11,7 +11,7 @@ Data* DataFactory::createData(std::string dataID) {
 	return new Data(dataID);
 }
 
-ImgData* DataFactory::createImgData(std::string imgID, cv::Mat* img) {
+ImgData* DataFactory::createImgData(std::string imgID, cv::Mat img) {
 	return new ImgData(imgID,img);
 }
 
