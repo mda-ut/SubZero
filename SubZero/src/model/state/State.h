@@ -10,7 +10,7 @@
 enum StateType{
     FRONTCAM,
     DOWNCAM,
-    FPGA
+    SIMFPGA
 };
 
 class State {

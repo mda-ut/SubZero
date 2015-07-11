@@ -35,7 +35,7 @@ void ShowCaseView::update(int ID) {
         //std::cout << "make down" << std::endl;
         break;
     }
-    case FPGA:
+    case SIMFPGA:
         break;
     }
     repaint();

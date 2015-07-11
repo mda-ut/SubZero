@@ -1,0 +1,21 @@
+gd
+4.0
+ga
+120.5
+gax
+1
+gay
+2
+gaz
+3
+gd
+4.0
+ga
+120.5
+gax
+1
+gay
+2
+gaz
+3
+power failed

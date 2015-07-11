@@ -1,0 +1,3 @@
+FILETYPE = .avi
+ZEROPAD = 6
+

@@ -12,15 +12,17 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
     logger = new Logger(filename+"-VideoLogging");
 
     if (fps < 1) {
-        PropertyReader* settings = new PropertyReader("../settings/settings.txt");
+        PropertyReader* settings = new PropertyReader("../../SubZero/src/settings/settings.txt");
+        settings->load();
         this->fps = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
         delete settings;
     } else
         this->fps = fps;
 
-    PropertyReader* videoLogger = new PropertyReader("../settings/videoLogger.txt");
-    this->pad = 6;//std::stoi((videoLogger->getProperty("VIDEO_LOGGER_ZEROPAD")));
-    this->filetype = videoLogger->getProperty("VIDEO_LOGGER_FILETYPE");
+    PropertyReader* videoLogger = new PropertyReader("../../SubZero/src/settings/videoLogger.txt");
+    videoLogger->load();
+    this->pad = std::stoi(videoLogger->getProperty("ZEROPAD"));
+    this->filetype = videoLogger->getProperty("FILETYPE");
     delete videoLogger;
 
     this->it = 0;
@@ -28,8 +30,6 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
     this->error = 0;
 
     // make the output directory
-//    char cmd[256];
-//    snprintf(cmd,256,"mkdir videoLog && cd videoLog && mkdir %s",filename);
     std::system(("mkdir videoLog && cd videoLog && mkdir "+filename).c_str());
 }
 

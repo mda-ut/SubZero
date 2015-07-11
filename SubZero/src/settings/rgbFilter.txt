@@ -1,0 +1,2 @@
+RGB_MAX_COLOUR = 255
+

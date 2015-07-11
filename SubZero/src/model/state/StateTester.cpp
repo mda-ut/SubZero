@@ -108,14 +108,14 @@ bool StateTester::testImgSize(){
 }
 
 bool StateTester::testFPGABasics(){
-    FPGAState fs(FPGA);
+    FPGAState fs(SIMFPGA);
 	fs.setState(generateFPGAVector(1));
 
 	return fs.getState("First")->getMsg().compare("msg1") == 0;
 }
 
 bool StateTester::testFPGASize(){
-    FPGAState FS(FPGA);
+    FPGAState FS(SIMFPGA);
 	FS.setState(generateFPGAVector(1));
 	for (int i = 0; i < 10; i++){
 		FS.setState(generateFPGAVector(2));

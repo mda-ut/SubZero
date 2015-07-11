@@ -106,7 +106,9 @@ void HwInterface::setBufferSize(int bufferSize) {
  * ==========================================================================
  */
 
-HwInterface::HwInterface(){}
+HwInterface::HwInterface(){
+
+}
 
 HwInterface::HwInterface(int bufferSize, int pollFrequency) {
 
