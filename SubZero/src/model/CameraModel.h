@@ -9,9 +9,8 @@
 #define CAMERAMODEL_H_
 
 #include "Model.h"
-#include "state/CameraState.h"
-#include "interface/HwInterface.h"
-#include "interface/CameraInterface.h"
+#include "CameraState.h"
+#include "CameraInterface.h"
 
 /**
  * This is a concrete model child that inherits from Model. It implements functions
@@ -30,7 +29,7 @@ public:
      * @param	inputState		an observable pointer that is expected to be a CameraState pointer
      * @param	inputInterface	a HwInterface pointer that is expected to be a CameraInterface pointer
      */
-    CameraModel(State* inputState, HwInterface* inputInterface);
+    CameraModel(State* inputState, HwInterface* inputInterface, int frequency);
 
     virtual ~CameraModel();
 
@@ -41,36 +40,25 @@ public:
      * This sends command to the FPGA to control the camera.
      * @param	cmd		string command sent by Controller
      */
-    void sendCommand(Attributes attr, int value);
-
-    /**
-     * This gets the newest Data* from the CameraInterface buffer.
-     * @return	pointer to the newest data
-     */
-    Data* getDataFromBuffer();
+    virtual void sendCommand(Attributes attr, int value);
 
     /**
      * This package all the filtered Camera data of the same instance into a vector.
      * @return	vector of pointers to raw and filtered data
      */
-    std::vector<Data*> constructDataSet();
+    virtual std::vector<Data*> constructDataSet(Data* rawData);
 
     /**
      * This stores the vector of data pointer to CameraState.
      * @param	dataSet	vector containing data pointers of raw and filtered images
      */
-    void storeToState(std::vector<Data*> dataSet);
+    virtual void storeToState(std::vector<Data*> dataSet);
 
     /**
      * Return the model's current state
      * @return
      */
-    Data* getState(std::string data_ID);
-
-    /**
-     * This automate the process of getting images from buffer, pack raw and filtered data together and store into state.
-     */
-    bool dataTransfer();
+    virtual Data *getStateData(std::string data_ID);
 };
 
 

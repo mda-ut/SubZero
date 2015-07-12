@@ -26,7 +26,7 @@ void GateTask::execute() {
     depthTask->setDepthAbsolute(POOL_SURFACE_HEIGHT);
     depthTask->execute();
     while (timer.getTimeElapsed() < 5) {
-        FPGAData* data = dynamic_cast<FPGAData*>(fpgaModel->getState("raw"));
+        FPGAData* data = dynamic_cast<FPGAData*>(fpgaModel->getStateData("raw"));
         turnTask->setYawAbsolute(data->getYaw());
         turnTask->execute();
     }

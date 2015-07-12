@@ -6,26 +6,17 @@
  *      Author: James
  */
 #include "State.h"
+#include "View.h"
 
-State::State(int stateID_) {
+State::State(int stateID, uint32_t bufferSize) {
     init();
-    stateID = stateID_;
-}
-
-State::State(int stateID_, int framesStored) {
-    init();
-    stateID = stateID_;
-    maxLength = framesStored;
+    this->stateID = stateID;
+    this->bufferSize = bufferSize;
+    frameStarted = false;
 }
 
 State::~State() {
-    logger->close();
     delete logger;
-}
-
-void State::init(){
-    this->maxLength = 15;
-    this->inUse = false;
 }
 
 void State::addViewer(View* viewer) {
@@ -35,6 +26,7 @@ void State::addViewer(View* viewer) {
 
 
 void State::notifyViewers() {
+    logger->trace("Notifying viewers");
     for (auto& viewer : viewers) {
         viewer->update(stateID);
     }

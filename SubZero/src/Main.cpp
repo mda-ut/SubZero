@@ -5,15 +5,15 @@
  *      Author: mda
  */
 
-#include "util/Logger.h"
-#include <string>
-#include "view/Menu.h"
-#include "controller/controllers/Controller.h"
 #include <QApplication>
-#include <iostream>
+#include <string>
+#include "util/Logger.h"
+#include "scripts.h"
 #include "Properties.h"
 #include "PropertyReader.h"
 #include "VideoTesting.h"
+#include "SubZeroFactory.h"
+#include "Stage.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
     QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
     Logger logger("Main");
-    Logger::initialize(Logger::Level::INFO,true, true, logTimer);
+    Logger::initialize(Logger::Level::TRACE,true, true, logTimer);
     logger.trace("Logger initialized.");
     PropertyReader* propReader;
     Properties* settings;
@@ -33,7 +33,9 @@ int main(int argc, char** argv) {
     // Set logging level
     settings = propReader->load();
     std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");
-    if (loggingLevel == "TRACE") {
+    if (loggingLevel == "OFF") {
+        Logger::setLoggingLevel(Logger::Level::OFF);
+    } else if (loggingLevel == "TRACE") {
         Logger::setLoggingLevel(Logger::Level::TRACE);
     } else if (loggingLevel == "INFO") {
         Logger::setLoggingLevel(Logger::Level::INFO);
@@ -78,36 +80,24 @@ int main(int argc, char** argv) {
 //    vt.run();
 //    CollectionTEST::runDataAndFilterManagerCollection();
 //    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
+    std::string mode = settings->getProperty("MODE");
 
-//    StateTester::run();
-//    FPGAInterface newInterface(20, 1);
-//    Logger::close();
-//    delete logTimer;
-/*
-    CameraInterface newCam(20, 25, FRONT);
-    CameraInterface downCam(20, 25, DOWN);
-    newCam.init();
-    downCam.init();
-    while(1) {
-        ImgData* newCamData = dynamic_cast<ImgData*>(newCam.getDataFromBuffer());
-        ImgData* downCamData = dynamic_cast<ImgData*>(downCam.getDataFromBuffer());
+    init_signal_handler();
 
-        if(newCamData!=0 && downCamData !=0) {
-            ImgData camDataCopy(*newCamData);
-            ImgData downDataCopy(*downCamData);
+    SubZeroFactory* subZeroFactory = new SubZeroFactory(settings);
+    Stage* mainStage = new Stage(NULL, subZeroFactory);
 
-            //Logger::trace("showing image " + camDataCopy.getID());
-            camDataCopy.showImg("current");
-            downDataCopy.showImg("down");
-        }
+    mainStage->setViewContent(mode);
+    mainStage->initialize();
+
+
+    if (mode == "AUTONOMOUS") {
+        //TODO: Make autonomous run without any GUI
+        return 0;
     }
-*/
-    /*
-    int error = app.exec();
-    //delete settings;
-    return error;
     */
-    //return app.exec();
-    return 0;
+
+    delete propReader;
+    return app.exec();
 }
 

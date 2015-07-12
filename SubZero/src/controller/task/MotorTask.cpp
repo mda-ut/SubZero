@@ -18,7 +18,7 @@ MotorTask::MotorTask(Model* fpgaModel){
 
 void MotorTask::execute() {
     if (fpgaModel != 0) {
-        FPGAData* currentPosition = dynamic_cast<FPGAData*>(fpgaModel->getState("raw"));
+        FPGAData* currentPosition = dynamic_cast<FPGAData*>(fpgaModel->getStateData("raw"));
         bool powerOn = currentPosition->getPower();
         if (powerOn) {
             logger->info("Turning motor on");

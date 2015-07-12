@@ -7,6 +7,9 @@
 
 #ifndef FPGASTATE_H_
 #define FPGASTATE_H_
+#include <list>
+#include <vector>
+
 #include "State.h"
 #include "FPGAData.h"
 
@@ -27,8 +30,7 @@ public:
     /**
      * constructor
      */
-    FPGAState(int stateID);
-    FPGAState(int stateID, int framesStored);
+    FPGAState(int stateID, uint64_t bufferSize);
 
     /**
      * destructor
@@ -41,14 +43,14 @@ public:
      * @param i = how many frames ago was the FPGA data was stored (zero indexed; newest frame = 0)
      * @return returns the pointer to a deep copied FPGA data
      */
-    FPGAData* getState (std::string id, int i);
+    virtual FPGAData* getState (std::string id, uint64_t i);
 
     /**
      * Returns a deep copy of the newest FPGA data specified with the _ID_
      * @param id = id of the FPGA data that is needed
      * @return returns the pointer to a deep copied FPGA data
      */
-    FPGAData* getState (std::string id);
+    virtual FPGAData* getState (std::string id);
 
     /**
      * Sets the FPGA state
@@ -75,7 +77,7 @@ public:
      * Gets a pointer to a deep copy of the newest raw FPGA data
      * @param data = pointer to the deep copy of the raw FPGA data
      */
-    FPGAData* getRaw();
+    virtual FPGAData* getRaw();
 
     /**
      * Gets a pointer to the deep copy of the raw FPGA data _i_ frames before
@@ -85,7 +87,7 @@ public:
      * 		- 0 = success
      * 		- 1 = index out of range
      */
-    FPGAData* getRaw(int i);
+    virtual FPGAData* getRaw(uint64_t i);
 
 };
 

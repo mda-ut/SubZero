@@ -7,23 +7,25 @@
 
 #include "Controller.h"
 #include "ControllerThread.h"
+#include "GUIView.h"
+#include "MenuView.h"
 #include <iostream>
 
 bool Controller::running = false;
 
-Controller::Controller(){
+Controller::Controller() {
     taskList = new QQueue <class Task* >;
 }
 
-Controller::Controller(std::vector<Model*> models, View* view){
+Controller::Controller(std::vector<Model*> models){
     this->models = models;
-    this->view = view;
     targetDepth = 250;
     targetYaw = 0;
     taskList = new QQueue <class Task* >;
 }
 
 void Controller::initialize(void) {
+    logger->info("Initializing Controller");
     cT = new ControllerThread(taskList, &mutex);
     cT->moveToThread(&queueThread);
     connect(this, &Controller::beginCT, cT, &ControllerThread::executeTasks);
@@ -35,25 +37,24 @@ void Controller::initialize(void) {
 }
 
     //Destructor to free pointers
-Controller::~Controller(){
-    if(queueThread.isRunning()){
-        queueThread.quit();
-        queueThread.wait();
-    }
-    while(!taskList->isEmpty()){
-        Task *temp = taskList->dequeue();
-        delete temp;
-    }
+Controller::~Controller() {
+    stop();
     delete taskList;
+    delete logger;
 }
 
 bool Controller::isRunning() {
     return running;
 }
 
-void Controller::finished(const QString &s){
-    std::cout << "Bye Bye Beautiful!!" << std::endl;
+void Controller::setView(View *view) {
+    this->view = view;
 }
+
+void Controller::finished(const QString &s){
+    logger->info("Controller Thread finished");
+}
+
 static bool powerStatus = false;
 void Controller::handlePowerButtonToggled() {
 
@@ -112,9 +113,16 @@ void Controller::handlePathTaskClick() {
     addTaskToQueue(TaskFactory::createPathTask(models[FPGA], targetYaw));
 }
 
-void Controller::killAll() {
-    logger->info("Exiting...");
+void Controller::stop() {
     running = false;
+    if(queueThread.isRunning()) {
+        queueThread.quit();
+        queueThread.wait();
+    }
+    while(!taskList->isEmpty()) {
+        Task *temp = taskList->dequeue();
+        delete temp;
+    }
 }
 
 

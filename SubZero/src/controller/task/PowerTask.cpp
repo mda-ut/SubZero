@@ -14,7 +14,7 @@ PowerTask::PowerTask(Model* fpgaModel) {
 
 void PowerTask::execute() {
     if (fpgaModel != 0) {
-        FPGAData* fpga = dynamic_cast<FPGAData*>(fpgaModel->getState("raw"));
+        FPGAData* fpga = dynamic_cast<FPGAData*>(fpgaModel->getStateData("raw"));
         int power = fpga->getPower();
         if (!power) {
             logger->info("Turning power on");

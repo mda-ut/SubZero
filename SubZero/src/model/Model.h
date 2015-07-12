@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <string>
+#include <thread>
 
 #include "interface/HwInterface.h"
 #include "FilterManager.h"
@@ -38,6 +39,16 @@ protected:
 
     HwInterface* interface;
 
+    /**
+     * Poll data from hardware at this frequency (number of polls per second).
+     * A.k.a. sampling rate.
+     */
+    int pollFrequency;
+
+    bool executing;
+
+    std::vector<std::thread> readThreads;
+
     std::vector<FilterManager*> filterManagerList;
 
     /**
@@ -58,6 +69,7 @@ protected:
      * notifyObserver notifies all observers of the observable when an update arrives
      */
 
+    virtual void in();
 
 public:
 
@@ -65,8 +77,9 @@ public:
      * This is the constructor to a parent Model object.
      * @param	inputState	a state pointer used to create a Model
      * @param	inputHwInterface	an interface pointer used to create a Model
+     * @param   frequency   set polling frequency for the Model
      */
-    Model(State* inputState, HwInterface* inputHwInterface);
+    Model(State* inputState, HwInterface* inputHwInterface, int frequency);
 
     /**
      * Model destructor
@@ -78,19 +91,17 @@ public:
 
 /* **************** Data Management **************** */
 
-    virtual void sendCommand(Attributes attr, int value)=0;
+    virtual void sendCommand(Attributes attr, int value) = 0;
 
-    virtual Data* getDataFromBuffer()=0;
+    virtual std::vector<Data*> constructDataSet(Data* rawData) = 0;
 
-    virtual std::vector<Data*> constructDataSet()=0;
+    virtual void storeToState(std::vector<Data*> dataSet) = 0;
 
-    virtual void storeToState(std::vector<Data*> dataSet)=0;
+    virtual State* getState();
 
-    virtual Data* getState(std::string data_ID) = 0;
+    virtual Data* getStateData(std::string data_ID) = 0;
 
-    virtual bool dataTransfer()=0;
-
-    void notifyObserver(); // This might be an unnecessary function. ASK!!!
+    virtual void dataTransfer();
 
 
 /* **************** Filter/Filter Chain Management **************** */

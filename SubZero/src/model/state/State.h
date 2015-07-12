@@ -2,10 +2,13 @@
 #define STATE_H_
 #include "Data.h"
 #include <string>
-#include <list>
-#include <set>
-#include "View.h"
+#include <QMutex>
+#include <QMutexLocker>
+
 #include "Logger.h"
+#include <set>
+
+class View;
 
 enum StateType {
     FRONTCAM,
@@ -22,60 +25,28 @@ protected:
     //boolean to signal if a new frame has started
     bool frameStarted;
 
-    //boolean to signal if the state is currently in use
-    bool inUse;
-
     //the length of the linked list
     //The amount of frames that the state will hold
     //ZERO INDEXED
-    int maxLength;
+    uint32_t bufferSize;
 
     int stateID;
     std::set<View*> viewers;
 
-    //LinkedList <Vector<Data>>
-    //std::list<std::vector<Data*>> stateData;
-
-    //Initialize the class
+    QMutex mutex;
 
 public:
 
-    State(int stateID);	//constructor
     /**
-     * Construct a state with a limit of frames _framesStored_ (Zero indexed)
-     * ie, frameStored = 10, this State will store 11 frames
+     * Construct a state with a limit of frames _bufferSize_ (Zero indexed)
      */
-    State(int stateID, int framesStored);
+    State(int stateID, uint32_t bufferSize);
 
     virtual ~State();	//deconstructor
 
     void addViewer(View* view);
     void notifyViewers();
 
-    void init();
-
-    /**
-     * Sets the state
-     * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-     * @param d = Pointer to state data to be set for this frame
-     * @return an int indicating whether the operation was successful
-     *  	- 0 = successful
-     *  	- 1 = called this function before startFrame is called
-     */
-    /// NO LONGER USED
-    //int setState(Data* d);
-
-    /**
-     * Same thing as setState, except it takes an entire vector of data instead of 1 data
-     * Sets the state
-     * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
-     * @param d = vector of State data to be set for this frame
-     * @return an int indicating whether the operation was successful
-     *  	- 0 = successful
-     *  	- 1 = called this function before startFrame is called
-     */
-    ///NO LONGER IMPLEMENTED IN STATE; IMPLEMEENTED IN STATE'S CHILDS
-    //virtual int setState(std::vector<Data*> d) = 0;
 
     /**
      * Gets a pointer to a deep copy of the newest raw State
@@ -88,7 +59,7 @@ public:
      * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
      * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
      */
-    virtual Data* getRaw(int i) = 0;
+    virtual Data* getRaw(uint32_t i) = 0;
 
     /**
      * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
@@ -96,7 +67,7 @@ public:
      * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
      * @return returns the pointer to a deep copied State
      */
-    virtual Data* getState (std::string ID, int i) = 0;
+    virtual Data* getState (std::string ID, uint32_t i) = 0;
 
     /**
      * Returns a deep copy of the latest State specified with the _ID_
@@ -105,23 +76,5 @@ public:
      * @return returns the pointer to a deep copied State
      */
     virtual Data* getState (std::string ID) = 0;
-
-    /**
-     * Starts a new Frame
-     * Have to be called before you can call setState()
-     * Only Model should be calling this function (might implement a check for that)
-     */
-    ///NO LONGER USED
-    //void startFrame();
-
-    /**
-     * Ends the frame
-     * Have to be called after startFrame() is called
-     * If called before startFrame, then it does nothing
-     * Be careful when calling this, since you cannot change the frame after it has ended
-     */
-    ///NO LONGER USED
-    //void endFrame();
-
 };
 #endif /* SRC_MODEL_STATE_STATE_H_ */

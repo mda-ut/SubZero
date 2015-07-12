@@ -7,29 +7,28 @@
 
 #include "CameraModel.h"
 
-CameraModel::CameraModel(State*inputState, HwInterface *inputInterface) : Model(inputState, inputInterface) {
-
+CameraModel::CameraModel(State*inputState, HwInterface *inputInterface, int frequency)
+    : Model(inputState, inputInterface, frequency) {
 }
 
 CameraModel::~CameraModel() {
+    executing = false;
+    for(auto& t: readThreads) {
+        t.join();
+    }
+    delete logger;
 }
 
 void CameraModel::sendCommand(Attributes attr, int value) {
     logger->warn("Camera has no commands to send");
 }
 
-Data* CameraModel::getDataFromBuffer() {
-    Data* rawImageData = interface->getDataFromBuffer<ImgData>();
-    return rawImageData;
-}
-
-std::vector<Data*> CameraModel::constructDataSet() {
+std::vector<Data*> CameraModel::constructDataSet(Data* rawData) {
     std::vector<Data*> imageDataSet;
-    Data* rawImageData = getDataFromBuffer();
-    if (rawImageData != nullptr) {
-        imageDataSet.push_back(rawImageData);
+    if (rawData != nullptr) {
+        imageDataSet.push_back(rawData);
         for(auto& fm : filterManagerList) {
-            Data* deepCopyImage = new ImgData(*(dynamic_cast<ImgData*>(rawImageData))); // Check if the operator overload for = is right. Don't know yet
+            Data* deepCopyImage = new ImgData(*(dynamic_cast<ImgData*>(rawData))); // Check if the operator overload for = is right. Don't know yet
             fm->applyFilterChain(deepCopyImage);
             imageDataSet.push_back(deepCopyImage);
         }
@@ -43,18 +42,8 @@ void CameraModel::storeToState(std::vector<Data*> dataSet) {
         newData.push_back(dynamic_cast<ImgData*>(data));
     }
     dynamic_cast<CameraState*>(state)->setState(newData);
-    notifyObserver();
 }
 
-Data* CameraModel::getState(std::string data_ID) {
+Data* CameraModel::getStateData(std::string data_ID) {
     return state->getState(data_ID);
-}
-
-bool CameraModel::dataTransfer() {
-    auto imageDataSet = constructDataSet();
-    if (!imageDataSet.empty()) {
-        storeToState(imageDataSet);
-        return true;
-    }
-    return false;
 }
