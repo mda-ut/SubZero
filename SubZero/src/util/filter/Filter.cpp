@@ -9,11 +9,12 @@
 
 
 Filter::Filter() {
-	this->filterID = "GenericFilter";
-	this->msg = "";
+    this->filterID = "GenericFilter";
+    this->msg = "";
 }
 
 Filter::~Filter() {
+    delete logger;
 }
 
 /* ==========================================================================
@@ -23,34 +24,33 @@ Filter::~Filter() {
  */
 
 std::string Filter::getID() {
-	return this->filterID;
+    return filterID;
 }
 
 int Filter::filter(Data* data) {
-	this->track(data,this->filterID,0,0);
-	return 0;
+    track(data, filterID, 0, 0);
+    return 0;
 }
 
 void Filter::setID(std::string ID) {
-	this->filterID = ID;
+    filterID = ID;
 }
 
 std::string Filter::getMsg() {
-	return this->msg;
+    return msg;
 }
 
 int Filter::setMsg(std::string newMsg) {
-	if (this->msg != "")
-	{
-		this->msg = newMsg;
-		return 1;
-	}
-	this->msg = newMsg;
-	return 0;
+    if (msg != "") {
+        msg = newMsg;
+        return 1;
+    }
+    msg = newMsg;
+    return 0;
 }
 
 void Filter::track(Data* data, std::string task, int error, int type) {
-	data->track(task,error,type);
+    data->track(task, error, type);
 }
 
 /* ==========================================================================
@@ -59,11 +59,11 @@ void Filter::track(Data* data, std::string task, int error, int type) {
  */
 /*
 Filter* Filter::operator =(Filter* rhs) {
-	return new Filter(rhs);
+    return new Filter(rhs);
 }
 
 Filter::Filter(Filter* obj) {
-	this->filterID = obj->filterID;
-	this->msg = obj->msg;
+    this->filterID = obj->filterID;
+    this->msg = obj->msg;
 }
 */

@@ -19,48 +19,45 @@
  */
 class FPGAModel: public Model {
 
+private:
+    Logger* logger = new Logger("FPGAModel");
+
 public:
 
-	/**
-	 * This is a constructor of FPGAModel. It will pass the two parameters to parent Model's constructor.
-	 * @param	inputState		an observable pointer that is expected to be a FPGAState pointer
-	 * @param	inputInterface	a HwInterface pointer that is expected to be a FPGAInterface pointer
-	 */
-    FPGAModel(State* inputState, HwInterface* inputInterface);
+    /**
+     * This is a constructor of FPGAModel. It will pass the two parameters to parent Model's constructor.
+     * @param	inputState		an observable pointer that is expected to be a FPGAState pointer
+     * @param	inputInterface	a HwInterface pointer that is expected to be a FPGAInterface pointer
+     */
+    FPGAModel(State* inputState, HwInterface* inputInterface, int frequency);
 
-	virtual ~FPGAModel();
+    virtual ~FPGAModel();
 
 /* **************** Data Management **************** */
 
-	/**
-	 * This sends command to the FPGA to control the sub.
-	 * @param	cmd		string command sent by Controller
-	 */
-	void sendCommand(std::string cmd);
+    /**
+     * This sends command to the FPGA to control the sub.
+     * @param	cmd		string command sent by Controller
+     */
+    virtual void sendCommand(Attributes attr, int value);
 
-	/**
-	 * This gets the newest Data* from the CameraInterface buffer.
-	 * @return	pointer to the newest data
-	 */
-	Data* getDataFromBuffer();
+    /**
+     * This package all the filtered FPGA data of the same instance into a vector.
+     * @return	vector of pointers to raw and filtered data
+     */
+    virtual std::vector<Data*> constructDataSet(Data* rawData);
 
-	/**
-	 * This package all the filtered FPGA data of the same instance into a vector.
-	 * @return	vector of pointers to raw and filtered data
-	 */
-	std::vector<Data*> constructDataSet();
+    /**
+     * This stores the vector of data pointer to FPGAState.
+     * @param	dataSet	vector containing data pointers of raw and filtered FPGA data
+     */
+    virtual void storeToState(std::vector<Data*> dataSet);
 
-	/**
-	 * This stores the vector of data pointer to FPGAState.
-	 * @param	dataSet	vector containing data pointers of raw and filtered FPGA data
-	 */
-	void storeToState(std::vector<Data*> dataSet);
-
-	/**
-	 * This automate the process of getting FPGA data from buffer, pack raw and filtered data together and store into state.
-	 */
-    bool dataTransfer();
-
+    /**
+     * Return the model's current state
+     * @return
+     */
+    virtual Data* getStateData(std::string data_ID);
 };
 
 

@@ -16,21 +16,23 @@ Victor Zhang - Sept 2013
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include "Logger.h"
 #include "fpga_ui.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+void init_signal_handler();
 void init_fpga();
 
 #ifdef __cplusplus
 }
 #endif
 
-inline void int_handler(int signal)
-{
+extern volatile int signal_quit;
+static bool fpga_initialized = false;
+inline void int_handler(int signal) {
   // ignore SIGCHLD
   if (signal == SIGCHLD) {
     return;
@@ -41,38 +43,41 @@ inline void int_handler(int signal)
   if (killed) {
     raise(SIGKILL);
   }
-
+  printf("Ctrl+C detected.  Exiting...\n");
   killed = true;
+  signal_quit = 1;
 
-  // If the power is already off, just kill child and exit
-  if (!get_power()) {
-    kill_child();
-    exit(0);
+  if(fpga_initialized) {
+      // If the power is already off, just kill child and exit
+      if (!get_power()) {
+          kill_child();
+          exit(0);
+      }
+
+      // Calling the int_handler will kill the child process (nios2-terminal)
+      // Respawn it, then exit_safe
+      spawn_term(NULL);
+
+      exit_safe();
   }
-
-  // Calling the int_handler will kill the child process (nios2-terminal)
-  // Respawn it, then exit_safe
-  spawn_term(NULL);
-
-  exit_safe();
 }
 
-inline void init_fpga()
-{
-  static bool initialized = false;
-  if (initialized) {
+inline void init_signal_handler() {
+    // Call int_handler on SIGINT (Ctrl+C)
+    signal(SIGINT, int_handler);
+    // Call int_handler on SIGCHLD as well
+    signal(SIGCHLD, int_handler);
+}
+
+inline void init_fpga() {
+  if (fpga_initialized) {
     return;
   }
 
   // Fork a nios2-terminal for communication
   spawn_term(NULL);
 
-  // Call int_handler on SIGINT (Ctrl+C)
-  signal(SIGINT, int_handler);
-  // Call int_handler on SIGCHLD as well
-  signal(SIGCHLD, int_handler);
-
-  initialized = true;
+  fpga_initialized = true;
 }
 
 #endif

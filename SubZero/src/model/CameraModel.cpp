@@ -7,49 +7,43 @@
 
 #include "CameraModel.h"
 
-CameraModel::CameraModel(State*inputState, HwInterface *inputInterface):Model(inputState, inputInterface){
+CameraModel::CameraModel(State*inputState, HwInterface *inputInterface, int frequency)
+    : Model(inputState, inputInterface, frequency) {
 }
 
-CameraModel::~CameraModel(){
+CameraModel::~CameraModel() {
+    executing = false;
+    for(auto& t: readThreads) {
+        t.join();
+    }
+    delete logger;
 }
 
-void CameraModel::sendCommand(std::string cmd){
-// Emma go!!
+void CameraModel::sendCommand(Attributes attr, int value) {
+    logger->warn("Camera has no commands to send");
 }
 
-Data* CameraModel::getDataFromBuffer(){
-    Data* rawImageData = interface->getDataFromBuffer/*<ImgData>*/();
-	return rawImageData;
-}
-
-std::vector<Data*> CameraModel::constructDataSet(){
+std::vector<Data*> CameraModel::constructDataSet(Data* rawData) {
     std::vector<Data*> imageDataSet;
-    Data* rawImageData = this->getDataFromBuffer();
-    if (rawImageData != nullptr) {
-        imageDataSet.push_back(rawImageData);
-        for(std::vector<FilterManager*>::iterator it = this->filterManagerList.begin();it!=filterManagerList.end();++it){
-            Data* deepCopyImage = new ImgData(*(dynamic_cast<ImgData*>(rawImageData))); // Check if the operator overload for = is right. Don't know don't know yet
-            (*it)->applyFilterChain(deepCopyImage);
+    if (rawData != nullptr) {
+        imageDataSet.push_back(rawData);
+        for(auto& fm : filterManagerList) {
+            Data* deepCopyImage = new ImgData(*(dynamic_cast<ImgData*>(rawData))); // Check if the operator overload for = is right. Don't know yet
+            fm->applyFilterChain(deepCopyImage);
             imageDataSet.push_back(deepCopyImage);
         }
     }
-	return imageDataSet;
+    return imageDataSet;
 }
 
-void CameraModel::storeToState(std::vector<Data*> dataSet){
-	std::vector<ImgData*> newData;
-    for(auto& data : dataSet){
+void CameraModel::storeToState(std::vector<Data*> dataSet) {
+    std::vector<ImgData*> newData;
+    for(auto& data : dataSet) {
         newData.push_back(dynamic_cast<ImgData*>(data));
-	}
+    }
     dynamic_cast<CameraState*>(state)->setState(newData);
-    notifyObserver();
 }
 
-bool CameraModel::dataTransfer(){
-    auto imageDataSet = constructDataSet();
-    if (!imageDataSet.empty()) {
-        this->storeToState(imageDataSet);
-        return true;
-    }
-    return false;
+Data* CameraModel::getStateData(std::string data_ID) {
+    return state->getState(data_ID);
 }

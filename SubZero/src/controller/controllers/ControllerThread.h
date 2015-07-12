@@ -46,6 +46,7 @@ class ControllerThread : public QObject {
 		void resultReady(const QString &s);
 
 	private:
+        Logger* logger = new Logger("ControllerThread");
 
         /**
          * A pointer to Controller's Queue of tasks

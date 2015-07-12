@@ -11,9 +11,13 @@
 #include <QThread>
 #include <QMutex>
 #include <vector>
-#include "../task/Task.h"
-#include "../../model/Model.h"
+#include "Task.h"
+#include "Model.h"
 #include "ControllerThread.h"
+#include "Logger.h"
+#include "TaskFactory.h"
+
+class View;
 
 class Controller : public QObject {
 	//QT Macro required whenever you deal with signals, slots or properties
@@ -35,7 +39,7 @@ class Controller : public QObject {
 		*
         * @param model - the vector containing the models
 		*/
-        Controller(std::vector <Model*> models_);
+        Controller(std::vector <Model*> models);
 
 		/**
 		 * Destructor
@@ -54,34 +58,91 @@ class Controller : public QObject {
 		 */
 		void clearQueue(void);
 
-		/**
-         * Displays the Current taskList
-		 */
-        void displayTaskList(void);
-
-		/**
-		 * Cleans the queue; forces the last task to finish, then kills the sub
-		 */
-		void killAll(void);
-
         /**
          * Initializes our Controller
          */
         void initialize(void);
+
+        /**
+         * Returns controller's current running state;
+         */
+        static bool isRunning();
+
+        void setView(View* view);
 		
 	public slots:
 		/**
 		 * Handles the results from the ControllerThread
 		 */
-        void cTHandleResults(const QString &s);
-		
-	signals:
+        void finished(const QString &s);
+
+        /**
+         * @brief Handles the button click for toggling power
+         */
+        void handlePowerButtonToggled(void);
+
+        /**
+         * @brief Handles the button click for startup sequence
+         */
+        void handleMotorButtonClick(void);
+
+        /**
+         * @brief Handles the button click for moving left
+         */
+        void handleMoveLeftButtonClick(void);
+
+        /**
+         * @brief Handles the button click for moving right
+         */
+        void handleMoveRightButtonClick(void);
+
+        /**
+         * @brief Handles the button click for moving forward
+         */
+        void handleMoveForwardButtonClick(void);
+
+        /**
+         * @brief Handles the button click for moving backward
+         */
+        void handleMoveBackwardButtonClick(void);
+
+        /**
+         * @brief Handles the button click for stopping the sub
+         */
+        void handleStopButtonClick();
+
+        /**
+         * @brief Handles the button click for sinking
+         */
+        void handleSinkButtonClick(void);
+
+        /**
+         * @brief Handles the button click for rising
+         */
+        void handleRiseButtonClick(void);
+
+        void handleGateTaskClick();
+
+        void handlePathTaskClick();
+
+        /**
+         * Displays the Current taskList
+         */
+        //void displayTaskList(void);
+
+
+    signals:
 		/**
 		 * Tells the ControllerThread to begin 
 		 */
         void beginCT(const QString &s);
 
+    protected:
+        void stop();
+
 	private:
+        Logger* logger = new Logger("Controller");
+
         ControllerThread *cT;
 
 		/**
@@ -94,7 +155,13 @@ class Controller : public QObject {
          */
         QMutex mutex;
 
+
         std::vector<Model*> models;
+        View* view;
+
+        static bool running;
+        int targetYaw;
+        int targetDepth;
 };
 
 #endif /* CONTROLLER_H_ */

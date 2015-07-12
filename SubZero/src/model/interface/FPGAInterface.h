@@ -11,17 +11,10 @@
 #include <thread>
 #include <iostream>
 #include <string>
+#include <QMutex>
 #include "HwInterface.h"
-#include "../../util/data/Data.h"
-#include "../../util/data/FPGAData.h"
-
-enum Attributes {
-    POWER,
-    DEPTH,
-    HEADING, // absolute, given by sonar
-    YAW, // relative to the direction the sub is heading
-    SPEED
-};
+#include "FPGAData.h"
+#include "Properties.h"
 
 /**
  * A concrete child of HwInterface that deals specifically with the FPGA.
@@ -45,6 +38,10 @@ private:
 
     Logger* logger = new Logger("FPGAInterface");
 
+    Properties* settings;
+
+    QMutex mutex;
+
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
      * ==========================================================================
@@ -56,14 +53,8 @@ private:
     /**
      * Poll raw data from FPGA.
      */
-    virtual void poll();
+    virtual FPGAData* poll();
 
-    /**
-     * Decode the data.
-     * @param	data	data to be decoded
-     * @return	decoded data in a FPGAData format
-     */
-    virtual FPGAData* decode(std::string* data);
 
 public:
 
@@ -81,11 +72,6 @@ public:
      */
     void set(Attributes attr, int value);
 
-    /**
-     * Send the data.
-     * @param	data	data to be sent
-     */
-    virtual void send(std::string* data);
 
     /* ==========================================================================
      * 							CONSTRUCTOR AND DESTRUCTOR
@@ -94,10 +80,8 @@ public:
 
     /**
      * Constructor for FPGA Interface
-     * @param	bufferSize	buffer size for the interface
-     * @param	pollFrequency	frequency of polling (polls per second)
      */
-    FPGAInterface(int bufferSize, int pollFrequency);
+    FPGAInterface(Properties* settings);
 
     virtual void init();
 

@@ -8,6 +8,8 @@
 
 #include "CameraInterface.h"
 #include <string>
+#include "scripts.h"
+
 
 /* ==========================================================================
  * 				INTERACTING WITH DATA COMING IN (FROM Camera)
@@ -21,21 +23,30 @@
  * Poll raw data from the camera.
  * @return	data polled
  */
-static int counter=0;
-void CameraInterface::poll() {
-    //logger->trace("retrieving raw " + std::to_string(counter));
+ImgData* CameraInterface::poll() {
+    ImgData* new_data;
     cv::Mat raw;
-    //Older version of OpenCV (tested on Alb's laptop setting)
-    // IplImage* raw = cvQueryFrame(this->camStream);
-    // cv::cvarrToMat(raw, true, true, 0);
-
-    //New version of OpenCV (not yet tested)
-    if (camStream.isOpened()) {
-        camStream.read(raw);
+    bool readSuccess = false;
+    // New version of OpenCV
+    if (!camStream.isOpened()) {
+        logger->debug("Camera stream is not opened");
+    } else if (!signal_quit){
+        readSuccess = camStream.read(raw);
     }
-    Data* decoded = this->decode(raw);
-
-    this->storeToBuffer(decoded);
+    if (readSuccess) {
+        logger->trace("Read successful");
+        new_data = decode(raw);
+    } else {
+        logger->error("Camera stream failed to read image");
+    }
+    if (signal_quit) {
+        logger->trace("Quit signal detected");
+        if (!fpga_initialized) {
+            // Don't need to wait for fpga, quit now
+            exit(0);
+        }
+    }
+    return new_data;
 }
 
 /**
@@ -44,7 +55,6 @@ void CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
-    //logger->trace("inserted image " + std::to_string(counter++));
     cv::cvtColor(data, data, CV_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
     return decoded;
@@ -55,8 +65,8 @@ ImgData* CameraInterface::decode(cv::Mat data) {
  * ==========================================================================
  */
 
-int CameraInterface::getPosition(){
-    return this->position;
+int CameraInterface::getPosition() {
+    return position;
 }
 
 /* ==========================================================================
@@ -65,33 +75,22 @@ int CameraInterface::getPosition(){
  */
 
 
-CameraInterface::CameraInterface(int bufferSize, int pollFrequency, int position) : HwInterface(bufferSize, pollFrequency) {
+CameraInterface::CameraInterface(int position) {
     this->position = position;
-    //this->camStream = new cv::VideoCapture(this->position);
-    // this->camStream = cvCaptureFromCAM(this->position);
 }
 
-void CameraInterface::init(){
+void CameraInterface::init() {
     // thread for reading and polling camera input
-    std::cout <<"initialized"<<std::endl;
-
-    camStream.open(position);
-    camStream.set(CV_CAP_PROP_CONVERT_RGB, true);
-    executing = true;
-    readThreads.push_back(std::thread(&CameraInterface::in, this));
+    logger->info("Initializing");
+    logger->info("Opening video capture stream at position " + std::to_string(position));
+    if (!camStream.open(position)){
+        logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
+        exit(0);
+    }
 }
 
 CameraInterface::~CameraInterface() {
-    delete logger;
-    executing = false;
-    for(auto& t: readThreads) {t.join();}
-
-    // clears the queue
-    while ( ! decodedBuffer.empty()) {
-        delete decodedBuffer.front();
-        decodedBuffer.pop();
-    }
-
     camStream.release();
+    delete logger;
 }
 

@@ -29,35 +29,6 @@ class FPGAData: public Data {
 private:
 
 	/* ==========================================================================
-	 * FRIEND FUNCS
-	 * ==========================================================================
-	 */
-
-	/**
-	 * Setter for the depth. If a previous value exists, it will
-	 * be replaced.
-	 *
-	 * @param newDepth	double value of depth.
-	 */
-	void setDepth(double newDepth);
-
-	/**
-	 * Setter for the speed. If a previous value exists, it will
-	 * be replaced.
-	 *
-	 * @param newRoll	double value of speed.
-	 */
-	void setSpeed(double newSpeed);
-
-	/**
-	 * Setter for heading. If a previous value exists, it will
-	 * be replaced.
-	 *
-	 * @param newHeading	double value of heading.
-	 */
-	void setHeading(double newHeading);
-
-	/* ==========================================================================
 	 * CLASS VARS
 	 * ==========================================================================
 	 */
@@ -65,8 +36,7 @@ private:
 	/*
 	 * Depth, speed, heading vars.
 	 */
-	double depth, speed, heading;
-
+    int power, yaw, depth;
 public:
 
 	/* ==========================================================================
@@ -77,11 +47,11 @@ public:
 	/**
 	 * Constructor for FPGAData.
 	 *
-	 * @param depth
-	 * @param speed
-	 * @param heading
+     * @param power
+     * @param yaw
+     * @param depth
 	 */
-	FPGAData(std::string dataID, double depth, double speed, double heading);
+    FPGAData(std::string dataID, int power, int yaw, int depth);
 
 	/**
 	 * Destructor stub.
@@ -89,51 +59,31 @@ public:
 	virtual ~FPGAData();
 
 	/* ==========================================================================
-	 * FPGA MANIPULATION FUNCS
+     * FPGA GETTER FUNCS
 	 * ==========================================================================
 	 */
 
 	/**
-	 * Getter for the depth.
+     * Getter for the power status.
 	 *
-	 * @return 	double value of depth.
+     * @return 	int vale. 1 if power on, 0 if power off
 	 */
-	double getDepth();
+    int getPower();
 
 	/**
-	 * Getter for the speed.
+     * Getter for the yaw
 	 *
-	 * @return 	double value of speed.
+     * @return 	int value of yaw, in degrees
 	 */
-	double getSpeed();
+    int getYaw();
 
-	/*
-	 * Getter for heading. Heading refers to? Ask Electronics
+    /**
+     * Getter for depth
 	 *
-	 * @return 	double value of heading.
+     * @return 	int value of depth, in "cm"
 	 */
-	double getHeading();
+    int getDepth();
 
-	/* ==========================================================================
-	 * OPERATOR OVERLOAD
-	 * ==========================================================================
-	 */
-
-	/**
-	 * The = operator overload that will complete a deep copy of the
-	 * right hand side operator and return it.
-	 *
-	 * @param rhs	the right hand side of the equal operator, the parent copy
-	 * @return		address to a new ImgData
-	 */
-    //FPGAData* operator=(FPGAData* rhs);
-
-	/**
-	 * Copy constructor
-	 *
-	 * @param obj	the object referenced by constructor
-	 */
-    //FPGAData(const FPGAData* obj);
 };
 
 #endif /* FPGADATA_H_ */

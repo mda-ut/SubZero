@@ -21,7 +21,7 @@
  */
 
 
-Menu::Menu(PropertyReader* settings_)
+Menu::Menu(Properties* settings_)
 {
     settings = settings_;
     initializeMenu();
@@ -164,6 +164,5 @@ void Menu::makeGuiView()
     SubZero* guiSub = subFactory.makeSubZero(GUI, settings);
     guiSub->init();
     this->close();
-    guiSub->run();
-    delete guiSub;
+
 }
