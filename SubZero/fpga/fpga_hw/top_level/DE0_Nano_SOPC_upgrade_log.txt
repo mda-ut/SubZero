@@ -1,0 +1,34 @@
+Info: Upgrading System to Qsys
+Debug: Transform: PipelineBridgeSwap
+Info: pipeline_bridge_swap_transform: After transform: 22 modules, 55 connections
+Debug: Transform: ClockCrossingBridgeSwap
+Debug: Transform: QsysBetaIPSwap
+Debug: Transform: TristateConduitUpgradeTransform
+Debug: Transform: ResetUpgradeTransform
+Info: reset_upgrade_transform: After transform: 22 modules, 96 connections
+Debug: Transform: BorderUpgradeTransform
+Info: border_upgrade_transform: After transform: 25 modules, 98 connections
+Info: Info: *******************************************************************
+Info: Info: Running Quartus II 32-bit Shell
+Info:     Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
+Info:     Info: Copyright (C) 1991-2013 Altera Corporation. All rights reserved.
+Info:     Info: Your use of Altera Corporation's design tools, logic functions 
+Info:     Info: and other software and tools, and its AMPP partner logic 
+Info:     Info: functions, and any output files from any of the foregoing 
+Info:     Info: (including device programming or simulation files), and any 
+Info:     Info: associated documentation or information are expressly subject 
+Info:     Info: to the terms and conditions of the Altera Program License 
+Info:     Info: Subscription Agreement, Altera MegaCore Function License 
+Info:     Info: Agreement, or other applicable license agreement, including, 
+Info:     Info: without limitation, that your use is for the sole purpose of 
+Info:     Info: programming logic devices manufactured by Altera and sold by 
+Info:     Info: Altera or its authorized distributors.  Please refer to the 
+Info:     Info: applicable agreement for further details.
+Info:     Info: Processing started: Mon Jun  8 21:00:51 2015
+Info: Info: Command: quartus_sh -t sopc_qsys_upgrade.tcl
+Info: Warning (125092): Tcl Script File DE0_Nano_SOPC.qip not found
+Info:     Info (125063): set_global_assignment -name QIP_FILE DE0_Nano_SOPC.qip
+Info: QSF file /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano.qsf altered
+Info: No qip file was found
+Info: File DE0_Nano_SOPC.sopc moved to DE0_Nano_SOPC_backup/DE0_Nano_SOPC.sopc
+Info: SOPC to Qsys Upgrade Done

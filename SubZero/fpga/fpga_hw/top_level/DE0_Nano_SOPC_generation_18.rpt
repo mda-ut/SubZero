@@ -1,0 +1,67 @@
+Info: Starting: Create HDL design files for synthesis
+Info: ip-generate --project-directory=/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/ --output-directory=/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/ --file-set=QUARTUS_SYNTH --report-file=html:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.html --report-file=sopcinfo:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.sopcinfo --report-file=cmp:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.cmp --report-file=qip:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/DE0_Nano_SOPC.qip --report-file=svd --report-file=regmap:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/DE0_Nano_SOPC.regmap --report-file=debuginfo:/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC/synthesis/DE0_Nano_SOPC.debuginfo --system-info=DEVICE_FAMILY="Cyclone IV E" --system-info=DEVICE=EP4CE22F17C6 --system-info=DEVICE_SPEEDGRADE=6 --component-file=/home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano_SOPC.qsys --language=VERILOG
+Progress: Loading top_level/DE0_Nano_SOPC.qsys
+Progress: Reading input file
+Progress: Adding clk_50 [clock_source 13.1]
+Progress: Parameterizing module clk_50
+Progress: Adding key [altera_avalon_pio 13.1]
+Progress: Parameterizing module key
+Progress: Adding sw [altera_avalon_pio 13.1]
+Progress: Parameterizing module sw
+Progress: Adding led [altera_avalon_pio 13.1]
+Progress: Parameterizing module led
+Progress: Adding i2c_scl [altera_avalon_pio 13.1]
+Progress: Parameterizing module i2c_scl
+Progress: Adding i2c_sda [altera_avalon_pio 13.1]
+Progress: Parameterizing module i2c_sda
+Progress: Adding sdram [altera_avalon_new_sdram_controller 13.1]
+Progress: Parameterizing module sdram
+Progress: Adding altpll_sys [altpll 13.1]
+Progress: Parameterizing module altpll_sys
+Progress: Adding g_sensor_int [altera_avalon_pio 13.1]
+Progress: Parameterizing module g_sensor_int
+Progress: Adding epcs [altera_avalon_epcs_flash_controller 13.1]
+Progress: Parameterizing module epcs
+Progress: Adding jtag_uart [altera_avalon_jtag_uart 13.1]
+Progress: Parameterizing module jtag_uart
+Progress: Adding gsensor_spi [TERASIC_SPI_3WIRE 1.0]
+Progress: Parameterizing module gsensor_spi
+Progress: Adding select_i2c_clk [altera_avalon_pio 13.1]
+Progress: Parameterizing module select_i2c_clk
+Progress: Adding motor_controller_0 [motor_controller 1.0]
+Progress: Parameterizing module motor_controller_0
+Progress: Adding controller_interrupt_counter [altera_avalon_timer 13.1]
+Progress: Parameterizing module controller_interrupt_counter
+Progress: Adding power_management_slave_0 [power_management_slave 1.0]
+Progress: Parameterizing module power_management_slave_0
+Progress: Adding imu_controller_0 [imu_controller 1.0]
+Progress: Parameterizing module imu_controller_0
+Progress: Adding RS232_0 [RS232 1.0]
+Progress: Parameterizing module RS232_0
+Progress: Adding clock_crossing_io [altera_avalon_mm_clock_crossing_bridge 13.1]
+Progress: Parameterizing module clock_crossing_io
+Progress: Adding clock_crossing_io2 [altera_avalon_mm_clock_crossing_bridge 13.1]
+Progress: Parameterizing module clock_crossing_io2
+Progress: Adding cpu [altera_nios2_qsys 13.1]
+Progress: Parameterizing module cpu
+Progress: Adding sysid [altera_avalon_sysid_qsys 13.1]
+Progress: Parameterizing module sysid
+Progress: Adding c0 [altera_clock_bridge 13.1]
+Progress: Parameterizing module c0
+Progress: Adding c2 [altera_clock_bridge 13.1]
+Progress: Parameterizing module c2
+Progress: Adding c4 [altera_clock_bridge 13.1]
+Progress: Parameterizing module c4
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: DE0_Nano_SOPC.key: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.sw: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.i2c_sda: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.g_sensor_int: PIO inputs are not hardwired in test bench. Undefined values will be read from PIO inputs during simulation.
+Info: DE0_Nano_SOPC.epcs: Dedicated AS interface is not supported, signals are exported to top level design.
+Warning: DE0_Nano_SOPC.motor_controller_0.clock_sink: Interface has no signals
+Info: DE0_Nano_SOPC.cpu: CPUID control register value is 0. Please manually assign CPUID if creating multiple Nios II system
+Info: DE0_Nano_SOPC.sysid: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: DE0_Nano_SOPC.sysid: Time stamp will be automatically updated when this component is generated.

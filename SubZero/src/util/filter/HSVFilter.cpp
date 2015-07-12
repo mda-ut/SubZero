@@ -5,22 +5,30 @@
   */
 #include "HSVFilter.h"
 
+int HSVFilter::defaultLowH = 0;
+int HSVFilter::defaultHighH = 0;
+int HSVFilter::defaultLowS = 0;
+int HSVFilter::defaultHighS = 0;
+int HSVFilter::defaultLowV = 0;
+int HSVFilter::defaultHighV = 0;
+
 //using namespace cv;
-HSVFilter::HSVFilter(){
-    this->setID("HSV");
+HSVFilter::HSVFilter() {
+    setID("hsv");
+    setValues(defaultLowH, defaultHighH, defaultLowS, defaultHighS, defaultLowV, defaultHighV);
 }
 
-HSVFilter::HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int highV){
-    this->setValues(lowH, highH, lowS, highS, lowV, highV);
-    this->setID("HSV");
+HSVFilter::HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int highV) {
+    setValues(lowH, highH, lowS, highS, lowV, highV);
+    setID("hsv");
 }
 
-int HSVFilter::filter(Data *data){
+int HSVFilter::filter(Data *data) {
     // check for whether the input is of the correct type.      From Albert
     ImgData* imgData = dynamic_cast<ImgData*>(data);
     if (imgData == 0) {
         // track the error and return error
-        this->track(data,this->filterID,1,1);
+        track(data, filterID, 1, 1);
         return 1;
     }
 
@@ -32,18 +40,17 @@ int HSVFilter::filter(Data *data){
     imgData->setImg(imgThresh);
 
     //track and return
-    this->track(imgData, this->filterID, 0,0);
+    track(imgData, filterID, 0, 0);
     return 0;
 }
 
-cv::Mat HSVFilter::filter(cv::Mat mat){
+cv::Mat HSVFilter::filter(cv::Mat mat) {
     cv::Mat imgHSV;
-    cv::Mat imgThresh = mat.clone();
+    cv::Mat imgThresh = cv::Mat(mat.clone());
 
     cv::cvtColor(mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
-    cv::inRange(imgHSV, cv::Scalar(this->lowH, this->lowS, this->lowV),
-            cv::Scalar(this->highH, this->highS, this->highV), imgThresh); //Threshold the image
+    cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV), cv::Scalar(highH, highS, highV), imgThresh); //Threshold the image
 
     //morphological opening (remove small objects from the foreground)
     cv::erode(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
@@ -56,7 +63,7 @@ cv::Mat HSVFilter::filter(cv::Mat mat){
     return imgThresh;
 }
 
-void HSVFilter::setValues(int lowH, int highH, int lowS, int highS, int lowV, int highV){
+void HSVFilter::setValues(int lowH, int highH, int lowS, int highS, int lowV, int highV) {
     this->lowH = lowH;
     this->highH = highH;
     this->lowS = lowS;
@@ -64,15 +71,18 @@ void HSVFilter::setValues(int lowH, int highH, int lowS, int highS, int lowV, in
     this->lowV = lowV;
     this->highV = highV;
 }
-void HSVFilter::setH(int low, int high){
+
+void HSVFilter::setH(int low, int high) {
     this->lowH = low;
     this->highH = high;
 }
-void HSVFilter::setS(int low, int high){
+
+void HSVFilter::setS(int low, int high) {
     this->lowS = low;
     this->highS = high;
 }
-void HSVFilter::setV(int low, int high){
+
+void HSVFilter::setV(int low, int high) {
     this->lowV = low;
     this->highV = high;
 }

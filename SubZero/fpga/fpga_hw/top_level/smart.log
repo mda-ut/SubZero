@@ -1,0 +1,28 @@
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit Shell
+    Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
+    Info: Copyright (C) 1991-2013 Altera Corporation. All rights reserved.
+    Info: Your use of Altera Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Altera Program License 
+    Info: Subscription Agreement, Altera MegaCore Function License 
+    Info: Agreement, or other applicable license agreement, including, 
+    Info: without limitation, that your use is for the sole purpose of 
+    Info: programming logic devices manufactured by Altera and sold by 
+    Info: Altera or its authorized distributors.  Please refer to the 
+    Info: applicable agreement for further details.
+    Info: Processing started: Tue Jun 30 18:34:13 2015
+Info: Command: quartus_sh --determine_smart_action DE0_Nano
+Info: Quartus(args): DE0_Nano
+Info (293032): Detected changes in source files.
+    Info (293027): Source file: /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano.v has changed.
+Info: SMART_ACTION = SOURCE
+Info (23030): Evaluation of Tcl script /home/uoftmda/altera/13.1/quartus/common/tcl/internal/qsh_smart.tcl was successful
+Info: Quartus II 64-Bit Shell was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 234 megabytes
+    Info: Processing ended: Tue Jun 30 18:34:15 2015
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:01

@@ -8,85 +8,92 @@
 #include "CameraState.h"
 #include "../../util/Logger.h"
 #include <iostream>
+#include <QMutexLocker>
 
-CameraState::CameraState(int stateID) : State(stateID){
-	//stateData = std::list<std::vector<ImgData*> >;
-}
-CameraState::CameraState(int stateID, int framesStored) : State(stateID, framesStored){
+CameraState::CameraState(int stateID, uint32_t bufferSize) : State(stateID, bufferSize) {
 }
 
 CameraState::~CameraState(){
-
-	//carl and zack's fix
     for(auto& vector: stateData){
-		for (auto& data: vector){
-			delete data;
-		}
+        for (auto& data: vector){
+            delete data;
+        }
     }
-    /*
-	unsigned int i;
-	for (i = 0; i < stateData.size(); i++){
-		std::vector<ImgData*> temp = stateData.front();
-		for (unsigned int n = 0; n < temp.size(); n++){
-			delete temp.back();
-			temp.pop_back();
-		}
-		stateData.pop_front();
-    }*/
-	//delete stateData;
+
+    delete logger;
 }
 
-ImgData* CameraState::getState(std::string ID){
-	std::vector<ImgData*> temp = this->stateData.back();
-
-	for (unsigned int i = 0; i < temp.size(); i++){
-		ImgData* data = temp.at(i);
-		if (data->getID().compare(ID) == 0){
-            ImgData *t = data;		//deep copy
-			return t;
-		}
-	}
-	return 0;
+ImgData* CameraState::getState(std::string id) {
+    return getState(id, 0);
 }
 
-ImgData* CameraState::getState(std::string ID, int i){
+ImgData* CameraState::getState(std::string id, uint32_t i) {
+    QMutexLocker locker(&mutex);
 
-	if (i >= (int)stateData.size()){
-		return 0;				//index out of range
-	}
+    if (i >= stateData.size()) {
+        logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
+        return 0;
+    }
 
-	std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
-	std::advance(it, i);		//advance the list to the ith position
+    std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
+    std::advance(it, i);		//advance the list to the ith position
 
-	unsigned int n = 0;
-	for (n = 0; n < it->size(); n++){
-		ImgData* data = it->at(n);
-		if (data->getID().compare(ID) == 0){
-            ImgData *t = data;		//deep copy of the image
-			inUse = false;
-			return t;
-		}
-	}
-	return 0;
+    for (auto& data : *it) {
+        if (data->getID().compare(id) == 0) {
+            ImgData *t = data; //shallow copy quick fix
+            return t;
+        }
+    }
+    logger->info("State '" + id + "' was not found");
+    return 0;
 }
 
-int CameraState::setState(std::vector<ImgData*> d){
-	if ((int)this->stateData.size() > this->maxLength){
-		std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
-		for (unsigned int i= 0; i < temp.size(); i++){
-            delete temp[i];
-		}
-		this->stateData.pop_front();
-	}
-
-	this->stateData.push_back(d);	//insert vector into list
-	return 0;
+ImgData* CameraState::getDeepState(std::string id){
+    return getDeepState(id, 0);
 }
 
-ImgData* CameraState::getRaw(){
-	return this->getState("RAW");
+ImgData* CameraState::getDeepState(std::string id, uint32_t i){
+    QMutexLocker locker(&mutex);
+
+    if (i >= stateData.size()) {
+        logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
+        return 0;
+    }
+
+    std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
+    std::advance(it, i);		//advance the list to the ith position
+
+    for (auto& data : *it) {
+        if (data->getID().compare(id) == 0) {
+            ImgData *t = new ImgData(*data); //deep copy to return
+            return t;
+        }
+    }
+    logger->info("State '" + id + "' was not found");
+    return 0;
 }
 
-ImgData* CameraState::getRaw(int i){
-	return this->getState("RAW", i);
+int CameraState::setState(std::vector<ImgData*> d) {
+    QMutexLocker locker(&mutex);
+    logger->trace("Setting new camera state date");
+    if (this->stateData.size() > this->bufferSize){
+        std::vector<ImgData*> temp = this->stateData.front();	//delete oldest pointers
+        for (auto& data : temp){
+            delete data;
+        }
+        this->stateData.pop_front();
+    }
+
+    this->stateData.push_back(d);	//insert vector into list
+    locker.unlock();
+    notifyViewers();
+    return 0;
+}
+
+ImgData* CameraState::getRaw() {
+    return this->getState("raw");
+}
+
+ImgData* CameraState::getRaw(uint32_t i) {
+    return this->getState("raw", i);
 }

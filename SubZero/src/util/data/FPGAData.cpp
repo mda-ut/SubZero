@@ -12,61 +12,29 @@
  * ==========================================================================
  */
 
-FPGAData::FPGAData(std::string dataID, double depth, double speed, double heading) : Data(dataID) {
-	this->depth = depth;
-	this->speed = speed;
-	this->heading = heading;
+FPGAData::FPGAData(std::string dataID, int power, int yaw, int depth) : Data(dataID) {
+    this->power = power;
+    this->yaw = yaw;
+    this->depth = depth;
 }
 
 FPGAData::~FPGAData() {
 }
 
-/* ==========================================================================
- * FRIEND FUNCS
- * ==========================================================================
- */
-
-void FPGAData::setDepth(double newDepth) {
-	this->depth = newDepth;
-}
-
-void FPGAData::setSpeed(double newSpeed) {
-	this->speed = newSpeed;
-}
-
-void FPGAData::setHeading(double newHeading) {
-	this->heading = newHeading;
-}
 
 /* ==========================================================================
  * FPGA MANIPULATION FUNCS
  * ==========================================================================
  */
 
-double FPGAData::getDepth() {
-	return this->depth;
+int FPGAData::getPower() {
+    return power;
 }
 
-double FPGAData::getSpeed() {
-	return this->speed;
+int FPGAData::getYaw() {
+    return yaw;
 }
 
-double FPGAData::getHeading() {
-	return this->heading;
+int FPGAData::getDepth() {
+    return depth;
 }
-
-/* ==========================================================================
- * OPERATOR OVERLOAD
- * ==========================================================================
- */
-/*
-FPGAData FPGAData::operator=(FPGAData rhs) {
-	return new FPGAData(rhs);
-}
-
-FPGAData::FPGAData(const FPGAData obj) : Data(obj) {
-	this->depth = obj->depth;
-	this->speed = obj->speed;
-	this->heading = obj->heading;
-}
-*/

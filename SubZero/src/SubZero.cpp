@@ -8,7 +8,7 @@
 #include "SubZero.h"
 #include <QCoreApplication>
 
-int SubZero::ctr = 0;
+volatile int signal_quit = 0;
 
 SubZero::SubZero(std::vector<Model *> models_, View *view_, Controller *controller_) {
     models = models_;
@@ -20,30 +20,20 @@ SubZero::~SubZero() {
     for (auto& model : models) {
         delete model;
     }
-    delete controller;
     delete view;
-
+    delete controller;
 }
 
-void SubZero::init() {
+void SubZero::initialize() {
+    controller->initialize();
+    view->initialize();
     for (auto& model : models) {
         model->initialize();
     }
-    controller->initialize();
-    view->initialize_VC_Connection(controller);//Connect the controller to the view
-    view->show();
 }
 
-void SubZero::run() {
 
-    while(ctr < 5) {
-        for (auto& model : models) {
-            if(model->dataTransfer()) {
-                model->notifyObserver();
-                //ctr++;
-            }
-        }
-        QCoreApplication::processEvents();
-    }
-    view->close();
+View *SubZero::getView() {
+    return view;
 }
+

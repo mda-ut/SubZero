@@ -6,9 +6,7 @@
  */
 
 #include "FPGAInterface.h"
-#include <sstream>
 #include <string>
-#include <iterator>
 #include "scripts.h"
 
 
@@ -20,38 +18,15 @@
  * using the functions below.
  */
 
-void FPGAInterface::poll() {
-    double depth = (double) get_depth();
-    double heading = (double) get_yaw();
-    int accel_x, accel_y, accel_z;
-    get_accel(&accel_x, &accel_y, &accel_z);
-    //need to adjust code for accel rather than speed
-    Data* new_data = new FPGAData("raw", depth, 0, heading);
-    this->storeToBuffer(new_data);
-}
+FPGAData* FPGAInterface::poll() {
+    mutex.lock();
+    //TODO Add error checking on values from FPGA
+    int power = get_power();
+    int depth = get_depth();
+    int yaw = get_yaw();
+    mutex.unlock();
 
-FPGAData* FPGAInterface::decode(std::string* data) {
-
-    std::istringstream iss(*data);
-    std::istream_iterator<std::string> begin(iss), end;
-    std::vector<std::string> attributes(begin, end);
-
-    std::string::size_type size;
-
-    // Right now we only have three attributes from FPGA
-    // depth = attributes[0]
-    // speed = attributes[1]
-    // heading = attributes[2]
-    // is it possible to not hardcode this?
-    double depth = std::stod (attributes[0], &size);
-    double speed = std::stod (attributes[1], &size);
-    double heading = std::stod (attributes[2], &size);
-    // Note: for stod (string to double conversion)
-    //       need to compile with -std=c++11
-
-    FPGAData* decoded = new FPGAData("raw", depth, speed, heading);
-
-    return decoded;
+    return new FPGAData("raw", power, yaw, depth);
 }
 
 
@@ -63,22 +38,20 @@ FPGAData* FPGAInterface::decode(std::string* data) {
  */
 
 void FPGAInterface::set(Attributes attr, int value) {
-    std::cout << attr << ":" << value << std::endl;
+    logger->trace("Setting " + std::to_string(attr) + " to " + std::to_string(value));
+    mutex.lock();
     switch(attr) {
     case POWER:
         if (value == 0) {
             power_off();
-        } else if (value == 1){
+        } else if (value == 1) {
             power_on();
         } else {
-            logger->trace("Error: wrong power value of " + std::to_string(value));
+            logger->warn("Invalid power value of " + std::to_string(value));
         }
         break;
     case DEPTH:
         dyn_set_target_depth(value);
-        break;
-    case HEADING:
-        dyn_set_target_yaw(value);
         break;
     case YAW:
         dyn_set_target_yaw(value);
@@ -86,16 +59,14 @@ void FPGAInterface::set(Attributes attr, int value) {
     case SPEED:
         dyn_set_target_speed(value);
         break;
+    case MOTOR:
+        startup_sequence();
+        break;
     default:
+        logger->warn("Invalid FPGA attribute of " + std::to_string(attr));
         break;
     }
-
-
-}
-
-// for method 2: using libusb
-void FPGAInterface::send(std::string* data) {
-
+    mutex.unlock();
 }
 
 /* ==========================================================================
@@ -104,27 +75,44 @@ void FPGAInterface::send(std::string* data) {
  */
 
 
-FPGAInterface::FPGAInterface(int bufferSize, int pollFrequency) {
-
-    this->bufferSize = bufferSize;
-    this->pollFrequency = pollFrequency;
-
-    // thread for reading and polling FPGA input
-    // main thread will listen for commands to be sent to FPGA
-   readThreads.push_back(std::thread(&FPGAInterface::in, this));
+FPGAInterface::FPGAInterface(Properties* settings) {
+    this->settings = settings;
 }
 
 void FPGAInterface::init() {
+    logger->info("Initializing FPGA connection");
     init_fpga();
     set_verbose(0);
-    executing = true;
-    readThreads.push_back(std::thread(&FPGAInterface::in, this));
+
+    double P, I, D, Alpha;
+    P = std::stod(settings->getProperty("DEPTH_P"));
+    I = std::stod(settings->getProperty("DEPTH_I"));
+    D = std::stod(settings->getProperty("DEPTH_D"));
+    Alpha = std::stod(settings->getProperty("DEPTH_ALPHA"));
+    set_pid_depth(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("PITCH_P"));
+    I = std::stod(settings->getProperty("PITCH_I"));
+    D = std::stod(settings->getProperty("PITCH_D"));
+    Alpha = std::stod(settings->getProperty("PITCH_ALPHA"));
+    set_pid_pitch(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("ROLL_P"));
+    I = std::stod(settings->getProperty("ROLL_I"));
+    D = std::stod(settings->getProperty("ROLL_D"));
+    Alpha = std::stod(settings->getProperty("ROLL_ALPHA"));
+    set_pid_roll(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("YAW_P"));
+    I = std::stod(settings->getProperty("YAW_I"));
+    D = std::stod(settings->getProperty("YAW_D"));
+    Alpha = std::stod(settings->getProperty("YAW_ALPHA"));
+    set_pid_yaw(P, I, D, Alpha);
+
 }
 
 FPGAInterface::~FPGAInterface() {
-    // join readThread with main
-    executing = false;
+    logger->info("Safely closing FPGA connection");
     exit_safe();
-
-    //calls HwInterfaces dtor afterwards
+    delete logger;
 }

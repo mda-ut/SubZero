@@ -31,11 +31,11 @@ time_t Timer::stop() {
 }
 
 double Timer::getTimeElapsed() {
-	return difftime(startTime,time(NULL));
+    return difftime(time(NULL), startTime);
 }
 
 double Timer::getTimeDiff() {
-	return difftime(startTime,endTime);
+    return difftime(endTime, startTime);
 }
 
 struct tm* Timer::getCurrentTime() {

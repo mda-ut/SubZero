@@ -6,7 +6,7 @@
  */
 
 #include "ControllerThread.h"
-#include "../../SubZero.h"
+#include "Controller.h"
 
 ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
     taskList = tL;
@@ -14,15 +14,17 @@ ControllerThread::ControllerThread(QQueue<Task *> *tL, QMutex *mutex){
 }
 
 ControllerThread::~ControllerThread() {
-
+    delete logger;
 }
 
 void ControllerThread::executeTasks(const QString &parameter) {
     QString result = "Done";
-    while (SubZero::ctr < 5){
+    logger->info("Starting Controller Thread execution loop");
+    while (Controller::isRunning()){
         mutex->lock();
         if(!taskList->isEmpty()){
             Task *temp = taskList->dequeue();
+            logger->trace("Executing new task");
             temp->execute();
             delete temp;
         }

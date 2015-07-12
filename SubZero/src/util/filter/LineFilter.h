@@ -8,6 +8,8 @@
 
 #include "Filter.h"
 #include <opencv2/imgproc.hpp>
+#include <iostream>
+#include "Logger.h"
 
 /**
  * The Line filter filters the image to look for lines
@@ -27,6 +29,7 @@ public:
      * Filters an image for lines
      */
     LineFilter();
+    virtual ~LineFilter();
 
     /* =====================================================
      * Filtering
@@ -37,7 +40,7 @@ public:
      * Filters the image to look for lines
      * Replaces the mat image in _data_
      * @param data = image data to use
-     * @return 0 = success
+     * @return 0 = found lines
      */
     int filter(Data *data);
 
@@ -56,9 +59,10 @@ public:
      * Returns the slope and intercept value of all the lines detected,
      * were a line is represented by y = mx+b
      * Since you cant have a vector of arrays, it returns a vector of vectors.
-     * However, the inner vector is guarantted to be size 2
+     * The iner array can be size 2 or 3
+     * Size 2 is just [0] = m, [1] = b
+     * Size 3 is [0] = m, [1] = b, [2] = x/y depending on what m is
      * @return a vector of all the lines detected
-     *         inner vector guaranteed to be size 2; [0] = m, [1] = b
      */
     std::vector<std::vector<float>> getlineEq();
 
@@ -66,6 +70,13 @@ private:
     //mode to use for filtering
     int mode;
     std::vector<std::vector<float> > linesEq;
+
+    Logger* logger = new Logger("LineFilter");
+    bool debug = true;
+    void println(std::string s);
+    void println(float f);
+    void print(std::string s);
+    void print(float f);
 };
 
 #endif // LINEFILTER_H
