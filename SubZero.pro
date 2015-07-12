@@ -17,6 +17,7 @@ greaterThan(QT_MAJOR_VERSION,4): QT += widgets
 TEMPLATE = app
 TARGET = SubZero
 INCLUDEPATH += . \
+               SubZero/src/simulator \
                SubZero/src/util \
                SubZero/src/view \
                SubZero/src/controller/controllers \
@@ -50,6 +51,7 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/src/util/StringTools.h \
            SubZero/src/util/Timer.h \
            SubZero/src/util/Util.h \
+           SubZero/src/simulator/SIMFPGA.h \
            SubZero/src/view/View.h \
            SubZero/test/util/IDHasherTEST.h \
            SubZero/src/controller/controllers/Controller.h \
@@ -107,6 +109,7 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/model/CameraModel.cpp \
            SubZero/src/model/FPGAModel.cpp \
            SubZero/src/model/Model.cpp \
+           SubZero/src/simulator/SIMFPGA.cpp \
            SubZero/src/util/IDHasher.cpp \
            SubZero/src/util/Logger.cpp \
            SubZero/src/util/PropertyReader.cpp \
