@@ -48,6 +48,11 @@ public slots:
     /**
      * @brief switchToGUIView
      */
+    void switchToSimulatorView(void);
+
+    /**
+     * @brief switchToGUIView
+     */
     void switchToMenuView(void);
 
     /**

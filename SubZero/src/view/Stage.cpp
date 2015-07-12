@@ -40,6 +40,10 @@ void Stage::switchToGUIView() {
     setViewContent("GUI");
 }
 
+void Stage::switchToSimulatorView() {
+    setViewContent("SIMULATOR");
+}
+
 void Stage::switchToMenuView() {
     setViewContent("MENU");
 }

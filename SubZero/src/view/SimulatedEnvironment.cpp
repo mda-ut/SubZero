@@ -28,25 +28,25 @@ void SimulatedEnvironment::initialize() {
 
     //Set up the meshes using the blend files via QUrl's
     yellowBuoyBody = new Qt3D::QMesh();
-    yellowBuoyBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Yellow Buoy.obj"));
+    yellowBuoyBody->setSource(QUrl("qrc:/environment_objects/Yellow Buoy.obj"));
 
     blueBuoyBody = new Qt3D::QMesh();
-    blueBuoyBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Blue Buoy.obj"));
+    blueBuoyBody->setSource(QUrl("qrc:/environment_objects/Blue Buoy.obj"));
 
     redBuoyBody = new Qt3D::QMesh();
-    redBuoyBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Red Buoy.obj"));
+    redBuoyBody->setSource(QUrl("qrc:/environment_objects/Red Buoy.obj"));
 
     greenBuoyBody = new Qt3D::QMesh();
-    greenBuoyBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Green Buoy.obj"));
+    greenBuoyBody->setSource(QUrl("qrc:/environment_objects/Green Buoy.obj"));
 
     setDateBody = new Qt3D::QMesh();
-    setDateBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Set Date.obj"));
+    setDateBody->setSource(QUrl("qrc:/environment_objects/Set Date.obj"));
 
     timePortalBody = new Qt3D::QMesh();
-    timePortalBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Time Portal.obj"));
+    timePortalBody->setSource(QUrl("qrc:/environment_objects/Time Portal.obj"));
 
     guideMarkerBody = new Qt3D::QMesh();
-    guideMarkerBody->setSource(QUrl("qrc:/mdl/simViewModelItems/Obj Model Files/Guide Marker.obj"));
+    guideMarkerBody->setSource(QUrl("qrc:/environment_objects/Guide Marker.obj"));
 
     //Setting up the materials
     yellowBuoyMaterial = new Qt3D::QPhongMaterial();

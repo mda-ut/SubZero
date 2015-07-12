@@ -66,14 +66,8 @@ int main(int argc, char** argv) {
         HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
     }
 
-    VideoTesting vt(0);
-    vt.run();
-
-    //Menu* newMenu = new Menu(settings);
-    //newMenu->show();
-    /*
-        VideoTesting vt(0);
-        vt.run();
+//        VideoTesting vt(0);
+//        vt.run();
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
 //    vt.run();
@@ -94,7 +88,8 @@ int main(int argc, char** argv) {
         //TODO: Make autonomous run without any GUI
         return 0;
     }
-    */
+
+
 
     delete propReader;
     return app.exec();

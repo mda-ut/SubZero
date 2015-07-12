@@ -23,6 +23,8 @@ INCLUDEPATH += . \
                SubZero/src/controller/task \
                SubZero/src/model \
                SubZero/src/model/interface \
+               SubZero/src/resources \
+               SubZero/src/resources/environment_objects \
                SubZero/src/util/data \
                SubZero/src/util/filter \
                SubZero/src/model/state \
@@ -168,3 +170,6 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/view/SimulatorEngine.cpp \
     SubZero/src/view/SimulatedSub.cpp \
     SubZero/src/view/SimulatedEnvironment.cpp
+
+RESOURCES += \
+    SubZero/src/resources/resources.qrc
