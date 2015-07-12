@@ -25,7 +25,6 @@ void State::addViewer(View* viewer) {
 
 
 void State::notifyViewers() {
-    logger->trace("Notifying viewers");
     for (auto& viewer : viewers) {
         viewer->update(stateID);
     }

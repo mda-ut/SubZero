@@ -12,7 +12,7 @@ RGBFilter::RGBFilter(int fullspec[]) : Filter() {
 	this->setID("rgbFull");
     PropertyReader* propReader = new PropertyReader("../../SubZero/src/settings/rgbFilter.txt");
     propReader->load();
-    mxColour = std::stoi(propReader->getProperty("RGB_MAX_COLOUR"));
+    //mxColour = std::stoi(propReader->getProperty("RGB_MAX_COLOUR"));
     delete propReader;
 }
 

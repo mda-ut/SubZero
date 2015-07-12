@@ -13,9 +13,7 @@ FPGAModel::FPGAModel(State *inputState, HwInterface *inputInterface, int frequen
 
 FPGAModel::~FPGAModel() {
     executing = false;
-    for(auto& t: readThreads) {
-        t.join();
-    }
+    pollThread.join();
     delete logger;
 }
 

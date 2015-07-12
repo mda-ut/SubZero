@@ -24,7 +24,7 @@ void Model::storeToFMList(FilterManager* newFM) {
     logger->info("Filter Manager " + newFM->getFMID() + " added");
 }
 
-void Model::in() {
+void Model::pollLoop() {
     Timer timer;
     timer.start();
     double pollPeriod = 1 / pollFrequency;
@@ -69,7 +69,7 @@ Model::~Model() {
 void Model::initialize() {
     interface->init();
     executing = true;
-    readThreads.push_back(std::thread(&Model::in, this));
+    pollThread = std::thread(&Model::pollLoop, this);
     logger->info("Thread started");
 }
 

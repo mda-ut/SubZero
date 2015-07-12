@@ -15,6 +15,8 @@
 #include "MenuView.h"
 #include "GUIView.h"
 #include "Controller.h"
+#include "SimFPGA.h"
+#include "SimFPGAInterface.h"
 #include <vector>
 #include <iostream>
 
@@ -73,6 +75,28 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
         }
     } else if (subType == "SIMULATOR") {
         logger->trace("Creating simulation sub");
+        states.push_back(new CameraState(FRONTCAM, camBufferSize));
+        states.push_back(new CameraState(DOWNCAM, camBufferSize));
+        states.push_back(new FPGAState(FPGA, fpgaBufferSize));
+
+        int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
+        int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
+        HwInterface* frontCamInt = new CameraInterface(frontCamPos);
+        HwInterface* downCamInt = new CameraInterface(downCamPos);
+        SimFPGA* simFPGA = new SimFPGA(settings);
+        HwInterface* fpgaInt = new SimFPGAInterface(settings, simFPGA);
+
+        models.push_back(new CameraModel(states[0], frontCamInt, camPollFrequency));
+        models.push_back(new CameraModel(states[1], downCamInt, camPollFrequency));
+        models.push_back(new FPGAModel(states[2], fpgaInt, fpgaPollFrequency));
+
+        controller = new Controller(models);
+        view = new GUIView(stage, controller, states);
+        controller->setView(view);
+
+        for (auto& state : states) {
+            state->addViewer(view);
+        }
     } else if (subType == "AUTONOMOUS") {
         logger->trace("Creating autonomous sub");
     } else {

@@ -67,19 +67,11 @@ int main(int argc, char** argv) {
         HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
     }
 
-    VideoTesting vt(0);
-    vt.run();
-
-    //Menu* newMenu = new Menu(settings);
-    //newMenu->show();
-    /*
-        VideoTesting vt(0);
-        vt.run();
+//        VideoTesting vt(0);
+//        vt.run();
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
 //    vt.run();
-//    CollectionTEST::runDataAndFilterManagerCollection();
-//    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
     std::string mode = settings->getProperty("MODE");
 
     init_signal_handler();
@@ -95,7 +87,6 @@ int main(int argc, char** argv) {
         //TODO: Make autonomous run without any GUI
         return 0;
     }
-    */
 
     delete propReader;
     return app.exec();

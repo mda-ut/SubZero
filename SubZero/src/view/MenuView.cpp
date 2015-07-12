@@ -108,6 +108,7 @@ void MenuView::initialize() {
     autonomousButton->setFlat(true);
 
     connect(guiButton, SIGNAL(clicked()), stage, SLOT(switchToGUIView()));
+    connect(simulatorButton, SIGNAL(clicked()), stage, SLOT(switchToSimulatorView()));
 
 }
 

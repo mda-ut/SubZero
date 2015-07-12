@@ -10,13 +10,14 @@ VideoTesting::VideoTesting(const std::string fileName){
     cap.set(CV_CAP_PROP_POS_FRAMES,count-1); //Set index to last frame
     this->cap = cap;
 }
-
+CvCapture* capture;  //Capture using any camera connected to your system
 VideoTesting::VideoTesting(int deviceID) {
     //cap.open(deviceID);
+    capture = cvCaptureFromCAM(deviceID);
 }
 
 //================get next frame from camera=====================================
-CvCapture* capture = cvCaptureFromCAM(0);  //Capture using any camera connected to your system
+
 cv::Mat getNextCameraFrame(){
     IplImage* frame = cvQueryFrame(capture); //Create image frames from capture
     cv::Mat temp = cv::cvarrToMat(frame,true,true,0);
