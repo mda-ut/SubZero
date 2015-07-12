@@ -89,6 +89,6 @@ void CameraInterface::init() {
 }
 
 CameraInterface::~CameraInterface() {
-    camStream.release();
+    logger->trace("CameraInterface deleted");
     delete logger;
 }

@@ -8,7 +8,7 @@ GUIView::GUIView() {
 }
 
 GUIView::GUIView(Stage* stage, Controller* controller, std::vector<State*> states)
-    : View(stage, controller, states){
+    : View(stage, controller, states) {
 }
 
 void GUIView::update(int id) {
@@ -222,6 +222,8 @@ void GUIView::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_Q:
         exitButton->click();
         break;
+    default:
+        QWidget::keyPressEvent(event);
     }
 }
 

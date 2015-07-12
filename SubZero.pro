@@ -11,7 +11,7 @@ LIBS += -L/usr/local/lib \
 -lopencv_imgcodecs
 
 CONFIG += c++11
-greaterThan(QT_MAJOR_VERSION,4): QT += widgets
+greaterThan(QT_MAJOR_VERSION,4): QT += widgets 3dcore 3drenderer 3dinput
 
 
 TEMPLATE = app
@@ -115,7 +115,11 @@ HEADERS += SubZero/src/SubZero.h \
            SubZero/src/util/Properties.h \
     SubZero/src/view/Stage.h \
     SubZero/src/view/MenuView.h \
-    SubZero/src/view/GUIView.h
+    SubZero/src/view/GUIView.h \
+    SubZero/src/view/SimulatorView.h \
+    SubZero/src/view/SimulatorEngine.h \
+    SubZero/src/view/SimulatedSub.h \
+    SubZero/src/view/SimulatedEnvironment.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -176,4 +180,8 @@ SOURCES += SubZero/src/Main.cpp \
            SubZero/src/util/Properties.cpp \
     SubZero/src/view/Stage.cpp \
     SubZero/src/view/MenuView.cpp \
-    SubZero/src/view/GUIView.cpp
+    SubZero/src/view/GUIView.cpp \
+    SubZero/src/view/SimulatorView.cpp \
+    SubZero/src/view/SimulatorEngine.cpp \
+    SubZero/src/view/SimulatedSub.cpp \
+    SubZero/src/view/SimulatedEnvironment.cpp
