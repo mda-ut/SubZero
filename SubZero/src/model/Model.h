@@ -47,7 +47,7 @@ protected:
 
     bool executing;
 
-    std::vector<std::thread> readThreads;
+    std::thread pollThread;
 
     std::vector<FilterManager*> filterManagerList;
 
@@ -69,7 +69,7 @@ protected:
      * notifyObserver notifies all observers of the observable when an update arrives
      */
 
-    virtual void in();
+    virtual void pollLoop();
 
 public:
 

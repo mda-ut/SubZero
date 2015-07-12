@@ -17,6 +17,7 @@ greaterThan(QT_MAJOR_VERSION,4): QT += widgets 3dcore 3drenderer 3dinput
 TEMPLATE = app
 TARGET = SubZero
 INCLUDEPATH += . \
+               SubZero/src/simulator \
                SubZero/src/util \
                SubZero/src/view \
                SubZero/src/controller/controllers \
@@ -101,9 +102,12 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/view/MenuView.h \
     SubZero/src/view/GUIView.h \
     SubZero/src/view/SimulatorView.h \
-    SubZero/src/view/SimulatorEngine.h \
-    SubZero/src/view/SimulatedSub.h \
-    SubZero/src/view/SimulatedEnvironment.h
+    SubZero/src/model/interface/SimFPGAInterface.h \
+    SubZero/src/simulator/SimFPGA.h \
+    SubZero/src/simulator/SimulatedEnvironment.h \
+    SubZero/src/simulator/SimulatorEngine.h \
+    SubZero/src/simulator/SimulatedSub.h
+
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -167,9 +171,11 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/view/MenuView.cpp \
     SubZero/src/view/GUIView.cpp \
     SubZero/src/view/SimulatorView.cpp \
-    SubZero/src/view/SimulatorEngine.cpp \
-    SubZero/src/view/SimulatedSub.cpp \
-    SubZero/src/view/SimulatedEnvironment.cpp
+    SubZero/src/model/interface/SimFPGAInterface.cpp \
+    SubZero/src/simulator/SimFPGA.cpp \
+    SubZero/src/simulator/SimulatedEnvironment.cpp \
+    SubZero/src/simulator/SimulatedSub.cpp \
+    SubZero/src/simulator/SimulatorEngine.cpp
 
 RESOURCES += \
     SubZero/src/resources/resources.qrc

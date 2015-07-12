@@ -46,9 +46,9 @@ public slots:
     void switchToGUIView(void);
 
     /**
-     * @brief switchToGUIView
+     * @brief switchToSimulatorView
      */
-    void switchToSimulatorView(void);
+    void switchToSimulatorView();
 
     /**
      * @brief switchToGUIView
@@ -59,6 +59,7 @@ public slots:
      * Cleans the queue; forces the last task to finish, then kills the sub
      */
     void exit(void);
+
 
 };
 

@@ -71,8 +71,6 @@ int main(int argc, char** argv) {
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
 //    vt.run();
-//    CollectionTEST::runDataAndFilterManagerCollection();
-//    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
     std::string mode = settings->getProperty("MODE");
 
     init_signal_handler();
@@ -88,8 +86,6 @@ int main(int argc, char** argv) {
         //TODO: Make autonomous run without any GUI
         return 0;
     }
-
-
 
     delete propReader;
     return app.exec();

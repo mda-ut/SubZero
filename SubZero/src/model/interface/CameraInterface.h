@@ -95,7 +95,6 @@ public:
      * Destructor
      */
     virtual ~CameraInterface();
-
 };
 
 #endif

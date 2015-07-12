@@ -84,7 +84,7 @@ PropertyReader::~PropertyReader() {
         ifstream.close();
         logger->trace("File closed: " + filePath);
     }
-    logger->trace("Property file deleted");
+    logger->trace("Property reader deleted");
     delete logger;
 }
 

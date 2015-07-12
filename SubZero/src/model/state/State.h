@@ -13,7 +13,7 @@ class View;
 enum StateType {
     FRONTCAM,
     DOWNCAM,
-    FPGA
+    FPGA,
 };
 
 class State {

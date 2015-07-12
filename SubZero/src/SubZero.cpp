@@ -25,11 +25,11 @@ SubZero::~SubZero() {
 }
 
 void SubZero::initialize() {
+    controller->initialize();
+    view->initialize();
     for (auto& model : models) {
         model->initialize();
     }
-    controller->initialize();
-    view->initialize();
 }
 
 

@@ -1,23 +1,24 @@
 /**
- * FPGAInterface.h
+ * SimFPGAInterface.h
  *
  * Created on: Jan 17, 2015
  * Author: ahsueh1996
  */
 
-#ifndef FPGAINTERFACE_H_
-#define FPGAINTERFACE_H_
+#ifndef SIMFPGAINTERFACE_H_
+#define SIMFPGAINTERFACE_H_
 
 #include <thread>
 #include <iostream>
 #include <string>
 #include <QMutex>
-#include "HwInterface.h"
+#include "FPGAInterface.h"
 #include "FPGAData.h"
 #include "Properties.h"
+#include "SimFPGA.h"
 
 /**
- * A concrete child of HwInterface that deals specifically with the FPGA.
+ * A concrete child of HwInterface that deals specifically with the simulated FPGA.
  *
  * FPGAInterface is responsible for:
  * 		1. Dealing with the data coming from FPGA: poll->decode
@@ -32,16 +33,14 @@
  * @since	Jan 17 2015
  */
 
-class FPGAInterface : public HwInterface {
+class SimFPGAInterface : public FPGAInterface {
 
 private:
 
-    Logger* logger = new Logger("FPGAInterface");
+    Logger* logger = new Logger("SimFPGAInterface");
 
 protected:
-    Properties* settings;
-
-    QMutex mutex;
+    SimFPGA* simFPGA;
 
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM FPGA)
@@ -82,18 +81,18 @@ public:
     /**
      * Constructor for FPGA Interface
      */
-    FPGAInterface(Properties* settings);
+    SimFPGAInterface(Properties* settings, SimFPGA* simFPGA);
 
     virtual void init();
 
     /**
      * Destructor
      */
-    virtual ~FPGAInterface();
+    virtual ~SimFPGAInterface();
 
 };
 
 #endif
 
 
-/* FPGAINTERFACE_H_ */
+/* SIMFPGAINTERFACE_H_ */

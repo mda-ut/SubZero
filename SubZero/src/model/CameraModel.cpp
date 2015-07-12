@@ -13,9 +13,7 @@ CameraModel::CameraModel(State*inputState, HwInterface *inputInterface, int freq
 
 CameraModel::~CameraModel() {
     executing = false;
-    for(auto& t: readThreads) {
-        t.join();
-    }
+    pollThread.join();
     delete logger;
 }
 

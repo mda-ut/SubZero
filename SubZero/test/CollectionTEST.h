@@ -19,7 +19,7 @@
 #include "util/data/FPGADataTEST.h"
 
 #include "util/filter/RGBFilterTEST.h"
-#include "util/Logger.h"
+#include "../src/util/Logger.h"
 
 class CollectionTEST {
 public:

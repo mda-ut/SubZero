@@ -1,3 +1,4 @@
+
 /*
  * CameraInterface.cpp
  *
@@ -92,3 +93,4 @@ CameraInterface::~CameraInterface() {
     logger->trace("CameraInterface deleted");
     delete logger;
 }
+

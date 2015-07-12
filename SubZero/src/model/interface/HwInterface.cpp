@@ -20,3 +20,6 @@ HwInterface::HwInterface() {
 HwInterface::~HwInterface() {
     delete logger;
 }
+
+
+
