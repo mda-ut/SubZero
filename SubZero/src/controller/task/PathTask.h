@@ -12,7 +12,7 @@
 class PathTask : public Task {
 public:
     PathTask();
-    ~PathTask();
+    virtual ~PathTask();
     PathTask(CameraModel* cameraModel, TurnTask* turnTask, SpeedTask* speedTask);
 
     void execute();
@@ -23,10 +23,13 @@ private:
     CameraModel* cameraModel;
     TurnTask* turnTask;
     SpeedTask* speedTask;
-    bool startPath;     //first vertical line (start of rect)
-    bool finPath;       //last vertical line (end of rect)
+
+    bool startPath;     //first vertical line (start of rect), NOT USED
+    bool finPath;       //last vertical line (end of rect), NOT USED
     bool horzInSight;
     bool done;
+
+    //distance in pixles considered to be in line with the sub
     float inlineThresh;
     int imgWidth, imgHeight;
 

@@ -8,19 +8,14 @@
 #include "State.h"
 #include "View.h"
 
-State::State(int stateID, uint64_t bufferSize) {
+State::State(int stateID, uint32_t bufferSize) {
     this->stateID = stateID;
     this->bufferSize = bufferSize;
     frameStarted = false;
-    init();
 }
 
 State::~State() {
     delete logger;
-}
-
-void State::init(){
-
 }
 
 void State::addViewer(View* viewer) {

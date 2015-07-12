@@ -11,6 +11,7 @@
 #include "scripts.h"
 #include "Properties.h"
 #include "PropertyReader.h"
+#include "VideoTesting.h"
 #include "SubZeroFactory.h"
 #include "Stage.h"
 
@@ -28,6 +29,7 @@ int main(int argc, char** argv) {
     } else {
         propReader = new PropertyReader("../SubZero/src/settings/settings.txt");
     }
+    // Set logging level
     settings = propReader->load();
     std::string loggingLevel = settings->getProperty("LOGGING_LEVEL");
     if (loggingLevel == "OFF") {
@@ -44,6 +46,39 @@ int main(int argc, char** argv) {
         Logger::setLoggingLevel(Logger::Level::ERROR);
     }
 
+    // Set default HSV Filter values
+    if (!settings->getProperty("LOW_HUE").empty()) {
+        HSVFilter::defaultLowH = std::stoi(settings->getProperty("LOW_HUE"));
+    }
+    if (!settings->getProperty("HIGH_HUE").empty()) {
+        HSVFilter::defaultHighH = std::stoi(settings->getProperty("HIGH_HUE"));
+    }
+    if (!settings->getProperty("LOW_SATURATION").empty()) {
+        HSVFilter::defaultLowS = std::stoi(settings->getProperty("LOW_SATURATION"));
+    }
+    if (!settings->getProperty("HIGH_SATURATION").empty()) {
+        HSVFilter::defaultHighS = std::stoi(settings->getProperty("HIGH_SATURATION"));
+    }
+    if (!settings->getProperty("LOW_VALUE").empty()) {
+        HSVFilter::defaultLowV = std::stoi(settings->getProperty("LOW_VALUE"));
+    }
+    if (!settings->getProperty("HIGH_VALUE").empty()) {
+        HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
+    }
+
+    VideoTesting vt(0);
+    vt.run();
+
+    //Menu* newMenu = new Menu(settings);
+    //newMenu->show();
+    /*
+        VideoTesting vt(0);
+        vt.run();
+//    newMenu.paintEvent();
+//    VideoTesting vt("videofile");
+//    vt.run();
+//    CollectionTEST::runDataAndFilterManagerCollection();
+//    CollectionTEST::runFilterCollection(); //commented a crash line in here... uncomment to reproduce
     std::string mode = settings->getProperty("MODE");
 
     init_signal_handler();
@@ -59,6 +94,7 @@ int main(int argc, char** argv) {
         //TODO: Make autonomous run without any GUI
         return 0;
     }
+    */
 
     delete propReader;
     return app.exec();

@@ -16,6 +16,7 @@ VideoTesting::VideoTesting(int deviceID) {
 }
 
 //================get next frame from camera=====================================
+
 CvCapture* capture; //= cvCaptureFromCAM(5);  //Capture using any camera connected to your system
 cv::Mat getNextCameraFrame(){
     IplImage* frame = cvQueryFrame(capture); //Create image frames from capture

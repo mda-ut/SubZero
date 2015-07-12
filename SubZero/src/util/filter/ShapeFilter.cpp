@@ -7,6 +7,9 @@ ShapeFilter::ShapeFilter(int shape, int amount)
     this->max = amount;
     //contours = new std::vector<std::vector<cv::Point> >;
 }
+ShapeFilter::~ShapeFilter(){
+    delete logger;
+}
 
 void ShapeFilter::print(int i){
     if (debug)
@@ -30,8 +33,10 @@ int ShapeFilter::filter(Data *data){
     }
 
    //beging filtering process
-    if (shape == 1){    //rectangle
+    if (shape == 1){        ///rectangle
         return this->findRect((imgData->getImg()));   //lazy to copy+paste everything
+    }else if (shape == 2){  ///circle
+        return this->findCirc(imgData->getImg());
     }
     //ending filtering process
 
@@ -266,6 +271,16 @@ std::vector<cv::RotatedRect> ShapeFilter::getRect(){
     return rektangles;
 }
 
+std::vector<cv::Point2f> ShapeFilter::findMassCenter(Data *data){
+    // check for whether the input is of the correct type.          From Albert
+    ImgData* imgData = dynamic_cast<ImgData*>(data);
+    if (imgData == 0) {
+        std::vector<cv::Point2f> bad;
+        return bad;
+    }
+    return findMassCenter(imgData->getImg());
+}
+
 std::vector<cv::Point2f> ShapeFilter::findMassCenter(cv::Mat img){
     //getting the contours
     cv::Mat canny;
@@ -279,7 +294,7 @@ std::vector<cv::Point2f> ShapeFilter::findMassCenter(cv::Mat img){
     int index = 0;
 
     std::vector<cv::Moments> mu(contours.size() );
-    for( int i = 0; i < contours.size(); i++ )
+    for(unsigned int i = 0; i < contours.size(); i++ )
     {
         mu[i] = cv::moments( contours[i], false );
         area = cv::contourArea(contours[i]);
@@ -291,7 +306,7 @@ std::vector<cv::Point2f> ShapeFilter::findMassCenter(cv::Mat img){
 
     //  Get the mass centers:
     std::vector<cv::Point2f> mc( contours.size() );
-    for( int i = 0; i < contours.size(); i++ )
+    for(unsigned int i = 0; i < contours.size(); i++ )
     {mc[i] = cv::Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 );}
 
     std::vector<cv::Point2f> result;

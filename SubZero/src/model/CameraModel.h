@@ -58,7 +58,7 @@ public:
      * Return the model's current state
      * @return
      */
-    virtual Data *getStateData(std::string data_ID);
+    virtual Data* getStateData(std::string data_ID);
 };
 
 

@@ -31,7 +31,7 @@ public:
     /**
      * constructor
      */
-    CameraState(int stateID, uint64_t bufferSize);
+    CameraState(int stateID, uint32_t bufferSize);
 
     /**
      * destructor
@@ -44,7 +44,7 @@ public:
      * @param i = how many frames ago was the image stored (zero indexed; newest frame = 0)
      * @return returns the pointer to the deep copied image data
      */
-    virtual ImgData* getState(std::string id, uint64_t i);
+    virtual ImgData* getState(std::string id, uint32_t i);
 
     /**
      * Returns a deep copy of the latest image specified with the _ID_
@@ -54,12 +54,16 @@ public:
      */
     virtual ImgData* getState(std::string id);
 
+    ImgData* getDeepState(std::string id);
+    ImgData* getDeepState(std::string id, uint32_t i);
+
     /**
      * Sets the state
      * SHOULD ONLY BE CALLED AFTER startFrame() IS CALLED
      * @param d = Pointer to image data to be set for this frame
      * @return an int indicating whether a operation was successful
      */
+    ///NO LONGER USED, USE SETSTATE WITH THE VECTOR INSTEAD
     //int setState(ImgData* d);
 
     /**
@@ -84,7 +88,7 @@ public:
      * @param i = how many frames ago the raw image was recorded (zero indexed; newest frame = 0)
      * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
      */
-    virtual ImgData* getRaw(uint64_t i);
+    virtual ImgData* getRaw(uint32_t i);
 
 };
 

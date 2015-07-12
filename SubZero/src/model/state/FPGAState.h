@@ -30,7 +30,7 @@ public:
     /**
      * constructor
      */
-    FPGAState(int stateID, uint64_t bufferSize);
+    FPGAState(int stateID, uint32_t bufferSize);
 
     /**
      * destructor
@@ -43,7 +43,7 @@ public:
      * @param i = how many frames ago was the FPGA data was stored (zero indexed; newest frame = 0)
      * @return returns the pointer to a deep copied FPGA data
      */
-    virtual FPGAData* getState (std::string id, uint64_t i);
+    virtual FPGAData* getState (std::string id, uint32_t i);
 
     /**
      * Returns a deep copy of the newest FPGA data specified with the _ID_
@@ -87,7 +87,7 @@ public:
      * 		- 0 = success
      * 		- 1 = index out of range
      */
-    virtual FPGAData* getRaw(uint64_t i);
+    virtual FPGAData* getRaw(uint32_t i);
 
 };
 
