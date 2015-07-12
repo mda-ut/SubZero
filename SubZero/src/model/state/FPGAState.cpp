@@ -8,9 +8,7 @@
 #include "FPGAState.h"
 #include <QMutexLocker>
 
-
-FPGAState::FPGAState(int stateID, uint64_t bufferSize) : State(stateID, bufferSize) {
-
+FPGAState::FPGAState(int stateID, uint32_t bufferSize) : State(stateID, bufferSize) {
 }
 
 FPGAState::~FPGAState() {
@@ -26,10 +24,10 @@ FPGAData* FPGAState::getState(std::string id) {
     return getState(id, 0);
 }
 
-FPGAData* FPGAState::getState(std::string id, uint64_t i) {
+FPGAData* FPGAState::getState(std::string id, uint32_t i) {
     QMutexLocker locker(&mutex);
 
-    if (i >= stateData.size() || i < 0) {
+    if (i >= stateData.size()) {
         logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
         return 0;
     }
@@ -69,6 +67,6 @@ FPGAData* FPGAState::getRaw() {
     return this->getState("raw");
 }
 
-FPGAData* FPGAState::getRaw(uint64_t i) {
+FPGAData* FPGAState::getRaw(uint32_t i) {
     return this->getState("raw", i);
 }

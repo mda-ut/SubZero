@@ -39,7 +39,7 @@ void move(float amount) {
     moving = true;
 }
 void stop(){
-    moving = stop;
+    moving = false;
     //    // Stop
     //    speedTask->setTargetSpeed(0);
     //    speedTask->execute();
@@ -52,9 +52,9 @@ void rotate(float angle) {
 
 void PathTask::moveTo(cv::Point2f pos) {
     // pretty much in line
-    if (std::abs(pos.x) < inlineThresh) {
-        float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
-        if (pos.y > 0) {
+    if (std::abs(pos.x-imgWidth/2) < inlineThresh) {
+        //float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
+        if (pos.y - imgHeight/2 > 0) {
             println("MoveTo moving forward");
             move(30);
         } else {
@@ -63,15 +63,17 @@ void PathTask::moveTo(cv::Point2f pos) {
         }
     } else {
         println("MoveTo rotating");
-        rotate(atan2(pos.x-imgWidth/2, pos.y-imgHeight/2) * 180 / M_PI);
+        rotate(atan2(pos.y-imgHeight/2, pos.x-imgWidth/2) * 180 / M_PI);
         move(30);
     }
 }
 
 void PathTask::execute() {
+    ///TODO INSERT HSV VALUES HERE
     ImgData* data = dynamic_cast<ImgData*>(cameraModel->getStateData("raw"));
     HSVFilter hsvf(0, 155, 0, 255, 0, 255);
     LineFilter lf;
+    //looking for 1 rectangle
     ShapeFilter sf(1, 1);
     imgHeight = data->getImg().size().height;
     imgWidth = data->getImg().size().width;
@@ -223,7 +225,7 @@ void PathTask::execute() {
                         done = true;
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position
-                        rotate (atan2(avg-imgWidth/2, imgHeight/4*3) * 180/M_PI);
+                        rotate (atan2(imgHeight/4*3, avg-imgWidth/2) * 180/M_PI);
                         move(30);
                         /*
                         if (avg < imgWidth/2) {  //TODO: Figure out left side value
@@ -243,7 +245,7 @@ void PathTask::execute() {
                     else                    //negative slope, allign to the left side
                         x = imgWidth/4;
                     float y = align[0][0] * x + avgB;
-                    rotate(atan2(x, y-imgHeight/2) * 180 / M_PI);
+                    rotate(atan2(y-imgHeight/2, x) * 180 / M_PI);
                 }
                 foundLine = true;
             }

@@ -19,7 +19,7 @@ enum StateType {
 class State {
 
 private:
-    Logger* logger = new Logger("State");
+    Logger* logger = 0;
 
 protected:
     //boolean to signal if a new frame has started
@@ -28,11 +28,25 @@ protected:
     //the length of the linked list
     //The amount of frames that the state will hold
     //ZERO INDEXED
-    uint64_t bufferSize;
+    uint32_t bufferSize;
 
     int stateID;
     std::set<View*> viewers;
+
     QMutex mutex;
+
+public:
+
+    /**
+     * Construct a state with a limit of frames _bufferSize_ (Zero indexed)
+     */
+    State(int stateID, uint32_t bufferSize);
+
+    virtual ~State();	//deconstructor
+
+    void addViewer(View* view);
+    void notifyViewers();
+
 
     /**
      * Gets a pointer to a deep copy of the newest raw State
@@ -45,20 +59,7 @@ protected:
      * @param i = how many frames ago the raw State was recorded (zero indexed; newest frame = 0)
      * @return a pointer to the deep copy of the raw State data _i_ frames before this function call
      */
-    virtual Data* getRaw(uint64_t i) = 0;
-
-public:
-
-    /**
-     * Construct a state with a limit of frames _bufferSize_ (Zero indexed)
-     */
-    State(int stateID, uint64_t bufferSize);
-
-    virtual ~State();	//deconstructor
-
-    void init();
-    void addViewer(View* view);
-    void notifyViewers();
+    virtual Data* getRaw(uint32_t i) = 0;
 
     /**
      * Returns a deep copy of an State specified with the _ID_ at _i_ frames before this call
@@ -66,7 +67,7 @@ public:
      * @param i = how many frames ago was the State stored (zero indexed; newest frame = 0)
      * @return returns the pointer to a deep copied State
      */
-    virtual Data* getState (std::string ID, uint64_t i) = 0;
+    virtual Data* getState (std::string ID, uint32_t i) = 0;
 
     /**
      * Returns a deep copy of the latest State specified with the _ID_
@@ -75,6 +76,5 @@ public:
      * @return returns the pointer to a deep copied State
      */
     virtual Data* getState (std::string ID) = 0;
-
 };
 #endif /* SRC_MODEL_STATE_STATE_H_ */
