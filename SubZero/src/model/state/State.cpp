@@ -9,7 +9,6 @@
 #include "View.h"
 
 State::State(int stateID, uint32_t bufferSize) {
-    init();
     this->stateID = stateID;
     this->bufferSize = bufferSize;
     frameStarted = false;

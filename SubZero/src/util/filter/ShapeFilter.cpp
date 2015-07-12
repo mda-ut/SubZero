@@ -6,10 +6,8 @@ ShapeFilter::ShapeFilter(int shape, int amount)
     setShape(shape);
     this->max = amount;
     //contours = new std::vector<std::vector<cv::Point> >;
-    logger = new Logger("ShapeFilter");
 }
 ShapeFilter::~ShapeFilter(){
-    logger->close();
     delete logger;
 }
 

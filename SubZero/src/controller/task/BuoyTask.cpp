@@ -18,7 +18,8 @@ void rotate(int t){
 }
 
 void BuoyTask::execute(){
-    ImgData* data = dynamic_cast<ImgData*>(camModel->getState("raw"));
+    std::string s = "raw";
+    ImgData* data = dynamic_cast<ImgData*>(camModel->getStateData(s));
     HSVFilter green (0, 155, 0, 255, 0,255);
     HSVFilter red (0 ,155,0,255,0,255);
     //only look for 1 circle

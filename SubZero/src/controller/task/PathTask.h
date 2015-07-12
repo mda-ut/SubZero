@@ -12,13 +12,13 @@
 class PathTask : public Task {
 public:
     PathTask();
-    ~PathTask();
+    virtual ~PathTask();
     PathTask(CameraModel* cameraModel, TurnTask* turnTask, SpeedTask* speedTask);
 
     void execute();
 
 private:
-    Logger* logger;
+    Logger* logger = new Logger("PathTask");
 
     CameraModel* cameraModel;
     TurnTask* turnTask;

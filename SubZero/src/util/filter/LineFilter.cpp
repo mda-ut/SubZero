@@ -9,11 +9,9 @@
 LineFilter::LineFilter()
 {
     this->setID("line");
-    logger = new Logger("LineFilter");
 }
 
 LineFilter::~LineFilter(){
-    logger->close();
     delete logger;
 }
 

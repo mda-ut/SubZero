@@ -22,7 +22,7 @@ public:
      */
     ShapeFilter(int shape, int amount);
 
-    ~ShapeFilter();
+    virtual ~ShapeFilter();
 
     /**
      * Filters and looks for shape
@@ -94,7 +94,7 @@ public:
 
 private:
     int shape;              //shape to look for
-    int max;
+    unsigned int max;
 
     ///rectangles
     std::vector<cv::RotatedRect> rektangles;    //bounding box
@@ -103,7 +103,7 @@ private:
     std::vector<float> radius;
     std::vector<cv::Point2f> center;
 
-    Logger* logger;
+    Logger* logger = new Logger("ShapeFilter");
     bool debug = true;
     void print(int i);
     void println(std::string s);

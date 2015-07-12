@@ -30,7 +30,7 @@ ImgData* CameraState::getState(std::string id) {
 ImgData* CameraState::getState(std::string id, uint32_t i) {
     QMutexLocker locker(&mutex);
 
-    if (i >= stateData.size() || i < 0) {
+    if (i >= stateData.size()) {
         logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
         return 0;
     }
@@ -41,6 +41,31 @@ ImgData* CameraState::getState(std::string id, uint32_t i) {
     for (auto& data : *it) {
         if (data->getID().compare(id) == 0) {
             ImgData *t = data; //shallow copy quick fix
+            return t;
+        }
+    }
+    logger->info("State '" + id + "' was not found");
+    return 0;
+}
+
+ImgData* CameraState::getDeepState(std::string id){
+    return getDeepState(id, 0);
+}
+
+ImgData* CameraState::getDeepState(std::string id, uint32_t i){
+    QMutexLocker locker(&mutex);
+
+    if (i >= stateData.size()) {
+        logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
+        return 0;
+    }
+
+    std::list<std::vector<ImgData*> >::reverse_iterator it = stateData.rbegin();
+    std::advance(it, i);		//advance the list to the ith position
+
+    for (auto& data : *it) {
+        if (data->getID().compare(id) == 0) {
+            ImgData *t = new ImgData(*data); //deep copy to return
             return t;
         }
     }
@@ -66,9 +91,9 @@ int CameraState::setState(std::vector<ImgData*> d) {
 }
 
 ImgData* CameraState::getRaw() {
-    return this->getState("RAW");
+    return this->getState("raw");
 }
 
 ImgData* CameraState::getRaw(uint32_t i) {
-    return this->getState("RAW", i);
+    return this->getState("raw", i);
 }

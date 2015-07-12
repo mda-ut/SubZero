@@ -8,7 +8,6 @@ PathTask::PathTask() {
     done = false;
     horzInSight = false;
     inlineThresh = 75;
-    logger = new Logger("PathTask");
 }
 
 PathTask::PathTask(CameraModel* cameraModel, TurnTask *turnTask, SpeedTask *speedTask) {
@@ -21,11 +20,9 @@ PathTask::PathTask(CameraModel* cameraModel, TurnTask *turnTask, SpeedTask *spee
     done = false;
     horzInSight = false;
     inlineThresh = 75;
-    logger = new Logger("PathTask");
 }
 
 PathTask::~PathTask(){
-    logger->close();
     delete logger;
 }
 

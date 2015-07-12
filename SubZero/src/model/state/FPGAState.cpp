@@ -27,7 +27,7 @@ FPGAData* FPGAState::getState(std::string id) {
 FPGAData* FPGAState::getState(std::string id, uint32_t i) {
     QMutexLocker locker(&mutex);
 
-    if (i >= stateData.size() || i < 0) {
+    if (i >= stateData.size()) {
         logger->debug("Specified index '" + std::to_string(i) + "' is out of bounds");
         return 0;
     }

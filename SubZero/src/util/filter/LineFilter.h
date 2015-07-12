@@ -29,7 +29,7 @@ public:
      * Filters an image for lines
      */
     LineFilter();
-    ~LineFilter();
+    virtual ~LineFilter();
 
     /* =====================================================
      * Filtering
@@ -71,7 +71,7 @@ private:
     int mode;
     std::vector<std::vector<float> > linesEq;
 
-    Logger* logger;
+    Logger* logger = new Logger("LineFilter");
     bool debug = true;
     void println(std::string s);
     void println(float f);

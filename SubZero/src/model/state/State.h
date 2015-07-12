@@ -19,7 +19,7 @@ enum StateType {
 class State {
 
 private:
-    Logger* logger;
+    Logger* logger = 0;
 
 protected:
     //boolean to signal if a new frame has started
