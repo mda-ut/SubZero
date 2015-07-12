@@ -10,7 +10,8 @@ SOURCES += \
     view.cpp \
     simenv.cpp \
     subsub.cpp \
-    windowwidget.cpp
+    windowwidget.cpp \
+    simenvengine.cpp
 
 
 HEADERS += \
@@ -21,4 +22,5 @@ HEADERS += \
     view.h \
     simenv.h \
     subsub.h \
-    windowwidget.h
+    windowwidget.h \
+    simenvengine.h
