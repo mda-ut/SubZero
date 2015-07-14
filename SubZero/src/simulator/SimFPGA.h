@@ -17,6 +17,12 @@ typedef struct {
     double z;
 } sim_position;
 
+enum dir {
+    X,
+    Y,
+    Z
+};
+
 #define ACCEL 5
 #define DEPTH_ACCEL 5
 #define ANGULAR_ACCEL 3
@@ -54,7 +60,7 @@ private:
 
     void updateLoop();
     void update(double period);
-
+    void update2(double period);
 
 public:
 
@@ -83,7 +89,7 @@ public:
     void power_off();
     int get_power();
 
-    void set_target_speed(int);
+    void set_target_speed(int speed);
     void set_target_depth(int);
     void set_target_yaw(int);
 

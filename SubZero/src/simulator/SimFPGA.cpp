@@ -14,9 +14,9 @@ SimFPGA::SimFPGA(Properties* properties) {
     position.y = std::stod(properties->getProperty("SIMSUB_START_Y"));
     position.z = std::stod(properties->getProperty("SIMSUB_START_Z"));
     yaw = std::stod(properties->getProperty("SIMSUB_START_YAW"));
-    speed = 0;
-    depth_speed = 0;
-    angular_speed = 0;
+    speed = std::stoi(properties->getProperty("SIMSUB_START_SPEED"));;
+    depth_speed = std::stoi(properties->getProperty("SIMSUB_START_DEPTH_SPEED"));;
+    angular_speed = std::stoi(properties->getProperty("SIMSUB_START_ANGULAR_SPEED"));;
     accel = 0;
     depth_accel = 0;
     angular_accel = 0;
@@ -44,7 +44,8 @@ void SimFPGA::updateLoop() {
         if (timeElapsed > update_period) {
             timer.start();
             if(power && motors) {
-                update(timeElapsed);
+                //update(timeElapsed);
+                update2(timeElapsed);
             }
         }
     }
@@ -99,6 +100,32 @@ void SimFPGA::update(double period) {
     //TODO call code to update simulator engine's sub's position and yaw
 }
 
+void SimFPGA::update2(double timeElapsed) {
+    //assume all speed in per second units
+
+    //updating z
+    if (position.z > target_depth)
+        position.z -= depth_speed * timeElapsed;
+    else if (position.z < target_depth)
+        position.z += depth_speed * timeElapsed;
+    else
+        continue;
+
+    //updating x
+    position.x += speed;
+
+    //updating y
+    //we don't care :D atm
+
+    //updating yaw
+    target_yaw=target_yaw%360;
+    if (yaw < target_yaw)
+        yaw += angular_speed * timeElapsed;
+    else if (yaw > target_yaw)
+        yaw -= angular_speed * timeElapsed;
+    else
+        continue;
+}
 
 void SimFPGA::power_on() {
     power = true;
@@ -142,7 +169,3 @@ int SimFPGA::get_yaw() {
 int SimFPGA::get_depth() {
     return -(int)position.z;
 }
-
-
-
-
