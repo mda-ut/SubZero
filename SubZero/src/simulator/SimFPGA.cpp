@@ -1,6 +1,8 @@
 #include "SimFPGA.h"
 #include "Timer.h"
 
+#include <unistd.h>
+
 /** =========================================================
  *  CONSTRUCTOR AND DESTRUCTOR
  *  =========================================================
@@ -47,6 +49,7 @@ void SimFPGA::updateLoop() {
                 update(timeElapsed);
             }
         }
+        usleep(66);
     }
 }
 
