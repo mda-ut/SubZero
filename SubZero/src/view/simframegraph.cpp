@@ -19,12 +19,12 @@ void SimFrameGraph::initialize()
     //Viewport rect is proportionate to window size (this is maxrect)
     //this->setRect(  QRectF(0.0f, 0.0f, 1.0f, 1.0f ));//
 
-
+    //1st branch
     clearBuffer = new Qt3D::QClearBuffer(this);
     clearBuffer->setBuffers(Qt3D::QClearBuffer::ColorDepthStencilBuffer);
 
 
-    //next branch
+
     frontViewport = new Qt3D::QViewport(clearBuffer);
     frontViewport->setRect(  QRectF(0.0f, 0.0f, 0.5f, 1.0f ));// first half of screen
     frontCameraSelector = new Qt3D::QCameraSelector(frontViewport);
