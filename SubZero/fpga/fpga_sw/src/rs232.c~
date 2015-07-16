@@ -1,0 +1,189 @@
+/*
+Implementation for IMU interface to serial UART.
+
+This includes accessors to the IMU data as well as initialization and interrupt-handling.
+There are some specific hacks to work with our VectorNav IMU that you will need to read in the code for.
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "io.h"
+#include "sys/alt_irq.h"
+#include "system.h"
+
+#include "utils.h"
+#include "rs232.h"
+
+#define RS232_DATA_OFFSET 0
+#define RS232_CONTROL_OFFSET 1
+#define RS232_READ_INTERRUPT 1
+
+#define BUF_LEN 250
+#define READ_BUF_LEN 34
+#define WRITE_ATTEMPTS 16
+
+#define ATTITUDE_STRING "$VNYMR"
+
+// Global variables
+int yaw = 0, pitch = 0, roll = 0;
+static char buffer[READ_BUF_LEN+1];
+// Forward function declarations
+static void read_interrupt(void *, alt_u32);
+
+unsigned char checksum_byte(const char *);
+unsigned short checksum_short(const char *);
+
+int write_cmd(const char *); // Write command (checksum will be added)
+int write_str(const char *); // Write string (checksum already included)
+
+enum CHECKSUM_MODE {NO_CHECKSUM, BYTE_CHECKSUM, SHORT_CHECKSUM} checksum_mode = BYTE_CHECKSUM;
+
+// Function definitions
+
+void get_imu_orientation(struct orientation *o)
+{
+  printf("%s\n", buffer);
+  o->yaw = yaw;
+  o->pitch = pitch;
+  o->roll = roll;
+}
+
+// Enable read interrupts for RS232
+void rs232_init()
+{
+  static bool initialized = false;
+  if (initialized) {
+    return;
+  }
+  initialized = true;
+
+  // Register read interrupt handler
+  alt_ic_isr_register(RS232_0_IRQ_INTERRUPT_CONTROLLER_ID, RS232_0_IRQ, (void *)read_interrupt, 0, 0);
+
+  IOWR(RS232_0_BASE, RS232_CONTROL_OFFSET, RS232_READ_INTERRUPT);
+}
+
+void rs232_shell()
+{
+  char buf[BUF_LEN+1];
+
+  while (1) {
+    alt_getline(buf, BUF_LEN);
+    if (!strcmp("quit\n", buf)) {
+      break;
+    }
+
+    // write to IMU
+    buf[strlen(buf)-1] = '\0'; // Strip trailing newline
+    write_cmd(buf);
+  }
+}
+
+// A read from the IMU is ready. Handle it by copying the result.
+static void read_interrupt(void *context, alt_u32 id)
+{
+  
+  static int index = 0;
+  //printf("hi\n");
+  while (1) {
+    int data = IORD(RS232_0_BASE, RS232_DATA_OFFSET);
+    int read_avail = data >> 16;
+
+    // End of data, return
+    if (read_avail == 0) {
+      return;
+    }
+
+    char ch = (char)data;
+    //printf("hi");
+    //fflush(stdout);
+    if (ch == '$' || index > 0) {
+      buffer[index++] = ch;
+    }
+
+    // End of command, break
+    if (index == READ_BUF_LEN) {
+      break;
+    }
+    return;
+  }
+
+  buffer[index] = '\0';
+  index = 0;
+  //printf("%s\n",buffer);
+  if (!strncmp(ATTITUDE_STRING, buffer, strlen(ATTITUDE_STRING))) {
+    // error check
+    if (buffer[33] != ',' || buffer[24] != ',' || buffer[15] != ',' || buffer[6] != ',') {
+      return;
+    }
+    float yaw_f, pitch_f, roll_f;
+    sscanf(buffer, ATTITUDE_STRING ",%f,%f,%f", &yaw_f, &pitch_f, &roll_f);
+
+    yaw = (int)yaw_f;
+    pitch = (int)pitch_f;
+    roll = (int)roll_f;
+  }
+}
+
+unsigned char checksum_byte(const char* command)
+{
+  unsigned char xor = 0;
+  while (*command) {
+    xor ^= *command++;
+  }
+  return xor;
+}
+
+unsigned short checksum_short(const char* command)
+{
+  unsigned short crc = 0;
+  while (*command) {
+    crc = (crc >> 8) | (crc << 8);
+    crc ^= *command++;
+    crc ^= (crc & 0xff) >> 4;
+    crc ^= (crc << 8) << 4;
+    crc ^= ((crc & 0xff) << 4) << 1;
+  }
+
+  return crc;
+}
+
+int write_cmd(const char *cmd)
+{
+  char buf[BUF_LEN+6];
+
+  // Add extra characters and checksum
+  if (checksum_mode == NO_CHECKSUM) {
+    sprintf(buf, "$%s*\n", cmd);
+  } else if (checksum_mode == BYTE_CHECKSUM) {
+    sprintf(buf, "$%s*%02hhX\n", cmd, checksum_byte(cmd));
+  } else {
+    sprintf(buf, "$%s*%04hX\n", cmd, checksum_short(cmd));
+  }
+
+  return write_str(buf);
+}
+
+int write_str(const char *str)
+{
+  int len = strlen(str);
+  int i;
+  for (i = 0; i < WRITE_ATTEMPTS; i++) {
+    int write_avail = IORD(RS232_0_BASE, RS232_CONTROL_OFFSET) >> 16;
+    if (write_avail >= len) {
+      break;
+    }
+  }
+  if (i == WRITE_ATTEMPTS) {
+    printf("Failed to transmit command string %s", str);
+    return -1;
+  }
+
+  while(*str) {
+    IOWR(RS232_0_BASE, RS232_DATA_OFFSET, *str++);
+  }
+
+  return 0;
+}

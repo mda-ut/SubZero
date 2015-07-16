@@ -7,12 +7,8 @@
 
 #include "Task.h"
 
-Task::Task() {
-	// TODO Auto-generated constructor stub
-
-}
-
 Task::~Task() {
-	// TODO Auto-generated destructor stub
+    for(int i = 0 ; i < taskList.size() ; i++) {
+        delete taskList[i];
+    }
 }
-

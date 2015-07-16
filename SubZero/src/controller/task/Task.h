@@ -1,5 +1,5 @@
 /*
- * BaseTask.h
+ * Task.h
  *
  *  Created on: Jan 7, 2015
  *      Author: mda
@@ -10,14 +10,11 @@
 
 #include <QMutex>
 #include <vector>
+#include "Model.h"
 
-//View adding QObject to allow QObject * version of signal mapping
+#define POOL_SURFACE_HEIGHT 300
 
-
-#define TASKLISTLENGTH 10
-
-class Task{
-
+class Task {
     public:
         //The Task class is purely virtual (abstract)
         virtual ~Task();
@@ -25,7 +22,7 @@ class Task{
         virtual void execute() = 0;
 
     protected:
-       std::vector <Task*> taskList;
+       std::vector<Task*> taskList;
 };
 
-#endif /* BASETASK_H_ */
+#endif /* TASK_H_ */

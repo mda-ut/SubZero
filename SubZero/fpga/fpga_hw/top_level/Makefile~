@@ -1,0 +1,96 @@
+# Run 
+# quartus_sh --help=makefiles
+# to generate this file
+###################################################################
+# Project Configuration: 
+# 
+# Specify the name of the design (project), the Quartus II Settings
+# File (.qsf), and the list of source files used.
+###################################################################
+
+PROJECT=DE0_Nano
+SOPC_FILE=DE0_Nano_SOPC.qsys
+SOPC_PATH=$(PROJECT)_SOPC/synthesis/submodules/
+SOPCINFO_FILE=$(SOPC_FILE)info
+SOPCINFO_FILE_DEPENDS=$(SOPC_FILE)
+SOURCE_FILES = DE0_Nano.v $(SOPCINFO_FILE)
+ASSIGNMENT_FILES = $(PROJECT).qpf $(PROJECT).qsf 
+
+###################################################################
+# Main Targets
+#
+# all: build everything
+# clean: remove output files and database
+###################################################################
+
+all: smart.log $(PROJECT).asm.rpt $(PROJECT).sta.rpt 
+
+clean: clean_sopc
+	rm -rf *.rpt *.chg smart.log *.htm *.eqn *.pin *.sof *.pof db incremental_db *.smsg *.jdi *.map.summary *.fit.summary *.sta.summary
+
+clean_sopc:
+	rm -rf led.v DE0_Nano_SOPC_sim i2c_scl.v cpu_oci_test_bench.v timer.v DE0_Nano_SOPC_log.txt cpu_rf_ram_a.mif cpu_rf_ram_b.mif altpll_sys.v DE0_Nano_SOPC.ptf.bak key.v epcs.v DE0_Nano_SOPC.ptf sysid.v adc_spi_read.v epcs_boot_rom_synth.hex DE0_Nano_SOPC.ptf.8.0 DE0_Nano_SOPC_clock_0.v DE0_Nano_SOPC_clock_1.v DE0_Nano_SOPC_generation_script cpu_ic_tag_ram.mif cpu.ocp DE0_Nano_SOPC_inst.v i2c_sda.v altpll_sys.vo select_i2c_clk.v sdram.v  DE0_Nano_SOPC.html cpu_jtag_debug_module_wrapper.v cpu_jtag_debug_module_tck.v clock_crossing_io2.v DE0_Nano_SOPC.bsf  jtag_uart.v  DE0_Nano_SOPC.sopcinfo  .sopc_builder sopc_builder_log.txt cpu_test_bench.v cpu.v sdram_test_component.v cpu_mult_cell.v sw.v cpu_bht_ram.mif clock_crossing_io.v g_sensor_int.v gsensor_spi.v DE0_Nano_SOPC.qip cpu.sdc cpu_dc_tag_ram.mif cpu_jtag_debug_module_sysclk.v DE0_Nano_SOPC.ptf.pre_generation_ptf DE0_Nano_SOPC.v cpu_ociram_default_contents.mif motor_controller_0.v DE0_Nano_SOPC_clock_2.v
+
+
+.PHONY: clean all clean_sopc
+
+map: smart.log $(PROJECT).map.rpt
+fit: smart.log $(PROJECT).fit.rpt
+asm: smart.log $(PROJECT).asm.rpt
+sta: smart.log $(PROJECT).sta.rpt
+smart: smart.log
+
+###################################################################
+# Executable Configuration
+###################################################################
+
+MAP_ARGS = --family=CycloneIVE
+FIT_ARGS = --part=EP4CE22F17C6
+ASM_ARGS =
+STA_ARGS =
+
+###################################################################
+# Target implementations
+###################################################################
+
+STAMP = echo done >
+
+$(SOPCINFO_FILE): $(SOPCINFO_FILE_DEPENDS)
+	qsys-generate $(SOPC_FILE) --synthesis=VERILOG || [ $$? -eq 4]
+	#sopc_builder --generate $(SOPC_FILE) || [ $$? -eq 4 ]
+
+$(PROJECT).map.rpt: map.chg $(SOURCE_FILES) 
+	quartus_map $(MAP_ARGS) $(PROJECT)
+	$(STAMP) fit.chg
+
+$(PROJECT).fit.rpt: fit.chg $(PROJECT).map.rpt
+	quartus_fit $(FIT_ARGS) $(PROJECT)
+	$(STAMP) asm.chg
+	$(STAMP) sta.chg
+
+$(PROJECT).asm.rpt: asm.chg $(PROJECT).fit.rpt
+	quartus_asm $(ASM_ARGS) $(PROJECT)
+
+$(PROJECT).sta.rpt: sta.chg $(PROJECT).fit.rpt
+	quartus_sta $(STA_ARGS) $(PROJECT) 
+
+smart.log: $(ASSIGNMENT_FILES)
+	quartus_sh --determine_smart_action $(PROJECT) > smart.log
+
+###################################################################
+# Project initialization
+###################################################################
+
+$(ASSIGNMENT_FILES):
+	quartus_sh --prepare $(PROJECT)
+
+map.chg:
+	$(STAMP) map.chg
+fit.chg:
+	$(STAMP) fit.chg
+sta.chg:
+	$(STAMP) sta.chg
+asm.chg:
+	$(STAMP) asm.chg
+
+

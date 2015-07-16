@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="DE0_Nano">
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|TERASIC_SPI_3WIRE:gsensor_spi|SPI_3WIRE:SPI_3WIRE_inst|gsensor_fifo:gsensor_fifo_tx|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_v2j1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|TERASIC_SPI_3WIRE:gsensor_spi|SPI_3WIRE:SPI_3WIRE_inst|gsensor_fifo:gsensor_fifo_tx|dcfifo:dcfifo_component|dcfifo_v2j1:auto_generated|altdpram:fiforam|lpm_decode:wdecoder" CBX_FILE_NAME="decode_51g.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|altera_avalon_mm_clock_crossing_bridge:clock_crossing_io2|altera_avalon_dc_fifo:rsp_fifo|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_10d1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|Altera_UP_Avalon_RS232:rs232_0|Altera_UP_RS232_In_Deserializer:RS232_In_Deserializer|Altera_UP_SYNC_FIFO:RS232_In_FIFO|scfifo:Sync_FIFO" CBX_FILE_NAME="scfifo_s741.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_cpu:cpu|DE0_Nano_SOPC_cpu_register_bank_a_module:DE0_Nano_SOPC_cpu_register_bank_a|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_pmg1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_jtag_uart:jtag_uart|DE0_Nano_SOPC_jtag_uart_scfifo_w:the_DE0_Nano_SOPC_jtag_uart_scfifo_w|scfifo:wfifo" CBX_FILE_NAME="scfifo_jr21.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|TERASIC_SPI_3WIRE:gsensor_spi|SPI_3WIRE:SPI_3WIRE_inst|gsensor_fifo:gsensor_fifo_rx|dcfifo:dcfifo_component|dcfifo_v2j1:auto_generated|altdpram:fiforam|lpm_mux:mux" CBX_FILE_NAME="mux_6tc.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|altera_avalon_mm_clock_crossing_bridge:clock_crossing_io|altera_avalon_dc_fifo:cmd_fifo|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_ovc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|Altera_UP_Avalon_RS232:rs232_0|Altera_UP_RS232_Out_Serializer:RS232_Out_Serializer|Altera_UP_SYNC_FIFO:RS232_Out_FIFO|scfifo:Sync_FIFO" CBX_FILE_NAME="scfifo_s741.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_jtag_uart:jtag_uart|DE0_Nano_SOPC_jtag_uart_scfifo_r:the_DE0_Nano_SOPC_jtag_uart_scfifo_r|scfifo:rfifo" CBX_FILE_NAME="scfifo_jr21.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|TERASIC_SPI_3WIRE:gsensor_spi|SPI_3WIRE:SPI_3WIRE_inst|gsensor_fifo:gsensor_fifo_rx|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_v2j1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|TERASIC_SPI_3WIRE:gsensor_spi|SPI_3WIRE:SPI_3WIRE_inst|gsensor_fifo:gsensor_fifo_rx|dcfifo:dcfifo_component|dcfifo_v2j1:auto_generated|altdpram:fiforam|lpm_decode:wdecoder" CBX_FILE_NAME="decode_51g.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|altera_avalon_mm_clock_crossing_bridge:clock_crossing_io|altera_avalon_dc_fifo:rsp_fifo|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_uvc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_cpu:cpu|DE0_Nano_SOPC_cpu_nios2_oci:the_DE0_Nano_SOPC_cpu_nios2_oci|DE0_Nano_SOPC_cpu_nios2_ocimem:the_DE0_Nano_SOPC_cpu_nios2_ocimem|DE0_Nano_SOPC_cpu_ociram_sp_ram_module:DE0_Nano_SOPC_cpu_ociram_sp_ram|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_ct81.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_cpu:cpu|DE0_Nano_SOPC_cpu_register_bank_b_module:DE0_Nano_SOPC_cpu_register_bank_b|altsyncram:the_altsyncram" CBX_FILE_NAME="altsyncram_qmg1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|TERASIC_SPI_3WIRE:gsensor_spi|SPI_3WIRE:SPI_3WIRE_inst|gsensor_fifo:gsensor_fifo_tx|dcfifo:dcfifo_component|dcfifo_v2j1:auto_generated|altdpram:fiforam|lpm_mux:mux" CBX_FILE_NAME="mux_6tc.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|altera_avalon_mm_clock_crossing_bridge:clock_crossing_io2|altera_avalon_dc_fifo:cmd_fifo|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_00d1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|DE0_Nano|DE0_Nano_SOPC:DE0_Nano_SOPC_inst|DE0_Nano_SOPC_epcs:epcs|altsyncram:the_boot_copier_rom" CBX_FILE_NAME="altsyncram_dt41.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
