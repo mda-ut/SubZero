@@ -70,19 +70,7 @@ public:
     Qt3D::QFrameGraph *frameGraph;
     Qt3D::QForwardRenderer *forwardRenderer;
 
-    /**
-     * Query:
-     * Why am I not using Q-PROPERTY
-     *
-     * Response:
-     * I don't know. Don't plan on animating?
-     * :/
-     *
-     * I don't want to inherit from QObject b/c
-     * no need for signals and slots... so no moc required
-     *
-     * Yup, that sounds better.
-     */
+
 
     //Setters
     void setWindow( WindowWidget *newSource);

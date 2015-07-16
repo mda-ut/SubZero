@@ -7,6 +7,7 @@
 #include  <QCylinderMesh>
 #include  <QPhongMaterial>
 
+
 SubSub::SubSub()
 {
 
@@ -14,10 +15,40 @@ SubSub::SubSub()
 
 void SubSub::initialize(Qt3D::QEntity *rootEntity)
 {
+    /** With respect to front camera
+     * +X -> left
+     * +Y-> up
+     * +Z -> straight (with respect to screen not forwards vector)
+     */
+
+    //max depth
+    poolDepth = -20.0f;
+
+    //Initial forwards & downwards
+    forward = QVector3D(0.0f, 0.0f, 1.0f);
+    downward = QVector3D(0.0f, -1.0f, 0.0f);
+    cameraOffset = (forward*2);
+    frontViewCentreOffset = (forward*30);
+    DownViewCentreOffset = (downward*20);
+
+
+    //Camera Setup
+    frontCamera = new Qt3D::QCamera(rootEntity);
+    frontCamera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
+    frontCamera->setUpVector(QVector3D(0.0f, 1.0f, 0.0f));
+
+    downCamera = new Qt3D::QCamera(rootEntity);
+    downCamera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
+    downCamera->setUpVector(QVector3D(0.0f, 1.0f, 0.0f));
+
+
+    //SubSetup
     subBody = new Qt3D::QCylinderMesh;
     subMaterial = new Qt3D::QPhongMaterial;
     subTranslation = new Qt3D::QTranslateTransform;
-    subRotation = new Qt3D::QRotateTransform;
+    subRoll = new Qt3D::QRotateTransform;
+    subYaw = new Qt3D::QRotateTransform;
+    subPitch = new Qt3D::QRotateTransform;
     subTransform = new Qt3D::QTransform;
     subEntity = new Qt3D::QEntity;
 
@@ -33,16 +64,41 @@ void SubSub::initialize(Qt3D::QEntity *rootEntity)
     subBody->setSlices(20);
 
     //Material
-    subMaterial->setDiffuse(QColor(QRgb(0xbeb32b)) );// Create color from hexidecimal
+    subMaterial->setDiffuse(QColor(QRgb(0xbeb32b)) );
 
-    //Positioning
+    //Initial Positioning w/ respect to origin
     subTranslation->setTranslation( QVector3D(0.0f, 0.0f, 0.0f) );
-    subRotation->setAxis( QVector3D(1.0f, 0.0f, 0.0f) ); //Set Axis about which to rotate
-    subRotation->setAngleDeg(25.0f);// Rotate this much about the axis of rotation
+    subRoll->setAxis( QVector3D(1.0f, 0.0f, 0.0f) ); //Set Roll axis (X)
+    subRoll->setAngleDeg(90.0f);
 
-   //Add the Transforms to the transform component
+    subRoll->setAxis( QVector3D(0.0f, 1.0f, 0.0f) ); //Set Yaw Axis (Y)
+    subRoll->setAngleDeg(0.0f);
+
+    subRoll->setAxis( QVector3D(0.0f, 0.0f, 1.0f) ); //Set Pitch Axis (Z)
+    subRoll->setAngleDeg(0.0f);
+
+
+        //Camera
+    frontCamera->setPosition(  (subTranslation->translation() + cameraOffset)  );//Sub Camera offset 2 in direction
+    downCamera->setPosition(  (subTranslation->translation() + cameraOffset)  );
+
+        //Camera View Centre appears to end up pointing to
+        //what is considered the right side of the screen
+        //In global coordingates (need to consider this in movement)
+        //This is where the camera is pointed to.
+        //Adding a small offset to compensate: offset = <-10,0,60>
+    frontCamera->setViewCenter(frontViewCentreOffset);// since sub position is origin
+    downCamera->setViewCenter(frontViewCentreOffset);
+
+
+
+
+
+   //Add the sub Transformations to the transform component
     subTransform->addTransform(subTranslation);
-    subTransform->addTransform(subRotation);
+    subTransform->addTransform(subRoll);
+    subTransform->addTransform(subYaw);
+    subTransform->addTransform(subPitch);
 
     //Add the components to the entity
     subEntity->addComponent(subBody);
@@ -51,5 +107,68 @@ void SubSub::initialize(Qt3D::QEntity *rootEntity)
 
     //Allow the sub to be visible by setting a parent
     subEntity->setParent(rootEntity);
+}
+
+
+
+
+void SubSub::moveTowards(QVector3D targetPosition)
+{
+    //Don't go below bottom of the pool
+    if (targetPosition.y() < poolDepth)
+    {
+        targetPosition.setY(poolDepth);
+    }
+
+
+    //Update forward
+    forward = targetPosition -subTranslation->translation();
+    forward = forward.normalized();
+    cameraOffset = forward*2;
+    frontViewCentreOffset = (forward * 30);
+
+
+    //Move to the newPosition
+    subTranslation->setTranslation(targetPosition);
+
+
+    //Add emit for slot keepCameraAttached
+}
+
+
+
+void SubSub::moveTowards(float targetx, float targety, float targetz)
+{
+  QVector3D targetPosition = QVector3D(targetx, targety, targetz);
+
+  moveTowards(targetPosition);
+}
+
+
+
+void SubSub::turnSub(float newYawAngleDegrees)
+{
+
+    float deltaYawDeg = (newYawAngleDegrees - subYaw->angleDeg() );
+    subYaw->setAngleDeg(newYawAngleDegrees);
+    frontCamera->rotate( QQuaternion::fromAxisAndAngle( subYaw->axis(), deltaYawDeg) );
+}
+
+
+
+
+void SubSub::keepCameraAttached()
+{
+
+    QVector3D newCameraPosition = subTranslation->translation() + cameraOffset;
+
+    frontCamera->setPosition(newCameraPosition);
+    downCamera->setPosition(newCameraPosition);
+
+    //Fix view centre based on forward
+
+    QVector3D newfrontViewCentre = (subTranslation->translation() + frontViewCentreOffset);
+    frontCamera->setViewCenter(newfrontViewCentre);
+
 
 }

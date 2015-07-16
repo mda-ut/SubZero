@@ -9,6 +9,16 @@
 #include  <QCylinderMesh>
 #include  <QPhongMaterial>
 
+//Camera Control
+#include <QCamera>
+#include <QQuaternion>
+
+//Movement Slots
+#include <QTimer>
+#include <QObject>
+
+
+
 
 /**
  * @brief The SubSub class
@@ -21,10 +31,14 @@
  * Qt modules eg. QTransform and Qt3D::QTransform
  * ambiguity error when using Qt3D namespace
  * b/c Qt namespace is automatic
+ *
+ *
  */
 
-class SubSub
+class SubSub: public QObject
 {
+    Q_OBJECT
+
 public:
     SubSub();
     void initialize(Qt3D::QEntity *rootEntity);
@@ -57,20 +71,76 @@ public:
      * allows the sub its position and the ability to change its
      * position on the fly
      *
-     * @param subEntity a pointer to the entity of the sub
-     * entity being the concept of the sub which is made real
-     * using the components to give it behaviours and shape. The 'soul'
-     * to the mind/body that is the components
      */
+
+
 
     Qt3D::QCylinderMesh *subBody;
     Qt3D::QPhongMaterial *subMaterial;
     Qt3D::QTranslateTransform *subTranslation;
-    Qt3D::QRotateTransform *subRotation;
+    Qt3D::QRotateTransform *subRoll;
+    Qt3D::QRotateTransform *subYaw;
+    Qt3D::QRotateTransform *subPitch;
     Qt3D::QTransform *subTransform;
+
+    Qt3D::QCamera *frontCamera;
+    Qt3D::QCamera *downCamera;
+
+
+
+
+
+    float poolDepth;
+
+    void moveTowards(QVector3D targetPosition);
+    void moveTowards(float targetx, float targety, float targetz);
+    void turnSub (float newYawAngleDegrees);
+
+
+    /**
+     * @param subEntity a pointer to the entity of the sub
+     * entity being the concept of the sub which is made real
+     * using the components to give it behaviours and shape. The 'soul'
+     * to the mind/body that is the components
+     *
+     * @param keepCameraAttached Slot called when the sub has moved
+     * Maintains a constant camera sub offset and creates a new
+     * view centre corresponding to the current forward vector
+     *
+     * @param forward last known forward vector (unit vector)
+     *
+     * @param downward Points towards the bottom of the pool
+     *
+     * @param cameraOffset QVector3D sets the cameras in front
+     * of the sub
+     *
+     * @param frontViewCentre offseet QVector3D represent the
+     * position (in local coordinates) that the frontcamera should be
+     * pointing towards.
+     *
+     * @param DownViewCentreOffset QVector3D represents the
+     * position i(in local coordinates) that the downward
+     * camera should be pointing at. Constant since looking at
+     * bottom of the pool
+     */
+
+
+
+public slots:
+    //Attempting to addMovement
+
+
+     void keepCameraAttached();
 
 private:
     Qt3D::QEntity *subEntity;
+    QVector3D forward;
+    QVector3D downward;
+    QVector3D cameraOffset;
+    QVector3D frontViewCentreOffset;
+    QVector3D DownViewCentreOffset;
+
+   // QTimer *timer;
 };
 
 #endif // SUBSUB_H
