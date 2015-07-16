@@ -66,7 +66,7 @@ public:
 	/**
      * Getter for the power status.
 	 *
-     * @return 	int vale. 1 if power on, 0 if power off
+     * @return 	int value. 1 if power on, 0 if power off
 	 */
     int getPower();
 

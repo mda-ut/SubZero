@@ -9,7 +9,7 @@
 #define CAMERAINTERFACE_H_
 
 #include "HwInterface.h"
-#include "../../util/data/ImgData.h"
+#include "ImgData.h"
 #include "opencv2/opencv.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -37,8 +37,6 @@ private:
 
     cv::VideoCapture camStream;
 
-    // CvCapture* camStream;
-
     /* ==========================================================================
      * 				INTERACTING WITH DATA COMING IN (FROM Camera)
      * ==========================================================================
@@ -47,12 +45,7 @@ private:
      * using the functions below.
      */
 
-    /**
-     * Poll raw data from the camera.
-     * @return	data polled
-     */
 
-    virtual void poll();
 
     /**
      * Decode the data.
@@ -87,15 +80,21 @@ public:
      * @param 	pollFrequencey specifies how frequent video stream is pulled
      * @param	position	camera position
      */
-    CameraInterface(int bufferSize, int pollFrequency, int position);
+    CameraInterface(int position);
 
     virtual void init();
+
+    /**
+     * Poll raw data from the camera.
+     * @return	data polled
+     */
+
+    virtual ImgData* poll();
 
     /**
      * Destructor
      */
     virtual ~CameraInterface();
-
 };
 
 #endif

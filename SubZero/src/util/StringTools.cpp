@@ -7,8 +7,9 @@
 
 #include "StringTools.h"
 
-std::string StringTools::intToStr(int value) {
+std::string StringTools::intToStr(int value,int pad) {
 	std::string result = "";
+    int numberOfDigits =0;
 	int onesDigit = 0;
 	do {
 		onesDigit = value % 10;
@@ -33,6 +34,12 @@ std::string StringTools::intToStr(int value) {
 		else if (onesDigit == 9)
 			result = "9" + result;
 		value /= 10;
+        numberOfDigits++;
 	}while (value != 0);
+    if (numberOfDigits < pad) {
+        int i=0;
+        for (i;i<(pad-numberOfDigits);i++)
+            result = "0" + result;
+    }
 	return result;
 }

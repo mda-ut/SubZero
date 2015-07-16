@@ -10,13 +10,15 @@ VideoTesting::VideoTesting(const std::string fileName){
     cap.set(CV_CAP_PROP_POS_FRAMES,count-1); //Set index to last frame
     this->cap = cap;
 }
-
+CvCapture* capture;  //Capture using any camera connected to your system
 VideoTesting::VideoTesting(int deviceID) {
     //cap.open(deviceID);
+    capture = cvCaptureFromCAM(deviceID);
 }
 
 //================get next frame from camera=====================================
-CvCapture* capture = cvCaptureFromCAM(5);  //Capture using any camera connected to your system
+
+
 cv::Mat getNextCameraFrame(){
     IplImage* frame = cvQueryFrame(capture); //Create image frames from capture
     cv::Mat temp = cv::cvarrToMat(frame,true,true,0);
@@ -104,18 +106,18 @@ cv::Mat Moments(cv::Mat img){
 
     /// Get the moments
     std::vector<cv::Moments> mu(contours.size() );
-    for( int i = 0; i < contours.size(); i++ )
+    for( uint64_t i = 0; i < contours.size(); i++ )
     { mu[i] = moments( contours[i], false ); }
 
     ///  Get the mass centers:
     std::vector<cv::Point2f> mc( contours.size() );
-    for( int i = 0; i < contours.size(); i++ )
+    for( uint64_t i = 0; i < contours.size(); i++ )
     { mc[i] = cv::Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 ); }
 
 
     /// Draw contours
     cv::Mat drawing = cv::Mat::zeros( canny_output.size(), CV_8UC3 );
-    for( int i = 0; i< contours.size(); i++ )
+    for( uint64_t i = 0; i< contours.size(); i++ )
     {
         cv::Scalar color = cv::Scalar(0, 255, 0);
         drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
@@ -125,7 +127,7 @@ cv::Mat Moments(cv::Mat img){
 
     /// Calculate the area with the moments 00 and compare with the result of the OpenCV function
     //printf("\t Info: Area and Contour Length \n");
-    for( int i = 0; i< contours.size(); i++ )
+    for( uint64_t i = 0; i< contours.size(); i++ )
     {
         //printf(" * Contour[%d] - Area (M_00) = %.2f - Area OpenCV: %.2f - Length: %.2f \n", i, mu[i].m00, contourArea(contours[i]), arcLength( contours[i], true ) );
         cv::Scalar color = cv::Scalar(255, 0, 0);

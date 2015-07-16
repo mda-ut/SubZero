@@ -34,7 +34,6 @@ private:
 	 * FRIEND FUNCS
 	 * ==========================================================================
 	 */
-
 	/*
 	 * Set function for changing the imgID
 	 *
@@ -118,6 +117,7 @@ public:
 	/**
 	 * Attempts to show the Mat img in a new window.
 	 */
+
 	void showImg(std::string windowName="");
 
 	/**

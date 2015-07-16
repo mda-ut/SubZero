@@ -17,7 +17,7 @@
 class Logger {
 public:
 
-    enum Level {TRACE, INFO, DEBUG, WARN, ERROR};
+    enum Level {TRACE, DEBUG, INFO, WARN, ERROR, OFF};
 
     /**
      * @brief Logger Constructs a logger.  This logger MUST be initialized.

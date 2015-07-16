@@ -91,11 +91,9 @@ void ImgData::closeImg() {
 ImgData& ImgData::operator=(const ImgData& rhs) {
     Data::operator=(rhs); //implicitly generated operator=
     this->img = rhs.img.clone();
-    this->windowName = rhs.windowName;
     return *this;
 }
 
 ImgData::ImgData(const ImgData& copy) : Data(copy) {
     this->img = copy.img.clone();
-    this->windowName = copy.windowName;
 }

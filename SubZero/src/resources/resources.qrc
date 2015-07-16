@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/environment_objects">
+        <file alias="Blue Buoy.obj">environment_objects/Blue Buoy.obj</file>
+        <file alias="Green Buoy.obj">environment_objects/Green Buoy.obj</file>
+        <file alias="Guide Marker.obj">environment_objects/Guide Marker.obj</file>
+        <file alias="Red Buoy.obj">environment_objects/Red Buoy.obj</file>
+        <file alias="Set Date.obj">environment_objects/Set Date.obj</file>
+        <file alias="Time Portal.obj">environment_objects/Time Portal.obj</file>
+        <file alias="Yellow Buoy.obj">environment_objects/Yellow Buoy.obj</file>
+    </qresource>
+</RCC>
