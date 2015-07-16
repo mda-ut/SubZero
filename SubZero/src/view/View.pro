@@ -11,7 +11,8 @@ SOURCES += \
     simenv.cpp \
     subsub.cpp \
     windowwidget.cpp \
-    simenvengine.cpp
+    simenvengine.cpp \
+    simframegraph.cpp
 
 
 HEADERS += \
@@ -23,4 +24,5 @@ HEADERS += \
     simenv.h \
     subsub.h \
     windowwidget.h \
-    simenvengine.h
+    simenvengine.h \
+    simframegraph.h
