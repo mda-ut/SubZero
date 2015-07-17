@@ -5,7 +5,10 @@
 #include "windowwidget.h"
 #include "subsub.h"
 #include "simenv.h"
+#include "simframegraph.h"
+#include "simpleframegraphtree.h"
 #include <QScreen>
+
 
 //Camera
 #include <QCamera>
@@ -16,33 +19,16 @@
 #include <QAspectEngine>
 #include <QRenderAspect>
 #include <QInputAspect>
-#include <QForwardRenderer>
 #include <QFrameGraph>
 
 
 /**
  * @brief The SimEnvEngine class
  * This class creates and sets up a basic
- * QAspectEngine (as a public entity along with its aspects but not data source)
+ * QAspectEngine with dual cameras(as a public
+ * entity along with its aspects but not data source)
  * for a SubSub and SimEnv using a WindowWidget
  * as the surface to render and a root entity.
- * The basic renderer is a forward renderer but the
- * framegraph can be directly accessed (public) to change
- * the renderer.
- *
- *
- * This allows two SimEnvEngines to be called using the same source
- * and then have their cameras  in different locations
- * It is possible that the same functionality can be achieved by just adding
- * another camera and framegraph (and renderer)
- *
- *
- * NOTE: You do not need to call initialize for the classes used to initialize
- * this class. They are automatically initialized using the rootEntity passed in
- * //What happens if you initialize something that's already initialized
- * //I don't think anything should (apart from some memory leakage b/c you're
- * // calling new again. LOOK INTO THIS
- *
  */
 
 
@@ -50,6 +36,7 @@
 class SimEnvEngine
 {
 public:
+
     SimEnvEngine();
     //blank initializer creates own WindowWidget, SubSub, SimEnv and rootEntity
     void initialize();
@@ -64,35 +51,31 @@ public:
 
     Qt3D::QAspectEngine *engine;
     Qt3D::QRenderAspect *render;
-    Qt3D::QInputAspect *input;
+    Qt3D::QInputAspect *frontCameraInput;
+    Qt3D::QInputAspect *downCameraInput;
     QVariantMap *data;
-    Qt3D::QCamera *camera;
     Qt3D::QFrameGraph *frameGraph;
-    Qt3D::QForwardRenderer *forwardRenderer;
+    SimFrameGraph *simRenderer;
+    QColor cameraColor;
 
-    /**
-     * Query:
-     * Why am I not using Q-PROPERTY
-     *
-     * Response:
-     * I don't know. Don't plan on animating?
-     * :/
-     *
-     * I don't want to inherit from QObject b/c
-     * no need for signals and slots... so no moc required
-     *
-     * Yup, that sounds better.
-     */
+
+
+
 
     //Setters
     void setWindow( WindowWidget *newSource);
     void setSub(SubSub *newSub);
     void setEnv(SimEnv *newEnv);
 
-    //Getters
+    //Getters (Doing only front camera for now)
     WindowWidget *getWindow();
     SubSub *getSub();
     SimEnv *getEnv();
+
+
+
+
+
 
 
     /**
@@ -111,10 +94,12 @@ public:
 
 
 private:
+
     WindowWidget *source;
     SubSub *sub;
     SimEnv *env;
     Qt3D::QEntity *rootEntity;
+
 
 
 

@@ -7,6 +7,10 @@ SimEnvEngine::SimEnvEngine()
 
 void SimEnvEngine::initialize()
 {
+
+
+    cameraColor = QColor(0,100,145,100);
+
     //Window *view = new Window();
     source = new WindowWidget;
     source->initialize();
@@ -18,8 +22,10 @@ void SimEnvEngine::initialize()
         //Add Aspects
     render = new Qt3D::QRenderAspect;
     engine->registerAspect(render);
-    input = new Qt3D::QInputAspect;
-    engine->registerAspect(input);
+    frontCameraInput = new Qt3D::QInputAspect;
+    engine->registerAspect(frontCameraInput);
+    downCameraInput = new Qt3D::QInputAspect;
+    engine->registerAspect(downCameraInput);
     engine->initialize();
 
 
@@ -32,28 +38,6 @@ void SimEnvEngine::initialize()
     //root Entity
     rootEntity = new Qt3D::QEntity;
 
-    //Camera Setup
-    camera = new Qt3D::QCamera(rootEntity);
-    camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    camera->setPosition(QVector3D(0.0f, 0.0f , -20.0f));
-    camera->setUpVector(QVector3D(0.0f, 1.0f, 0.0f));
-    camera->setViewCenter(QVector3D(0.0f, 0.0f, 0.0f));
-
-    //Attach camera to aspect and aspectEngine
-    input->setCamera(camera);
-
-    //FrameGraph - Controls how rendering is performed using data
-    frameGraph = new Qt3D::QFrameGraph();
-    forwardRenderer = new Qt3D::QForwardRenderer();
-
-    forwardRenderer->setCamera(camera);
-    forwardRenderer->setClearColor(Qt::white);
-    frameGraph->setActiveFrameGraph(forwardRenderer);
-
-
-    //Attach frameGraph to root entity
-    rootEntity->addComponent(frameGraph);
-
     //Setup the sub
     sub = new SubSub;
     sub->initialize(rootEntity);
@@ -62,14 +46,29 @@ void SimEnvEngine::initialize()
     env = new SimEnv;
     env->initialize(rootEntity);
 
+
+    //Attach Camera to aspect and aspectEngine
+    frontCameraInput->setCamera(sub->frontCamera);
+    downCameraInput->setCamera(sub->downCamera);
+
+    //FrameGraph - Controls how rendering is performed using data (buffers, cameras)
+
+    frameGraph = new Qt3D::QFrameGraph();
+    simRenderer = new SimFrameGraph;
+    simRenderer->initialize();
+    simRenderer->setCameras(sub->frontCamera,sub->downCamera);
+    simRenderer->setClearColor(cameraColor);
+    frameGraph->setActiveFrameGraph(simRenderer);
+
+
+    //Attach frameGraph to root entity
+    rootEntity->addComponent(frameGraph);
+
     //Tell the engine to use the rootEntity
     engine->setRootEntity(rootEntity);
 
-
-
     //Show the window
     source->show();
-
 }
 
 
@@ -81,6 +80,8 @@ void SimEnvEngine::initialize()
 
 void SimEnvEngine::initialize(WindowWidget *newSource, SubSub *newSub, SimEnv *newEnv, Qt3D::QEntity *newRootEntity)
 {
+    cameraColor = QColor(0,100,145,100);
+
     //Window *view = new Window();
     source = newSource;
     source->initialize();
@@ -92,8 +93,10 @@ void SimEnvEngine::initialize(WindowWidget *newSource, SubSub *newSub, SimEnv *n
         //Add Aspects
     render = new Qt3D::QRenderAspect;
     engine->registerAspect(render);
-    input = new Qt3D::QInputAspect;
-    engine->registerAspect(input);
+    frontCameraInput = new Qt3D::QInputAspect;
+    engine->registerAspect(frontCameraInput);
+    downCameraInput = new Qt3D::QInputAspect;
+    engine->registerAspect(downCameraInput);
     engine->initialize();
 
 
@@ -106,28 +109,6 @@ void SimEnvEngine::initialize(WindowWidget *newSource, SubSub *newSub, SimEnv *n
     //root Entity
     rootEntity = newRootEntity;
 
-    //Camera Setup
-    camera = new Qt3D::QCamera(rootEntity);
-    camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    camera->setPosition(QVector3D(0.0f, 0.0f , -20.0f));
-    camera->setUpVector(QVector3D(0.0f, 1.0f, 0.0f));
-    camera->setViewCenter(QVector3D(0.0f, 0.0f, 0.0f));
-
-    //Attach camera to aspect and aspectEngine
-    input->setCamera(camera);
-
-    //FrameGraph - Controls how rendering is performed using data
-    frameGraph = new Qt3D::QFrameGraph();
-    forwardRenderer = new Qt3D::QForwardRenderer();
-
-    forwardRenderer->setCamera(camera);
-    forwardRenderer->setClearColor(Qt::white);
-    frameGraph->setActiveFrameGraph(forwardRenderer);
-
-
-    //Attach frameGraph to root entity
-    rootEntity->addComponent(frameGraph);
-
     //Setup the sub
     sub = newSub;
     sub->initialize(rootEntity);
@@ -135,6 +116,25 @@ void SimEnvEngine::initialize(WindowWidget *newSource, SubSub *newSub, SimEnv *n
     //Setup the environment
     env = newEnv;
     env->initialize(rootEntity);
+
+    //Attach camera to aspect and aspectEngine
+    frontCameraInput->setCamera(sub->frontCamera);
+    downCameraInput->setCamera(sub->downCamera);
+
+    //FrameGraph - Controls how rendering is performed using data
+    frameGraph = new Qt3D::QFrameGraph();
+    simRenderer = new SimFrameGraph;
+    simRenderer->initialize();
+    simRenderer->setCameras(sub->frontCamera, sub->downCamera);
+    simRenderer->setClearColor(cameraColor);
+    frameGraph->setActiveFrameGraph(simRenderer);
+
+
+
+    //Attach frameGraph to root entity
+    rootEntity->addComponent(frameGraph);
+
+
 
     //Tell the engine to use the rootEntity
     engine->setRootEntity(rootEntity);
@@ -182,4 +182,3 @@ SimEnv *SimEnvEngine::getEnv()
 {
     return env;
 }
-
