@@ -39,7 +39,7 @@ void SimulatorView::initialize() {
 
     container = new QWidget();
     container = createWindowContainer(window);
-    container->setParent(this); // Allows containter to be shown when this is
+    container->setParent(this); // Allows container to be shown when this is
     container->setMinimumSize(minSize); // Can be as small as 100 pixels by 100 pixels
     container->setMaximumSize(maxSize); // Can be as large as
 
