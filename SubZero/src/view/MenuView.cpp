@@ -113,11 +113,11 @@ void MenuView::initialize() {
 }
 
 QSize MenuView::sizeHint() const {
-    return QSize(800,600);
+    return QSize(1250,600);
 }
 
 QSize MenuView::minimumSizeHint() const {
-    return QSize(800,600);
+    return QSize(1250,600);
 }
 
 void MenuView::paintEvent(QPaintEvent *event) {

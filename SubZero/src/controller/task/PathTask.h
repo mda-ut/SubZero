@@ -13,7 +13,7 @@ class PathTask : public Task {
 public:
     PathTask();
     virtual ~PathTask();
-    PathTask(CameraModel* cameraModel, TurnTask* turnTask, SpeedTask* speedTask);
+    PathTask(Model* cameraModel, TurnTask* turnTask, SpeedTask* speedTask);
 
     void execute();
 

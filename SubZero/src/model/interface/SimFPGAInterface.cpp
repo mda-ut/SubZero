@@ -79,7 +79,19 @@ SimFPGAInterface::SimFPGAInterface(Properties* settings, SimFPGA* simFPGA) : FPG
 }
 
 void SimFPGAInterface::init() {
-    logger->info("Initializing Simulated FPGA connection. Not actually doing anything");
+    logger->info("Initializing Simulated FPGA");
+    double P, I, D, Alpha;
+    P = std::stod(settings->getProperty("SIM_DEPTH_P"));
+    I = std::stod(settings->getProperty("SIM_DEPTH_I"));
+    D = std::stod(settings->getProperty("SIM_DEPTH_D"));
+    Alpha = std::stod(settings->getProperty("SIM_DEPTH_ALPHA"));
+    simFPGA->set_pid_depth(P, I, D, Alpha);
+
+    P = std::stod(settings->getProperty("SIM_YAW_P"));
+    I = std::stod(settings->getProperty("SIM_YAW_I"));
+    D = std::stod(settings->getProperty("SIM_YAW_D"));
+    Alpha = std::stod(settings->getProperty("SIM_YAW_ALPHA"));
+    simFPGA->set_pid_yaw(P, I, D, Alpha);
 }
 
 SimFPGAInterface::~SimFPGAInterface() {

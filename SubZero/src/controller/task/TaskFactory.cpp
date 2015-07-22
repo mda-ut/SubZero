@@ -22,10 +22,10 @@ GateTask* TaskFactory::createGateTask(Model *fpgaModel, int& targetDepth, int& t
     return new GateTask(fpgaModel, depthTask, turnTask, speedTask);
 }
 
-PathTask *TaskFactory::createPathTask(Model *fpgaModel, int &targetYaw) {
+PathTask *TaskFactory::createPathTask(Model *downCamModel, Model *fpgaModel, int &targetYaw) {
     TurnTask* turnTask = TaskFactory::createTurnTask(fpgaModel, targetYaw, 0);
     SpeedTask* speedTask = TaskFactory::createSpeedTask(fpgaModel, 0);
-    return new PathTask();
+    return new PathTask(downCamModel, turnTask, speedTask);
 }
 
 TurnTask* TaskFactory::createTurnTask(Model* fpgaModel, int& targetYaw, int delta) {

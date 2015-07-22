@@ -1,4 +1,6 @@
 #include <QCoreApplication>
+#include "opencv2/imgproc/types_c.h"
+#include "opencv2/imgproc/imgproc.hpp"
 
 #include "GUIView.h"
 #include "Stage.h"
@@ -46,17 +48,16 @@ void GUIView::update(int id) {
         }
     }
     QWidget::update();
-    QCoreApplication::processEvents();
 }
 
 void GUIView::initialize() {
     setFixedSize(1250, 700);
     setWindowTitle("GUIView");
 
-    frontCameraRect.setRect(0,0,525,700);
-    downCameraRect.setRect(525,0,525,700);
+    frontCameraRect.setRect(525,0,525,700);
+    downCameraRect.setRect(0,0,525,700);
 
-    frontCameraImage = QImage(":/img/MDA.jpg");
+    //frontCameraImage = QImage(":/img/MDA.jpg");
 
     //Creating an image that holds a gradient of blue
 
@@ -78,8 +79,8 @@ void GUIView::initialize() {
     QBrush blueGradientBrush(blueGradient);
 
     //Use the brush
-    subImgPainter.fillRect(sub.rect(), blueGradientBrush);
-    subImgPainter.end();
+    //subImgPainter.fillRect(sub.rect(), blueGradientBrush);
+    //subImgPainter.end();
 
     downCameraImage = sub;
 
@@ -156,7 +157,7 @@ void GUIView::initialize() {
     verticalLayout->addLayout(readingsLayout);
 
 
-    mainLayout->addSpacing(1050);
+    mainLayout->addSpacing(1150);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
 
@@ -228,7 +229,37 @@ void GUIView::keyPressEvent(QKeyEvent* event) {
 }
 
 void GUIView::makeQImage(cv::Mat imgData, QImage& imgHolder) {
-    imgHolder = QImage((uchar*)imgData.data, imgData.cols, imgData.rows, imgData.step, QImage::Format_RGB888);
+    switch (imgData.type())
+    {
+        // 8-bit, 4 channel
+        case CV_8UC4: {
+            imgHolder = QImage( imgData.data, imgData.cols, imgData.rows, imgData.step, QImage::Format_RGB32 );
+            break;
+        }
+            // 8-bit, 3 channel
+        case CV_8UC3: {
+            imgHolder = QImage( imgData.data, imgData.cols, imgData.rows, imgData.step, QImage::Format_RGB888 );
+            break;
+        }
+            // 8-bit, 1 channel
+        case CV_8UC1: {
+            static QVector<QRgb>  sColorTable;
+
+            // only create our color table once
+            if (sColorTable.isEmpty()) {
+                for ( int i = 0; i < 256; ++i ) {
+                    sColorTable.push_back( qRgb( i, i, i ) );
+                }
+            }
+
+            imgHolder = QImage( imgData.data, imgData.cols, imgData.rows, imgData.step, QImage::Format_Indexed8 );
+            imgHolder.setColorTable( sColorTable );
+            break;
+        }
+        default:
+            logger->warn("cvMatToQImage() - cv::Mat image type not handled in switch: " + std::to_string(imgData.type()));
+            break;
+    }
 }
 
 void GUIView::paintEvent(QPaintEvent *event) {
