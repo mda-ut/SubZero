@@ -10,6 +10,8 @@ SimulatedSub::SimulatedSub(Qt3D::QEntity* parentEntity) {
 
 SimulatedSub::~SimulatedSub() {
     delete subEntity;
+    logger->info("Deleted");
+    delete logger;
 }
 
 void SimulatedSub::initialize() {
@@ -90,19 +92,19 @@ void SimulatedSub::initialize() {
 
     //Allow the sub to be visible by setting a parent
     subEntity->setParent(parentEntity);
+
+    logger->info("Initialized");
 }
 
-void SimulatedSub::moveTowards(QVector3D targetPosition)
-{
+void SimulatedSub::moveTowards(QVector3D targetPosition) {
     //Don't go below bottom of the pool
     if (targetPosition.y() < poolDepth) {
         targetPosition.setY(poolDepth);
-    }    
+    }
 
-
-    //Move to the newPosition
+    // Move to the target position
     subTranslation->setTranslation(targetPosition);
-    //Add emit for slot keepCameraAttached
+    // Add emit for slot keepCameraAttached
     emit keepCameraAttached();
 }
 
@@ -110,7 +112,7 @@ void SimulatedSub::moveTowards(QVector3D targetPosition)
 
 void SimulatedSub::moveTowards(float targetx, float targety, float targetz) {
     QVector3D targetPosition = QVector3D(targetx, targety, targetz);
-    logger->info("setting x to: " + std::to_string(targetx) + " " + std::to_string(targety) + " " + std::to_string(targetz));
+    logger->debug("Moving to position: " + std::to_string(targetx) + ", " + std::to_string(targety) + ", " + std::to_string(targetz));
     moveTowards(targetPosition);
 }
 
@@ -118,17 +120,17 @@ void SimulatedSub::moveTowards(float targetx, float targety, float targetz) {
 
 void SimulatedSub::turnSub(float newYawAngleDegrees) {
     //Update forward
-    forward = QVector3D(sin(newYawAngleDegrees*M_PI/180),0,cos(newYawAngleDegrees*M_PI/180));
+    forward = QVector3D(sin(newYawAngleDegrees * M_PI / 180), 0, cos(newYawAngleDegrees * M_PI / 180));
     forward = forward.normalized();
     frontCameraOffset = forward * 2;
-    frontViewCentreOffset = (forward * 4);
+    frontViewCentreOffset = forward * 4;
     downCamera->setUpVector(forward);
 
     float deltaYawDeg = (newYawAngleDegrees - subYaw->angleDeg());
     subYaw->setAngleDeg(newYawAngleDegrees);
     frontCamera->rotate( QQuaternion::fromAxisAndAngle( subYaw->axis(), deltaYawDeg) );
     downCamera->rotate( QQuaternion::fromAxisAndAngle( subYaw->axis(), deltaYawDeg) );
-    logger->info("setting angle to " + std::to_string(newYawAngleDegrees));
+    logger->debug("Turning to " + std::to_string(newYawAngleDegrees) + " degrees");
 }
 
 
@@ -140,7 +142,6 @@ void SimulatedSub::keepCameraAttached() {
     downCamera->setPosition((subTranslation->translation() + downCameraOffset));
 
     //Fix view centre based on forward
-
     QVector3D newfrontViewCentre = (subTranslation->translation() + frontViewCentreOffset);
     frontCamera->setViewCenter(newfrontViewCentre);
     QVector3D newdownViewCentre = (subTranslation->translation() + downViewCentreOffset);

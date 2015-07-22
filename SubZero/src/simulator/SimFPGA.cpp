@@ -54,9 +54,8 @@ void SimFPGA::updateLoop() {
     }
 }
 
-//calculates new data based on a constant acceleration
 void SimFPGA::update(double period) {
-    //update position
+    // Update position
     double distance_traveled =  (0.5 * accel * period * period) + (speed * period);
     position.x += cos(yaw * M_PI/180) * distance_traveled;
     position.y += sin(yaw * M_PI/180) * distance_traveled;
@@ -69,12 +68,12 @@ void SimFPGA::update(double period) {
         yaw += 360;
     }
 
-    // update speed
+    // Update speed
     speed += (accel * period) - (speed * FWD_LOSS_CONST);
     depth_speed += (depth_accel * period) - (depth_speed * DEPTH_LOSS_CONST);
     angular_speed += (angular_accel * period) - (angular_speed * ANG_LOSS_CONST);
 
-    //update acceleration
+    // Update acceleration
     if (speed < target_speed - 0.25) {
         accel = ACCEL;
     } else if (speed > target_speed + 0.25) {
@@ -91,7 +90,7 @@ void SimFPGA::update(double period) {
         depth_accel = 0;
     }
 
-    //handle across the 180/-180 border
+    // Handle across the 180/-180 border
     double yaw_diff = target_yaw - yaw;
     if ((yaw_diff > 2 && yaw_diff <= 180) || (yaw_diff > -357 && yaw_diff <= -180)) {
         angular_accel = ANGULAR_ACCEL;
@@ -100,7 +99,7 @@ void SimFPGA::update(double period) {
     } else {
         angular_accel = 0;
     }
-    simSub->moveTowards(position.y, position.z, position.x); //...
+    simSub->moveTowards(position.y, position.z, position.x);    // Conversion between simulator axes and interface axes
     simSub->turnSub(yaw);
 }
 

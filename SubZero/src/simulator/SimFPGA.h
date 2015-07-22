@@ -55,6 +55,11 @@ private:
 
 
     void updateLoop();
+
+    /**
+     * @brief update Calculates mock data based on a constant acceleration
+     * @param period
+     */
     void update(double period);
 
 
