@@ -25,6 +25,7 @@ void Stage::setViewContent(std::string type) {
     subZero = subZeroFactory->makeSubZero(type);
     subZero->initialize();
     stageLayout->addWidget(subZero->getView());
+    this->show();
     logger->info("New View initialized");
 }
 
@@ -49,17 +50,24 @@ void Stage::switchToMenuView() {
 }
 
 void Stage::exit() {
+    if (subZero->getView() != nullptr) {
+        subZero->getView()->close();
+        stageLayout->removeWidget(subZero->getView());
+        logger->debug("Removed View");
+    }
     close();
 }
 
 Stage::~Stage() {
-    delete logger;
-    if (subZero->getView() != nullptr) {
-        stageLayout->removeWidget(subZero->getView());
-    }
+//    if (subZero->getView() != nullptr) {
+//        stageLayout->removeWidget(subZero->getView());
+//        logger->debug("Removed View");
+//    }
     delete stageLayout;
     if (subZero != nullptr) {
         delete subZero;
+        logger->debug("Deleted SubZero");
     }
     delete subZeroFactory;
+    delete logger;
 }

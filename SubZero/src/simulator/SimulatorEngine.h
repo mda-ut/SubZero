@@ -13,11 +13,11 @@
 #include <QAspectEngine>
 #include <QRenderAspect>
 #include <QInputAspect>
-#include <QForwardRenderer>
 #include <QFrameGraph>
 
 #include "SimulatedEnvironment.h"
 #include "SimulatedSub.h"
+#include "SimFrameGraph.h"
 #include "Logger.h"
 
 class SimulatorEngine {
@@ -38,11 +38,12 @@ private:
 
     Qt3D::QAspectEngine* engine;
     Qt3D::QRenderAspect* renderAspect;
-    Qt3D::QInputAspect *inputAspect;
+    Qt3D::QInputAspect* frontCameraInput;
+    Qt3D::QInputAspect* downCameraInput;
     QVariantMap *data;
-    Qt3D::QCamera *forwardCamera;
     Qt3D::QFrameGraph *frameGraph;
-    Qt3D::QForwardRenderer *forwardRenderer;
+    SimFrameGraph* simRenderer;
+    QColor cameraColor;
 
 };
 

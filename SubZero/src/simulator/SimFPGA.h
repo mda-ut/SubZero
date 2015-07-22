@@ -11,6 +11,7 @@
 #include "Properties.h"
 #include "Logger.h"
 #include "PIDController.h"
+#include "SimulatedSub.h"
 
 typedef struct {
     double x;
@@ -41,6 +42,7 @@ private:
 
     Logger* logger = new Logger("SimFPGA");
 
+    SimulatedSub* simSub;
     bool executing;
     bool power, motors;
     sim_position position;
@@ -68,7 +70,7 @@ public:
     /**
      * @brief SimFPGA constructor
      */
-    SimFPGA(Properties* properties);
+    SimFPGA(Properties* properties, SimulatedSub* simSub);
 
     /**
      * @brief ~SimFPGA destructor

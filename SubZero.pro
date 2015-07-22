@@ -108,6 +108,9 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/simulator/SimulatorEngine.h \
     SubZero/src/simulator/SimulatedSub.h \
     SubZero/src/simulator/PIDController.h
+    SubZero/src/simulator/SimFrameGraph.h \
+    SubZero/src/model/interface/SimCameraInterface.h \
+    SubZero/src/simulator/SimBufferWindow.h
 
 
 SOURCES += SubZero/src/Main.cpp \
@@ -178,6 +181,9 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/simulator/SimulatedSub.cpp \
     SubZero/src/simulator/SimulatorEngine.cpp \
     SubZero/src/simulator/PIDController.cpp
+    SubZero/src/simulator/SimFrameGraph.cpp \
+    SubZero/src/model/interface/SimCameraInterface.cpp \
+    SubZero/src/simulator/SimBufferWindow.cpp
 
 RESOURCES += \
     SubZero/src/resources/resources.qrc

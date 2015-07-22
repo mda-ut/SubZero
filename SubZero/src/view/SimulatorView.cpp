@@ -1,15 +1,22 @@
 #include "SimulatorView.h"
+#include "Stage.h"
 
 SimulatorView::SimulatorView() {
 
 }
 
-SimulatorView::SimulatorView(Stage *stage, Controller *controller, std::vector<State *> states)
+SimulatorView::SimulatorView(Stage *stage, Controller *controller, std::vector<State *> states, SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity)
     : View(stage, controller, states) {
+    this->simSub = simSub;
+    this->simEnv = simEnv;
+    this->rootEntity = rootEntity;
 
 }
 
 SimulatorView::~SimulatorView() {
+    window->close();
+    container->close();
+    delete engine;
     delete logger;
 }
 
@@ -39,14 +46,16 @@ void SimulatorView::initialize() {
 
     container = new QWidget();
     container = createWindowContainer(window);
-    container->setParent(this); // Allows containter to be shown when this is
+    container->setParent(this); // Allows container to be shown when this is
     container->setMinimumSize(minSize); // Can be as small as 100 pixels by 100 pixels
     container->setMaximumSize(maxSize); // Can be as large as
 
+    // Install Key Event filter into this widget (affects all children widget as well)
+    window->installEventFilter(this);
+
     // Initialize the Simulator 3D Engine
     //TODO: Use dependency injection here instead
-    Qt3D::QEntity* rootEntity = new Qt3D::QEntity();
-    engine = new SimulatorEngine(window, new SimulatedSub(rootEntity), new SimulatedEnvironment(rootEntity), rootEntity);
+    engine = new SimulatorEngine(window, simSub, simEnv, rootEntity);
     engine->initialize();
 }
 
@@ -62,8 +71,23 @@ QWindow *SimulatorView::getWindow() {
     return window;
 }
 
-void SimulatorView::keyPressEvent(QKeyEvent *event) {
-    QWidget::keyPressEvent(event);
+bool SimulatorView::eventFilter(QObject *obj, QEvent *event) {
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+        if(keyEvent->key() == Qt::Key_Q) {
+            logger->info("Q Button pressed.  Exiting Simulator View");
+            //window->close();
+            //container->close();
+            stage->exit();
+        }
+        if(keyEvent->key() == Qt::Key_M) {
+            logger->info("M Button pressed.  Exiting Simulator View");
+            //window->close();
+            //container->close();
+            stage->switchToMenuView();
+        }
+    }
+    return QObject::eventFilter(obj, event);
 }
 
 void SimulatorView::makeQImage(cv::Mat imgData, QImage &imgHolder) {

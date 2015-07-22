@@ -122,13 +122,13 @@ QSize MenuView::minimumSizeHint() const {
 
 void MenuView::paintEvent(QPaintEvent *event) {
 
-    QImage background(":/img/MDA.jpg");
-    background = background.scaled(800,700);
+    //QImage background(":/img/MDA.jpg");
+    //background = background.scaled(800,700);
 
     QPainter painter;
 
     painter.begin(this);
-    painter.fillRect(event->rect(), background);
+    //painter.fillRect(event->rect(), background);
 
     painter.end();
 }
