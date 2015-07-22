@@ -10,7 +10,7 @@
 class SimulatorView : public View {
 public:
     SimulatorView();
-    SimulatorView(Stage* stage, Controller* controller, std::vector<State*> states);
+    SimulatorView(Stage* stage, Controller* controller, std::vector<State*> states, SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity);
     ~SimulatorView();
 
     virtual void update(int id);
@@ -27,6 +27,9 @@ private:
     Logger* logger = new Logger("SimulatorView");
 
     SimulatorEngine* engine;
+    SimulatedSub* simSub;
+    SimulatedEnvironment* simEnv;
+    Qt3D::QEntity* rootEntity;
 
     QWidget* container;
     QWindow* window;
