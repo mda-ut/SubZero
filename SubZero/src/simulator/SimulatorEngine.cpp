@@ -19,6 +19,12 @@ void SimulatorEngine::initialize() {
     //Engine Setup
     engine = new Qt3D::QAspectEngine();
 
+    //Setup the sub
+    simSub->initialize();
+
+    //Setup the environment
+    simEnvironment->initialize();
+
     //Add Aspects
     renderAspect = new Qt3D::QRenderAspect();
     engine->registerAspect(renderAspect);
@@ -49,12 +55,6 @@ void SimulatorEngine::initialize() {
 
     //Attach frameGraph to root entity
     rootEntity->addComponent(frameGraph);
-
-    //Setup the sub
-    simSub->initialize();
-
-    //Setup the environment
-    simEnvironment->initialize();
 
     //Tell the engine to use the rootEntity
     engine->setRootEntity(rootEntity);

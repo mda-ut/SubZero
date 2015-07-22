@@ -17,6 +17,8 @@
 #include <QTimer>
 #include <QObject>
 
+#include "Logger.h"
+
 class SimulatedSub : public QObject {
     Q_OBJECT
 
@@ -41,6 +43,8 @@ public slots:
      void keepCameraAttached();
 
 private:
+     Logger* logger = new Logger("SimulatedSub");
+
     Qt3D::QEntity *subEntity;
 
     Qt3D::QCylinderMesh *subBody;
@@ -55,9 +59,10 @@ private:
 
     QVector3D forward;
     QVector3D downward;
-    QVector3D cameraOffset;
+    QVector3D frontCameraOffset;
+    QVector3D downCameraOffset;
     QVector3D frontViewCentreOffset;
-    QVector3D DownViewCentreOffset;
+    QVector3D downViewCentreOffset;
 
     Qt3D::QEntity* parentEntity;
 };

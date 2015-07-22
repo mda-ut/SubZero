@@ -7,6 +7,7 @@
 
 #include "SubZeroFactory.h"
 #include "CameraModel.h"
+#include "SimCameraInterface.h"
 #include "CameraInterface.h"
 #include "CameraState.h"
 #include "FPGAModel.h"
@@ -14,10 +15,10 @@
 #include "FPGAState.h"
 #include "MenuView.h"
 #include "GUIView.h"
-#include "SimulatorView.h"
 #include "Controller.h"
 #include "SimFPGA.h"
 #include "SimFPGAInterface.h"
+#include "SimBufferWindow.h"
 #include <vector>
 #include <iostream>
 
@@ -76,16 +77,21 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
         }
     } else if (subType == "SIMULATOR") {
         logger->trace("Creating simulation sub");
+        Qt3D::QEntity* rootEntity = new Qt3D::QEntity();
+        SimulatedSub* simSub = new SimulatedSub(rootEntity);
+        SimulatedEnvironment* simEnv = new SimulatedEnvironment(rootEntity);
 
         states.push_back(new CameraState(FRONTCAM, camBufferSize));
         states.push_back(new CameraState(DOWNCAM, camBufferSize));
         states.push_back(new FPGAState(FPGA, fpgaBufferSize));
 
+        SimFPGA* simFPGA = new SimFPGA(settings, simSub);
+        SimBufferWindow* bufferWindow = new SimBufferWindow(simSub, simEnv, rootEntity);
         int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
-        HwInterface* frontCamInt = new CameraInterface(frontCamPos);
+        HwInterface* frontCamInt = new SimCameraInterface(frontCamPos, bufferWindow);
         HwInterface* downCamInt = new CameraInterface(downCamPos);
-        HwInterface* fpgaInt = new FPGAInterface(settings);
+        HwInterface* fpgaInt = new SimFPGAInterface(settings, simFPGA);
 
         models.push_back(new CameraModel(states[0], frontCamInt, camPollFrequency));
         models.push_back(new CameraModel(states[1], downCamInt, camPollFrequency));

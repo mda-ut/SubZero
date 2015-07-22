@@ -29,7 +29,10 @@ void Model::pollLoop() {
     timer.start();
     double pollPeriod = 1 / pollFrequency;
     while(executing) {
-        while (timer.getTimeElapsed() < pollPeriod); //do nothing, should we put this thread to sleep?
+        while (timer.getTimeElapsed() < pollPeriod) {
+            std::this_thread::yield();
+        }
+            //do nothing, should we put this thread to sleep?
         timer.start(); //restart timer
         dataTransfer();
     }

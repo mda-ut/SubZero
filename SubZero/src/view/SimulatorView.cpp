@@ -4,12 +4,16 @@ SimulatorView::SimulatorView() {
 
 }
 
-SimulatorView::SimulatorView(Stage *stage, Controller *controller, std::vector<State *> states)
+SimulatorView::SimulatorView(Stage *stage, Controller *controller, std::vector<State *> states, SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity)
     : View(stage, controller, states) {
+    this->simSub = simSub;
+    this->simEnv = simEnv;
+    this->rootEntity = rootEntity;
 
 }
 
 SimulatorView::~SimulatorView() {
+    container->close();
     delete logger;
 }
 
@@ -45,8 +49,7 @@ void SimulatorView::initialize() {
 
     // Initialize the Simulator 3D Engine
     //TODO: Use dependency injection here instead
-    Qt3D::QEntity* rootEntity = new Qt3D::QEntity();
-    engine = new SimulatorEngine(window, new SimulatedSub(rootEntity), new SimulatedEnvironment(rootEntity), rootEntity);
+    engine = new SimulatorEngine(window, simSub, simEnv, rootEntity);
     engine->initialize();
 }
 

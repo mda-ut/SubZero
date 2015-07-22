@@ -9,7 +9,8 @@
  */
 
 
-SimFPGA::SimFPGA(Properties* properties) {
+SimFPGA::SimFPGA(Properties* properties, SimulatedSub* simSub) {
+    this->simSub = simSub;
     power = false;
     motors = false;
     position.x = std::stod(properties->getProperty("SIMSUB_START_X"));
@@ -49,7 +50,7 @@ void SimFPGA::updateLoop() {
                 update(timeElapsed);
             }
         }
-        usleep(66);
+        std::this_thread::yield();
     }
 }
 
@@ -99,7 +100,8 @@ void SimFPGA::update(double period) {
     } else {
         angular_accel = 0;
     }
-    //TODO call code to update simulator engine's sub's position and yaw
+    simSub->moveTowards(position.y, position.z, position.x); //...
+    simSub->turnSub(yaw);
 }
 
 

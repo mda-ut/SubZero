@@ -34,7 +34,7 @@ void SimFrameGraph::initialize()
 
     //next branch
     downViewport = new Qt3D::QViewport(this);
-    downViewport->setRect(  QRectF(0.5f, 0.0f, 1.0f, 1.0f ));// second half of screen
+    downViewport->setRect(  QRectF(0.5f, 0.0f, 0.5f, 1.0f ));// second half of screen
     downCameraSelector = new Qt3D::QCameraSelector(downViewport);
 
 
@@ -44,9 +44,7 @@ void SimFrameGraph::initialize()
 
 void SimFrameGraph::setCameras(Qt3D::QEntity *frontCamera, Qt3D::QEntity *downCamera)
 {
-
     frontCameraSelector->setCamera(frontCamera);
     downCameraSelector->setCamera(downCamera);
-
 
 }

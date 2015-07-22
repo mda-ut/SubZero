@@ -93,7 +93,7 @@ void SimulatedEnvironment::initialize() {
     timePortalTranslation-> setTranslation(QVector3D(10.0f, 0.0f, 80.0f));
 
     guideMarkerTranslation = new Qt3D::QTranslateTransform();
-    guideMarkerTranslation-> setTranslation(QVector3D(30.0f, 0.0f, 80.0f));
+    guideMarkerTranslation-> setTranslation(QVector3D(0.0f, -10.0f, 0.0f));
 
     //Setup Initial Rotation
     yellowBuoyRotation = new Qt3D::QRotateTransform();
@@ -126,8 +126,8 @@ void SimulatedEnvironment::initialize() {
 
 
     guideMarkerRotation = new Qt3D::QRotateTransform();
-    guideMarkerRotation->setAxis(QVector3D(1.0f, 0.0f, 0.0f));
-    guideMarkerRotation->setAngleDeg(0.0f);
+    guideMarkerRotation->setAxis(QVector3D(0.0f, 1.0f, 0.0f));
+    guideMarkerRotation->setAngleDeg(90.0f);
 
 
 
