@@ -9,7 +9,13 @@ SimulatedEnvironment::SimulatedEnvironment(Qt3D::QEntity* parentEntity) {
 }
 
 SimulatedEnvironment::~SimulatedEnvironment() {
-
+    delete yellowBuoyEntity;
+    delete blueBuoyEntity;
+    delete redBuoyEntity;
+    delete greenBuoyEntity;
+    delete setDateEntity;
+    delete timePortalEntity;
+    delete guideMarkerEntity;
 }
 
 void SimulatedEnvironment::initialize() {

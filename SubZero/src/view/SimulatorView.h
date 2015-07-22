@@ -21,7 +21,7 @@ public:
     QWindow* getWindow();
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     Logger* logger = new Logger("SimulatorView");
@@ -33,6 +33,9 @@ private:
     QSurfaceFormat* format;
 
     void makeQImage(cv::Mat imgData, QImage& imgHolder);
+
+public slots:
+    void exit();
 
 };
 

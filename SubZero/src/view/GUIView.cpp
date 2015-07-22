@@ -12,7 +12,8 @@ GUIView::GUIView(Stage* stage, Controller* controller, std::vector<State*> state
 }
 
 void GUIView::update(int id) {
-    // Update Cameras    logger->trace("Received update from " + std::to_string(ID));
+    // Update Cameras
+    logger->trace("Received update from " + std::to_string(id));
     switch (id) {
         case FRONTCAM: {
             ImgData* newImg = dynamic_cast<CameraState*>(states[0])->getState("raw");
@@ -23,7 +24,7 @@ void GUIView::update(int id) {
         case DOWNCAM: {
             ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
             makeQImage(newImg->img, downCameraImage);
-            //std::cout << "make down" << std::endl;
+            logger->trace("Updating down cam image");
             break;
         }
         case FPGA: {

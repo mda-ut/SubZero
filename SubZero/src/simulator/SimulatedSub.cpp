@@ -8,6 +8,10 @@ SimulatedSub::SimulatedSub(Qt3D::QEntity* parentEntity) {
     this->parentEntity = parentEntity;
 }
 
+SimulatedSub::~SimulatedSub() {
+    delete subEntity;
+}
+
 void SimulatedSub::initialize() {
     subBody = new Qt3D::QCylinderMesh();
     subMaterial = new Qt3D::QPhongMaterial();

@@ -61,11 +61,11 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
         HwInterface* frontCamInt = new CameraInterface(frontCamPos);
         //HwInterface* downCamInt = new CameraInterface(downCamPos);
-        //HwInterface* fpgaInt = new FPGAInterface(settings);
+//        HwInterface* fpgaInt = new SimFPGAInterface(settings, new SimFPGA(settings));
 
         models.push_back(new CameraModel(states[0], frontCamInt, camPollFrequency));
-        //models.push_back(new CameraModel(states[1], downCamInt, camPollFrequency));
-        //models.push_back(new FPGAModel(states[2], fpgaInt, fpgaPollFrequency));
+//        models.push_back(new CameraModel(states[1], downCamInt, camPollFrequency));
+//        models.push_back(new FPGAModel(states[2], fpgaInt, fpgaPollFrequency));
 
         controller = new Controller(models);
         view = new GUIView(stage, controller, states);
@@ -77,22 +77,22 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
     } else if (subType == "SIMULATOR") {
         logger->trace("Creating simulation sub");
 
-        states.push_back(new CameraState(FRONTCAM, camBufferSize));
-        states.push_back(new CameraState(DOWNCAM, camBufferSize));
-        states.push_back(new FPGAState(FPGA, fpgaBufferSize));
+//        states.push_back(new CameraState(FRONTCAM, camBufferSize));
+//        states.push_back(new CameraState(DOWNCAM, camBufferSize));
+//        states.push_back(new FPGAState(FPGA, fpgaBufferSize));
 
         int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
-        HwInterface* frontCamInt = new CameraInterface(frontCamPos);
-        HwInterface* downCamInt = new CameraInterface(downCamPos);
-        HwInterface* fpgaInt = new FPGAInterface(settings);
+//        HwInterface* frontCamInt = new CameraInterface(frontCamPos);
+//        HwInterface* downCamInt = new CameraInterface(downCamPos);
+//        HwInterface* fpgaInt = new SimFPGAInterface(settings, new SimFPGA(settings));
 
-        models.push_back(new CameraModel(states[0], frontCamInt, camPollFrequency));
-        models.push_back(new CameraModel(states[1], downCamInt, camPollFrequency));
-        models.push_back(new FPGAModel(states[2], fpgaInt, fpgaPollFrequency));
+//        models.push_back(new CameraModel(states[0], frontCamInt, camPollFrequency));
+//        models.push_back(new CameraModel(states[1], downCamInt, camPollFrequency));
+//        models.push_back(new FPGAModel(states[2], fpgaInt, fpgaPollFrequency));
 
         controller = new Controller(models);
-        view = new GUIView(stage, controller, states);
+        view = new SimulatorView(stage, controller, states);
 
         controller->setView(view);
 

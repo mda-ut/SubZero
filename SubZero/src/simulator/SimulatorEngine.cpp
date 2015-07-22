@@ -12,6 +12,11 @@ SimulatorEngine::SimulatorEngine(QWindow *window, SimulatedSub *simSub, Simulate
 }
 
 SimulatorEngine::~SimulatorEngine() {
+    delete simEnvironment;
+    delete simSub;
+    //delete rootEntity;
+    renderAspect->renderShutdown();
+    engine->shutdown();
     delete logger;
 }
 

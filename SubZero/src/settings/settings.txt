@@ -10,7 +10,7 @@ CAM_POLL_FREQUENCY = 16
 FPGA_POLL_FREQUENCY = 5
 
 FRONT_CAM = 1
-DOWN_CAM = 2
+DOWN_CAM = 0
 
 DEPTH_P = 20.0
 DEPTH_I = 0.005
@@ -31,11 +31,7 @@ YAW_P = 6.0
 YAW_I = 0.0
 YAW_D = 0.8
 YAW_ALPHA = 0.0
-a =sdnnfasjdflksasd
-=asdfasf
-a=asdfasdfa
-aa= asdfasdf
-# = asdfasdfasd
+
 LOW_HUE = 0
 HIGH_HUE = 0
 LOW_SATURATION = 0
