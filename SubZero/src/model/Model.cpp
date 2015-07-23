@@ -27,10 +27,12 @@ void Model::storeToFMList(FilterManager* newFM) {
 void Model::pollLoop() {
     Timer timer;
     timer.start();
-    double pollPeriod = 1 / (double)pollFrequency;
+    double pollPeriod = 1 / pollFrequency;
     while(executing) {
-        while (timer.getTimeElapsed() < pollPeriod) {
+        double elapsedTime = timer.getTimeElapsed();
+        while (elapsedTime < pollPeriod) {
             std::this_thread::yield();
+            elapsedTime = timer.getTimeElapsed();
         }
         timer.start(); //restart timer
         dataTransfer();
@@ -52,7 +54,7 @@ void Model::dataTransfer() {
                 public functions
  * ========================================================================== */
 
-Model::Model(State* inputState, HwInterface* inputHwInterface, int frequency) {
+Model::Model(State* inputState, HwInterface* inputHwInterface, double frequency) {
     state = inputState;
     interface = inputHwInterface;
     pollFrequency = frequency;

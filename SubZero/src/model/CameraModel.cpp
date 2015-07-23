@@ -7,7 +7,7 @@
 
 #include "CameraModel.h"
 
-CameraModel::CameraModel(State*inputState, HwInterface *inputInterface, int frequency)
+CameraModel::CameraModel(State*inputState, HwInterface *inputInterface, double frequency)
     : Model(inputState, inputInterface, frequency) {
 }
 

@@ -34,7 +34,7 @@ bool Logger::initialize(Level level, bool writeToConsole, bool writeToFile, Time
 
 	if (writeToFile) {
 		char buffer[80];
-        strftime(buffer, 80, "%I:%M:%S_%d-%m-%Y.log", timer->getCurrentTime());
+        strftime(buffer, 80, "%I:%M:%S_%d-%m-%Y.log", timer->getTimeStamp());
 
 		std::string logName(buffer);
 
@@ -63,7 +63,7 @@ void Logger::trace(std::string msg) {
     if (Level::TRACE >= Logger::level) {
         char buffer[100];
         std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tTRACE\t";
-        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
+        strftime(buffer, 100, output.c_str(), timer->getTimeStamp());
 
         std::string finalMsg(buffer);
         finalMsg += msg;
@@ -75,7 +75,7 @@ void Logger::info(std::string msg) {
     if (Level::INFO >= Logger::level) {
         char buffer[100];
         std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tINFO\t";
-        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
+        strftime(buffer, 100, output.c_str(), timer->getTimeStamp());
 
         std::string finalMsg(buffer);
         finalMsg += msg;
@@ -87,7 +87,7 @@ void Logger::debug(std::string msg) {
     if (Level::DEBUG >= Logger::level) {
         char buffer[100];
         std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tDEBUG\t";
-        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
+        strftime(buffer, 100, output.c_str(), timer->getTimeStamp());
 
         std::string finalMsg(buffer);
         finalMsg += msg;
@@ -99,7 +99,7 @@ void Logger::warn(std::string msg) {
     if (Level::WARN >= Logger::level) {
         char buffer[100];
         std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tWARN\t";
-        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
+        strftime(buffer, 100, output.c_str(), timer->getTimeStamp());
 
         std::string finalMsg(buffer);
         finalMsg += msg;
@@ -111,7 +111,7 @@ void Logger::error(std::string msg) {
     if (Level::ERROR >= Logger::level) {
         char buffer[100];
         std::string output = "%d-%m-%Y %I:%M:%S\t" + className + "\t\tERROR\t";
-        strftime(buffer, 100, output.c_str(), timer->getCurrentTime());
+        strftime(buffer, 100, output.c_str(), timer->getTimeStamp());
 
         std::string finalMsg(buffer);
         finalMsg += msg;

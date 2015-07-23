@@ -8,7 +8,9 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
+#include <cstdint>
 #include <ctime>
+#include <sys/time.h>
 
 /**
  * The Timer class takes care of managing the current time.
@@ -21,13 +23,13 @@ public:
 	 * Starts the timer.
 	 * @return The current time and -1 if failed
 	 */
-	time_t start();
+    uint64_t start();
 
 	/**
 	 * Stops the timer.
 	 * @return The current time and -1 if failed
 	 */
-	time_t stop();
+    uint64_t stop();
 
 	/**
 	 * Returns the number of seconds that have elapsed since timer started.
@@ -45,14 +47,15 @@ public:
 	 * Returns the current time.
 	 * @return The current time and NULL if failed
 	 */
-	struct tm* getCurrentTime();
+    uint64_t getCurrentTime();
+
+    struct tm* getTimeStamp();
 
 	virtual ~Timer();
 
 private:
-	time_t startTime;
-	time_t endTime;
-	time_t currTime;
+    uint64_t startTime;
+    uint64_t endTime;
 };
 
 #endif /* TIMER_H_ */

@@ -43,7 +43,7 @@ protected:
      * Poll data from hardware at this frequency (number of polls per second).
      * A.k.a. sampling rate.
      */
-    int pollFrequency;
+    double pollFrequency;
 
     bool executing;
 
@@ -79,7 +79,7 @@ public:
      * @param	inputHwInterface	an interface pointer used to create a Model
      * @param   frequency   set polling frequency for the Model
      */
-    Model(State* inputState, HwInterface* inputHwInterface, int frequency);
+    Model(State* inputState, HwInterface* inputHwInterface, double frequency);
 
     /**
      * Model destructor

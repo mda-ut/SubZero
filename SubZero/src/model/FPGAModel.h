@@ -29,7 +29,7 @@ public:
      * @param	inputState		an observable pointer that is expected to be a FPGAState pointer
      * @param	inputInterface	a HwInterface pointer that is expected to be a FPGAInterface pointer
      */
-    FPGAModel(State* inputState, HwInterface* inputInterface, int frequency);
+    FPGAModel(State* inputState, HwInterface* inputInterface, double frequency);
 
     virtual ~FPGAModel();
 

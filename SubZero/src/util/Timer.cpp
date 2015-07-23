@@ -8,42 +8,44 @@
 #include "Timer.h"
 
 Timer::Timer() {
-	startTime = time(NULL);
-	endTime = time(NULL);
-	currTime = time(NULL);
-
+    startTime = getCurrentTime();
+    endTime = startTime;
 }
 
-time_t Timer::start() {
-	if (time(&startTime) != -1) {
-		return startTime;
-	} else {
-		return -1;
-	}
+uint64_t Timer::start() {
+    startTime = getCurrentTime();
+    return startTime;
 }
 
-time_t Timer::stop() {
-	if (time(&endTime) != -1) {
-		return endTime;
-	} else {
-		return -1;
-	}
+uint64_t Timer::stop() {
+    endTime = getCurrentTime();
+    return endTime;
 }
 
 double Timer::getTimeElapsed() {
-    return difftime(time(NULL), startTime);
+    uint64_t currentTime = getCurrentTime();
+    if (currentTime < startTime) {
+        currentTime = startTime;
+    }
+    return (double) (getCurrentTime() - startTime) / 1000000000;
 }
 
 double Timer::getTimeDiff() {
-    return difftime(endTime, startTime);
+    return (double) (endTime-startTime) / 1000000000; //convert nanoseconds to seconds
 }
 
-struct tm* Timer::getCurrentTime() {
-	if (time(&currTime) != -1) {
-		return localtime(&currTime);
-	} else {
-		return NULL;
-	}
+uint64_t Timer::getCurrentTime() {
+    struct timespec t;
+    clock_gettime(CLOCK_REALTIME, &t);
+    uint64_t seconds = (uint64_t) t.tv_sec;
+    uint64_t currentTime = seconds*1000000000 + (uint64_t)t.tv_nsec;
+    return currentTime;
+}
+
+struct tm* Timer::getTimeStamp() {
+    struct timespec t;
+    clock_gettime(CLOCK_REALTIME, &t);
+    return localtime(&t.tv_sec);
 }
 
 Timer::~Timer() {

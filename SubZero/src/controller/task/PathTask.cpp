@@ -48,7 +48,7 @@ void PathTask::rotate(float angle) {
     logger->debug("Rotating sub by " + std::to_string(angle) + " degrees");
     turnTask->setYawDelta(angle);
     turnTask->execute();
-    usleep(7000000);
+    usleep(5000000);
 }
 
 void PathTask::moveTo(cv::Point2f pos) {

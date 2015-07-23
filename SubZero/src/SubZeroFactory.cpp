@@ -44,9 +44,9 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
     //TODO: Add error checking for property file reading
     logger->trace(std::to_string(std::stoi(settings->getProperty("CAM_BUFFER_SIZE"))));
     int camBufferSize = std::stoi(settings->getProperty("CAM_BUFFER_SIZE"));
-    int camPollFrequency = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
+    double camPollFrequency = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
     int fpgaBufferSize = std::stoi(settings->getProperty("FPGA_BUFFER_SIZE"));
-    int fpgaPollFrequency = std::stoi(settings->getProperty("FPGA_POLL_FREQUENCY"));
+    double fpgaPollFrequency = std::stod(settings->getProperty("FPGA_POLL_FREQUENCY"));
 
     if (subType == "MENU") {
         controller = new Controller(models);

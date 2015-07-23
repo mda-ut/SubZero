@@ -13,6 +13,7 @@ LIBS += -L/usr/local/lib \
 CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION,4): QT += widgets 3dcore 3drenderer 3dinput
 
+QMAKE_CXXFLAGS += -lrt
 
 TEMPLATE = app
 TARGET = SubZero

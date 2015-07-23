@@ -51,43 +51,12 @@ void SimFPGA::updateLoop() {
             }
         }
         std::this_thread::yield();
-        usleep(100000);
     }
 }
 
 void SimFPGA::update(double period) {
-    // Update position
-    double distance_traveled =  (0.5 * accel * period * period) + (speed * period);
-    position.x += cos(yaw * M_PI/180) * distance_traveled;
-    position.y += sin(yaw * M_PI/180) * distance_traveled;
-    position.z += (0.5 * depth_accel * period * period) + (depth_speed * period);
-    yaw += (0.5 * angular_accel * period * period) + (angular_speed * period);
-
-    if (yaw >= 180) {
-        yaw -= 360;
-    } else if (yaw < -180) {
-        yaw += 360;
-    }
-
-    // Update speed
-    speed = target_speed;
-    logger->debug("Speed: " + std::to_string(speed));
-    depth_speed += (depth_accel * period) - (depth_speed );
-    logger->debug("Depth speed: " + std::to_string(depth_speed));
-    angular_speed += (angular_accel * period) - (angular_speed );
-    logger->debug("Angular speed: " + std::to_string(angular_speed));
-
-    // Update acceleration
-    /*if (speed < target_speed) {
-        accel = ACCEL;
-    } else if (speed > target_speed) {
-        accel = -ACCEL;
-    } else {
-        accel = 0;
-    }
-    logger->debug("Acceleration: " + std::to_string(accel));
-    */
-    depth_accel = pid_depth.getPIDValue(target_depth - position.z, period);
+    double target_depth_speed = pid_depth.getPIDValue(target_depth - position.z, period);
+    depth_accel = target_depth_speed - depth_speed;
     logger->debug("Depth acceleration: " + std::to_string(depth_accel));
 
     // Handle across the 180/-180 border
@@ -97,8 +66,34 @@ void SimFPGA::update(double period) {
     } else if (yaw_diff <= -180) {
         yaw_diff += 360;
     }
-    angular_accel = pid_yaw.getPIDValue(yaw_diff, period);
+    logger->debug("Yaw difference is " + std::to_string(yaw_diff));
+    double target_angular_speed = pid_yaw.getPIDValue(yaw_diff, period);
+    angular_accel = target_angular_speed - angular_speed;
     logger->debug("Angular acceleration: " + std::to_string(angular_accel));
+
+
+    // Update position
+    double distance_traveled = (speed * period);
+    position.x += cos(yaw * M_PI/180) * distance_traveled;
+    position.y += sin(yaw * M_PI/180) * distance_traveled;
+    position.z += (0.5 * depth_accel * period * period) + (depth_speed * period);
+    yaw += (0.5 * angular_accel * period * period) + (angular_speed * period);
+
+
+    if (yaw >= 180) {
+        yaw -= 360;
+    } else if (yaw < -180) {
+        yaw += 360;
+    }
+    // Update speed
+    //Currently physics is pretty off but it produces a nice waveform that sorta follows what the sub should do
+    speed = target_speed;
+    logger->debug("Speed: " + std::to_string(speed));
+    depth_speed += (depth_accel * period);
+    logger->debug("Depth speed: " + std::to_string(depth_speed));
+    angular_speed += (angular_accel * period);
+    logger->debug("Angular speed: " + std::to_string(angular_speed));
+
     //TODO: Call code to update simulator engine's sub's position and yaw
     simSub->moveTowards(position.y/100, position.z/100, position.x/100);    // Conversion between simulator axes and interface axes
     simSub->turnSub(yaw);
@@ -155,11 +150,11 @@ int SimFPGA::get_depth() {
 }
 
 void SimFPGA::set_pid_depth(double P, double I, double D, double alpha) {
-    pid_depth.setPIDConstants(P, 0, 0);
+    pid_depth.setPIDConstants(P, I, D);
 }
 
 void SimFPGA::set_pid_yaw(double P, double I, double D, double alpha) {
-    pid_yaw.setPIDConstants(P, 0, 0);
+    pid_yaw.setPIDConstants(P, I, D);
 }
 
 

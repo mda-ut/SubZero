@@ -7,7 +7,7 @@
 
 #include "FPGAModel.h"
 
-FPGAModel::FPGAModel(State *inputState, HwInterface *inputInterface, int frequency)
+FPGAModel::FPGAModel(State *inputState, HwInterface *inputInterface, double frequency)
     : Model(inputState, inputInterface, frequency) {
 }
 
