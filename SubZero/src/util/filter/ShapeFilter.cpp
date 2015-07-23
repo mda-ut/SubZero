@@ -23,13 +23,13 @@ void ShapeFilter::println(std::string s){
         logger->info(s);
 }
 
-int ShapeFilter::filter(Data *data){
+bool ShapeFilter::filter(Data *data){
     // check for whether the input is of the correct type.          From Albert
     ImgData* imgData = dynamic_cast<ImgData*>(data);
     if (imgData == 0) {
         // track the error and return error
         this->track(data,this->filterID,1,1);
-        return 1;
+        return false;
     }
 
    //beging filtering process
@@ -42,7 +42,7 @@ int ShapeFilter::filter(Data *data){
 
     //track and return
     this->track(imgData, this->filterID, 0,0);
-    return 0;
+    return true;
 }
 
 double MEAN2(double a, double b){

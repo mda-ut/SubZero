@@ -72,7 +72,7 @@ public:
      * @param data 	to be processed
      * @return 		0 for success 1 for incorrect type.
      */
-    virtual int filter(Data* data);
+    virtual bool filter(Data* data);
 
     /**
      * Get the ID of the specific filter instance

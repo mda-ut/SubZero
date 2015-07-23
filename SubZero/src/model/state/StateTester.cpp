@@ -92,7 +92,7 @@ bool StateTester::testImgSize(){
 	CS.getState("First", 11);
 	//===================================================
 
-    CameraState cs(8, 15);
+    CameraState cs(8, 8);
 
 	cs.setState(generateImgVector(1));
 	for (int i = 0; i < 7; i++){
@@ -128,7 +128,7 @@ bool StateTester::testFPGASize(){
 	std::cout<<FS.getState("First", 11) << std::endl;*/
 	//===================================================
 
-    FPGAState fs(8, 15);
+    FPGAState fs(8, 8);
 
 	fs.setState(generateFPGAVector(1));
 	for (int i = 0; i < 7; i++){

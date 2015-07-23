@@ -70,7 +70,7 @@ void SimFPGA::update(double period) {
     }
 
     // Update speed
-    speed += (accel * period) - (speed );
+    speed = target_speed;
     logger->debug("Speed: " + std::to_string(speed));
     depth_speed += (depth_accel * period) - (depth_speed );
     logger->debug("Depth speed: " + std::to_string(depth_speed));
@@ -78,7 +78,7 @@ void SimFPGA::update(double period) {
     logger->debug("Angular speed: " + std::to_string(angular_speed));
 
     // Update acceleration
-    if (speed < target_speed) {
+    /*if (speed < target_speed) {
         accel = ACCEL;
     } else if (speed > target_speed) {
         accel = -ACCEL;
@@ -86,7 +86,7 @@ void SimFPGA::update(double period) {
         accel = 0;
     }
     logger->debug("Acceleration: " + std::to_string(accel));
-
+    */
     depth_accel = pid_depth.getPIDValue(target_depth - position.z, period);
     logger->debug("Depth acceleration: " + std::to_string(depth_accel));
 

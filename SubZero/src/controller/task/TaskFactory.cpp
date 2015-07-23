@@ -14,6 +14,11 @@ TaskFactory::TaskFactory() {
 
 }
 
+CompetitionTask *TaskFactory::createCompetitionTask(Model *forwardCamModel, Model *downCamModel, Model *fpgaModel, int &targetDepth, int &targetYaw) {
+    GateTask* gateTask = TaskFactory::createGateTask(fpgaModel, targetDepth, targetYaw);
+    PathTask* pathTask = TaskFactory::createPathTask(downCamModel, fpgaModel, targetYaw);
+    return new CompetitionTask(gateTask, pathTask);
+}
 
 GateTask* TaskFactory::createGateTask(Model *fpgaModel, int& targetDepth, int& targetYaw) {
     DepthTask* depthTask = TaskFactory::createDepthTask(fpgaModel, targetDepth, 100);

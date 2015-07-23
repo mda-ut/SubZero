@@ -35,7 +35,6 @@ bool moving = false;
 void PathTask::move(float amount) {
     speedTask->setTargetSpeed(amount);
     speedTask->execute();
-    //TODO: Sleep for a bit
     moving = true;
 }
 void PathTask::stop(){
@@ -46,8 +45,10 @@ void PathTask::stop(){
 }
 
 void PathTask::rotate(float angle) {
+    logger->debug("Rotating sub by " + std::to_string(angle) + " degrees");
     turnTask->setYawDelta(angle);
     turnTask->execute();
+    usleep(7000000);
 }
 
 void PathTask::moveTo(cv::Point2f pos) {
@@ -62,16 +63,25 @@ void PathTask::moveTo(cv::Point2f pos) {
             move(-30);
         }
     } else {
-        println("MoveTo rotating");
-        rotate(atan2(pos.y-imgHeight/2, pos.x-imgWidth/2) * 180 / M_PI);
+        float ang = atan2(pos.y-imgHeight/2, pos.x-imgWidth/2) * 180 / M_PI;
+        println("MoveTo rotating " + std::to_string(ang));
+        rotate(ang);
         move(30);
     }
 }
 
 void PathTask::execute() {
+    // Load properties file
+    PropertyReader* propReader;
+    Properties* settings;
+    propReader = new PropertyReader("../SubZero/src/settings/path_task_settings.txt");
+    settings = propReader->load();
+
+    int timeOut = std::stoi(settings->getProperty("TIMEOUT"));
+
     ///TODO INSERT HSV VALUES HERE
     ImgData* data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
-    HSVFilter hsvf(0, 155, 0, 255, 0, 255);
+    HSVFilter hsvf(30, 152, 75, 255, 100, 255);
     LineFilter lf;
     //looking for 1 rectangle
     ShapeFilter sf(1, 1);
@@ -84,17 +94,22 @@ void PathTask::execute() {
 
     float angle = 0;
     float amount = 0;
-    float timeOut = 0;
+    //float timeOut = 0;
     int stage = 0;
+    cv::namedWindow("hsv", CV_WINDOW_AUTOSIZE);
     while (!done) {
         //if its moving, let it move for a bit then continue the program
-        delete data;
-        data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
-        if (moving){
-            //sleep (200);
+
+        if (moving) {
+            usleep (100000);
+            moving = false;
             continue;
         }
+        delete data;
+        data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
         hsvf.filter(data);
+
+        cv::imshow("hsv", data->getImg());
 
         if (!foundOrange) {
             // Step 1: look for orange, if found, turn to follow it
@@ -221,20 +236,18 @@ void PathTask::execute() {
             }
             // executed once 2 parallel lines are found
             if (allignment) {
-                if (std::abs(align[0][0]) < 20) {   //horz line
-                    println("rotating 90°");
-                    rotate(90);         // rotate 90 degrees
-                }else if(align[0][0] > 99) {      // 999 = big slope value = vert line
+                logger->debug("Current slope of " + std::to_string(align[0][0]));
+                if (fabs(align[0][0]) > 99) {      // 999 = big slope value = vert line
                     // if the average of the 2 x positions are within a threshold, move forward
                     float avg = (align[0][2] + align[1][2]) / 2;
                     if (std::abs(avg) < inlineThresh) {
                         //the sub is aligned with the path
-                        //move(50);
+                        move(50);
                         println("Done");
                         done = true;
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position
-                        rotate (atan2(imgHeight/4*3, avg-imgWidth/2) * 180/M_PI);
+                        //rotate (atan2(imgHeight/4*3, avg-imgWidth/2) * 180/M_PI);
                         move(30);
                         /*
                         if (avg < imgWidth/2) {  //TODO: Figure out left side value
@@ -247,19 +260,22 @@ void PathTask::execute() {
                     }
                 } else {
                     //normal line
-                    float avgB = (align[0][1] + align[1][1]) / 2;
-                    float x = 0;
-                    if (align[0][0] > 0)    //positive slope, allign to the right side
-                        x = imgWidth/4 * 3;
-                    else                    //negative slope, allign to the left side
-                        x = imgWidth/4;
-                    float y = align[0][0] * x + avgB;
-                    rotate(atan2(y-imgHeight/2, x) * 180 / M_PI);
+                    //float avgB = (align[0][1] + align[1][1]) / 2;
+                    //float x = 0;
+                    if (align[0][0] > 0)    //positive slope, align to the right side
+                        //x = imgWidth/4 * 3;
+                        rotate(-(atan(align[0][0])*180/M_PI - 90));//takes any slope gets angle (negative because of how sub looks at axes
+                    else {                    //negative slope, align to the left side
+                        //x = imgWidth/4;
+                        rotate(-(atan(align[0][0])*180/M_PI + 90));
+                    }
+                    //float y = align[0][0] * x + avgB;
+                    //rotate(atan2(y-imgHeight/2, x) * 180 / M_PI);
                 }
                 foundLine = true;
             }
         }
-        //sleep(33);    //sleep for 33ms -> act 30 times/sec
+        usleep(33000);    //sleep for 33ms -> act 30 times/sec
 
     }
 }

@@ -33,7 +33,7 @@ public:
      * @param data
      * @return 0 if successful
      */
-    int filter(Data *data);
+    bool filter(Data *data);
 
     /**
      * Used for internal testing

@@ -16,6 +16,7 @@
 #include "SpeedTask.h"
 #include "GateTask.h"
 #include "PathTask.h"
+#include "CompetitionTask.h"
 #include <string>
 
 
@@ -31,6 +32,8 @@ public:
      * @param input the name of the new task
      */
     static Task* newTask(const std::string input);
+
+    static CompetitionTask* createCompetitionTask(Model* forwardCamModel, Model* downCamModel, Model* fpgaModel, int& targetDepth, int& targetYaw);
 
     static GateTask* createGateTask(Model* fpgaModel, int& targetDepth, int& targetYaw);
 

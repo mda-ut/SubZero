@@ -8,6 +8,8 @@
 
 #include "Filter.h"
 #include <opencv2/imgproc.hpp>
+#include <opencv2/opencv.hpp>
+#include "opencv2/highgui/highgui.hpp"
 #include <iostream>
 #include "Logger.h"
 
@@ -42,7 +44,7 @@ public:
      * @param data = image data to use
      * @return 0 = found lines
      */
-    int filter(Data *data);
+    bool filter(Data *data);
 
     /**
      * Filters the image to look for lines

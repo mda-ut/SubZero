@@ -44,14 +44,15 @@ float yDiff = 40, xDiff = 40, diff = 40;
 float maxSlope = 25;
 float maxDiff = 30;
 
-int LineFilter::filter(Data *data){
+bool LineFilter::filter(Data *data){
     // check for whether the input is of the correct type.          From Albert
     ImgData* imgData = dynamic_cast<ImgData*>(data);
     if (imgData == 0) {
         // track the error and return error
         this->track(data,this->filterID,1,1);
-        return 1;
+        return false;
     }
+    cv::imshow("asdf", filter(imgData->getImg().clone(),0));
 
     //begin filter sequence
     int linesFound = 0;
@@ -96,7 +97,10 @@ int LineFilter::filter(Data *data){
             B = INFINITY;
         }
         if (safeMath){      //avoid div by 0 error
-            M = (y2-y1) / (x2-x1);
+            //M = (y2-y1) / (x2-x1);
+            double realtheta = (rho < 0)? theta - M_PI:theta;
+            realtheta = -realtheta +  M_PI/2;
+            M = tan(realtheta);
             B = y2 - M*x2;
         }
 
@@ -162,6 +166,7 @@ int LineFilter::filter(Data *data){
             //std::cout<<std::endl;
 
             linesEq.push_back(eq);
+            linesFound++;
             //line(*cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);     //drawing the line
         }
     }
@@ -170,7 +175,8 @@ int LineFilter::filter(Data *data){
 
     //track and return
     this->track(imgData, this->filterID, 0,0);
-    return linesFound == 0;
+    //println(linesFound != 0);
+    return linesFound != 0;
 }
 
 cv::Mat LineFilter::filter(cv::Mat src, int mode){
@@ -189,7 +195,7 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
         float x1 = 0, x2 = 0, y1 = 0, y2 = 0;
 
         //draws the lines detected
-        println("-----------\n");
+        //println("-----------\n");
         for( size_t i = 0; i < lines.size(); i++ ){
             float rho = lines[i][0], theta = lines[i][1];
             cv::Point pt1, pt2;
@@ -208,7 +214,7 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
             std::vector<float> eq;
 
             //y = mx+b
-            //B MIGHT BE USELSES, NEED FURTHER TESTING
+            //B MIGHT BE USELESS, NEED FURTHER TESTING
             bool safeMath = true;
             float M = 0, B = 0;
             if (x2-x1 < 5){     //straight line
@@ -258,8 +264,8 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
                             break;
                         }
                     }else{      //horziontal lines
-                        print("horz ");
-                        println((y1+y2)/2);
+                        //print("horz ");
+                        //println((y1+y2)/2);
                         float x = (B-lines[1])/(lines[0]-M);
                         float y = x * M + B;
                         if (x < cdst.size().width && y < cdst.size().height){
@@ -273,11 +279,11 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
             if (!repeat){
                 eq.push_back(M);
                 eq.push_back(B);
-                print(M);
-                print(" ");
-                print(B);
-                print(" ");
-                print((x1+x2)/2);
+                //print(M);
+                //print(" ");
+                //print(B);
+                //print(" ");
+                //print((x1+x2)/2);
                 if (std::abs(M) < 0.5){  //aprox horizontal line
                     eq.push_back(y2);   //give it the y value
                     print(y2);
@@ -288,7 +294,7 @@ cv::Mat LineFilter::filter(cv::Mat src, int mode){
                     print(x2);
                     print(" vertal line");
                 }
-                println("");
+                //println("");
 
                 linesEq.push_back(eq);
                 line(cdst, pt1, pt2, cv::Scalar(0,0,255), 3, CV_AA);       //drawing the line

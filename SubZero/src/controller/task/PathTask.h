@@ -8,6 +8,7 @@
 #include "LineFilter.h"
 #include "ShapeFilter.h"
 #include "Logger.h"
+#include <unistd.h>
 
 class PathTask : public Task {
 public:
@@ -40,6 +41,7 @@ private:
 
     bool debug = true;
     void println(std::string s);
+
 };
 
 #endif // PATHTASK_H

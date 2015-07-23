@@ -1,14 +1,14 @@
 #include "VideoTesting.h"
 
 VideoTesting::VideoTesting(const std::string fileName){
-    cv::VideoCapture cap(fileName);
+/*    cv::VideoCapture cap(fileName);
     if( !cap.isOpened()){
          std::cout << "Cannot open the video file" << std::endl;
          return;
     }
     double count = cap.get(CV_CAP_PROP_FRAME_COUNT); //get the frame count
     cap.set(CV_CAP_PROP_POS_FRAMES,count-1); //Set index to last frame
-    this->cap = cap;
+    this->cap = cap;*/
 }
 CvCapture* capture;  //Capture using any camera connected to your system
 VideoTesting::VideoTesting(int deviceID) {
@@ -156,7 +156,7 @@ void VideoTesting::run(){
     cv::namedWindow("HSV Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Line Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Canny", CV_WINDOW_AUTOSIZE);
-    int Type = 1;
+    int Type = 0;
     if (Type == 0){
     cv::moveWindow("Orginal", 1400, 50);           //reading from photo
     cv::moveWindow("HSV Filtered", 1000, 50);
@@ -202,7 +202,7 @@ void VideoTesting::run(){
     BlurFilter bf(2, 0.2f);
     BlurFilter bf2(1, 0.4f);
     if (Type == 0)
-        frame = cv::imread("rect.jpg");       //img
+        frame = cv::imread("path.png");       //img
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){
@@ -218,8 +218,8 @@ void VideoTesting::run(){
         filtered2 = HSVFilter(frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
         filtered = HSVFilter(frame, iLowH, iHighH, iLowS, iHighS, iLowV, iHighV);
         //filtered = blur(filtered,max);
-        filtered = bf.filter(filtered2);
-        filtered = bf2.filter(filtered);
+        //filtered = bf.filter(filtered2);
+        //filtered = bf2.filter(filtered);
         lineFiltered = lf.filter(filtered, 0);
         //lineFiltered = Moments(filtered);
 

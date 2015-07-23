@@ -14,14 +14,17 @@
 #include "VideoTesting.h"
 #include "SubZeroFactory.h"
 #include "Stage.h"
+#include "StateTester.h"
 
 
 int main(int argc, char** argv) {
+
+    Timer* logTimer = new Timer();
     QApplication app(argc, argv);
-	Timer* logTimer = new Timer();
     Logger logger("Main");
     Logger::initialize(Logger::Level::TRACE,true, true, logTimer);
     logger.trace("Logger initialized.");
+
     PropertyReader* propReader;
     Properties* settings;
     if (argc > 1) {
@@ -66,7 +69,7 @@ int main(int argc, char** argv) {
         HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
     }
 
-//        VideoTesting vt(0);
+    //    VideoTesting vt("test.avi");
 //        vt.run();
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
@@ -88,6 +91,6 @@ int main(int argc, char** argv) {
     }
 
     delete propReader;
-    return app.exec();
+    return app.exec(); 
 }
 

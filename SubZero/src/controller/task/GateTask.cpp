@@ -20,6 +20,12 @@ GateTask::GateTask(Model* fpgaModel, DepthTask* depthTask, TurnTask* turnTask, S
 }
 
 void GateTask::execute() {
+    // Load properties file
+    PropertyReader* propReader;
+    Properties* settings;
+    propReader = new PropertyReader("../SubZero/src/settings/gate_task_settings.txt");
+    settings = propReader->load();
+
     logger->trace("Starting Gate Task");
     Timer timer;
     timer.start();

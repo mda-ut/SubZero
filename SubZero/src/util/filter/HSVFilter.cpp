@@ -23,13 +23,13 @@ HSVFilter::HSVFilter(int lowH, int highH, int lowS, int highS, int lowV, int hig
     setID("hsv");
 }
 
-int HSVFilter::filter(Data *data) {
+bool HSVFilter::filter(Data *data) {
     // check for whether the input is of the correct type.      From Albert
     ImgData* imgData = dynamic_cast<ImgData*>(data);
     if (imgData == 0) {
         // track the error and return error
         track(data, filterID, 1, 1);
-        return 1;
+        return false;
     }
 
     //begin filtering squence
@@ -41,7 +41,7 @@ int HSVFilter::filter(Data *data) {
 
     //track and return
     track(imgData, filterID, 0, 0);
-    return 0;
+    return true;
 }
 
 cv::Mat HSVFilter::filter(cv::Mat mat) {
