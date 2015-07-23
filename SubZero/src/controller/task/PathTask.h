@@ -33,6 +33,9 @@ private:
     float inlineThresh;
     int imgWidth, imgHeight;
 
+    void move(float amount);
+    void stop();
+    void rotate(float amount);
     void moveTo(cv::Point2f pos);
 
     bool debug = true;

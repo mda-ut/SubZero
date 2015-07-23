@@ -232,6 +232,7 @@ void GUIView::keyPressEvent(QKeyEvent* event) {
 }
 
 void GUIView::makeQImage(cv::Mat imgData, QImage& imgHolder) {
+    cv::cvtColor(imgData, imgData, cv::COLOR_BGR2RGB);
     switch (imgData.type())
     {
         // 8-bit, 4 channel

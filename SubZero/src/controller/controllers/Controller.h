@@ -16,6 +16,7 @@
 #include "ControllerThread.h"
 #include "Logger.h"
 #include "TaskFactory.h"
+#include "Properties.h"
 
 class View;
 

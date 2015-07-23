@@ -130,7 +130,10 @@ cv::Mat SimBufferWindow::getImg(int position) {
     while(!pixmapSet) {
         std::this_thread::yield();
     }
-    return QPixmapToCvMat(pixmap);
+    cv::Mat mat = QPixmapToCvMat(pixmap);
+    cv::Mat dest;
+    cv::cvtColor(mat, dest, cv::COLOR_BGRA2BGR, 3);
+    return dest.clone();
 }
 
 

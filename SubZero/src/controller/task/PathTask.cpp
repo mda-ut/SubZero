@@ -32,22 +32,22 @@ void PathTask::println(std::string s){
 }
 
 bool moving = false;
-void move(float amount) {
-//    speedTask->setTargetSpeed(amount);
-//    speedTask->execute();
-//    //TODO: Sleep for a bit
+void PathTask::move(float amount) {
+    speedTask->setTargetSpeed(amount);
+    speedTask->execute();
+    //TODO: Sleep for a bit
     moving = true;
 }
-void stop(){
+void PathTask::stop(){
     moving = false;
-    //    // Stop
-    //    speedTask->setTargetSpeed(0);
-    //    speedTask->execute();
+    // Stop
+    speedTask->setTargetSpeed(0);
+    speedTask->execute();
 }
 
-void rotate(float angle) {
-//    turnTask->setYawDelta(angle);
-//    turnTask->execute();
+void PathTask::rotate(float angle) {
+    turnTask->setYawDelta(angle);
+    turnTask->execute();
 }
 
 void PathTask::moveTo(cv::Point2f pos) {
@@ -70,7 +70,7 @@ void PathTask::moveTo(cv::Point2f pos) {
 
 void PathTask::execute() {
     ///TODO INSERT HSV VALUES HERE
-    ImgData* data = dynamic_cast<ImgData*>(cameraModel->getStateData("raw"));
+    ImgData* data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
     HSVFilter hsvf(0, 155, 0, 255, 0, 255);
     LineFilter lf;
     //looking for 1 rectangle
@@ -88,6 +88,8 @@ void PathTask::execute() {
     int stage = 0;
     while (!done) {
         //if its moving, let it move for a bit then continue the program
+        delete data;
+        data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
         if (moving){
             //sleep (200);
             continue;
@@ -183,8 +185,11 @@ void PathTask::execute() {
         } else {
             // Step 2, follow the lines found
             lf.filter(data);
+            println("Passed lines");
             std::vector<std::vector<float>> align(2);
             std::vector<std::vector<float>> allLines = lf.getlineEq();
+            bool brk = false;
+            bool allignment = false;
             for (unsigned int i = 0; i < allLines.size(); i++) {
                 //find 2 lines with parallel slope, and follow them
                 //if 2 lines horizontal, rotate 90 degrees
@@ -204,14 +209,18 @@ void PathTask::execute() {
                             || temp < 20){
                         align[0] = allLines[i];
                         align[1] = allLines[n];
-                        goto allignment;
+                        brk = true;
+                        allignment = true;
+                        break;
                     }
                 }
+                if (brk)
+                    break;
                 lookAround = true;
 
             }
             // executed once 2 parallel lines are found
-            allignment: {
+            if (allignment) {
                 if (std::abs(align[0][0]) < 20) {   //horz line
                     println("rotating 90°");
                     rotate(90);         // rotate 90 degrees
@@ -251,5 +260,6 @@ void PathTask::execute() {
             }
         }
         //sleep(33);    //sleep for 33ms -> act 30 times/sec
+
     }
 }

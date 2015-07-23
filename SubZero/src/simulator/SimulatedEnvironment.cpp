@@ -81,16 +81,16 @@ void SimulatedEnvironment::initialize() {
 
     //Setup initial positions usign QTranslateTransform
     yellowBuoyTranslation = new Qt3D::QTranslateTransform();
-    yellowBuoyTranslation-> setTranslation(QVector3D(10.0f, 10.0f, 80.0f));
+    yellowBuoyTranslation-> setTranslation(QVector3D(10.0f, -3.0f, 80.0f));
 
     blueBuoyTranslation = new Qt3D::QTranslateTransform();
     blueBuoyTranslation-> setTranslation(QVector3D(0.0f, 10.0f, 80.0f));
 
     redBuoyTranslation = new Qt3D::QTranslateTransform();
-    redBuoyTranslation-> setTranslation(QVector3D(20.0f, 10.0f, 80.0f));
+    redBuoyTranslation-> setTranslation(QVector3D(20.0f, -3.0f, 80.0f));
 
     greenBuoyTranslation = new Qt3D::QTranslateTransform();
-    greenBuoyTranslation-> setTranslation(QVector3D(30.0f, 10.0f, 80.0f));
+    greenBuoyTranslation-> setTranslation(QVector3D(30.0f, -3.0f, 80.0f));
 
     setDateTranslation = new Qt3D::QTranslateTransform();
     setDateTranslation-> setTranslation(QVector3D(50.0f, 0.0f, 80.0f));
@@ -99,7 +99,7 @@ void SimulatedEnvironment::initialize() {
     timePortalTranslation-> setTranslation(QVector3D(10.0f, 0.0f, 80.0f));
 
     guideMarkerTranslation = new Qt3D::QTranslateTransform();
-    guideMarkerTranslation-> setTranslation(QVector3D(0.0f, -10.0f, 0.0f));
+    guideMarkerTranslation-> setTranslation(QVector3D(0.0f, -3.0f, 0.0f));
 
     //Setup Initial Rotation
     yellowBuoyRotation = new Qt3D::QRotateTransform();
@@ -108,11 +108,11 @@ void SimulatedEnvironment::initialize() {
 
     blueBuoyRotation = new Qt3D::QRotateTransform();
     blueBuoyRotation->setAxis(QVector3D(1.0f, 0.0f, 0.0f));
-  blueBuoyRotation->setAngleDeg(0.0f);
+    blueBuoyRotation->setAngleDeg(0.0f);
 
 
-  redBuoyRotation = new Qt3D::QRotateTransform();
-  redBuoyRotation->setAxis(QVector3D(1.0f, 0.0f, 0.0f));
+    redBuoyRotation = new Qt3D::QRotateTransform();
+    redBuoyRotation->setAxis(QVector3D(1.0f, 0.0f, 0.0f));
     redBuoyRotation->setAngleDeg(0.0f);
 
 
@@ -133,7 +133,7 @@ void SimulatedEnvironment::initialize() {
 
     guideMarkerRotation = new Qt3D::QRotateTransform();
     guideMarkerRotation->setAxis(QVector3D(0.0f, 1.0f, 0.0f));
-    guideMarkerRotation->setAngleDeg(90.0f);
+    guideMarkerRotation->setAngleDeg(45.0f);
 
 
 

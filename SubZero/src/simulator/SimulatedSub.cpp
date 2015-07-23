@@ -21,8 +21,8 @@ void SimulatedSub::initialize() {
     //Initial forwards & downwards
     forward = QVector3D(0.0f, 0.0f, 1.0f);
     downward = QVector3D(0.0f, -1.0f, 0.0f);
-    frontCameraOffset = (forward*2);
-    downCameraOffset = downward*2;
+    frontCameraOffset = (forward*0.5);
+    downCameraOffset = downward*0.5;
     frontViewCentreOffset = (forward*4);
     downViewCentreOffset = (downward*4);
 
@@ -53,8 +53,8 @@ void SimulatedSub::initialize() {
     //slices represent the resolution of the cylinder. Think slices of pizza
     //The more slices the greater the resolution. use 20 for a good circular shape
     // 5 gives you a pentagonal prism instead of a proper cylinder, 6 hexagonal etc.
-    subBody->setRadius(1.0f);
-    subBody->setLength(2.0f);
+    subBody->setRadius(0.3f);
+    subBody->setLength(1.0f);
     subBody->setRings(2);
     subBody->setSlices(20);
 
@@ -98,9 +98,9 @@ void SimulatedSub::initialize() {
 
 void SimulatedSub::moveTowards(QVector3D targetPosition) {
     //Don't go below bottom of the pool
-    if (targetPosition.y() < poolDepth) {
+    /*if (targetPosition.y() < poolDepth) {
         targetPosition.setY(poolDepth);
-    }
+    }*/
 
     // Move to the target position
     subTranslation->setTranslation(targetPosition);
@@ -122,7 +122,7 @@ void SimulatedSub::turnSub(float newYawAngleDegrees) {
     //Update forward
     forward = QVector3D(sin(newYawAngleDegrees * M_PI / 180), 0, cos(newYawAngleDegrees * M_PI / 180));
     forward = forward.normalized();
-    frontCameraOffset = forward * 2;
+    frontCameraOffset = forward * 0.5;
     frontViewCentreOffset = forward * 4;
     downCamera->setUpVector(forward);
 

@@ -48,8 +48,8 @@ cv::Mat HSVFilter::filter(cv::Mat mat) {
     cv::Mat imgHSV;
     cv::Mat imgThresh = cv::Mat(mat.clone());
 
-    cv::cvtColor(mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
-
+    //cv::cvtColor(mat, imgHSV, cv::COLOR_BGRA2BGR); //Convert the captured frame from BGR to HSV
+    cv::cvtColor(mat,imgHSV,cv::COLOR_BGR2HSV);
     cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV), cv::Scalar(highH, highS, highV), imgThresh); //Threshold the image
 
     //morphological opening (remove small objects from the foreground)

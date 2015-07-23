@@ -100,7 +100,7 @@ void SimFPGA::update(double period) {
     angular_accel = pid_yaw.getPIDValue(yaw_diff, period);
     logger->debug("Angular acceleration: " + std::to_string(angular_accel));
     //TODO: Call code to update simulator engine's sub's position and yaw
-    simSub->moveTowards(position.y, position.z, position.x);    // Conversion between simulator axes and interface axes
+    simSub->moveTowards(position.y/100, position.z/100, position.x/100);    // Conversion between simulator axes and interface axes
     simSub->turnSub(yaw);
 }
 
