@@ -62,7 +62,7 @@ public:
      * @param data = image data to be processed
      * @return 0, successful filter
      */
-    int filter(Data* data);
+    bool filter(Data* data);
 
     /**
      * Quick and cheap filtering for internal testing

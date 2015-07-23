@@ -26,18 +26,18 @@ NullFPGAFilter::~NullFPGAFilter() {
  * ==========================================================================
  */
 
-int NullFPGAFilter::filter(Data* data) {
+bool NullFPGAFilter::filter(Data* data) {
 	FPGAData* cast = dynamic_cast<FPGAData*>(data);
 
 	// here we check for whether the input is of the correct type.
 	if (cast == 0) {
 		// track the error and return error
 		this->track(data,this->filterID,1,1);
-		return 1;
+        return false;
 	}
 	// track and return
 	this->track(cast,this->filterID,0,0);
-	return 0;
+    return true;
 }
 
 void NullFPGAFilter::setValues() {

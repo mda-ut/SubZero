@@ -27,9 +27,9 @@ std::string Filter::getID() {
     return filterID;
 }
 
-int Filter::filter(Data* data) {
+bool Filter::filter(Data* data) {
     track(data, filterID, 0, 0);
-    return 0;
+    return true;
 }
 
 void Filter::setID(std::string ID) {

@@ -30,7 +30,7 @@ public:
      * @param data = imgData that contains the shape to look for
      * @returns 0 if successful, 1 if failure
      */
-    int filter(Data* data);
+    bool filter(Data* data);
 
     /**
      * Sets the shape to look for

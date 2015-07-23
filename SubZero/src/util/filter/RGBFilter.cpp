@@ -26,18 +26,18 @@ RGBFilter::~RGBFilter() {
 }
 
 
-int RGBFilter::filter(Data* data) {
+bool RGBFilter::filter(Data* data) {
 	// check for whether the input is of the correct type.
 	ImgData* cast = dynamic_cast<ImgData*>(data);
 	if (cast == 0) {
 		// track the error and return error
 		this->track(data,this->filterID,1,1);
-		return 1;
+        return false;
 	}
 
     if (cast->img.type() != 16) {
 		this->track(data,this->filterID,2,1);
-		return 2;
+        return false;
 	}
 
 	// begin filter sequence.
@@ -100,7 +100,7 @@ int RGBFilter::filter(Data* data) {
 
 	// track and return
 	this->track(cast,this->filterID,0,0);
-	return 0;
+    return true;
 }
 
 void RGBFilter::setValues(int fullspec[]){

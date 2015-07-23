@@ -7,20 +7,20 @@ BlurFilter::BlurFilter(int mode, float intensity){
 
 int roundToOdd(float);
 
-int BlurFilter::filter(Data *data){
+bool BlurFilter::filter(Data *data){
     // check for whether the input is of the correct type.
     ImgData* imgData = dynamic_cast<ImgData*>(data);
     if (imgData == 0) {
         // track the error and return error
         this->track(data,this->filterID,1,1);
-        return 1;
+        return false;
     }
 
     cv::Mat src = imgData->getImg();
     cv::Mat dst = this->filter(src);
     imgData->setImg(dst);
 
-    return 0;
+    return true;
 }
 
 cv::Mat BlurFilter::filter(cv::Mat img){

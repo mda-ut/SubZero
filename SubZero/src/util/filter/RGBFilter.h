@@ -90,7 +90,7 @@ public:
 	 * @param inputImg
 	 * @return	0 for success, 1 for incorret arg, 2 for incorrect Mat type.
 	 */
-	int filter (Data* data);
+    bool filter (Data* data);
 
 	/**
 	 * Set values and mode.

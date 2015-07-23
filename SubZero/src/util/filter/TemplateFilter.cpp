@@ -28,14 +28,14 @@ TemplateFilter::~TemplateFilter() {
  * ==========================================================================
  */
 
-int TemplateFilter::filter(Data* data) {
+bool TemplateFilter::filter(Data* data) {
 
 	// check for whether the input is of the correct type.
 	Data* cast = dynamic_cast<Data*>(data);
 	if (cast == 0) {
 		// track the error and return error
 		this->track(data,this->filterID,1,1);
-		return 1;
+        return false;
 	}
 
 	// begin filter sequence.
@@ -44,7 +44,7 @@ int TemplateFilter::filter(Data* data) {
 
 	// track and return
 	this->track(cast,this->filterID,0,0);
-	return 0;
+    return true;
 }
 
 void TemplateFilter::setValues() {

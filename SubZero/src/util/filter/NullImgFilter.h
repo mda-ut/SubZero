@@ -47,7 +47,7 @@ public:
 	 * @param data 	to be processed
 	 * @return 		0 for success 1 for incorrect type.
 	 */
-	int filter(Data* data);
+    bool filter(Data* data);
 
 	/**
 	 * Sets the values defined in the CLASS VARS section.

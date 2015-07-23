@@ -44,13 +44,13 @@ float yDiff = 40, xDiff = 40, diff = 40;
 float maxSlope = 25;
 float maxDiff = 30;
 
-int LineFilter::filter(Data *data){
+bool LineFilter::filter(Data *data){
     // check for whether the input is of the correct type.          From Albert
     ImgData* imgData = dynamic_cast<ImgData*>(data);
     if (imgData == 0) {
         // track the error and return error
         this->track(data,this->filterID,1,1);
-        return 1;
+        return false;
     }
 
     //begin filter sequence
@@ -170,7 +170,7 @@ int LineFilter::filter(Data *data){
 
     //track and return
     this->track(imgData, this->filterID, 0,0);
-    return linesFound == 0;
+    return linesFound != 0;
 }
 
 cv::Mat LineFilter::filter(cv::Mat src, int mode){

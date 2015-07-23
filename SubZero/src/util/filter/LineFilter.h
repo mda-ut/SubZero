@@ -42,7 +42,7 @@ public:
      * @param data = image data to use
      * @return 0 = found lines
      */
-    int filter(Data *data);
+    bool filter(Data *data);
 
     /**
      * Filters the image to look for lines
