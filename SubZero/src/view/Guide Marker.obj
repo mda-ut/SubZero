@@ -1,0 +1,11 @@
+# Blender v2.70 (sub 0) OBJ File: 'Guide Marker.blend'
+# www.blender.org
+mtllib Guide Marker.mtl
+o Plane
+v -0.250000 0.000000 2.000000
+v 0.250000 0.000000 2.000000
+v -0.250000 0.000000 -2.000000
+v 0.250000 0.000000 -2.000000
+usemtl Material.001
+s off
+f 1 2 4 3

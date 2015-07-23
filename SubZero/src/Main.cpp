@@ -14,14 +14,17 @@
 #include "VideoTesting.h"
 #include "SubZeroFactory.h"
 #include "Stage.h"
+#include "StateTester.h"
 
 
 int main(int argc, char** argv) {
-    QApplication app(argc, argv);
+
+    //QApplication app(argc, argv);
 	Timer* logTimer = new Timer();
     Logger logger("Main");
     Logger::initialize(Logger::Level::TRACE,true, true, logTimer);
     logger.trace("Logger initialized.");
+    /*
     PropertyReader* propReader;
     Properties* settings;
     if (argc > 1) {
@@ -89,5 +92,10 @@ int main(int argc, char** argv) {
 
     delete propReader;
     return app.exec();
+    */
+
+    StateTester st;
+    st.run();
+    return 0;
 }
 

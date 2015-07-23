@@ -10,6 +10,8 @@
 
 #include "Properties.h"
 #include "Logger.h"
+#include "PIDController.h"
+#include "SimulatedSub.h"
 
 typedef struct {
     double x;
@@ -40,6 +42,7 @@ private:
 
     Logger* logger = new Logger("SimFPGA");
 
+    SimulatedSub* simSub;
     bool executing;
     bool power, motors;
     sim_position position;
@@ -50,6 +53,7 @@ private:
     int target_yaw;
     int target_speed;
     double update_period;
+    PIDController pid_depth, pid_yaw;
 
 
     void updateLoop();
@@ -66,7 +70,7 @@ public:
     /**
      * @brief SimFPGA constructor
      */
-    SimFPGA(Properties* properties);
+    SimFPGA(Properties* properties, SimulatedSub* simSub);
 
     /**
      * @brief ~SimFPGA destructor
@@ -90,6 +94,8 @@ public:
     int get_yaw();
     int get_depth();
 
+    void set_pid_depth(double, double, double, double);
+    void set_pid_yaw(double, double, double, double);
 
 };
 

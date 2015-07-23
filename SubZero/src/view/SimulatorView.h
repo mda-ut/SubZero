@@ -10,7 +10,7 @@
 class SimulatorView : public View {
 public:
     SimulatorView();
-    SimulatorView(Stage* stage, Controller* controller, std::vector<State*> states);
+    SimulatorView(Stage* stage, Controller* controller, std::vector<State*> states, SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity);
     ~SimulatorView();
 
     virtual void update(int id);
@@ -21,18 +21,24 @@ public:
     QWindow* getWindow();
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private:
     Logger* logger = new Logger("SimulatorView");
 
     SimulatorEngine* engine;
+    SimulatedSub* simSub;
+    SimulatedEnvironment* simEnv;
+    Qt3D::QEntity* rootEntity;
 
     QWidget* container;
     QWindow* window;
     QSurfaceFormat* format;
 
     void makeQImage(cv::Mat imgData, QImage& imgHolder);
+
+public slots:
+    void exit();
 
 };
 

@@ -110,7 +110,7 @@ void Controller::handleGateTaskClick() {
 
 void Controller::handlePathTaskClick() {
     logger->info("Adding Path Task to queue");
-    addTaskToQueue(TaskFactory::createPathTask(models[FPGA], targetYaw));
+    addTaskToQueue(TaskFactory::createPathTask(models[DOWNCAM], models[FPGA], targetYaw));
 }
 
 void Controller::stop() {

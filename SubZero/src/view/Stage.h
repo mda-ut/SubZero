@@ -51,7 +51,7 @@ public slots:
     void switchToSimulatorView();
 
     /**
-     * @brief switchToGUIView
+     * @brief switchToMenuView
      */
     void switchToMenuView(void);
 

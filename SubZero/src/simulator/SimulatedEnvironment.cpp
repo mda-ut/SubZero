@@ -9,7 +9,13 @@ SimulatedEnvironment::SimulatedEnvironment(Qt3D::QEntity* parentEntity) {
 }
 
 SimulatedEnvironment::~SimulatedEnvironment() {
-
+    delete yellowBuoyEntity;
+    delete blueBuoyEntity;
+    delete redBuoyEntity;
+    delete greenBuoyEntity;
+    delete setDateEntity;
+    delete timePortalEntity;
+    delete guideMarkerEntity;
 }
 
 void SimulatedEnvironment::initialize() {
@@ -65,7 +71,7 @@ void SimulatedEnvironment::initialize() {
     greenBuoyMaterial->setDiffuse(QColor(0,100,0));
 
     setDateMaterial = new Qt3D::QPhongMaterial();
-    setDateMaterial->setDiffuse(QColor(125,75,0));
+    setDateMaterial->setDiffuse(QColor(125,125,0));
 
     timePortalMaterial = new Qt3D::QPhongMaterial();
     timePortalMaterial->setDiffuse(QColor(0,150,0));
@@ -75,25 +81,25 @@ void SimulatedEnvironment::initialize() {
 
     //Setup initial positions usign QTranslateTransform
     yellowBuoyTranslation = new Qt3D::QTranslateTransform();
-    yellowBuoyTranslation-> setTranslation(QVector3D(10.0f, 10.0f, 0.0f));
+    yellowBuoyTranslation-> setTranslation(QVector3D(10.0f, 10.0f, 80.0f));
 
     blueBuoyTranslation = new Qt3D::QTranslateTransform();
-    blueBuoyTranslation-> setTranslation(QVector3D(0.0f, 10.0f, 0.0f));
+    blueBuoyTranslation-> setTranslation(QVector3D(0.0f, 10.0f, 80.0f));
 
     redBuoyTranslation = new Qt3D::QTranslateTransform();
-    redBuoyTranslation-> setTranslation(QVector3D(20.0f, 10.0f, 0.0f));
+    redBuoyTranslation-> setTranslation(QVector3D(20.0f, 10.0f, 80.0f));
 
     greenBuoyTranslation = new Qt3D::QTranslateTransform();
-    greenBuoyTranslation-> setTranslation(QVector3D(30.0f, 10.0f, 0.0f));
+    greenBuoyTranslation-> setTranslation(QVector3D(30.0f, 10.0f, 80.0f));
 
     setDateTranslation = new Qt3D::QTranslateTransform();
-    setDateTranslation-> setTranslation(QVector3D(50.0f, 0.0f, 0.0f));
+    setDateTranslation-> setTranslation(QVector3D(50.0f, 0.0f, 80.0f));
 
     timePortalTranslation = new Qt3D::QTranslateTransform();
-    timePortalTranslation-> setTranslation(QVector3D(10.0f, 0.0f, 0.0f));
+    timePortalTranslation-> setTranslation(QVector3D(10.0f, 0.0f, 80.0f));
 
     guideMarkerTranslation = new Qt3D::QTranslateTransform();
-    guideMarkerTranslation-> setTranslation(QVector3D(30.0f, 0.0f, 0.0f));
+    guideMarkerTranslation-> setTranslation(QVector3D(0.0f, -10.0f, 0.0f));
 
     //Setup Initial Rotation
     yellowBuoyRotation = new Qt3D::QRotateTransform();
@@ -126,8 +132,8 @@ void SimulatedEnvironment::initialize() {
 
 
     guideMarkerRotation = new Qt3D::QRotateTransform();
-    guideMarkerRotation->setAxis(QVector3D(1.0f, 0.0f, 0.0f));
-    guideMarkerRotation->setAngleDeg(0.0f);
+    guideMarkerRotation->setAxis(QVector3D(0.0f, 1.0f, 0.0f));
+    guideMarkerRotation->setAngleDeg(90.0f);
 
 
 

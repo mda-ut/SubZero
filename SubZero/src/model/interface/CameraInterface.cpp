@@ -55,6 +55,11 @@ ImgData* CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
+    static bool once = false;
+    if(!once) {
+            imwrite("tryThree0.png", data);
+            once = true;
+    }
     cv::cvtColor(data, data, CV_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
     return decoded;

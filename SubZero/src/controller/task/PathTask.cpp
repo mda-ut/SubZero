@@ -10,8 +10,8 @@ PathTask::PathTask() {
     inlineThresh = 75;
 }
 
-PathTask::PathTask(CameraModel* cameraModel, TurnTask *turnTask, SpeedTask *speedTask) {
-    this->cameraModel = cameraModel;
+PathTask::PathTask(Model* cameraModel, TurnTask *turnTask, SpeedTask *speedTask) {
+    this->cameraModel = dynamic_cast<CameraModel*>(cameraModel);
     this->turnTask = turnTask;
     this->speedTask = speedTask;
 

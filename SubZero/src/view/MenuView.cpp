@@ -113,22 +113,22 @@ void MenuView::initialize() {
 }
 
 QSize MenuView::sizeHint() const {
-    return QSize(800,600);
+    return QSize(1250,600);
 }
 
 QSize MenuView::minimumSizeHint() const {
-    return QSize(800,600);
+    return QSize(1250,600);
 }
 
 void MenuView::paintEvent(QPaintEvent *event) {
 
-    QImage background(":/img/MDA.jpg");
-    background = background.scaled(800,700);
+    //QImage background(":/img/MDA.jpg");
+    //background = background.scaled(800,700);
 
     QPainter painter;
 
     painter.begin(this);
-    painter.fillRect(event->rect(), background);
+    //painter.fillRect(event->rect(), background);
 
     painter.end();
 }
