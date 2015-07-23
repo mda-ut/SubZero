@@ -32,20 +32,20 @@ void PathTask::println(std::string s){
 }
 
 bool moving = false;
-void move(float amount) {
+void PathTask::move(float amount) {
 //    speedTask->setTargetSpeed(amount);
 //    speedTask->execute();
 //    //TODO: Sleep for a bit
     moving = true;
 }
-void stop(){
+void PathTask::stop(){
     moving = false;
     //    // Stop
     //    speedTask->setTargetSpeed(0);
     //    speedTask->execute();
 }
 
-void rotate(float angle) {
+void PathTask::rotate(float angle) {
 //    turnTask->setYawDelta(angle);
 //    turnTask->execute();
 }
@@ -69,6 +69,14 @@ void PathTask::moveTo(cv::Point2f pos) {
 }
 
 void PathTask::execute() {
+    // Load properties file
+    PropertyReader* propReader;
+    Properties* settings;
+    propReader = new PropertyReader("../SubZero/src/settings/path_task_settings.txt");
+    settings = propReader->load();
+
+    int timeOut = std::stoi(settings->getProperty("TIMEOUT"));
+
     ///TODO INSERT HSV VALUES HERE
     ImgData* data = dynamic_cast<ImgData*>(cameraModel->getStateData("raw"));
     HSVFilter hsvf(0, 155, 0, 255, 0, 255);
@@ -84,7 +92,7 @@ void PathTask::execute() {
 
     float angle = 0;
     float amount = 0;
-    float timeOut = 0;
+    //float timeOut = 0;
     int stage = 0;
     while (!done) {
         //if its moving, let it move for a bit then continue the program

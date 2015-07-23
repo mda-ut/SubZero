@@ -37,6 +37,10 @@ private:
 
     bool debug = true;
     void println(std::string s);
+
+    void rotate(float angle);
+    void stop();
+    void move(float amount);
 };
 
 #endif // PATHTASK_H
