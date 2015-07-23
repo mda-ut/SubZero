@@ -4,11 +4,12 @@ SimulatorEngine::SimulatorEngine() {
 
 }
 
-SimulatorEngine::SimulatorEngine(QWindow *window, SimulatedSub *simSub, SimulatedEnvironment *simEnvironment, Qt3D::QEntity *rootEntity) {
+SimulatorEngine::SimulatorEngine(QWidget* container, QWindow *window, SimulatedSub *simSub, SimulatedEnvironment *simEnvironment, Qt3D::QEntity *rootEntity) {
     this->window = window;
     this->simSub = simSub;
     this->simEnvironment = simEnvironment;
     this->rootEntity = rootEntity;
+    this->container = container;
 }
 
 SimulatorEngine::~SimulatorEngine() {
@@ -52,9 +53,9 @@ void SimulatorEngine::initialize() {
 
     //FrameGraph - Controls how renderAspecting is performed using data
     frameGraph = new Qt3D::QFrameGraph();
-    simRenderer = new SimFrameGraph;
+    simRenderer = new SimFrameGraph();
     simRenderer->initialize();
-    simRenderer->setCameras(simSub->frontCamera,simSub->downCamera);
+    simRenderer->setCameras(simSub->frontCamera, simSub->downCamera);
     simRenderer->setClearColor(cameraColor);
     frameGraph->setActiveFrameGraph(simRenderer);
 
@@ -65,6 +66,6 @@ void SimulatorEngine::initialize() {
     engine->setRootEntity(rootEntity);
 
     //Show the window
-    window->show();
+    container->show();
 }
 

@@ -2,11 +2,13 @@
 #include <QPixmap>
 #include <QGuiApplication>
 #include <QScreen>
+#include <thread>
 
-SimBufferWindow::SimBufferWindow(SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity) {
+SimBufferWindow::SimBufferWindow(SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity, Properties* properties) {
     this->simSub = simSub;
     this->simEnv = simEnv;
     this->rootEntity = rootEntity;
+    this->properties = properties;
 }
 
 SimBufferWindow::~SimBufferWindow() {
@@ -20,8 +22,8 @@ void SimBufferWindow::update(int id) {
 
 void SimBufferWindow::initialize() {
     // Window sizing
-    QSize minSize = QSize(1280, 480);
-    QSize maxSize = QSize(1920, 1080);
+    QSize minSize = QSize(640, 240);
+    QSize maxSize = QSize(640, 240);
 
     // Obscurity and depth perception modifiers
     int depthBufferSize = 16;   // 8,16,24 and 32 bit  but fixing at 16 bit b/c expecting obscure environment
@@ -33,6 +35,7 @@ void SimBufferWindow::initialize() {
     format->setDepthBufferSize(depthBufferSize);    // In water don't see too far ahead so reducing depth perception from standard 24
     format->setSamples(multiSampleAntiAliasingSamples); // For multisample based anti-aliasing
 
+
     window = new QWindow();
     window->setSurfaceType(QSurface::OpenGLSurface);    // Set to use OpenGl for rendering & painting
     window->setFormat(*format);
@@ -43,8 +46,12 @@ void SimBufferWindow::initialize() {
 
     container->setMinimumSize(minSize); // Can be as small as 100 pixels by 100 pixels
     container->setMaximumSize(maxSize); // Can be as large as
-    engine = new SimulatorEngine(window, simSub, simEnv, rootEntity);
+    engine = new SimulatorEngine(container, window, simSub, simEnv, rootEntity);
     engine->initialize();
+
+    frontCam = std::stoi(properties->getProperty("FRONT_CAM"));
+    downCam = std::stoi(properties->getProperty("DOWN_CAM"));
+    connect(this, SIGNAL(grabWidget(int)), this, SLOT(updatePixmap(int)));
 }
 
 QWindow *SimBufferWindow::getWindow() {
@@ -61,7 +68,8 @@ inline cv::Mat QImageToCvMat( const QImage &inImage, bool inCloneImageData = tru
       case QImage::Format_RGB32:
       {
          cv::Mat  mat( inImage.height(), inImage.width(), CV_8UC4, const_cast<uchar*>(inImage.bits()), inImage.bytesPerLine() );
-
+//         QPixmap::grabWindow(window->winId()).save("testsim.png");
+         //imshow("test",mat);
          return (inCloneImageData ? mat.clone() : mat);
       }
 
@@ -100,8 +108,28 @@ inline cv::Mat QPixmapToCvMat( const QPixmap &inPixmap, bool inCloneImageData = 
    return QImageToCvMat( inPixmap.toImage(), inCloneImageData );
 }
 
-cv::Mat SimBufferWindow::getImg() {
-    QPixmap pixmap = container->grab(QRect(0,0,400,400));
+void SimBufferWindow::updatePixmap(int position) {
+    QPixmap temp =  QPixmap::grabWindow(window->winId());
+    if (position == frontCam) {
+//        pixmap = container->grab(QRect(0,0,320,240));
+        pixmap = temp.copy(QRect(0,0,640,480));
+    } else if (position == downCam) {
+//        pixmap = container->grab(QRect(320,0,320,240));
+        pixmap = temp.copy(QRect(640,0,640,480));
+    } else {
+        logger->warn("Invalid simulated camera position of " + std::to_string(position));
+//        pixmap = container->grab(QRect(0,0,320,240));
+        pixmap = temp.copy(QRect(0,0,640,480));
+    }
+    pixmapSet = true;
+}
+
+cv::Mat SimBufferWindow::getImg(int position) {
+    pixmapSet = false;
+    emit grabWidget(position);
+    while(!pixmapSet) {
+        std::this_thread::yield();
+    }
     return QPixmapToCvMat(pixmap);
 }
 

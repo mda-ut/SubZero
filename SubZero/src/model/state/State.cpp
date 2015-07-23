@@ -19,16 +19,10 @@ State::~State() {
 }
 
 void State::addViewer(View* viewer) {
-    viewers.insert(viewer);
+    connect(this, SIGNAL(notifyViewers(int)), viewer, SLOT(update(int)));
     logger->info("Viewer added");
 }
 
-
-void State::notifyViewers() {
-    for (auto& viewer : viewers) {
-        viewer->update(stateID);
-    }
-}
 /*
 Data* State::getState (std::string ID, int i){
     if (i > stateData.size()){

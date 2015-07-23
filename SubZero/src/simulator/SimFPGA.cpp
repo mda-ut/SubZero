@@ -27,7 +27,7 @@ SimFPGA::SimFPGA(Properties* properties, SimulatedSub* simSub) {
     target_yaw = 0;
     target_speed = 0;
     update_period = 1 / std::stod(properties->getProperty("SIMSUB_UPDATE_FREQ"));
-
+    logger->trace("Setting fpga update period to " + std::to_string(update_period));
     executing = true;
     updateThread = std::thread(&SimFPGA::updateLoop,this);
 }
@@ -51,6 +51,7 @@ void SimFPGA::updateLoop() {
             }
         }
         std::this_thread::yield();
+        usleep(100000);
     }
 }
 
@@ -69,36 +70,36 @@ void SimFPGA::update(double period) {
     }
 
     // Update speed
-    speed += (accel * period) - (speed * FWD_LOSS_CONST);
-    depth_speed += (depth_accel * period) - (depth_speed * DEPTH_LOSS_CONST);
-    angular_speed += (angular_accel * period) - (angular_speed * ANG_LOSS_CONST);
+    speed += (accel * period) - (speed );
+    logger->debug("Speed: " + std::to_string(speed));
+    depth_speed += (depth_accel * period) - (depth_speed );
+    logger->debug("Depth speed: " + std::to_string(depth_speed));
+    angular_speed += (angular_accel * period) - (angular_speed );
+    logger->debug("Angular speed: " + std::to_string(angular_speed));
 
     // Update acceleration
-    if (speed < target_speed - 0.25) {
+    if (speed < target_speed) {
         accel = ACCEL;
-    } else if (speed > target_speed + 0.25) {
+    } else if (speed > target_speed) {
         accel = -ACCEL;
     } else {
         accel = 0;
     }
+    logger->debug("Acceleration: " + std::to_string(accel));
 
-    if (position.z < (target_depth - 0.5)) {
-        depth_accel = DEPTH_ACCEL;
-    } else if (position.z > (target_depth + 0.5)){
-        depth_accel = -DEPTH_ACCEL;
-    } else {
-        depth_accel = 0;
-    }
+    depth_accel = pid_depth.getPIDValue(target_depth - position.z, period);
+    logger->debug("Depth acceleration: " + std::to_string(depth_accel));
 
     // Handle across the 180/-180 border
     double yaw_diff = target_yaw - yaw;
-    if ((yaw_diff > 2 && yaw_diff <= 180) || (yaw_diff > -357 && yaw_diff <= -180)) {
-        angular_accel = ANGULAR_ACCEL;
-    } else if ((yaw_diff < -2 && yaw_diff >= -180) || (yaw_diff < 357 && yaw_diff >= 180)){
-        angular_accel = -ANGULAR_ACCEL;
-    } else {
-        angular_accel = 0;
+    if (yaw_diff > 180) {
+        yaw_diff -= 360;
+    } else if (yaw_diff <= -180) {
+        yaw_diff += 360;
     }
+    angular_accel = pid_yaw.getPIDValue(yaw_diff, period);
+    logger->debug("Angular acceleration: " + std::to_string(angular_accel));
+    //TODO: Call code to update simulator engine's sub's position and yaw
     simSub->moveTowards(position.y, position.z, position.x);    // Conversion between simulator axes and interface axes
     simSub->turnSub(yaw);
 }
@@ -106,6 +107,7 @@ void SimFPGA::update(double period) {
 
 void SimFPGA::power_on() {
     power = true;
+    logger->info("Power ON");
 }
 
 void SimFPGA::power_off() {
@@ -114,6 +116,7 @@ void SimFPGA::power_off() {
     accel = 0;
     depth_accel = 0;
     angular_accel = 0;
+    logger->info("Power OFF");
 }
 
 int SimFPGA::get_power() {
@@ -125,27 +128,40 @@ void SimFPGA::startup_sequence() {
     target_yaw = yaw;
     target_speed = 0;
     motors = true;
+    logger->info("Motor startup sequence done");
 }
 
 void SimFPGA::set_target_speed(int targetSpeed) {
     target_speed = targetSpeed;
+    logger->info("Target speed set to " + std::to_string(targetSpeed));
 }
 
 void SimFPGA::set_target_depth(int targetDepth) {
-    target_depth = -targetDepth; //simulator and software do depth differently
+    target_depth = -targetDepth;    // Simulator and software do depth differently
+    logger->info("Target depth set to " + std::to_string(targetDepth));
 }
 
 void SimFPGA::set_target_yaw(int targetYaw) {
     target_yaw = -targetYaw;
+    logger->info("Target yaw set to " + std::to_string(target_yaw));
 }
 
 int SimFPGA::get_yaw() {
-    return (int)(-1*yaw);
+    return (int)(-1 * yaw);
 }
 
 int SimFPGA::get_depth() {
-    return -(int)position.z;
+    return (int)(-1 * position.z);
 }
+
+void SimFPGA::set_pid_depth(double P, double I, double D, double alpha) {
+    pid_depth.setPIDConstants(P, 0, 0);
+}
+
+void SimFPGA::set_pid_yaw(double P, double I, double D, double alpha) {
+    pid_yaw.setPIDConstants(P, 0, 0);
+}
+
 
 
 

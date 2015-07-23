@@ -18,8 +18,11 @@ public:
     View(Stage* stage, Controller* controller, std::vector<State*> states);
     virtual ~View();
 
-    virtual void update(int ID) = 0;
+
     virtual void initialize() = 0;
+
+public slots:
+    virtual void update(int ID) = 0;
 
 protected:
     Stage* stage;

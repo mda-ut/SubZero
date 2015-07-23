@@ -23,10 +23,12 @@ public:
     GUIView(Stage* stage, Controller* controller, std::vector<State*> states);
     ~GUIView();
 
-    virtual void update(int id);
     virtual void initialize();
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
+
+public slots:
+    virtual void update(int id);
 
 protected:
     void paintEvent(QPaintEvent* event);

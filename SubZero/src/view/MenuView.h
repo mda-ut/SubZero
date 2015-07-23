@@ -20,10 +20,12 @@ public:
     MenuView(Stage* stage);
     ~MenuView();
 
-    virtual void update(int id);
     virtual void initialize();
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
+
+public slots:
+    virtual void update(int id);
 
 
 protected:

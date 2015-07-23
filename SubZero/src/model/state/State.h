@@ -2,6 +2,7 @@
 #define STATE_H_
 #include "Data.h"
 #include <string>
+#include <QObject>
 #include <QMutex>
 #include <QMutexLocker>
 
@@ -16,7 +17,8 @@ enum StateType {
     FPGA,
 };
 
-class State {
+class State : public QObject {
+    Q_OBJECT
 
 private:
     Logger* logger = new Logger("State");
@@ -45,7 +47,6 @@ public:
     virtual ~State();	//deconstructor
 
     void addViewer(View* view);
-    void notifyViewers();
 
 
     /**
@@ -76,5 +77,8 @@ public:
      * @return returns the pointer to a deep copied State
      */
     virtual Data* getState (std::string ID) = 0;
+
+signals:
+    void notifyViewers(int id);
 };
 #endif /* SRC_MODEL_STATE_STATE_H_ */

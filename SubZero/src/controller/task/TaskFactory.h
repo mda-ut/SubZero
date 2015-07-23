@@ -34,7 +34,7 @@ public:
 
     static GateTask* createGateTask(Model* fpgaModel, int& targetDepth, int& targetYaw);
 
-    static PathTask* createPathTask(Model* fpgaModel, int& targetYaw);
+    static PathTask* createPathTask(Model* downCamModel, Model* fpgaModel, int& targetYaw);
 
     static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 

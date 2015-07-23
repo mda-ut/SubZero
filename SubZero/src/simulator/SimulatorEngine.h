@@ -2,6 +2,7 @@
 #define SIMULATORENGINE_H
 
 #include <QWindow>
+#include <QWidget>
 #include <QScreen>
 
 //Camera
@@ -23,14 +24,14 @@
 class SimulatorEngine {
 public:
     SimulatorEngine();
-    SimulatorEngine(QWindow *window, SimulatedSub *simSub, SimulatedEnvironment *simEnvironment, Qt3D::QEntity* rootEntity);
+    SimulatorEngine(QWidget* container, QWindow *window, SimulatedSub *simSub, SimulatedEnvironment *simEnvironment, Qt3D::QEntity* rootEntity);
     ~SimulatorEngine();
 
     void initialize();
 
 private:
     Logger* logger = new Logger("SimulatorEngine");
-
+    QWidget* container;
     QWindow* window;
     SimulatedSub* simSub;
     SimulatedEnvironment* simEnvironment;

@@ -27,12 +27,11 @@ void Model::storeToFMList(FilterManager* newFM) {
 void Model::pollLoop() {
     Timer timer;
     timer.start();
-    double pollPeriod = 1 / pollFrequency;
+    double pollPeriod = 1 / (double)pollFrequency;
     while(executing) {
         while (timer.getTimeElapsed() < pollPeriod) {
             std::this_thread::yield();
         }
-            //do nothing, should we put this thread to sleep?
         timer.start(); //restart timer
         dataTransfer();
     }

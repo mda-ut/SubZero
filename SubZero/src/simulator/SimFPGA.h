@@ -10,6 +10,7 @@
 
 #include "Properties.h"
 #include "Logger.h"
+#include "PIDController.h"
 #include "SimulatedSub.h"
 
 typedef struct {
@@ -52,6 +53,7 @@ private:
     int target_yaw;
     int target_speed;
     double update_period;
+    PIDController pid_depth, pid_yaw;
 
 
     void updateLoop();
@@ -97,6 +99,8 @@ public:
     int get_yaw();
     int get_depth();
 
+    void set_pid_depth(double, double, double, double);
+    void set_pid_yaw(double, double, double, double);
 
 };
 

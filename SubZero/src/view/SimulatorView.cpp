@@ -55,7 +55,7 @@ void SimulatorView::initialize() {
 
     // Initialize the Simulator 3D Engine
     //TODO: Use dependency injection here instead
-    engine = new SimulatorEngine(window, simSub, simEnv, rootEntity);
+    engine = new SimulatorEngine(container, window, simSub, simEnv, rootEntity);
     engine->initialize();
 }
 

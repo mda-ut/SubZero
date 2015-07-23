@@ -13,12 +13,14 @@ public:
     SimulatorView(Stage* stage, Controller* controller, std::vector<State*> states, SimulatedSub* simSub, SimulatedEnvironment* simEnv, Qt3D::QEntity* rootEntity);
     ~SimulatorView();
 
-    virtual void update(int id);
     virtual void initialize();
     virtual QSize sizeHint() const;
     virtual QSize minimumSizeHint() const;
 
     QWindow* getWindow();
+
+public slots:
+    virtual void update(int id);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

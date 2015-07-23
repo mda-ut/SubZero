@@ -26,7 +26,7 @@
 ImgData* SimCameraInterface::poll() {
 //    ImgData* new_data;
     cv::Mat raw;
-    raw = bufferWindow->getImg();
+    raw = bufferWindow->getImg(position);
     return decode(raw);
 }
 /**
@@ -63,7 +63,7 @@ SimCameraInterface::SimCameraInterface(int position, SimBufferWindow* bufferWind
 void SimCameraInterface::init() {
     // thread for reading and polling camera input
     logger->info("Initializing");
-    bufferWindow->initialize();
+
 }
 
 SimCameraInterface::~SimCameraInterface() {

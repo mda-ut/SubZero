@@ -86,7 +86,7 @@ int CameraState::setState(std::vector<ImgData*> d) {
 
     this->stateData.push_back(d);	//insert vector into list
     locker.unlock();
-    notifyViewers();
+    emit notifyViewers(stateID);
     return 0;
 }
 

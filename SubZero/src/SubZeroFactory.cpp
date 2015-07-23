@@ -86,12 +86,12 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
         states.push_back(new FPGAState(FPGA, fpgaBufferSize));
 
         SimFPGA* simFPGA = new SimFPGA(settings, simSub);
-        SimBufferWindow* bufferWindow = new SimBufferWindow(simSub, simEnv, rootEntity);
+        SimBufferWindow* bufferWindow = new SimBufferWindow(simSub, simEnv, rootEntity, settings);
         int frontCamPos = std::stoi(settings->getProperty("FRONT_CAM"));
         int downCamPos = std::stoi(settings->getProperty("DOWN_CAM"));
 
         HwInterface* frontCamInt = new SimCameraInterface(frontCamPos, bufferWindow);
-        HwInterface* downCamInt = new CameraInterface(downCamPos);
+        HwInterface* downCamInt = new SimCameraInterface(downCamPos, bufferWindow);
         HwInterface* fpgaInt = new SimFPGAInterface(settings, simFPGA);
 
         models.push_back(new CameraModel(states[0], frontCamInt, camPollFrequency));
@@ -106,6 +106,9 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
         for (auto& state : states) {
             state->addViewer(view);
         }
+
+
+        bufferWindow->initialize();
     } else if (subType == "AUTONOMOUS") {
         logger->trace("Creating autonomous sub");
     } else {

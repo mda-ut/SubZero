@@ -57,7 +57,7 @@ ImgData* CameraInterface::poll() {
 ImgData* CameraInterface::decode(cv::Mat data) {
     static bool once = false;
     if(!once) {
-            imwrite("tryThree0.png", data);
+            imwrite("tryball1.png", data);
             once = true;
     }
     cv::cvtColor(data, data, CV_BGR2RGB);

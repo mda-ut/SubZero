@@ -59,7 +59,7 @@ int FPGAState::setState(std::vector<FPGAData*> d){
     }
     this->stateData.push_back(d);
     locker.unlock();
-    notifyViewers();
+    emit notifyViewers(stateID);
     return 0;
 }
 
