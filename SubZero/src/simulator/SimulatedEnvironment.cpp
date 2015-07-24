@@ -56,41 +56,51 @@ void SimulatedEnvironment::initialize() {
 
     //Setting up the materials
     yellowBuoyMaterial = new Qt3D::QPhongMaterial();
+    yellowBuoyMaterial->setAmbient(QColor(150,150,0));
     yellowBuoyMaterial->setDiffuse(QColor(100,100,0));
+    yellowBuoyMaterial->setSpecular(QColor(0,0,0));
 
 
     blueBuoyMaterial = new Qt3D::QPhongMaterial();
-    blueBuoyMaterial->setDiffuse(QColor(0,0,100));
+    blueBuoyMaterial->setAmbient(QColor(0,0,100));
 
 
 
     redBuoyMaterial = new Qt3D::QPhongMaterial();
+    redBuoyMaterial->setAmbient(QColor(150,0,0));
     redBuoyMaterial->setDiffuse(QColor(100,0,0));
+    redBuoyMaterial->setSpecular(QColor(0,0,0));
 
     greenBuoyMaterial = new Qt3D::QPhongMaterial();
     greenBuoyMaterial->setDiffuse(QColor(0,100,0));
+    greenBuoyMaterial->setAmbient(QColor(0,150,0));
+    greenBuoyMaterial->setSpecular(QColor(0,0,0));
 
     setDateMaterial = new Qt3D::QPhongMaterial();
+    setDateMaterial->setAmbient(QColor(125,125,0));
     setDateMaterial->setDiffuse(QColor(125,125,0));
 
     timePortalMaterial = new Qt3D::QPhongMaterial();
     timePortalMaterial->setDiffuse(QColor(0,150,0));
+    timePortalMaterial->setAmbient(QColor(0,150,0));
 
     guideMarkerMaterial = new Qt3D::QPhongMaterial();
     guideMarkerMaterial->setDiffuse(QColor(125,60,0));
 
     //Setup initial positions usign QTranslateTransform
     yellowBuoyTranslation = new Qt3D::QTranslateTransform();
-    yellowBuoyTranslation-> setTranslation(QVector3D(10.0f, -3.0f, 80.0f));
+    yellowBuoyTranslation-> setTranslation(QVector3D(0.0f, -3.0f, 40.0f));
+
+
 
     blueBuoyTranslation = new Qt3D::QTranslateTransform();
-    blueBuoyTranslation-> setTranslation(QVector3D(0.0f, 10.0f, 80.0f));
+    blueBuoyTranslation-> setTranslation(QVector3D(0.0f, 10.0f, 35.0f));
 
     redBuoyTranslation = new Qt3D::QTranslateTransform();
-    redBuoyTranslation-> setTranslation(QVector3D(20.0f, -3.0f, 80.0f));
+    redBuoyTranslation-> setTranslation(QVector3D(15.0f, -3.0f, 40.0f));
 
     greenBuoyTranslation = new Qt3D::QTranslateTransform();
-    greenBuoyTranslation-> setTranslation(QVector3D(30.0f, -3.0f, 80.0f));
+    greenBuoyTranslation-> setTranslation(QVector3D(-15.0f, -3.0f, 40.0f));
 
     setDateTranslation = new Qt3D::QTranslateTransform();
     setDateTranslation-> setTranslation(QVector3D(50.0f, 0.0f, 80.0f));
@@ -206,7 +216,7 @@ void SimulatedEnvironment::initialize() {
 
     //Setting the parent
     yellowBuoyEntity->setParent(parentEntity);
-    blueBuoyEntity->setParent(parentEntity);
+    //blueBuoyEntity->setParent(parentEntity);
     redBuoyEntity->setParent(parentEntity);
     greenBuoyEntity->setParent(parentEntity);
     setDateEntity->setParent(parentEntity);

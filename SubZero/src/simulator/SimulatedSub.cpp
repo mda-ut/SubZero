@@ -59,7 +59,7 @@ void SimulatedSub::initialize() {
     subBody->setSlices(20);
 
     //Material
-    subMaterial->setDiffuse(QColor(QRgb(0xbeb32b)) );// Create color from hexidecimal
+    subMaterial->setAmbient(QColor(QRgb(0xbeb32b)) );// Create color from hexidecimal
 
     //Positioning
     subTranslation->setTranslation(QVector3D(0.0f, 0.0f, 0.0f));
