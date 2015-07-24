@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         propReader = new PropertyReader(argv[1]);
     } else {
-        propReader = new PropertyReader("../SubZero/src/settings/settings.txt");
+        propReader = new PropertyReader("../SubZero_lu/SubZero/src/settings/settings.txt");
     }
     // Set logging level
     settings = propReader->load();
@@ -69,8 +69,6 @@ int main(int argc, char** argv) {
         HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
     }
 
-    //    VideoTesting vt("test.avi");
-//        vt.run();
 //    newMenu.paintEvent();
 //    VideoTesting vt("videofile");
 //    vt.run();
@@ -84,13 +82,9 @@ int main(int argc, char** argv) {
     mainStage->setViewContent(mode);
     mainStage->initialize();
 
-
-    if (mode == "AUTONOMOUS") {
-        //TODO: Make autonomous run without any GUI
-        return 0;
-    }
-
     delete propReader;
-    return app.exec(); 
+    return app.exec();/*
+    VideoTesting vt("test.avi");
+    vt.run();
+    return 0;*/
 }
-

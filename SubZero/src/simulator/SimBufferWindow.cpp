@@ -22,8 +22,8 @@ void SimBufferWindow::update(int id) {
 
 void SimBufferWindow::initialize() {
     // Window sizing
-    QSize minSize = QSize(640, 240);
-    QSize maxSize = QSize(640, 240);
+    QSize minSize = QSize(1280, 480);
+    QSize maxSize = QSize(1280, 480);
 
     // Obscurity and depth perception modifiers
     int depthBufferSize = 16;   // 8,16,24 and 32 bit  but fixing at 16 bit b/c expecting obscure environment

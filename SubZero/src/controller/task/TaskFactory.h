@@ -17,6 +17,7 @@
 #include "GateTask.h"
 #include "PathTask.h"
 #include "CompetitionTask.h"
+#include "BuoyTask.h"
 #include <string>
 
 
@@ -38,6 +39,8 @@ public:
     static GateTask* createGateTask(Model* fpgaModel, int& targetDepth, int& targetYaw);
 
     static PathTask* createPathTask(Model* downCamModel, Model* fpgaModel, int& targetYaw);
+
+    static BuoyTask* createBuoyTask(Model *forwardCamModel, Model *fpgaModel, int& targetDepth, int& targetYaw);
 
     static TurnTask* createTurnTask(Model* fpgaModel, int& targetYaw, int delta);
 

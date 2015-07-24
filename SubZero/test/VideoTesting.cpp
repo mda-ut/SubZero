@@ -37,6 +37,7 @@ cv::Mat HSVFilter(cv::Mat mat, int lowH, int highH, int lowS, int highS, int low
     cv::Mat imgHSV;
     //cv::Mat imgThresh = cv::Mat(mat.clone());
     cv::Mat imgThresh = mat.clone();
+
     cv::cvtColor(mat, imgHSV, cv::COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
     cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV),
@@ -157,7 +158,7 @@ void VideoTesting::run(){
     cv::namedWindow("Line Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Canny", CV_WINDOW_AUTOSIZE);
     int Type = 0;
-    if (Type == 0){
+    if (Type == 2){
     cv::moveWindow("Orginal", 1400, 50);           //reading from photo
     cv::moveWindow("HSV Filtered", 1000, 50);
     cv::moveWindow("Line Filtered", 600, 50);
@@ -167,7 +168,7 @@ void VideoTesting::run(){
     cv::moveWindow("HSV Filtered", 1200, 500);
     cv::moveWindow("Line Filtered", 600, 50);
     cv::moveWindow("Canny", 600, 500);}
-    else if (Type == 2){
+    else if (Type == 0){
     cv::moveWindow("Orginal", 1400, 100);         //reading from video
     cv::moveWindow("HSV Filtered", 1400, 500);
     cv::moveWindow("Line Filtered", 800, 100);
@@ -202,7 +203,8 @@ void VideoTesting::run(){
     BlurFilter bf(2, 0.2f);
     BlurFilter bf2(1, 0.4f);
     if (Type == 0)
-        frame = cv::imread("path.png");       //img
+        frame = cv::imread("buoy2.png");       //img
+    cv::cvtColor(frame, frame, cv::COLOR_RGB2BGR);
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){

@@ -33,6 +33,13 @@ PathTask *TaskFactory::createPathTask(Model *downCamModel, Model *fpgaModel, int
     return new PathTask(downCamModel, turnTask, speedTask);
 }
 
+BuoyTask* TaskFactory::createBuoyTask(Model *forwardCamModel, Model *fpgaModel, int& targetDepth, int& targetYaw){
+    DepthTask* depthTask = TaskFactory::createDepthTask(fpgaModel, targetDepth, 100);
+    TurnTask* turnTask = TaskFactory::createTurnTask(fpgaModel, targetYaw, 0);
+    SpeedTask* speedTask = TaskFactory::createSpeedTask(fpgaModel, 0);
+    return new BuoyTask(forwardCamModel, turnTask, speedTask, depthTask);
+}
+
 TurnTask* TaskFactory::createTurnTask(Model* fpgaModel, int& targetYaw, int delta) {
     return new TurnTask(fpgaModel, targetYaw, delta);
 }

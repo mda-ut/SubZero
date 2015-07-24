@@ -48,9 +48,13 @@ cv::Mat HSVFilter::filter(cv::Mat mat) {
     cv::Mat imgHSV;
     cv::Mat imgThresh = cv::Mat(mat.clone());
 
+    cv::imshow("SARWDASDASd", mat);
+
     //cv::cvtColor(mat, imgHSV, cv::COLOR_BGRA2BGR); //Convert the captured frame from BGR to HSV
+
     cv::cvtColor(mat,imgHSV,cv::COLOR_BGR2HSV);
-    cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV), cv::Scalar(highH, highS, highV), imgThresh); //Threshold the image
+    cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV),
+                cv::Scalar(highH, highS, highV), imgThresh); //Threshold the image
 
     //morphological opening (remove small objects from the foreground)
     cv::erode(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
@@ -59,6 +63,8 @@ cv::Mat HSVFilter::filter(cv::Mat mat) {
     //morphological closing (fill small holes in the foreground)
     cv::dilate(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
     cv::erode(imgThresh, imgThresh, getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(5, 5)) );
+
+    cv::imshow("FUCK", imgThresh);
 
     return imgThresh;
 }

@@ -77,8 +77,8 @@ bool ShapeFilter::findCirc(cv::Mat img){
     int circlesFound = 0;
     //constants
     unsigned int minPoints = 6;
-    double minArea = 500;
-    float minRad = 400;
+    double minArea = 10;
+    float minRad = 100;
 
     for (std::vector<cv::Point> co: contours){
         if (co.size() < minPoints){
@@ -88,7 +88,7 @@ bool ShapeFilter::findCirc(cv::Mat img){
 
         double area = cv::contourArea(co);
         if (area < minArea) {
-            println ("Circle not enough area area");
+            println ("Circle not enough area " + std::to_string(area));
             continue;
         }
 
