@@ -171,7 +171,7 @@ void BuoyTask::execute() {
                     float t = d/moveSpeed;
                     println("Moving " + std::to_string(d) + "cm in " + std::to_string(t) + "s");
                     move(moveSpeed);
-                    usleep(t*100000);
+                    usleep(40000000);
                     if (!hitRed){
                         hitRed = true;
                         println("Hit red");
@@ -246,7 +246,7 @@ void BuoyTask::execute() {
                 if (moveWithSpeed){
                     println("Retreating");
                     move(-moveSpeed);
-                    usleep(2000000);
+                    usleep(40000000);
                     //usleep(deltaT * 500);
                     move(0);
                     rotate(-deltaAngle);

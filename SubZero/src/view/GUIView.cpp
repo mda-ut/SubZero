@@ -25,7 +25,8 @@ void GUIView::update(int id) {
             break;
         }
         case DOWNCAM: {
-            ImgData* newImg = dynamic_cast<ImgData*>(states[1]->getState("raw"));
+            ImgData* newImg = dynamic_cast<CameraState*>(states[1])->getState("raw");
+
             makeQImage(newImg->img, downCameraImage);
             logger->trace("Updating down cam image");
             QWidget::update();
@@ -54,25 +55,25 @@ void GUIView::update(int id) {
 }
 
 void GUIView::initialize() {
-    setFixedSize(1250, 700);
+    setFixedSize(1480, 700);
     setWindowTitle("GUIView");
 
-    frontCameraRect.setRect(0,0,525,700);
-    downCameraRect.setRect(525,0,525,700);
+    frontCameraRect.setRect(0,0,640,480);
+    downCameraRect.setRect(640,0,640,480);
 
     //frontCameraImage = QImage(":/img/MDA.jpg");
 
     //Creating an image that holds a gradient of blue
 
     //Create an image to be painted on
-    QImage sub(525,700,QImage::Format_RGB32);
+    QImage sub(640,480,QImage::Format_RGB32);
 
     //Setup the painter to paint/draw on the image
     QPainter subImgPainter;
     subImgPainter.begin(&sub); //Paint on that image
 
     //Create the gradient
-    QLinearGradient blueGradient(0,0,800,600);
+    QLinearGradient blueGradient(0,0,640,480);
 
     //Set the starting color and end colors
     blueGradient.setColorAt(0.0,QColor(62,58,200));// 0.0 is start position as a qreal
@@ -160,7 +161,7 @@ void GUIView::initialize() {
     verticalLayout->addLayout(readingsLayout);
 
 
-    mainLayout->addSpacing(1150);
+    mainLayout->addSpacing(1280);
     mainLayout->addLayout(verticalLayout);
     this->setLayout(mainLayout);
 
@@ -181,11 +182,11 @@ void GUIView::initialize() {
 }
 
 QSize GUIView::sizeHint() const {
-    return QSize(1250,700);
+    return QSize(1480,700);
 }
 
 QSize GUIView::minimumSizeHint() const {
-    return QSize(1250,700);
+    return QSize(1480,700);
 }
 
 void GUIView::keyPressEvent(QKeyEvent* event) {
@@ -276,7 +277,7 @@ void GUIView::paintEvent(QPaintEvent *event) {
 
     // Draw Camera Images
     painter.drawImage(frontCameraRect, frontCameraImage, frontCameraRect);
-    painter.drawImage(downCameraRect, downCameraImage, downCameraRect);
+    painter.drawImage(downCameraRect, downCameraImage, frontCameraRect);
     painter.end();
 }
 
