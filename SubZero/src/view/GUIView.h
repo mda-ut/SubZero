@@ -71,7 +71,7 @@ private:
     QLabel* targetDepthLabel;
     QLabel* targetYawLabel;
 
-    void makeQImage(cv::Mat imgData, QImage& imgHolder);
+    void makeQImage(cv::Mat src, QImage& imgHolder);
 };
 
 #endif // GUIVIEW_H

@@ -60,7 +60,6 @@ ImgData* CameraInterface::decode(cv::Mat data) {
             imwrite("tryball1.png", data);
             once = true;
     }
-
     ImgData* decoded = new ImgData("raw", data);
     return decoded;
 }
