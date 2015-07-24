@@ -39,6 +39,7 @@ private:
 
     QRect frontCameraRect;
     QRect downCameraRect;
+    QRect srcRect;
     QImage frontCameraImage;
     QImage downCameraImage;
 
@@ -71,7 +72,7 @@ private:
     QLabel* targetDepthLabel;
     QLabel* targetYawLabel;
 
-    void makeQImage(cv::Mat src, QImage& imgHolder);
+    void makeQImage(cv::Mat imgData, QImage& imgHolder);
 };
 
 #endif // GUIVIEW_H

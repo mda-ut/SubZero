@@ -95,7 +95,7 @@ void spawn_term (char *proc)
         FILE *fp;
 
         fp = popen("which nios2-terminal", "r");
-        int err = 1;// fscanf(fp, "%127s", nios2_shell_path);
+        int err = fscanf(fp, "%127s", nios2_shell_path);
         if (err != 1) {
             puts("nios2-terminal is not on your path, exiting");
             exit(1);

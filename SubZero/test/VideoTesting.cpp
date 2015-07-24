@@ -204,7 +204,6 @@ void VideoTesting::run(){
     BlurFilter bf2(1, 0.4f);
     if (Type == 0)
         frame = cv::imread("buoy2.png");       //img
-    cv::cvtColor(frame, frame, cv::COLOR_RGB2BGR);
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){

@@ -69,9 +69,6 @@ int main(int argc, char** argv) {
         HSVFilter::defaultHighV = std::stoi(settings->getProperty("HIGH_VALUE"));
     }
 
-//    newMenu.paintEvent();
-//    VideoTesting vt("videofile");
-//    vt.run();
     std::string mode = settings->getProperty("MODE");
 
     init_signal_handler();

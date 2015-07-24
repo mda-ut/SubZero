@@ -50,9 +50,8 @@ cv::Mat HSVFilter::filter(cv::Mat mat) {
 
     cv::imshow("SARWDASDASd", mat);
 
-    //cv::cvtColor(mat, imgHSV, cv::COLOR_BGRA2BGR); //Convert the captured frame from BGR to HSV
-
-    cv::cvtColor(mat,imgHSV,cv::COLOR_BGR2HSV);
+    //cv::cvtColor(mat, imgHSV, cv::COLOR_RGB2BGR); //Convert the captured frame from BGR to HSV
+    cv::cvtColor(mat,imgHSV,cv::COLOR_RGB2HSV);
     cv::inRange(imgHSV, cv::Scalar(lowH, lowS, lowV),
                 cv::Scalar(highH, highS, highV), imgThresh); //Threshold the image
 

@@ -55,11 +55,12 @@ void GUIView::update(int id) {
 }
 
 void GUIView::initialize() {
-    setFixedSize(1480, 700);
+    setFixedSize(840, 700);
     setWindowTitle("GUIView");
 
-    frontCameraRect.setRect(0,0,640,480);
-    downCameraRect.setRect(640,0,640,480);
+    srcRect.setRect(0,0,640,480);
+    frontCameraRect.setRect(0,0,320,240);
+    downCameraRect.setRect(320,0,320,240);
 
     //frontCameraImage = QImage(":/img/MDA.jpg");
 
@@ -182,11 +183,11 @@ void GUIView::initialize() {
 }
 
 QSize GUIView::sizeHint() const {
-    return QSize(1480,700);
+    return QSize(840,700);
 }
 
 QSize GUIView::minimumSizeHint() const {
-    return QSize(1480,700);
+    return QSize(840,700);
 }
 
 void GUIView::keyPressEvent(QKeyEvent* event) {
@@ -232,9 +233,7 @@ void GUIView::keyPressEvent(QKeyEvent* event) {
     }
 }
 
-void GUIView::makeQImage(cv::Mat src, QImage& imgHolder) {
-    cv::Mat imgData;
-    cv::cvtColor(src, imgData, cv::COLOR_BGR2RGB);
+void GUIView::makeQImage(cv::Mat imgData, QImage& imgHolder) {
     switch (imgData.type())
     {
         // 8-bit, 4 channel
@@ -277,8 +276,9 @@ void GUIView::paintEvent(QPaintEvent *event) {
     painter.fillRect(event->rect(), background);
 
     // Draw Camera Images
-    painter.drawImage(frontCameraRect, frontCameraImage, frontCameraRect);
-    painter.drawImage(downCameraRect, downCameraImage, frontCameraRect);
+    painter.drawImage(downCameraRect, downCameraImage, srcRect);
+    painter.drawImage(frontCameraRect, frontCameraImage, srcRect);
+
     painter.end();
 }
 

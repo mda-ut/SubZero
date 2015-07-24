@@ -10,7 +10,7 @@ BuoyTask::BuoyTask(Model* camModel, TurnTask* tk, SpeedTask* st, DepthTask* dt)
 
     // Load properties file
     PropertyReader* propReader;
-    propReader = new PropertyReader("../SubZero_lu/SubZero/src/settings/buoy_task_settings.txt");
+    propReader = new PropertyReader("../SubZero/src/settings/buoy_task_settings.txt");
     settings = propReader->load();
     travelDist = std::stoi(settings->getProperty("travelDist"));
     moveSpeed = std::stoi(settings->getProperty("moveSpeed"));

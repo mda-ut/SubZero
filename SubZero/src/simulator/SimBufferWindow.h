@@ -4,6 +4,7 @@
 #include <QWindow>
 #include <QWidget>
 #include <QLabel>
+#include <QMutex>
 #include "Logger.h"
 #include "SimulatorEngine.h"
 #include "Properties.h"
@@ -45,6 +46,8 @@ private:
     int downCam;
     int frontCam;
     bool pixmapSet;
+
+    QMutex mutex;
 
 
 

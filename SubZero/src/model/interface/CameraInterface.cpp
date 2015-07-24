@@ -60,6 +60,7 @@ ImgData* CameraInterface::decode(cv::Mat data) {
             imwrite("tryball1.png", data);
             once = true;
     }
+    cv::cvtColor(data, data, cv::COLOR_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
     return decoded;
 }

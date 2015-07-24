@@ -125,15 +125,17 @@ void SimBufferWindow::updatePixmap(int position) {
 }
 
 cv::Mat SimBufferWindow::getImg(int position) {
+    mutex.lock();
     pixmapSet = false;
     emit grabWidget(position);
     while(!pixmapSet) {
         std::this_thread::yield();
     }
     cv::Mat mat = QPixmapToCvMat(pixmap);
-    cv::Mat dest;
-    cv::cvtColor(mat, dest, cv::COLOR_BGRA2BGR, 3);
-    return dest.clone();
+    cv::cvtColor(mat, mat, cv::COLOR_BGRA2RGB, 3);
+    imshow("mattest", mat);
+    mutex.unlock();
+    return mat;
 }
 
 
