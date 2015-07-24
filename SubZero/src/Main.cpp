@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         propReader = new PropertyReader(argv[1]);
     } else {
-        propReader = new PropertyReader("../SubZero_lu/SubZero/src/settings/settings.txt");
+        propReader = new PropertyReader("../SubZero/src/settings/settings.txt");
     }
     // Set logging level
     settings = propReader->load();

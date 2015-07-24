@@ -12,18 +12,18 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
     logger = new Logger(filename+"-VideoLogging");
 
     if (fps < 1) {
-        PropertyReader* settings = new PropertyReader("../../SubZero/src/settings/settings.txt");
-        settings->load();
+        PropertyReader* propReader = new PropertyReader("../../SubZero/src/settings/settings.txt");
+        Properties* settings = propReader->load();
         this->fps = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
         delete settings;
     } else
         this->fps = fps;
 
-    PropertyReader* videoLogger = new PropertyReader("../../SubZero/src/settings/videoLogger.txt");
-    videoLogger->load();
-    this->pad = std::stoi(videoLogger->getProperty("ZEROPAD"));
-    this->filetype = videoLogger->getProperty("FILETYPE");
-    delete videoLogger;
+    PropertyReader* videoLoggerPropReader = new PropertyReader("../../SubZero/src/settings/videoLogger.txt");
+    Properties* videoSettings = videoLoggerPropReader->load();
+    this->pad = std::stoi(videoSettings->getProperty("ZEROPAD"));
+    this->filetype = videoSettings->getProperty("FILETYPE");
+    delete videoSettings;
 
     this->it = 0;
     this->filename = filename;
