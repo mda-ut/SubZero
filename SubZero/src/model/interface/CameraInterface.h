@@ -14,7 +14,7 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 #include <iostream>
-
+#include "VideoLogger.h"
 
 /**
  * A concrete child of HwInterface that deals specifically with the camera.
@@ -34,6 +34,7 @@ private:
    int position;
 
     Logger* logger = new Logger("CameraInterface");
+    VideoLogger* vl = 0;
 
     cv::VideoCapture camStream;
 

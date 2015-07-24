@@ -12,18 +12,20 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
     logger = new Logger(filename+"-VideoLogging");
 
     if (fps < 1) {
-        PropertyReader* propReader = new PropertyReader("../../SubZero/src/settings/settings.txt");
-        Properties* settings = propReader->load();
-        this->fps = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
-        delete settings;
+        //PropertyReader* propReader = new PropertyReader("../../SubZero/src/settings/settings.txt");
+        //Properties* settings = propReader->load();
+        //this->fps = std::stoi(settings->getProperty("CAM_POLL_FREQUENCY"));
+        //delete settings;
     } else
         this->fps = fps;
 
-    PropertyReader* videoLoggerPropReader = new PropertyReader("../../SubZero/src/settings/videoLogger.txt");
-    Properties* videoSettings = videoLoggerPropReader->load();
-    this->pad = std::stoi(videoSettings->getProperty("ZEROPAD"));
-    this->filetype = videoSettings->getProperty("FILETYPE");
-    delete videoSettings;
+    //PropertyReader* videoLoggerPropReader = new PropertyReader("../../SubZero/src/settings/videoLogger.txt");
+    //Properties* videoSettings = videoLoggerPropReader->load();
+    //this->pad = std::stoi(videoSettings->getProperty("ZEROPAD"));
+    //this->filetype = videoSettings->getProperty("FILETYPE");
+    this->pad = 2;
+    this->filetype = ".avi";
+    //delete videoSettings;
 
     this->it = 0;
     this->filename = filename;
@@ -44,6 +46,8 @@ void VideoLogger::write(ImgData frame) {
 
 void VideoLogger::write(cv::Mat frame) {
     if (error == 0) {
-        cv::imwrite("videoLog/testvid/"+StringTools::intToStr(it++,pad)+".jpg",frame);
+        //cv::imwrite("videoLog/testvid/"+std::to_string(it++)+".jpg",frame);
+        imwrite("videoLog/video" + filename + std::to_string(it) + ".png", frame);
+        it++;
     }
 }

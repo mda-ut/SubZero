@@ -55,11 +55,7 @@ ImgData* CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
-    static bool once = false;
-    if(!once) {
-            imwrite("tryball1.png", data);
-            once = true;
-    }
+    vl->write(data);
     cv::cvtColor(data, data, cv::COLOR_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
     return decoded;
@@ -92,10 +88,16 @@ void CameraInterface::init() {
         logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
         exit(0);
     }
+    if (position == 1){
+        vl = new VideoLogger("One", 640, 480, 30);
+    }else{
+        vl = new VideoLogger("Two", 640, 480, 30);
+    }
 }
 
 CameraInterface::~CameraInterface() {
     logger->trace("CameraInterface deleted");
     delete logger;
+    delete vl;
 }
 
