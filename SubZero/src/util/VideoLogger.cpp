@@ -33,8 +33,25 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
 
     timer.start();
 
+    ///----------------------------------------------------------------
+    char buffer[80];
+    strftime(buffer, 80, "%I:%M:%S_%d-%m-%Y.VIDEO", timer.getTimeStamp());
+
+    std::string logName(buffer);
+
+    /*
+    //Create a logs folder if one does not exist and places a log file into
+    QString test= QString::fromStdString(Util::getWorkingDirectory());
+    QDir dir(test);
+
+    if (!(QDir(QString::fromStdString(Util::getWorkingDirectory()+"/videos")).exists())) {
+        dir.mkpath("videos");
+    }*/
+    folderName = logName;
+    ///-----------------------------------------------------------------
+
     // make the output directory
-    std::system(("mkdir videoLog && cd videoLog && mkdir "+filename).c_str());
+    //std::system(("mkdir videoLog && cd videoLog && mkdir "+filename).c_str());
 }
 
 VideoLogger::~VideoLogger() {
@@ -51,7 +68,7 @@ void VideoLogger::write(cv::Mat frame) {
         if (timer.getTimeElapsed()*1000.0 > 1000.0/fps){
             timer.start();
             //cv::imwrite("videoLog/testvid/"+std::to_string(it++)+".jpg",frame);
-            imwrite("videoLog/video" + filename + std::to_string(it) + ".png", frame);
+            imwrite("videoLog/" + folderName + filename + std::to_string(it) + ".png", frame);
             it++;
         }
     }

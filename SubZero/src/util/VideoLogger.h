@@ -16,6 +16,9 @@
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include "Timer.h"
+#include <string>
+#include <qdir.h>
+#include "Util.h"
 
 
 /**
@@ -85,6 +88,7 @@ private:
     int height;
 
     Timer timer;
+    std::string folderName;
 
 public:
 
