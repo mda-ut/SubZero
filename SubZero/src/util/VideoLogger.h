@@ -15,6 +15,7 @@
 #include "data/ImgData.h"
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+#include "Timer.h"
 
 
 /**
@@ -83,7 +84,7 @@ private:
      */
     int height;
 
-
+    Timer timer;
 
 public:
 

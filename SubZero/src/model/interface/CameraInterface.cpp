@@ -94,9 +94,9 @@ void CameraInterface::init() {
 	//        exit(0);
     }
     if (position == 1){
-        vl = new VideoLogger("One", 640, 480, 30);
+        vl = new VideoLogger("One", 640, 480, 15);
     }else{
-        vl = new VideoLogger("Two", 640, 480, 30);
+        vl = new VideoLogger("Two", 480, 480, 15);
     }
 }
 

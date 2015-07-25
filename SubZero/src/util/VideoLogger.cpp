@@ -31,6 +31,8 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
     this->filename = filename;
     this->error = 0;
 
+    timer.start();
+
     // make the output directory
     std::system(("mkdir videoLog && cd videoLog && mkdir "+filename).c_str());
 }
@@ -46,8 +48,11 @@ void VideoLogger::write(ImgData frame) {
 
 void VideoLogger::write(cv::Mat frame) {
     if (error == 0) {
-        //cv::imwrite("videoLog/testvid/"+std::to_string(it++)+".jpg",frame);
-        imwrite("videoLog/video" + filename + std::to_string(it) + ".png", frame);
-        it++;
+        if (timer.getTimeElapsed()*1000.0 > 1000.0/fps){
+            timer.start();
+            //cv::imwrite("videoLog/testvid/"+std::to_string(it++)+".jpg",frame);
+            imwrite("videoLog/video" + filename + std::to_string(it) + ".png", frame);
+            it++;
+        }
     }
 }
