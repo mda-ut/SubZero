@@ -84,13 +84,13 @@ void CameraInterface::init() {
     // thread for reading and polling camera input
     logger->info("Initializing");
     logger->info("Opening video capture stream at position " + std::to_string(position));
-    if (!camStream.open(position)){
+    if (!camStream.open(position)) {
         logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
 	//        exit(0);
     }
-    if (position == 1){
+    if (position == 1) {
         vl = new VideoLogger("One", 640, 480, 30);
-    }else{
+    } else {
         vl = new VideoLogger("Two", 640, 480, 30);
     }
 }
