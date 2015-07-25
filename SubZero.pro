@@ -200,4 +200,5 @@ DISTFILES += \
     SubZero/src/settings/portal_task_settings.txt \
     SubZero/src/settings/buoy_task_settings.txt \
     SubZero/src/settings/path_task_settings.txt \
-    SubZero/src/settings/gate_task_settings.txt
+    SubZero/src/settings/gate_task_settings.txt \
+    SubZero/src/settings/competition_settings.txt
