@@ -5,12 +5,13 @@
 #include "MotorTask.h"
 #include "GateTask.h"
 #include "PathTask.h"
+#include "BuoyTask.h"
 #include "Logger.h"
 
 class CompetitionTask: public Task
 {
 public:
-    CompetitionTask(PowerTask* powerTask, MotorTask* motorTask, GateTask* gateTask, PathTask* pathTask);
+    CompetitionTask(PowerTask* powerTask, MotorTask* motorTask, GateTask* gateTask, PathTask* pathTask, BuoyTask* buoyTask);
 
     void execute();
 private:
@@ -19,6 +20,7 @@ private:
     MotorTask* motorTask;
     GateTask* gateTask;
     PathTask* pathTask;
+    BuoyTask* buoyTask;
     Properties* settings;
 
 };

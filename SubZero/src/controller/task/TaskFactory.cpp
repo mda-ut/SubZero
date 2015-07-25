@@ -19,7 +19,8 @@ CompetitionTask *TaskFactory::createCompetitionTask(Model *forwardCamModel, Mode
     MotorTask* motorTask = TaskFactory::createMotorTask(fpgaModel);
     GateTask* gateTask = TaskFactory::createGateTask(fpgaModel, targetDepth, targetYaw);
     PathTask* pathTask = TaskFactory::createPathTask(downCamModel, fpgaModel, targetYaw);
-    return new CompetitionTask(powerTask, motorTask, gateTask, pathTask);
+    BuoyTask* buoyTask = TaskFactory::createBuoyTask(forwardCamModel, fpgaModel, targetDepth, targetYaw);
+    return new CompetitionTask(powerTask, motorTask, gateTask, pathTask, buoyTask);
 }
 
 GateTask* TaskFactory::createGateTask(Model *fpgaModel, int& targetDepth, int& targetYaw) {
