@@ -60,7 +60,7 @@ ImgData* CameraInterface::poll() {
 ImgData* CameraInterface::decode(cv::Mat data) {
     if (data.cols <= 0)
         data = cv::Mat::zeros(640, 480, CV_8UC3);
-    vl->write(data);
+//    vl->write(data);
     cv::cvtColor(data, data, cv::COLOR_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
     return decoded;
@@ -94,15 +94,15 @@ void CameraInterface::init() {
 	//        exit(0);
     }
     if (position == 1) {
-        vl = new VideoLogger("One", 640, 480, 30);
+      //        vl = new VideoLogger("One", 640, 480, 30);
     } else {
-        vl = new VideoLogger("Two", 640, 480, 30);
+      //        vl = new VideoLogger("Two", 640, 480, 30);
     }
 }
 
 CameraInterface::~CameraInterface() {
     logger->trace("CameraInterface deleted");
     delete logger;
-    delete vl;
+    //delete vl;
 }
 

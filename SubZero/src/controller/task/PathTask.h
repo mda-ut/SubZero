@@ -28,6 +28,8 @@ private:
     bool moving;
     bool done;
 
+    float forwardSpeed;
+
     // distance in pixels considered to be in line with the sub
     float alignThreshold;
     int imgWidth, imgHeight;

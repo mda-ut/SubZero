@@ -14,15 +14,95 @@ Info: Running Quartus II 64-Bit Shell
     Info: programming logic devices manufactured by Altera and sold by 
     Info: Altera or its authorized distributors.  Please refer to the 
     Info: applicable agreement for further details.
-    Info: Processing started: Tue Jun 30 18:34:13 2015
+    Info: Processing started: Sat Jul 25 01:52:38 2015
 Info: Command: quartus_sh --determine_smart_action DE0_Nano
 Info: Quartus(args): DE0_Nano
-Info (293032): Detected changes in source files.
-    Info (293027): Source file: /home/uoftmda/git/AquaTux/fpga/fpga_hw/top_level/DE0_Nano.v has changed.
-Info: SMART_ACTION = SOURCE
+Warning (293002): Can't find design file DE0_Nano_SOPC_key.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_sw.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_led.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_i2c_scl.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_i2c_sda.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_sdram.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_altpll_sys.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_g_sensor_int.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_epcs.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_jtag_uart.v
+Warning (293002): Can't find design file TERASIC_SPI_3WIRE.v
+Warning (293002): Can't find design file SPI_3WIRE.v
+Warning (293002): Can't find design file gsensor_fifo.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_select_i2c_clk.v
+Warning (293002): Can't find design file slave_controller.v
+Warning (293002): Can't find design file defines.v
+Warning (293002): Can't find design file motor_controller.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_controller_interrupt_counter.v
+Warning (293002): Can't find design file power_management_slave.v
+Warning (293002): Can't find design file imu_controller.v
+Warning (293002): Can't find design file imu.v
+Warning (293002): Can't find design file ADC_CTRL.v
+Warning (293002): Can't find design file altera_avalon_mm_clock_crossing_bridge.v
+Warning (293002): Can't find design file altera_avalon_dc_fifo.v
+Warning (293002): Can't find design file altera_dcfifo_synchronizer_bundle.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_cpu.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_cpu_test_bench.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_cpu_oci_test_bench.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_cpu_jtag_debug_module_wrapper.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_cpu_jtag_debug_module_tck.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_cpu_jtag_debug_module_sysclk.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_sysid.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0.v
+Warning (293002): Can't find design file altera_merlin_master_translator.sv
+Warning (293002): Can't find design file altera_merlin_slave_translator.sv
+Warning (293002): Can't find design file altera_merlin_master_agent.sv
+Warning (293002): Can't find design file altera_merlin_slave_agent.sv
+Warning (293002): Can't find design file altera_merlin_burst_uncompressor.sv
+Warning (293002): Can't find design file altera_avalon_sc_fifo.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_addr_router.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_addr_router_001.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_id_router.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_id_router_001.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_id_router_002.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_id_router_003.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_id_router_007.sv
+Warning (293002): Can't find design file altera_merlin_burst_adapter.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_cmd_xbar_demux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_cmd_xbar_demux_001.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_cmd_xbar_mux.sv
+Warning (293002): Can't find design file altera_merlin_arbitrator.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_cmd_xbar_mux_002.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_cmd_xbar_mux_003.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_cmd_xbar_mux_007.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_rsp_xbar_demux_002.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_rsp_xbar_demux_003.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_rsp_xbar_demux_007.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_rsp_xbar_mux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_0_rsp_xbar_mux_001.sv
+Warning (293002): Can't find design file altera_merlin_width_adapter.sv
+Warning (293002): Can't find design file altera_avalon_st_handshake_clock_crosser.v
+Warning (293002): Can't find design file altera_avalon_st_clock_crosser.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1_addr_router.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1_id_router.sv
+Warning (293002): Can't find design file altera_merlin_traffic_limiter.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1_cmd_xbar_demux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1_cmd_xbar_mux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1_rsp_xbar_demux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_1_rsp_xbar_mux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2.v
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2_addr_router.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2_id_router.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2_cmd_xbar_demux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2_cmd_xbar_mux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2_rsp_xbar_demux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_mm_interconnect_2_rsp_xbar_mux.sv
+Warning (293002): Can't find design file DE0_Nano_SOPC_irq_mapper.sv
+Warning (293002): Can't find design file altera_irq_clock_crosser.sv
+Warning (293002): Can't find design file altera_reset_controller.v
+Warning (293002): Can't find design file altera_reset_synchronizer.v
+Info: SMART_ACTION = DONE
+Info: Nothing done
 Info (23030): Evaluation of Tcl script /home/uoftmda/altera/13.1/quartus/common/tcl/internal/qsh_smart.tcl was successful
-Info: Quartus II 64-Bit Shell was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 234 megabytes
-    Info: Processing ended: Tue Jun 30 18:34:15 2015
+Info: Quartus II 64-Bit Shell was successful. 0 errors, 81 warnings
+    Info: Peak virtual memory: 243 megabytes
+    Info: Processing ended: Sat Jul 25 01:52:40 2015
     Info: Elapsed time: 00:00:02
     Info: Total CPU time (on all processors): 00:00:01

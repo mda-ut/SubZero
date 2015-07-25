@@ -1,2 +1,4 @@
 # Time out in seconds
 TIMEOUT = 120
+
+FORWARD_SPEED = 30

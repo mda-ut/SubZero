@@ -7,6 +7,7 @@
 
 #include "Model.h"
 #include "Timer.h"
+#include "Controller.h"
 
 
 /* ========================================================================== *
@@ -28,7 +29,7 @@ void Model::pollLoop() {
     Timer timer;
     timer.start();
     double pollPeriod = 1 / pollFrequency;
-    while(executing) {
+    while(executing && Controller::isRunning()) {
         double elapsedTime = timer.getTimeElapsed();
         while (elapsedTime < pollPeriod) {
             std::this_thread::yield();
@@ -37,6 +38,7 @@ void Model::pollLoop() {
         timer.start(); //restart timer
         dataTransfer();
     }
+    delete interface;
 }
 
 void Model::dataTransfer() {
@@ -61,7 +63,6 @@ Model::Model(State* inputState, HwInterface* inputHwInterface, double frequency)
 }
 
 Model::~Model() {
-    delete interface;
     delete state;
     for (auto& fm : filterManagerList) {
         delete fm;
