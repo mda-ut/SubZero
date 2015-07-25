@@ -1,13 +1,11 @@
 #include "PathTask.h"
+#include "Timer.h"
 
 #include <math.h>
 
 PathTask::PathTask() {
-    startPath = false;
-    finPath = false;
-    done = false;
-    horzInSight = false;
-    inlineThresh = 75;
+    moving = false;
+    alignThreshold = 75;
 }
 
 PathTask::PathTask(Model* cameraModel, TurnTask *turnTask, SpeedTask *speedTask) {
@@ -15,33 +13,28 @@ PathTask::PathTask(Model* cameraModel, TurnTask *turnTask, SpeedTask *speedTask)
     this->turnTask = turnTask;
     this->speedTask = speedTask;
 
-    startPath = false;
-    finPath = false;
-    done = false;
-    horzInSight = false;
-    inlineThresh = 75;
+    moving = false;
+    alignThreshold = 75;
 }
 
-PathTask::~PathTask(){
+PathTask::~PathTask() {
     delete logger;
 }
 
-void PathTask::println(std::string s){
-    if (debug)
-        logger->info(s);
-}
-
-bool moving = false;
-void PathTask::move(float amount) {
+void PathTask::setSpeed(float amount) {
     speedTask->setTargetSpeed(amount);
     speedTask->execute();
-    moving = true;
+    if (amount != 0) {
+        moving = true;
+    } else {
+        moving = false;
+    }
+    logger->info("Speed set to " + std::to_string(amount));
 }
-void PathTask::stop(){
-    moving = false;
+
+void PathTask::stop() {
     // Stop
-    speedTask->setTargetSpeed(0);
-    speedTask->execute();
+    setSpeed(0);
 }
 
 void PathTask::rotate(float angle) {
@@ -52,21 +45,19 @@ void PathTask::rotate(float angle) {
 }
 
 void PathTask::moveTo(cv::Point2f pos) {
-    // pretty much in line
-    if (std::abs(pos.x-imgWidth/2) < inlineThresh) {
+    //TODO: Log this with useful debugs
+    // Pretty much in line
+    if (std::abs(pos.x - imgWidth / 2) < alignThreshold) {
         //float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
-        if (pos.y - imgHeight/2 > 0) {
-            println("MoveTo moving forward");
-            move(30);
+        if (pos.y - imgHeight / 2 > 0) {
+            setSpeed(30);
         } else {
-            println("MoveTo moving backwards");
-            move(-30);
+            setSpeed(-30);
         }
     } else {
-        float ang = atan2(pos.y-imgHeight/2, pos.x-imgWidth/2) * 180 / M_PI;
-        println("MoveTo rotating " + std::to_string(ang));
+        float ang = atan2(pos.y - imgHeight / 2, pos.x - imgWidth / 2) * 180 / M_PI;
         rotate(ang);
-        move(30);
+        setSpeed(30);
     }
 }
 
@@ -83,23 +74,26 @@ void PathTask::execute() {
     ImgData* data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
     HSVFilter hsvf(30, 152, 75, 255, 100, 255);
     LineFilter lf;
-    //looking for 1 rectangle
+    // looking for 1 rectangle
     ShapeFilter sf(1, 1);
+
     imgHeight = data->getImg().size().height;
     imgWidth = data->getImg().size().width;
 
-    bool foundOrange = false;
+    bool orangeFound = false;
     bool lookAround = false;
-    bool foundLine = false;
+    bool lineFound = false;
 
     float angle = 0;
     float amount = 0;
-    //float timeOut = 0;
     int stage = 0;
-    cv::namedWindow("hsv", CV_WINDOW_AUTOSIZE);
-    while (!done) {
-        //if its moving, let it move for a bit then continue the program
 
+    cv::namedWindow("hsv", CV_WINDOW_AUTOSIZE);
+
+    Timer timer;
+    timer.start();
+    while (!done && timer.getTimeElapsed() < timeOut) {
+        // If its moving, let it move for a bit then continue the program
         if (moving) {
             usleep (100000);
             moving = false;
@@ -111,100 +105,55 @@ void PathTask::execute() {
 
         cv::imshow("hsv", data->getImg());
 
-        if (!foundOrange) {
+        if (!orangeFound) {
             // Step 1: look for orange, if found, turn to follow it
 
-            //if sees lines, then move to step 2
+            // If we see lines, then move to step 2
             if (lf.filter(data)) {
-                foundOrange = true;
-                println("Found lines from orange");
+                orangeFound = true;
+                logger->info("Found lines from orange segmentation");
                 continue;
             }
 
-            //look and turn to orange
+            // Look for orange
             std::vector<cv::Point2f> massCenters = sf.findMassCenter(data->getImg());
             if (massCenters.size() > 0) {
-                println("found orange");
+                logger->info("Found orange.  Moving to orange mass");
+                // Move to orange
                 moveTo(massCenters.at(0));
-            }else{
-                //if dont see orange, move forwards
-                move(30);
+            } else {
+                // If no orange found, move forwards
+                logger->info("No orange found");
+                setSpeed(30);
             }
 
         } else if (lookAround) {
-            // Step 3; if parallel lines couldnt be found
+            // Step 3 (Panning): if parallel lines couldnt be found
             // look 45 degrees left, then 90 degrees right (45 from start)
             // if still cant find anything, then move forward then repeat
 
-            /*
-            if (angle <= -45) {
-                // bounce back from -45° in 3 frames
-                stage = 1;
-                // -1 to avoid any floating point errors
-                amount = -(angle - 1) / 3;
-                rotate(amount);
-                angle += amount;
-            } else if (stage == 1 && std::abs(angle) < 5) {
-                // center itself back to 0°
-                stage = 2;
-                rotate(-angle);
-                angle = 0;
-            } else if (angle >= 45) {
-                // bounce back from 45° in 3 frames
-                stage = 3;
-                amount = -(angle + 1) / 3;
-                rotate(amount);
-                angle += amount;
-            } else if (stage == 3 && std::abs(angle) < 5) {
-                // center itself again
-                rotate(-angle);
-                angle = 0;
-                stage = 4;
-            }
-
-            if (stage == 0) {
-                // look left 5 degrees at a time
-                rotate(-5);
-                angle += -5;
-            } else if (stage == 1 || stage == 3) {
-                // bouncing back to 0°
-                rotate(amount);
-                angle += amount;
-            } else if (stage == 2) {
-                // look right 5° at a time
-                rotate(5);
-                angle += 5;
-            } else if (stage == 4 && !foundLine) {
-                // if nothing was found after everything, move forward and try again
-                move(30);
-                stage = 0;
-            }
-*/
-            println("moving forwards, step 3");
-            move(30);
-            timeOut++;
+            logger->info("Panning");
+            setSpeed(30);
             // 0 = found lines; 0 = false
             if (!lf.filter(data)) {
-                //pauses whaterver its doing and go back to look for lines
+                // pauses whatever it's doing and goes back to looking for lines
                 lookAround = false;
                 //reset values
                 angle = 0;
                 stage = 0;
-                timeOut = 0;
             }
-            if (timeOut > 30*5){
+            if (timer.getTimeElapsed() > timeOut){
                 done = true;
-                println("Failed to find path");
+                logger->info("Failed to find path");
                 //FAILED TO LOOK FOR PATH
             }
         } else {
-            // Step 2, follow the lines found
+            // Step 2: follow the lines found
             lf.filter(data);
-            println("Passed lines");
             std::vector<std::vector<float>> align(2);
             std::vector<std::vector<float>> allLines = lf.getlineEq();
             bool brk = false;
-            bool allignment = false;
+            bool alignment = false;
             for (unsigned int i = 0; i < allLines.size(); i++) {
                 //find 2 lines with parallel slope, and follow them
                 //if 2 lines horizontal, rotate 90 degrees
@@ -216,8 +165,9 @@ void PathTask::execute() {
                 //no see horz line -> finPath = true;
                 //go straight in all of 4 above statements
 
-                for (unsigned int n = i; n < allLines.size(); n++){
+                for (unsigned int n = i; n < allLines.size(); n++) {
                     // check the difference in slope
+                    //TODO: Change this line to divide the slopes instead of subtract.  Do error checking for infinity and divide by zero
                     float temp = std::abs(allLines[i][0] - allLines[n][0]);
                     // vertical lines or aprox parallel slope
                     if ((allLines[i][0] == INFINITY && allLines[n][0] == INFINITY)
@@ -225,7 +175,7 @@ void PathTask::execute() {
                         align[0] = allLines[i];
                         align[1] = allLines[n];
                         brk = true;
-                        allignment = true;
+                        alignment = true;
                         break;
                     }
                 }
@@ -235,20 +185,20 @@ void PathTask::execute() {
 
             }
             // executed once 2 parallel lines are found
-            if (allignment) {
+            if (alignment) {
                 logger->debug("Current slope of " + std::to_string(align[0][0]));
                 if (fabs(align[0][0]) > 99) {      // 999 = big slope value = vert line
                     // if the average of the 2 x positions are within a threshold, move forward
                     float avg = (align[0][2] + align[1][2]) / 2;
-                    if (std::abs(avg) < inlineThresh) {
+                    if (std::abs(avg) < alignThreshold) {
                         //the sub is aligned with the path
-                        move(50);
+                        setSpeed(50);
                         println("Done");
                         done = true;
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position
                         //rotate (atan2(imgHeight/4*3, avg-imgWidth/2) * 180/M_PI);
-                        move(30);
+                        setSpeed(30);
                         /*
                         if (avg < imgWidth/2) {  //TODO: Figure out left side value
                             rotate (atan2(avg, imgHeight/4*3) * 180/M_PI);
@@ -272,7 +222,7 @@ void PathTask::execute() {
                     //float y = align[0][0] * x + avgB;
                     //rotate(atan2(y-imgHeight/2, x) * 180 / M_PI);
                 }
-                foundLine = true;
+                lineFound = true;
             }
         }
         usleep(33000);    //sleep for 33ms -> act 30 times/sec

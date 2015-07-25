@@ -25,23 +25,18 @@ private:
     TurnTask* turnTask;
     SpeedTask* speedTask;
 
-    bool startPath;     //first vertical line (start of rect), NOT USED
-    bool finPath;       //last vertical line (end of rect), NOT USED
-    bool horzInSight;
+    bool moving;
     bool done;
 
-    //distance in pixles considered to be in line with the sub
-    float inlineThresh;
+    // distance in pixels considered to be in line with the sub
+    float alignThreshold;
     int imgWidth, imgHeight;
 
-    void move(float amount);
+    // Helper functions
+    void setSpeed(float amount);
     void stop();
     void rotate(float amount);
     void moveTo(cv::Point2f pos);
-
-    bool debug = true;
-    void println(std::string s);
-
 };
 
 #endif // PATHTASK_H

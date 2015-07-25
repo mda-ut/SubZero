@@ -37,11 +37,11 @@ VideoLogger::VideoLogger(std::string filename, int width, int height, int fps) {
 
 VideoLogger::~VideoLogger() {
     //std::system(("ffmpeg -i \'videoLog/"+filename+"/%0"+StringTools::intToStr(pad)+"d.jpg\' -r "+StringTools::intToStr(fps)+" \'videoLog/"+filename+"/"+filename+".avi\'").c_str());
-    logger->close();
+    delete logger;
 }
 
 void VideoLogger::write(ImgData frame) {
-    this->write(frame.getImg());
+    write(frame.getImg());
 }
 
 void VideoLogger::write(cv::Mat frame) {

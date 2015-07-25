@@ -114,7 +114,8 @@ HEADERS += SubZero/src/SubZero.h \
     SubZero/src/model/interface/SimCameraInterface.h \
     SubZero/src/simulator/SimBufferWindow.h \
     SubZero/src/controller/task/CompetitionTask.h \
-    SubZero/src/view/CompetitionView.h
+    SubZero/src/view/CompetitionView.h \
+    SubZero/src/util/VideoLogger.h
 
 SOURCES += SubZero/src/Main.cpp \
            SubZero/src/SubZero.cpp \
@@ -189,7 +190,8 @@ SOURCES += SubZero/src/Main.cpp \
     SubZero/src/model/interface/SimCameraInterface.cpp \
     SubZero/src/simulator/SimBufferWindow.cpp \
     SubZero/src/controller/task/CompetitionTask.cpp \
-    SubZero/src/view/CompetitionView.cpp
+    SubZero/src/view/CompetitionView.cpp \
+    SubZero/src/util/VideoLogger.cpp
 
 RESOURCES += \
     SubZero/src/resources/resources.qrc
