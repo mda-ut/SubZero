@@ -15,3 +15,5 @@ rotateAng = 45;
 movementDelay = 50
 travelDist = 50
 moveSpeed = 100;
+# In microseconds
+MOVE_TIME = 40000000

@@ -181,12 +181,12 @@ void VideoTesting::run(){
     cv::Mat contour;
 
     cv::namedWindow("Control", CV_WINDOW_AUTOSIZE); //create a window called "Control"
-    int iLowH = 30;
-    int iHighH = 152;
-    int iLowS = 75;
-    int iHighS = 255;
-    int iLowV = 100;
-    int iHighV = 255;
+    int iLowH = 5;
+    int iHighH = 105;
+    int iLowS = 10;
+    int iHighS = 59;
+    int iLowV = 0;
+    int iHighV = 237;
     int max = 1;
     //Create trackbars in "Control" window
     cvCreateTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
@@ -199,11 +199,11 @@ void VideoTesting::run(){
 
     //HSVFilter hf(25, 179, 0, 255, 0,255);
     LineFilter lf;
-    ShapeFilter sf(1, 5);
+    ShapeFilter sf(1, 1);
     BlurFilter bf(2, 0.2f);
     BlurFilter bf2(1, 0.4f);
     if (Type == 0)
-        frame = cv::imread("buoy2.png");       //img
+        frame = cv::imread("path3.png");       //img
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){
@@ -232,6 +232,10 @@ void VideoTesting::run(){
                 for( int j = 0; j < 4; j++ )
                    line( contour, rect_points[j], rect_points[(j+1)%4], color, 1, 8 );
                 //delete rect;
+                std::cout<<rekt.angle<<std::endl;
+                cv::Point2f ps[4];
+                rekt.points(ps);
+                std::cout << ps[0] << " " << ps[1] << " " << ps[2] << " " << ps[3] << std::endl;
             }
         }
 

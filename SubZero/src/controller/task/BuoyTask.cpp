@@ -134,14 +134,14 @@ void BuoyTask::execute() {
 
     bool done = false;
 
-    while (!done){
+    while (!done) {
         std::string s = "raw";
         ImgData* data = dynamic_cast<ImgData*>
                 (dynamic_cast<CameraState*>
                  (camModel->getState())->getDeepState(s));
         imgWidth = data->getImg().size().width;
         imgHeight = data->getImg().size().height;
-        cv::imshow("hsv",data->getImg());
+//        cv::imshow("hsv",data->getImg());
 
         //filter for a color depending if the other color is hit or not
         if (!hitRed){
@@ -150,7 +150,7 @@ void BuoyTask::execute() {
         } else if (!hitGreen){
             println("Filtering green");
             green.filter(data);
-        } else if (hitGreen && hitRed){
+        } else if (hitGreen && hitRed) {
             done = true;
             println("Done task");
             continue;
@@ -159,19 +159,18 @@ void BuoyTask::execute() {
         //after hitting a color, move the sub back to look for the other one
         //TODO: CALIBRATE THIS STEP
 
-
         if (sf.filter(data)){
             retreat = false;
             cv::Point2f cent = sf.getCenter()[0];
             if (std::abs(cent.x - imgWidth/2) < imgWidth/20){
-                //in the middle 20% of the screen horzontally
-                if (std::abs(cent.y - imgHeight/2) < imgHeight/20){
+                //in the middle 20% of the screen horizontally
+                if (std::abs(cent.y - imgHeight / 2) < imgHeight / 20) {
                     //in the middle 20% vertically
                     float d = calcDistance(sf.getRad()[0]) * 1.2;
                     float t = d/moveSpeed;
                     println("Moving " + std::to_string(d) + "cm in " + std::to_string(t) + "s");
                     move(moveSpeed);
-                    usleep(40000000);
+                    usleep(std::stoi(settings->getProperty("MOVE_TIME")));
                     if (!hitRed){
                         hitRed = true;
                         println("Hit red");
@@ -181,6 +180,7 @@ void BuoyTask::execute() {
                         println("Hit green");
                         retreat = true;
                     }
+                    logger->info("Stopping");
                     move(0);
                     /*
                     //if the radius of the circle is huge, so the sub will hit it
@@ -242,7 +242,7 @@ void BuoyTask::execute() {
             //rotate(rotateAng);
             println("Circle not found, moving forward");
             //move(moveDist);
-            if (retreat){
+            if (retreat) {
                 if (moveWithSpeed){
                     println("Retreating");
                     move(-moveSpeed);
@@ -251,7 +251,7 @@ void BuoyTask::execute() {
                     move(0);
                     rotate(-deltaAngle);
                     usleep(5000000);
-                }else{
+                } else {
                     println("Retreating " + std::to_string(-deltaDist - 20) + "cm");
                     move(-deltaDist - 20);      //move 20cm more than i needed
 
@@ -269,13 +269,16 @@ void BuoyTask::execute() {
 //                continue;
             } else {
                 ///tries to look for any colors and move towards it
+                logger->info("Looking for coloured masses to turn towards");
                 std::vector<cv::Point2f> mc = sf.findMassCenter(data);
-                if (mc.size() > 0){
+                if (mc.size() > 0) {
+                    logger->info("Found coloured mass");
                     float dir = mc[0].x - imgWidth/2;
                     dir /= std::abs(dir);
                     rotate(5 * dir);
-                }else{
+                } else {
                     ///if it dosnt see any colors, move forwards
+                    logger->debug("No coloured masses found.  Moving forward");
                     move(moveSpeed);
                 }
             }

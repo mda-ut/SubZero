@@ -1,14 +1,14 @@
 POOL_SURFACE_HEIGHT = 375
 
-START_DEPTH_DELTA = 100
+START_DEPTH_DELTA = 150
 
 # Number of seconds to wait for depth tasks
-DEPTH_WAIT_TIME = 5
+DEPTH_WAIT_TIME = 8
 
 FORWARD_SPEED = 80
 # Number of seconds to move forward for
-FORWARD_TIME = 15
+FORWARD_TIME = 30
 
-REVERSE_SPEED = -30
+REVERSE_SPEED = -10
 # Number of secodns to reverse for
-REVERSE_TIME = 3
+REVERSE_TIME = 2

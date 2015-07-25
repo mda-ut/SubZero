@@ -189,10 +189,10 @@ bool ShapeFilter::findRect(cv::Mat img){
     int boxesFound = 0;
     //constants
     unsigned int minPoints = 6;
-    double minArea = 500;
+    double minArea = 50;
     double maxArea = 500000;
     float lwMin = 1;
-    float lwMax = 5;
+    float lwMax = 8;
     double areaMin = 0.6;
     double perimMin = 0.75;
     double perimMax = 1.2;
@@ -255,6 +255,27 @@ bool ShapeFilter::findRect(cv::Mat img){
             cv::RotatedRect temp = cv::RotatedRect(rect);
             rektangles.push_back(temp);
 
+            cv::Point2f ps[4];
+
+            temp.points(ps);
+            double x1, y1, x2, y2, x3, y3;
+            x1 = ps[0].x;
+            y1 = ps[0].y;
+            x2 = ps[1].x;
+            y2 = ps[1].y;
+            x3 = ps[2].x;
+            y3 = ps[2].y;
+            double length1 = sqrt(pow(x1-x2,2) + pow(y1-y2,2));
+            double length2 = sqrt(pow(x2-x3,2) + pow(y2-y3,2));
+            double angle;
+            if (length1 > length2) {
+                angle = atan((x2-x1)/-(y2-y1)) * 180 / M_PI;
+            } else {
+                angle = atan((x3-x2)/-(y3-y2)) * 180 / M_PI;
+            }
+            temp.angle = angle;
+
+            println("Angle: " + std::to_string(angle));
             println("RECT FOUND");
             boxesFound++;
         }
