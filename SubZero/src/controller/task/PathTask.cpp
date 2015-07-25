@@ -193,7 +193,7 @@ void PathTask::execute() {
                     if (std::abs(avg) < alignThreshold) {
                         //the sub is aligned with the path
                         setSpeed(50);
-                        println("Done");
+                        logger->debug("Done");
                         done = true;
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position

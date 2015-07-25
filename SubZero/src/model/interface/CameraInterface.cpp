@@ -38,6 +38,9 @@ ImgData* CameraInterface::poll() {
         new_data = decode(raw);
     } else {
         logger->error("Camera stream failed to read image");
+        cv::Mat temp = cv::Mat::zeros(640, 480, CV_8UC3);
+        new_data = new ImgData("raw", temp);
+        logger->debug("Inserting an artifical blank image");
     }
     if (signal_quit) {
         logger->trace("Quit signal detected");
@@ -55,6 +58,8 @@ ImgData* CameraInterface::poll() {
  * @return	decoded data in a ImgData format
  */
 ImgData* CameraInterface::decode(cv::Mat data) {
+    if (data.cols <= 0)
+        data = cv::Mat::zeros(640, 480, CV_8UC3);
     vl->write(data);
     cv::cvtColor(data, data, cv::COLOR_BGR2RGB);
     ImgData* decoded = new ImgData("raw", data);
