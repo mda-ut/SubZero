@@ -233,6 +233,7 @@ void calculate_pid()
    double m_front_left, m_front_right, m_rear, m_left, m_right;
    
    stabilizing_motors_force_to_pwm ( // this calculates the pwms for yaw motors
+				    // These are actually switched for SubZero
       0.5*Yaw_Force_Needed - Forward_Force_Needed, // m_left
       -0.5*Yaw_Force_Needed - Forward_Force_Needed, // m_right
       0, // unused

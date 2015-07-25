@@ -1,15 +1,18 @@
 #include "CompetitionView.h"
 
-CompetitionView::CompetitionView() {
 
-}
-
-CompetitionView::CompetitionView(Controller *controller) {
+CompetitionView::CompetitionView(Stage* stage, Controller *controller) {
     this->controller = controller;
+    this->stage = stage;
 }
 
 void CompetitionView::initialize() {
-    emit controller->runCompetition();
+  taskThread = std::thread(&CompetitionView::startCompetitionRun, this);
+}
+
+void CompetitionView::startCompetitionRun() {
+  usleep(5000000); // wait for model to finish initializing
+  emit controller->runCompetition(); 
 }
 
 void CompetitionView::update(int ID) {

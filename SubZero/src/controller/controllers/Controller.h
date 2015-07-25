@@ -30,6 +30,9 @@ class Controller : public QObject {
          */
         QThread queueThread;
 
+
+        static bool running;
+
         /**
          * Empty Constructor
          */
@@ -162,7 +165,7 @@ class Controller : public QObject {
         std::vector<Model*> models;
         View* view;
 
-        static bool running;
+
         int targetYaw;
         int targetDepth;
 };

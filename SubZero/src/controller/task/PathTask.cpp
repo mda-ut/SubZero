@@ -50,14 +50,14 @@ void PathTask::moveTo(cv::Point2f pos) {
     if (std::abs(pos.x - imgWidth / 2) < alignThreshold) {
         //float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
         if (pos.y - imgHeight / 2 > 0) {
-            setSpeed(30);
+            setSpeed(forwardSpeed);
         } else {
-            setSpeed(-30);
+            setSpeed(-forwardSpeed);
         }
     } else {
         float ang = atan2(pos.y - imgHeight / 2, pos.x - imgWidth / 2) * 180 / M_PI;
         rotate(ang);
-        setSpeed(30);
+        setSpeed(forwardSpeed);
     }
 }
 
@@ -69,6 +69,9 @@ void PathTask::execute() {
     settings = propReader->load();
 
     int timeOut = std::stoi(settings->getProperty("TIMEOUT"));
+    forwardSpeed = std::stoi(settings->getProperty("FORWARD_SPEED"));
+
+    logger->info("Starting Path Task");
 
     ///TODO INSERT HSV VALUES HERE
     ImgData* data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
@@ -83,10 +86,6 @@ void PathTask::execute() {
     bool orangeFound = false;
     bool lookAround = false;
     bool lineFound = false;
-
-    float angle = 0;
-    float amount = 0;
-    int stage = 0;
 
     cv::namedWindow("hsv", CV_WINDOW_AUTOSIZE);
 
@@ -124,7 +123,7 @@ void PathTask::execute() {
             } else {
                 // If no orange found, move forwards
                 logger->info("No orange found");
-                setSpeed(30);
+                setSpeed(forwardSpeed);
             }
 
         } else if (lookAround) {
@@ -133,19 +132,16 @@ void PathTask::execute() {
             // if still cant find anything, then move forward then repeat
 
             logger->info("Panning");
-            setSpeed(30);
+            setSpeed(forwardSpeed);
             // 0 = found lines; 0 = false
             if (!lf.filter(data)) {
                 // pauses whatever it's doing and goes back to looking for lines
                 lookAround = false;
-                //reset values
-                angle = 0;
-                stage = 0;
             }
             if (timer.getTimeElapsed() > timeOut){
                 done = true;
                 logger->info("Failed to find path");
-                //FAILED TO LOOK FOR PATH
+                // FAILED TO LOOK FOR PATH
             }
         } else {
             // Step 2: follow the lines found
@@ -179,10 +175,10 @@ void PathTask::execute() {
                         break;
                     }
                 }
-                if (brk)
+                if (brk) {
                     break;
+                }
                 lookAround = true;
-
             }
             // executed once 2 parallel lines are found
             if (alignment) {
@@ -198,7 +194,7 @@ void PathTask::execute() {
                     } else {
                         //dont have to specifiy left or right cus avg is already the x position
                         //rotate (atan2(imgHeight/4*3, avg-imgWidth/2) * 180/M_PI);
-                        setSpeed(30);
+                        setSpeed(forwardSpeed);
                         /*
                         if (avg < imgWidth/2) {  //TODO: Figure out left side value
                             rotate (atan2(avg, imgHeight/4*3) * 180/M_PI);
@@ -210,17 +206,11 @@ void PathTask::execute() {
                     }
                 } else {
                     //normal line
-                    //float avgB = (align[0][1] + align[1][1]) / 2;
-                    //float x = 0;
                     if (align[0][0] > 0)    //positive slope, align to the right side
-                        //x = imgWidth/4 * 3;
                         rotate(-(atan(align[0][0])*180/M_PI - 90));//takes any slope gets angle (negative because of how sub looks at axes
                     else {                    //negative slope, align to the left side
-                        //x = imgWidth/4;
                         rotate(-(atan(align[0][0])*180/M_PI + 90));
                     }
-                    //float y = align[0][0] * x + avgB;
-                    //rotate(atan2(y-imgHeight/2, x) * 180 / M_PI);
                 }
                 lineFound = true;
             }
@@ -228,4 +218,5 @@ void PathTask::execute() {
         usleep(33000);    //sleep for 33ms -> act 30 times/sec
 
     }
+    logger->info("Path Task complete");
 }

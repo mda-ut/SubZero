@@ -28,8 +28,6 @@ void TurnTask::setYawAbsolute(int newTargetYaw) {
 
 void TurnTask::execute() {
     if (fpgaModel != 0) {
-		logger->info("Moving left");
-
         if (targetYaw >= 180) {
            targetYaw -= 360;
          } else if (targetYaw < -180) {

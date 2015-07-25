@@ -127,7 +127,7 @@ SubZero* SubZeroFactory::makeSubZero(std::string subType) {
         models.push_back(new FPGAModel(states[2], fpgaInt, fpgaPollFrequency));
 
         controller = new Controller(models);
-        view = new CompetitionView(controller);
+        view = new CompetitionView(stage, controller);
         controller->setView(view);
         for (auto& state : states) {
             state->addViewer(view);

@@ -14,6 +14,10 @@ all: fpga_sw
 bsp: fpga_hw
 	nios2-bsp hal $(BSP_DIR) $(FPGA_DIR)
 
+just_sw:
+	nios2-app-generate-makefile --bsp-dir $(BSP_DIR) --app-dir $(SW_DIR) --inc-rdir $(SW_DIR)/inc --src-rdir $(SW_DIR)/src --elf-name $(ELF_NAME) --set APP_CFLAGS_OPTIMIZATION '-O3'
+	$(MAKE) -C $(SW_DIR)
+
 fpga_sw: bsp
 	nios2-app-generate-makefile --bsp-dir $(BSP_DIR) --app-dir $(SW_DIR) --inc-rdir $(SW_DIR)/inc --src-rdir $(SW_DIR)/src --elf-name $(ELF_NAME) --set APP_CFLAGS_OPTIMIZATION '-O3'
 	$(MAKE) -C $(SW_DIR)
