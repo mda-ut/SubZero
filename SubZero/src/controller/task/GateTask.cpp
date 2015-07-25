@@ -40,19 +40,19 @@ void GateTask::execute() {
     depthTask->execute();
     timer.start();
     while (timer.getTimeElapsed() < 5) {
-        //wait for sub to stabilize
+        std::this_thread::yield();
     }
-    speedTask->setTargetSpeed(30);
+    speedTask->setTargetSpeed(80);
     speedTask->execute();
     timer.start();
     while (timer.getTimeElapsed() < 10) {
-        //moving...
+        std::this_thread::yield();
     }
     speedTask->setTargetSpeed(-30);
     speedTask->execute();
     timer.start();
     while (timer.getTimeElapsed() < 3) {
-        //slowing down
+        std::this_thread::yield();
     }
     speedTask->setTargetSpeed(0);
     speedTask->execute();

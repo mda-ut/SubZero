@@ -70,7 +70,7 @@ class Controller : public QObject {
         static bool isRunning();
 
         void setView(View* view);
-		
+
 	public slots:
 		/**
 		 * Handles the results from the ControllerThread
@@ -125,6 +125,8 @@ class Controller : public QObject {
         void handleGateTaskClick();
 
         void handlePathTaskClick();
+
+        void runCompetition();
 
         /**
          * Displays the Current taskList

@@ -90,7 +90,7 @@ void CameraInterface::init() {
     logger->info("Opening video capture stream at position " + std::to_string(position));
     if (!camStream.open(position)){
         logger->error("Failed to open video capture stream, exiting now. Make sure camera(s) are plugged in.");
-        exit(0);
+	//        exit(0);
     }
 }
 

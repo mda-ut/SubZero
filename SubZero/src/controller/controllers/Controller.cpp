@@ -19,7 +19,7 @@ Controller::Controller() {
 
 Controller::Controller(std::vector<Model*> models){
     this->models = models;
-    targetDepth = 250;
+    targetDepth = 300;
     targetYaw = 0;
     taskList = new QQueue <class Task* >;
 }
@@ -33,6 +33,7 @@ void Controller::initialize(void) {
     connect(&queueThread, &QThread::finished, cT, &QObject::deleteLater);
     queueThread.start();
     running = true;
+
     emit beginCT("Begin handling Commands");
 }
 
@@ -105,12 +106,17 @@ void Controller::handleRiseButtonClick() {
 
 void Controller::handleGateTaskClick() {
     logger->info("Adding Gate Task to queue");
-    addTaskToQueue(TaskFactory::createBuoyTask(models[FRONTCAM], models[FPGA], targetDepth, targetYaw));
+    addTaskToQueue(TaskFactory::createGateTask(models[FPGA], targetDepth, targetYaw));
 }
 
 void Controller::handlePathTaskClick() {
     logger->info("Adding Path Task to queue");
     addTaskToQueue(TaskFactory::createPathTask(models[DOWNCAM], models[FPGA], targetYaw));
+}
+
+void Controller::runCompetition() {
+    logger->info("Adding Competition Task to queue");
+    addTaskToQueue(TaskFactory::createCompetitionTask(models[FRONTCAM], models[DOWNCAM], models[FPGA], targetDepth, targetYaw));
 }
 
 void Controller::stop() {

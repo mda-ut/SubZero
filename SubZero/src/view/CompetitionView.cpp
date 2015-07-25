@@ -4,8 +4,12 @@ CompetitionView::CompetitionView() {
 
 }
 
+CompetitionView::CompetitionView(Controller *controller) {
+    this->controller = controller;
+}
+
 void CompetitionView::initialize() {
-    // Nothing to do
+    emit controller->runCompetition();
 }
 
 void CompetitionView::update(int ID) {

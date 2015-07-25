@@ -6,6 +6,7 @@
 class CompetitionView : public View {
 public:
     CompetitionView();
+    CompetitionView(Controller* controller);
 
     virtual void initialize();
 
