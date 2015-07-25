@@ -50,14 +50,19 @@ void PathTask::moveTo(cv::Point2f pos) {
     if (std::abs(pos.x - imgWidth / 2) < alignThreshold) {
         //float distance = std::sqrt(pos.x * pos.x + pos.y * pos.y);
         if (pos.y - imgHeight / 2 > 0) {
+            logger->info("Moveto moving forwards");
             setSpeed(forwardSpeed);
         } else {
+            logger->info("Moveto moving backwards");
             setSpeed(-forwardSpeed);
         }
     } else {
-        float ang = atan2(pos.y - imgHeight / 2, pos.x - imgWidth / 2) * 180 / M_PI;
+        //float ang = atan2(pos.y - imgHeight / 2, pos.x - imgWidth / 2) * 180 / M_PI;
+        float ang = 5;
+        ang *= std::abs(pos.x-imgWidth/2)/(pos.x-imgWidth/2);
+        logger->info("Rotating " + std::to_string(ang) + " degrees");
         rotate(ang);
-        setSpeed(forwardSpeed);
+        //setSpeed(forwardSpeed);
     }
 }
 
@@ -87,7 +92,7 @@ void PathTask::execute() {
     bool lookAround = false;
     bool lineFound = false;
 
-    cv::namedWindow("hsv", CV_WINDOW_AUTOSIZE);
+//    cv::namedWindow("hsv", CV_WINDOW_AUTOSIZE);
 
     Timer timer;
     timer.start();
@@ -102,13 +107,13 @@ void PathTask::execute() {
         data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
         hsvf.filter(data);
 
-        cv::imshow("hsv", data->getImg());
+        //cv::imshow("hsv", data->getImg());
 
         if (!orangeFound) {
             // Step 1: look for orange, if found, turn to follow it
 
             // If we see lines, then move to step 2
-            if (lf.filter(data)) {
+            if (lf.filter(data) || sf.filter(data)) {
                 orangeFound = true;
                 logger->info("Found lines from orange segmentation");
                 continue;
@@ -145,6 +150,12 @@ void PathTask::execute() {
             }
         } else {
             // Step 2: follow the lines found
+            if (sf.filter(data)){
+                cv::RotatedRect rr = sf.getRect()[0];
+                moveTo(rr.center);
+
+            }
+            else{
             lf.filter(data);
             std::vector<std::vector<float>> align(2);
             std::vector<std::vector<float>> allLines = lf.getlineEq();
@@ -164,10 +175,21 @@ void PathTask::execute() {
                 for (unsigned int n = i; n < allLines.size(); n++) {
                     // check the difference in slope
                     //TODO: Change this line to divide the slopes instead of subtract.  Do error checking for infinity and divide by zero
-                    float temp = std::abs(allLines[i][0] - allLines[n][0]);
+                    float temp;
+                    try{
+                        if (allLines[i][0] == INFINITY || allLines[n][0] == INFINITY
+                                || allLines[n][0] == 0){
+                            temp = 5;
+                        }else
+                            temp = std::abs(allLines[i][0] / allLines[n][0] - 1);
+                    }catch (...){
+                        logger->debug("Error");
+                        temp = 5;
+                    }
+
                     // vertical lines or aprox parallel slope
                     if ((allLines[i][0] == INFINITY && allLines[n][0] == INFINITY)
-                            || temp < 20){
+                            || temp < 0.05){
                         align[0] = allLines[i];
                         align[1] = allLines[n];
                         brk = true;
@@ -213,6 +235,7 @@ void PathTask::execute() {
                     }
                 }
                 lineFound = true;
+            }
             }
         }
         usleep(33000);    //sleep for 33ms -> act 30 times/sec
