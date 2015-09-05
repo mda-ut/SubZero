@@ -148,8 +148,10 @@ void BuoyTask::execute() {
             println("Filtering red");
             red.filter(data);
         } else if (!hitGreen){
-            println("Filtering green");
-            green.filter(data);
+            //println("Filtering green");
+            //green.filter(data);
+            done = true;
+            continue;
         } else if (hitGreen && hitRed) {
             done = true;
             println("Done task");

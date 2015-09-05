@@ -35,6 +35,14 @@ void CompetitionTask::execute() {
         usleep(1000000);
         pathTask->execute();
     }
+    if (settings->getProperty("RUN_PATH_TASK") == "true") {
+        usleep(1000000);
+        pathTask->execute();
+    }
+    if (settings->getProperty("RUN_PATH_TASK") == "true") {
+        usleep(1000000);
+        pathTask->execute();
+    }
     powerTask->execute();
     logger->info("Competition run complete");
     Controller::running = false;

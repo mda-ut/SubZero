@@ -74,6 +74,9 @@ void GateTask::execute() {
     speedTask->setTargetSpeed(0);
     speedTask->execute();
 
+    depthTask->setDepthDelta(100);
+    depthTask->execute();
+
     logger->info("Gate Task complete");
 }
 

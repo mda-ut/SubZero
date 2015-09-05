@@ -7,7 +7,7 @@ DEPTH_WAIT_TIME = 8
 
 FORWARD_SPEED = 80
 # Number of seconds to move forward for
-FORWARD_TIME = 30
+FORWARD_TIME = 20
 
 REVERSE_SPEED = -10
 # Number of secodns to reverse for
