@@ -109,7 +109,7 @@ inline cv::Mat QPixmapToCvMat( const QPixmap &inPixmap, bool inCloneImageData = 
 }
 
 void SimBufferWindow::updatePixmap(int position) {
-    QPixmap temp =  QPixmap::grabWindow(window->winId());
+    QPixmap temp = window->screen()->grabWindow(window->winId());
     if (position == frontCam) {
 //        pixmap = container->grab(QRect(0,0,320,240));
         pixmap = temp.copy(QRect(0,0,640,480));

@@ -13,7 +13,7 @@ CompetitionTask::CompetitionTask(PowerTask* powerTask, MotorTask* motorTask, Gat
 void CompetitionTask::execute() {
     PropertyReader* propReader;
     Properties* settings;
-    propReader = new PropertyReader("../SubZero/src/settings/competition_settings.txt");
+    propReader = new PropertyReader("../src/settings/competition_settings.txt");
     settings = propReader->load();
 
     logger->info("Starting competition run");

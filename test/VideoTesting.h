@@ -38,7 +38,7 @@ public:
     /**
      * Runs the video file at 30 fps
      */
-    void run();
+    void run(int Type);
 
     /**
      * @return the next frame in the video

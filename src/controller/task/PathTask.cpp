@@ -70,7 +70,7 @@ void PathTask::execute() {
     // Load properties file
     PropertyReader* propReader;
     Properties* settings;
-    propReader = new PropertyReader("../SubZero/src/settings/path_task_settings.txt");
+    propReader = new PropertyReader("../src/settings/path_task_settings.txt");
     settings = propReader->load();
 
     int timeOut = std::stoi(settings->getProperty("TIMEOUT"));
@@ -80,7 +80,8 @@ void PathTask::execute() {
 
     ///TODO INSERT HSV VALUES HERE
     ImgData* data = dynamic_cast<ImgData*> (dynamic_cast<CameraState*>(cameraModel->getState())->getDeepState("raw"));
-    HSVFilter hsvf(5, 105, 10, 59, 0, 237);
+    //old hsv settings: 5, 105, 59, 0, 237
+    HSVFilter hsvf(14, 33, 0, 231, 102, 255);
     LineFilter lf;
     // looking for 1 rectangle
     ShapeFilter sf(1, 1);

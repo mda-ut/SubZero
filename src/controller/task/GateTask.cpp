@@ -23,7 +23,7 @@ void GateTask::execute() {
     // Load properties file
     PropertyReader* propReader;
     Properties* settings;
-    propReader = new PropertyReader("../SubZero/src/settings/gate_task_settings.txt");
+    propReader = new PropertyReader("../src/settings/gate_task_settings.txt");
     settings = propReader->load();
 
     logger->trace("Starting Gate Task");

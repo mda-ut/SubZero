@@ -151,13 +151,13 @@ cv::Mat blur(cv::Mat src, int max){
 }
 
 //==============================================================
-void VideoTesting::run(){
+void VideoTesting::run(int Type){
     //for (int i = 0; i < 2*33; i++) getNextFrame();
     cv::namedWindow("Orginal",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("HSV Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Line Filtered",CV_WINDOW_AUTOSIZE);
     cv::namedWindow("Canny", CV_WINDOW_AUTOSIZE);
-    int Type = 0;
+
     if (Type == 2){
     cv::moveWindow("Orginal", 1400, 50);           //reading from photo
     cv::moveWindow("HSV Filtered", 1000, 50);
@@ -203,7 +203,7 @@ void VideoTesting::run(){
     BlurFilter bf(2, 0.2f);
     BlurFilter bf2(1, 0.4f);
     if (Type == 0)
-        frame = cv::imread("path3.png");       //img
+        frame = cv::imread("test_path.png");       //img
     cv::Scalar color = cv::Scalar(255, 0, 0);
 
     while (1){

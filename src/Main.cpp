@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         propReader = new PropertyReader(argv[1]);
     } else {
-        propReader = new PropertyReader("../SubZero/src/settings/settings.txt");
+        propReader = new PropertyReader("../src/settings/settings.txt");
     }
     // Set logging level
     settings = propReader->load();
@@ -71,17 +71,20 @@ int main(int argc, char** argv) {
 
     std::string mode = settings->getProperty("MODE");
 
-    init_signal_handler();
+    if (mode == "HSVTEST") {
+        VideoTesting vt(0); //camera id or file name
+        vt.run(1); //0 = video; 1 = webcam; 2 = image
+    } else {
+        init_signal_handler();
 
-    SubZeroFactory* subZeroFactory = new SubZeroFactory(settings);
-    Stage* mainStage = new Stage(NULL, subZeroFactory);
+        SubZeroFactory* subZeroFactory = new SubZeroFactory(settings);
+        Stage* mainStage = new Stage(NULL, subZeroFactory);
 
-    mainStage->setViewContent(mode);
-    mainStage->initialize();
+        mainStage->setViewContent(mode);
+        mainStage->initialize();
 
-    delete propReader;
-    return app.exec();/*
-    VideoTesting vt("test.avi");
-    vt.run();
-    return 0;*/
+        delete propReader;
+    }
+    return app.exec();
+
 }
